@@ -148,6 +148,14 @@ a {
     transition: 0.2s;
     letter-spacing: 0.03rem;
     line-height: 1;
+    color: var(--else-text-color-50);
+}
+
+.title {
+    height: 1px;
+    overflow: hidden;
+    position: absolute;
+    width: 1px;
 }
 
 button {
@@ -158,6 +166,7 @@ button {
     transition: 0.2s;
     letter-spacing: 0.03rem;
     line-height: 1;
+    cursor: pointer;
 }
 
 input {
@@ -170,9 +179,9 @@ input {
     line-height: 1;
 }
 
-.auth__section {
+.auth__section, .reg__section {
     max-width: 82.1rem;
-    max-height: 52.7rem;
+    height: max-content;
     background-color: var(--block-color);
     box-shadow: var(--shadow-small);
     border-radius: 2rem;
@@ -189,9 +198,14 @@ input {
     background-color: var(--block-accent-color-110);
 }
 
-.auth__section > div {
+.auth__section > .div-line {
     width: 1px;
-    height: calc(52.7rem - 4.2rem);
+    height: calc(52.7rem - 8.2rem);
+}
+
+.reg__section .div-line {
+    width: 1px;
+    height: calc(52.7rem - 17rem);
 }
 
 .auth__section img {
@@ -207,7 +221,7 @@ input {
     min-height: calc(52.7rem - 8.2rem);
 }
 
-.auth__form legend {
+.auth__form legend, .reg__form legend {
     font-size: var(--font-size-3);
     font-weight: 600;
     margin: 0;
@@ -215,15 +229,15 @@ input {
     margin-bottom: 6.6rem;
 }
 
-.auth__form label {
+.auth__form label, .reg__form label {
     display: inline-block;
     margin: 0;
     padding: 0;
-    margin-bottom: 4.1rem;
+    margin-bottom: 3.8rem;
     width: 100%;
 }
     
-.auth__form input {
+.auth__form input, .reg__form input {
     width: 100%;
     min-height: 4rem;
     border-radius: 2rem;
@@ -231,14 +245,32 @@ input {
     background-color: transparent;
     border: 1px solid var(--else-text-color-33);
     padding: 0 2.6rem;
-    margin-top: 1rem;
+    margin-top: 0.8rem;
 }
 
-.auth__form input::placeholder {
+.auth__form input:hover, .reg__form input:hover {
+    border: 1px solid var(--else-text-color-50);
+}
+
+.auth__form input:focus, .reg__form input:focus {
+    border: 1px solid var(--else-text-color-50);
+}
+
+.auth__form input:valid, .reg__form input:valid {
+    border: 1px solid var(--main-accent-color);
+    color: var(--main-accent-color);
+}
+
+.auth__form input:user-invalid, .reg__form input:user-invalid {
+    border: 1px solid var(--error-accent-color);
+    color: var(--error-accent-color);
+}
+
+.auth__form input::placeholder, .reg__form input::placeholder {
     color: var(--else-text-color-33);
 }
 
-.auth__form button {
+.auth__form button, .reg__form button{
     background-color: var(--main-accent-color);
     color: var(--block-color);
     border: none;
@@ -249,10 +281,59 @@ input {
     font-weight: 400;
 }
 
+.auth__form button:hover, .reg__form button:hover {
+    opacity: 87%;
+}
+
 .auth__links {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-top: 2.6rem;
     color: var(--else-text-color-50);
+}
+
+.auth__links a:hover, .reg__input-div a:hover {
+    color: var(--else-text-color-33);
+}
+
+.reg__form > div {
+    display: flex;
+    gap: 2.6rem;
+    align-items: center;
+}
+
+.reg__input-div {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    height: 100%;
+    width: 100%;
+    max-width: calc((100% - 4.2rem - 1px)/2);
+}
+
+.reg__input-div a {
+    margin-top: 2.7rem;
+    color: var(--else-text-color-50);
+}
+
+.reg__input-div span {
+    font-size: var(--font-size-1);
+    color: var(--else-text-color-33);
+}
+
+.reg__input-div div {
+    width: 100%;
+    padding: 0 2.6rem;
+    display: inline-flex;
+    justify-content: space-between;
+    margin-top: 1rem;
+}
+
+#reg__lable_pass-1 {
+    margin-bottom: calc(10.6rem - 9.24rem);
+}
+
+#reg__lable_pass-2 {
+    margin-top: 2rem;
 }
