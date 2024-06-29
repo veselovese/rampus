@@ -337,3 +337,7 @@ input {
 #reg__lable_pass-2 {
     margin-top: 2rem;
 }
+
+.main-section {
+    display: flex;
+}
