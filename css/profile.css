@@ -1,0 +1,140 @@
+@font-face {
+    font-display: swap;
+    font-family: 'Unbounded';
+    font-style: normal;
+    font-weight: 900;
+    src: url('/css/fonts/Unbounded-Black.woff') format('woff');
+  }
+
+@font-face {
+    font-display: swap;
+    font-family: 'Cygre';
+    font-style: normal;
+    font-weight: 400;
+    src: url('/css/fonts/Cygre-Regular.woff') format('woff');
+  }
+
+@font-face {
+    font-display: swap;
+    font-family: 'Cygre';
+    font-style: normal;
+    font-weight: 600;
+    src: url('/css/fonts/Cygre-Bold.woff') format('woff');
+  }
+
+* {
+    box-sizing: border-box;
+}
+
+:root {
+    --background-color: #FBFBFB;
+    --block-color: #FFFFFF;
+    --main-text-color: #020202;
+    --else-text-color-50: #02020250;
+    --else-text-color-33: #02020233;
+    --main-accent-color: #006633;
+    --else-accent-color-1: #E3DFFF;
+    --else-accent-color-2: #F7D488;
+    --error-accent-color: #FF220C;
+    --block-accent-color-110: #02020210;
+    --block-accent-color-06: #02020206;
+    --block-accent-color-210: #00663310;
+    --shadow-big: 0 0 15px #02020207;
+    --shadow-small: 0 0 12px #02020205;
+    --font-size-1: 1.3rem;
+    --font-size-2: 2rem;
+    --font-size-3: 3.2rem;
+
+    font-size: 62.5%;
+    height: 100%
+}
+
+.profile__user-info {
+    display: flex;
+    border-radius: 2rem;
+    background-color: var(--block-color);
+    box-shadow: var(--shadow-small);
+    padding: 4.1rem;
+    gap: 4.1rem;
+    align-items: center;
+}
+
+.profile__user-info .avatar {
+    max-width: 25rem;
+    max-height: 25rem;
+    border-radius: 12.5rem;
+}
+
+.profile__user-info .first-and-second-names {
+    font-weight: 700;
+    line-height: 1;
+    font-size: var(--font-size-3);
+}
+
+.profile__user-info .username {
+    color: var(--main-accent-color);
+    line-height: 1;
+    margin-top: 1.6rem;
+}
+
+.profile__user-info .description {
+    color: var(--else-text-color-50);
+    margin-top: 2.6rem;
+    line-height: 1;
+}
+
+.profile__user-info .balance {
+    display: flex;
+    align-items: center;
+    gap: 1.232rem;
+    font-size: var(--font-size-3);
+    font-weight: 700;
+    line-height: 1;
+    margin-top: 4.1rem;
+}
+
+.third-part {
+    display: flex;
+    flex-direction: column;
+    gap: 2.6rem;
+}
+
+.profile__posts, .profile__likes {
+    border-radius: 2rem;
+    padding: 2.6rem;
+    box-shadow: var(--shadow-small);
+    display: flex;
+    justify-content: space-between;
+    height: calc((39.8rem - 2.6rem) / 2);
+}
+
+.profile__posts {
+    background-color: var(--else-accent-color-1);
+}
+
+.profile__likes {
+    background-color: var(--else-accent-color-2);
+}
+
+.profole__user-menu {
+    display: flex;
+    gap: 2.6rem;
+    justify-content: space-between;
+    margin-top: 2.6rem;
+    color: var(--else-text-color-50);
+}
+
+.profole__user-menu span {
+    cursor: pointer;
+    background-color: var(--block-color);
+    box-shadow: var(--shadow-small);
+    padding: 1rem 4.1rem;
+    border-radius: 2rem;
+}
+
+.profile__posts div, .profile__likes div {
+    display: flex;
+    flex-direction: column;
+    font-size: var(--font-size-3);
+    font-weight: 700;
+}

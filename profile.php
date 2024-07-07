@@ -16,20 +16,55 @@ session_start();
 <body>
     <?php require('header.php'); ?>
     <main>
+        <h1 class="title">Профиль пользователя в Rampus (Рампус)</h1>
         <section class="wrapper main-section">
-            <nav>
+            <nav class="first-part">
                 <ul>
-                    <li><a>Профиль</a></li>
-                    <li><a>Стена</a></li>
-                    <li><a>Чаты</a></li>
-                    <li><a>Люди</a></li>
-                    <li><a>Выйти</a></li>
+                    <li class="active"><a href="./profile">Профиль</a></li>
+                    <li><a href="./wall">Стена</a></li>
+                    <li><a href="./chats">Чаты</a></li>
+                    <li><a href="./people">Люди</a></li>
+                    <li><a id="exit" href="./exit">Выйти</a></li>
                 </ul>
             </nav>
-            <div></div>
-            <div class="third-part profile__posts-and-likes">
-                <div class="profile__posts"></div>
-                <div class="profile__likes"></div>
+            <div class="second-and-third-parts" >
+                <div class="second-part">
+                    <div class="profile__user-info">
+                        <img class="avatar" src="uploads/avatar/noavatar.jpg">
+                        <div>
+                            <p class="first-and-second-names"><span>Матвей</span> <span>Веселов</span></p>
+                            <p class="username">@veselovese</p>
+                            <p class="description">Дикий и опасный - разнесу всё</p>
+                            <div class="balance">
+                                <img src="pics/EcoCoinLogo.svg">
+                                <p>130.00</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="profole__user-menu">
+                        <span>Имя</span>
+                        <span>ID</span>
+                        <span>Описание</span>
+                        <span>Почта</span>
+                        <span>Пароль</span>
+                    </div>
+                </div>
+                <div class="third-part">
+                    <div class="profile__posts">
+                        <div>
+                            <img src="pics/PostIcon.svg">
+                            <span>89</span>
+                        </div>
+                        <p>посты</p>
+                    </div>
+                    <div class="profile__likes">
+                        <div>
+                            <img src="pics/LikeIcon.svg">
+                            <span>36</span>
+                        </div>
+                        <p>лайки</p>
+                    </div>
+                </div>
             </div>
         </section>
     </main>

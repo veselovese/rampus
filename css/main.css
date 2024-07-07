@@ -340,4 +340,55 @@ input {
 
 .main-section {
     display: flex;
+    margin-top: 2.6rem;
+}
+
+.first-part {
+    width: 100%;
+    max-width: 25rem;
+    margin-right: 4.1rem;
+}
+
+.first-part ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1.6rem;
+}
+
+.first-part a {
+    font-size: var(--font-size-2);
+    color: var(--main-accent-color);
+}
+
+.first-part li {
+    padding: 2.6rem;
+    border-radius: 2rem;
+}
+
+#exit {
+    color: var(--error-accent-color);
+}
+
+.active {
+    box-shadow: var(--shadow-small);
+    background-color: var(--block-color);
+}
+
+.second-and-third-parts {
+    display: flex;
+    width: 100%;
+}
+
+.second-part {
+    width: 100%;
+    max-width: 80.6rem;
+}
+
+.third-part {
+    width: 100%;
+    /* max-width: 21.7rem; */
+    margin-left: 2.6rem;
 }
