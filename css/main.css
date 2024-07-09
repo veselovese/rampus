@@ -4,14 +4,15 @@
     font-style: normal;
     font-weight: 900;
     src: url('/css/fonts/Unbounded-Black.woff') format('woff');
-  }
+}
+
 @font-face {
     font-display: swap;
     font-family: 'Cygre';
     font-style: normal;
     font-weight: 400;
     src: url('/css/fonts/Cygre-Regular.woff') format('woff');
-  }
+}
 
 @font-face {
     font-display: swap;
@@ -19,7 +20,7 @@
     font-style: normal;
     font-weight: 600;
     src: url('/css/fonts/Cygre-Bold.woff') format('woff');
-  }
+}
 
 * {
     box-sizing: border-box;
@@ -38,6 +39,7 @@
     --block-accent-color-110: #02020210;
     --block-accent-color-06: #02020206;
     --block-accent-color-210: #00663310;
+    --like-button-accent-color: #FF220C10;
     --shadow-big: 0 0 15px #02020207;
     --shadow-small: 0 0 12px #02020205;
     --font-size-1: 1.3rem;
@@ -46,6 +48,10 @@
 
     font-size: 62.5%;
     height: 100%
+}
+
+html {
+    scroll-behavior: smooth;
 }
 
 .wrapper {
@@ -95,6 +101,8 @@ header {
     padding: 1.6rem 5rem;
     align-items: center;
     font-size: var(--font-size-1);
+    position: sticky;
+    top: 0;
 }
 
 header > a {
@@ -179,7 +187,8 @@ input {
     line-height: 1;
 }
 
-.auth__section, .reg__section {
+.auth__section,
+.reg__section {
     max-width: 82.1rem;
     height: max-content;
     background-color: var(--block-color);
@@ -198,7 +207,7 @@ input {
     background-color: var(--block-accent-color-110);
 }
 
-.auth__section > .div-line {
+.auth__section>.div-line {
     width: 1px;
     height: calc(52.7rem - 8.2rem);
 }
@@ -221,7 +230,8 @@ input {
     min-height: calc(52.7rem - 8.2rem);
 }
 
-.auth__form legend, .reg__form legend {
+.auth__form legend,
+.reg__form legend {
     font-size: var(--font-size-3);
     font-weight: 600;
     margin: 0;
@@ -229,15 +239,17 @@ input {
     margin-bottom: 6.6rem;
 }
 
-.auth__form label, .reg__form label {
+.auth__form label,
+.reg__form label {
     display: inline-block;
     margin: 0;
     padding: 0;
     margin-bottom: 3.8rem;
     width: 100%;
 }
-    
-.auth__form input, .reg__form input {
+
+.auth__form input,
+.reg__form input {
     width: 100%;
     min-height: 4rem;
     border-radius: 2rem;
@@ -248,29 +260,35 @@ input {
     margin-top: 0.8rem;
 }
 
-.auth__form input:hover, .reg__form input:hover {
+.auth__form input:hover,
+.reg__form input:hover {
     border: 1px solid var(--else-text-color-50);
 }
 
-.auth__form input:focus, .reg__form input:focus {
+.auth__form input:focus,
+.reg__form input:focus {
     border: 1px solid var(--else-text-color-50);
 }
 
-.auth__form input:valid, .reg__form input:valid {
+.auth__form input:valid,
+.reg__form input:valid {
     border: 1px solid var(--main-accent-color);
     color: var(--main-accent-color);
 }
 
-.auth__form input:user-invalid, .reg__form input:user-invalid {
+.auth__form input:user-invalid,
+.reg__form input:user-invalid {
     border: 1px solid var(--error-accent-color);
     color: var(--error-accent-color);
 }
 
-.auth__form input::placeholder, .reg__form input::placeholder {
+.auth__form input::placeholder,
+.reg__form input::placeholder {
     color: var(--else-text-color-33);
 }
 
-.auth__form button, .reg__form button{
+.auth__form button,
+.reg__form button {
     background-color: var(--main-accent-color);
     color: var(--block-color);
     border: none;
@@ -281,7 +299,8 @@ input {
     font-weight: 400;
 }
 
-.auth__form button:hover, .reg__form button:hover {
+.auth__form button:hover,
+.reg__form button:hover {
     opacity: 87%;
 }
 
@@ -293,7 +312,8 @@ input {
     color: var(--else-text-color-50);
 }
 
-.auth__links a:hover, .reg__input-div a:hover {
+.auth__links a:hover,
+.reg__input-div a:hover {
     color: var(--else-text-color-33);
 }
 
@@ -341,6 +361,7 @@ input {
 .main-section {
     display: flex;
     margin-top: 2.6rem;
+    margin-bottom: 2.6rem;
 }
 
 .first-part {
@@ -355,17 +376,27 @@ input {
     margin: 0;
     display: flex;
     flex-direction: column;
-    gap: 1.6rem;
+    gap: 1rem;
+    position: sticky;
+    top: calc(2.6rem + 6.2rem);
+}
+
+.third-part > div {
+    position: sticky;
+    top: calc(2.6rem + 6.2rem);
 }
 
 .first-part a {
-    font-size: var(--font-size-2);
+    font-size: var(--font-size-1);
+    display: inline-block;
     color: var(--main-accent-color);
 }
 
 .first-part li {
-    padding: 2.6rem;
+    display: flex;
+    padding: 1.35rem 2.6rem;
     border-radius: 2rem;
+    min-width: 13.935rem;
 }
 
 #exit {
@@ -380,6 +411,7 @@ input {
 .second-and-third-parts {
     display: flex;
     width: 100%;
+    justify-content: center;
 }
 
 .second-part {
@@ -389,6 +421,31 @@ input {
 
 .third-part {
     width: 100%;
-    /* max-width: 21.7rem; */
+    max-width: 80.6rem;
     margin-left: 2.6rem;
+}
+
+.like-button {
+    background-color: var(--block-accent-color-06);
+    border: none;
+    padding: 1rem 1.6rem;
+    display: flex;
+    align-items: center;
+    border-radius: 2rem;
+    color: var(--else-text-color-33);
+    font-weight: 700;
+    gap: 1rem;
+}
+
+.like-button svg {
+    fill: var(--else-text-color-33);
+}
+
+#liked {
+    background-color: var(--like-button-accent-color);
+    color: var(--error-accent-color);
+}
+
+#liked svg {
+    fill: var(--error-accent-color);
 }

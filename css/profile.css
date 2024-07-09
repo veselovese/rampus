@@ -39,6 +39,7 @@
     --block-accent-color-110: #02020210;
     --block-accent-color-06: #02020206;
     --block-accent-color-210: #00663310;
+    --like-button-accent-color: #FF220C10;
     --shadow-big: 0 0 15px #02020207;
     --shadow-small: 0 0 12px #02020205;
     --font-size-1: 1.3rem;
@@ -93,7 +94,7 @@
     margin-top: 4.1rem;
 }
 
-.third-part {
+.third-part > div {
     display: flex;
     flex-direction: column;
     gap: 2.6rem;
@@ -106,6 +107,7 @@
     display: flex;
     justify-content: space-between;
     height: calc((39.8rem - 2.6rem) / 2);
+    min-width: 18.6rem;
 }
 
 .profile__posts {
@@ -137,4 +139,93 @@
     flex-direction: column;
     font-size: var(--font-size-3);
     font-weight: 700;
+    justify-content: space-between;
+}
+
+.profile__new-post {
+    margin-top: 6.6rem;
+    padding-right: 2.6rem;
+}
+
+.profile__new-post form {
+    display: flex;
+    align-items: center;
+    gap: 1.6rem;
+}
+
+.profile__new-post button {
+    background-color: transparent;
+    border: none;
+    padding: 0;
+    margin: 0;
+}
+
+.profile__new-post input {
+    width: 100%;
+    min-height: 4rem;
+    border-radius: 2rem;
+    outline: none;
+    background-color: transparent;
+    border: 1px solid var(--else-text-color-33);
+    padding: 0 2.6rem;
+    margin: 0;
+}
+
+.profile__new-post input::placeholder {
+    font-size: var(--font-size-1);
+    color: var(--else-text-color-50);
+}
+
+.profile__user-posts {
+    margin-top: 4.1rem;
+}
+
+.profile__user-posts > div:first-child {
+    display: flex;
+    align-items: center;
+    gap: 1.6rem;
+    font-size: var(--font-size-3);
+    font-weight: 700;
+    margin-bottom: 2.6rem;
+}
+
+.profile__user-posts > div:nth-child(2) {
+    display: flex;
+    flex-direction: column;
+    gap: 1.6rem;
+} 
+
+.profile__user-posts .user-post {
+    background-color: var(--block-color);
+    box-shadow: var(--shadow-small);
+    border-radius: 2rem;
+    padding: 2.6rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.user-post img {
+    max-width: 24px;
+    max-height: 6px;
+    margin-top: 0.9rem;
+    align-self: flex-end;
+    cursor: pointer;
+}
+
+.user-post p {
+    margin: 2.6rem 0 0 0;
+    line-height: 103%;
+}
+
+.user-post p span {
+    color: var(--main-accent-color);
+}
+
+.user-post div {
+    margin-top: 4.1rem;
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    color: var(--else-text-color-33);
+    font-size: var(--font-size-1);
 }
