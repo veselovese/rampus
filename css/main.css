@@ -387,14 +387,14 @@ input {
 }
 
 .first-part a {
-    font-size: var(--font-size-1);
+    font-size: var(--font-size-2);
     display: inline-block;
-    color: var(--main-accent-color);
+    color: var(--else-text-color-50);
 }
 
 .first-part li {
     display: flex;
-    padding: 1.35rem 2.6rem;
+    padding: 2.1rem 2.6rem;
     border-radius: 2rem;
     min-width: 13.935rem;
 }
@@ -403,9 +403,13 @@ input {
     color: var(--error-accent-color);
 }
 
-.active {
+#active {
     box-shadow: var(--shadow-small);
     background-color: var(--block-color);
+}
+
+#active a {
+    color: var(--main-accent-color);
 }
 
 .second-and-third-parts {
@@ -432,7 +436,7 @@ input {
     align-items: center;
     border-radius: 2rem;
     color: var(--else-text-color-33);
-    font-weight: 700;
+    font-weight: 620;
     gap: 1rem;
     max-width: max-content;
 }

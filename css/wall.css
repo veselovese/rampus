@@ -214,7 +214,7 @@
 
 .wall__user-info p {
     margin: 0;
-    font-weight: 700;
+    font-weight: 620;
 }
 
 .wall__user-info span {
@@ -234,4 +234,45 @@
     max-height: 40px;
     border-radius: 2rem;
     margin: 0;
+}
+
+.wall__comments .other-users img {
+    max-width: 50px;
+    max-height: 50px;
+    border-radius: 2.5rem;
+    margin: 0
+}
+
+.wall__comments .other-users .user-comment {
+    display: flex;
+    gap: 1.6rem;
+    margin: 1.6rem 0;
+}
+
+.wall__comments .other-users {
+    margin: 2.6rem 0 4.1rem;
+}
+
+.wall__comments .other-users .user-comment:first-child {
+    margin: 2.6rem 0 1.6rem;
+}
+
+.wall__comments .other-users p {
+    margin: 0;
+}
+
+.wall__comments .other-users .first-and-second-names {
+    font-weight: 620;
+}
+
+.wall__comments .other-users .date {
+    display: inline-block;
+    font-size: var(--font-size-1);
+    color: var(--else-text-color-50);
+    margin-top: 1rem;
+}
+
+.wall__comments .other-users .div-line {
+    margin-left: 6.6rem;
+    width: auto;
 }

@@ -20,7 +20,7 @@ session_start();
         <section class="wrapper main-section">
             <nav class="first-part">
                 <ul>
-                    <li class="active"><a href="./profile">Профиль</a></li>
+                    <li id="active"><a href="./profile">Профиль</a></li>
                     <li><a href="./wall">Стена</a></li>
                     <li><a href="./chats">Чаты</a></li>
                     <li><a href="./people">Люди</a></li>
