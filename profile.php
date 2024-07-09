@@ -32,7 +32,7 @@ session_start();
                     <div class="profile__user-info">
                         <img class="avatar" src="uploads/avatar/noavatar.jpg">
                         <div>
-                            <p class="first-and-second-names"><span>Матвей</span> <span>Веселов</span></p>
+                            <p class="first-and-second-names">Матвей Веселов</p>
                             <p class="username">@veselovese</p>
                             <p class="description">Дикий и опасный - разнесу всё</p>
                             <div class="balance">

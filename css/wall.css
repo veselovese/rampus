@@ -1,0 +1,237 @@
+@font-face {
+    font-display: swap;
+    font-family: 'Unbounded';
+    font-style: normal;
+    font-weight: 900;
+    src: url('/css/fonts/Unbounded-Black.woff') format('woff');
+  }
+
+@font-face {
+    font-display: swap;
+    font-family: 'Cygre';
+    font-style: normal;
+    font-weight: 400;
+    src: url('/css/fonts/Cygre-Regular.woff') format('woff');
+  }
+
+@font-face {
+    font-display: swap;
+    font-family: 'Cygre';
+    font-style: normal;
+    font-weight: 600;
+    src: url('/css/fonts/Cygre-Bold.woff') format('woff');
+  }
+
+* {
+    box-sizing: border-box;
+}
+
+:root {
+    --background-color: #FBFBFB;
+    --block-color: #FFFFFF;
+    --main-text-color: #020202;
+    --else-text-color-50: #02020250;
+    --else-text-color-33: #02020233;
+    --main-accent-color: #006633;
+    --else-accent-color-1: #E3DFFF;
+    --else-accent-color-2: #F7D488;
+    --error-accent-color: #FF220C;
+    --block-accent-color-110: #02020210;
+    --block-accent-color-06: #02020206;
+    --block-accent-color-210: #00663310;
+    --like-button-accent-color: #FF220C10;
+    --shadow-big: 0 0 15px #02020207;
+    --shadow-small: 0 0 12px #02020205;
+    --font-size-1: 1.3rem;
+    --font-size-2: 2rem;
+    --font-size-3: 3.2rem;
+
+    font-size: 62.5%;
+    height: 100%
+}
+
+.wall__user-posts {
+    margin-top: 2.6rem;
+}
+
+.wall__user-posts > div:first-child {
+    display: flex;
+    flex-direction: column;
+    gap: 1.6rem;
+} 
+
+.wall__user-posts .user-post {
+    background-color: var(--block-color);
+    box-shadow: var(--shadow-small);
+    border-radius: 2rem;
+    padding: 2.6rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.user-post img {
+    max-width: 24px;
+    max-height: 6px;
+    margin-top: 0.9rem;
+    cursor: pointer;
+}
+
+.user-post p {
+    margin: 1.6rem 0 0 0;
+    line-height: 110%;
+}
+
+.user-post p span {
+    color: var(--main-accent-color);
+}
+
+.user-post > div:first-child {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.wall__new-post {
+    padding-right: 2.6rem;
+}
+
+.wall__new-post form, .wall__comments form {
+    display: flex;
+    align-items: center;
+    gap: 1.6rem;
+    width: 100%;
+}
+
+.wall__new-post button, .wall__comments button {
+    background-color: transparent;
+    border: none;
+    padding: 0;
+    margin: 0;
+}
+
+.wall__new-post input, .wall__comments input {
+    width: 100%;
+    min-height: 4rem;
+    border-radius: 2rem;
+    outline: none;
+    background-color: transparent;
+    border: 1px solid var(--else-text-color-33);
+    padding: 0 2.6rem;
+    margin: 0;
+}
+
+.wall__new-post input::placeholder, .wall__comments input::placeholder {
+    font-size: var(--font-size-1);
+    color: var(--else-text-color-50);
+}
+
+.wall__comments .current-user img:last-child {
+    max-width: none;
+    max-height: none;
+    margin: 0;
+    border-radius: 0;
+}
+
+.third-part > div {
+    display: flex;
+    flex-direction: column;
+    gap: 2.6rem;
+    margin-top: 6.6rem;
+}
+
+.third-part input {
+    width: 100%;
+    min-height: 4rem;
+    border-radius: 2rem;
+    outline: none;
+    background-color: transparent;
+    border: 1px solid var(--else-text-color-33);
+    padding: 0 2.6rem;
+    margin: 0;
+}
+
+.third-part input::placeholder {
+    font-size: var(--font-size-1);
+    color: var(--else-text-color-50);
+}
+
+.third-part ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.third-part li {
+    background-color: var(--block-color);
+    box-shadow: var(--shadow-small);
+    border-radius: 2rem;
+    padding: 1.35rem 1.6rem;
+    display: flex;
+}
+
+.third-part li:last-child a {
+    color: var(--main-accent-color);
+}
+
+.third-part div > div {
+    position: relative;
+}
+
+.third-part div > div img {
+    max-width: 20px;
+    max-height: 20px;
+    position: absolute;
+    top: 1rem;
+    right: 1.6rem;
+}
+
+.like-button {
+    margin-top: 4.1rem;
+    margin-bottom: 2.6rem;
+}
+
+.wall__user-info {
+    display: flex;
+    align-items: center;
+    gap: 1.6rem;
+}
+
+.wall__user-info img {
+    max-width: 50px;
+    max-height: 50px;
+    border-radius: 2.5rem;
+    margin: 0;
+}
+
+.wall__user-info div {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}   
+
+.wall__user-info p {
+    margin: 0;
+    font-weight: 700;
+}
+
+.wall__user-info span {
+    font-size: var(--font-size-1);
+    color: var(--main-accent-color);
+}
+
+.wall__comments .current-user {
+    display: flex;
+    gap: 1.6rem;
+    align-items: center;
+    margin-top: 2.6rem;
+}
+
+.wall__comments .current-user img {
+    max-width: 40px;
+    max-height: 40px;
+    border-radius: 2rem;
+    margin: 0;
+}

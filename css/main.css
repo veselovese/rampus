@@ -65,7 +65,7 @@ body {
     font-weight: 400;
     background-color: var(--background-color);
     font-size: var(--font-size-2);
-    letter-spacing: 0.03rem;
+    letter-spacing: 0.03px;
     color: var(--main-text-color);
     line-height: 1;
     margin: 0;
@@ -154,7 +154,7 @@ a {
     text-decoration: none;
     font-size: var(--font-size-1);
     transition: 0.2s;
-    letter-spacing: 0.03rem;
+    letter-spacing: 0.03px;
     line-height: 1;
     color: var(--else-text-color-50);
 }
@@ -172,7 +172,7 @@ button {
     font-size: var(--font-size-2);
     color: var(--main-text-color);
     transition: 0.2s;
-    letter-spacing: 0.03rem;
+    letter-spacing: 0.03px;
     line-height: 1;
     cursor: pointer;
 }
@@ -183,7 +183,7 @@ input {
     font-size: var(--font-size-1);
     color: var(--main-text-color);
     transition: 0.2s;
-    letter-spacing: 0.03rem;
+    letter-spacing: 0.03px;
     line-height: 1;
 }
 
@@ -415,7 +415,6 @@ input {
 }
 
 .second-part {
-    width: 100%;
     max-width: 80.6rem;
 }
 
@@ -435,6 +434,7 @@ input {
     color: var(--else-text-color-33);
     font-weight: 700;
     gap: 1rem;
+    max-width: max-content;
 }
 
 .like-button svg {
