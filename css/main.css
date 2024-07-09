@@ -388,15 +388,19 @@ input {
 
 .first-part a {
     font-size: var(--font-size-2);
-    display: inline-block;
+    display: block;
     color: var(--else-text-color-50);
+    padding: 2.1rem 2.6rem;
+    min-width: 13.935rem;
 }
 
 .first-part li {
-    display: flex;
-    padding: 2.1rem 2.6rem;
     border-radius: 2rem;
-    min-width: 13.935rem;
+    transition: 0.2s;
+}
+
+.first-part li:hover {
+    background-color: var(--block-color);   
 }
 
 #exit {

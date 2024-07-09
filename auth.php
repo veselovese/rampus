@@ -22,8 +22,8 @@ session_start();
             <form method="POST" class="auth__form" action="./signin">
                 <div>
                 <legend>Вход Rampus</legend>
-                <label>ID или почта<input type="text" required placeholder="rampus"></label>
-                <label>Пароль<input type="text" required placeholder="********" minlength="8"></label>
+                <label>ID или почта<input type="text" required placeholder="rampus" name="email_or_username"></label>
+                <label>Пароль<input type="password" required placeholder="********" minlength="8" name="password"></label>
                 </div>
                 <div>
                     <button type="submit">Войти</button>
