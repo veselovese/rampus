@@ -124,7 +124,7 @@ session_start();
                     <?php
                     require('connect.php');
                     $current_user_id = $_SESSION['user']['id'];
-                    $sql = "SELECT posts.text AS post_text, posts.likes AS post_likes
+                    $sql = "SELECT posts.likes AS post_likes
                     FROM posts
                     JOIN users ON posts.user_id = users.id
                     WHERE posts.user_id = $current_user_id"; 
