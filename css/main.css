@@ -3,7 +3,7 @@
     font-family: 'Unbounded';
     font-style: normal;
     font-weight: 900;
-    src: url('/css/fonts/Unbounded-Black.woff') format('woff');
+    src: url('fonts/Unbounded-Black.woff') format('woff');
 }
 
 @font-face {
@@ -11,7 +11,7 @@
     font-family: 'Cygre';
     font-style: normal;
     font-weight: 400;
-    src: url('/css/fonts/Cygre-Regular.woff') format('woff');
+    src: url('fonts/Cygre-Regular.woff') format('woff');
 }
 
 @font-face {
@@ -19,7 +19,7 @@
     font-family: 'Cygre';
     font-style: normal;
     font-weight: 600;
-    src: url('/css/fonts/Cygre-Bold.woff') format('woff');
+    src: url('fonts/Cygre-Bold.woff') format('woff');
 }
 
 * {
@@ -423,12 +423,13 @@ input {
 }
 
 .second-part {
-    max-width: 80.6rem;
+    /* max-width: 80.6rem; */
+    width: 100%;
 }
 
 .third-part {
     width: 100%;
-    max-width: 80.6rem;
+    max-width: 25rem;
     margin-left: 2.6rem;
 }
 
@@ -456,4 +457,8 @@ input {
 
 .liked svg {
     fill: var(--error-accent-color);
+}
+
+.hide {
+    display: none;
 }
