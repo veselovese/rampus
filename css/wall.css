@@ -175,10 +175,6 @@
     display: flex;
 }
 
-.third-part li:last-child a {
-    color: var(--main-accent-color);
-}
-
 .third-part div > div {
     position: relative;
 }
@@ -287,5 +283,5 @@
 }
 
 #checked a {
-    color: var(--else-text-color-50);
+    color: var(--main-accent-color);
 }

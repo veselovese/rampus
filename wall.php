@@ -49,6 +49,7 @@ require('like-or-dislike.php')
                             $sql_post = "SELECT posts.hashtag_id AS hashtag_id, posts.text AS post_text, DATE_FORMAT(posts.post_date, '%d %M в %k:%i') AS post_date, posts.likes AS post_likes, users.first_name AS first_name, users.second_name AS second_name, users.avatar AS avatar, posts.id AS i
                             FROM posts
                             JOIN users ON posts.user_id = users.id
+                            JOIN hashtags ON posts.hashtag_id = hashtags.id
                             WHERE posts.status = 0 $search_condition";
                             $result_post = $connect->query($sql_post);
                             if ($result_post->num_rows > 0) {
@@ -168,7 +169,6 @@ require('like-or-dislike.php')
                                 }
                             }
                             ?>
-                            <li><a href="./">добавить ещё</a></li>
                         </ul>
                     </div>
                 </div>

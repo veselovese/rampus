@@ -7,7 +7,7 @@ if (isset($_POST['liked'])) {
     $row_liked = $result_liked->fetch_array();
     $likes = $row_liked['likes'];
     
-    $connect->query("INSERT INTO likes_on_posts (post_id, user_id) VALUES ($post_id, $user_id)");
+    $connect->query("INSERT INTO likes_on_posts (post_id, user_id) VALUES ('$post_id', '$user_id')");
     $connect->query("UPDATE posts SET likes = $likes + 1 WHERE id = $post_id");
 
     echo $likes + 1;
