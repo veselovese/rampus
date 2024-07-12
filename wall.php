@@ -32,8 +32,8 @@ require('like-or-dislike.php')
             <div class="second-and-third-parts">
                 <div class="second-part">
                     <div class="wall__new-post">
-                        <form action="./add">
-                            <input required placeholder="О чём расскажете сегодня?">
+                        <form action="./add" method="post">
+                            <input required placeholder="О чём расскажете сегодня?" name="post">
                             <button type="submit"><img src="pics/SendIcon.svg"></button>
                         </form>
                     </div>
@@ -46,15 +46,14 @@ require('like-or-dislike.php')
                                 $search = $_GET['search'];
                             }
                             $search_condition = $search !== 'all' ? "AND hashtags.name = '$search'" : '';
-                            $sql_post = "SELECT hashtags.name AS hashtag_name, posts.text AS post_text, DATE_FORMAT(posts.post_date, '%d %M в %k:%i') AS post_date, posts.likes AS post_likes, users.first_name AS first_name, users.second_name AS second_name, users.avatar AS avatar, posts.id AS i
+                            $sql_post = "SELECT posts.hashtag_id AS hashtag_id, posts.text AS post_text, DATE_FORMAT(posts.post_date, '%d %M в %k:%i') AS post_date, posts.likes AS post_likes, users.first_name AS first_name, users.second_name AS second_name, users.avatar AS avatar, posts.id AS i
                             FROM posts
-                            JOIN hashtags ON posts.hashtag_id = hashtags.id
                             JOIN users ON posts.user_id = users.id
                             WHERE posts.status = 0 $search_condition";
                             $result_post = $connect->query($sql_post);
                             if ($result_post->num_rows > 0) {
                                 while ($row_post = $result_post->fetch_assoc()) {
-                                    $hashtag_name = $row_post["hashtag_name"];
+                                    $hashtag_id = $row_post["hashtag_id"];
                                     $post_text = $row_post["post_text"];
                                     $post_date = $row_post["post_date"];
                                     $post_likes = $row_post["post_likes"];
@@ -73,7 +72,8 @@ require('like-or-dislike.php')
                                     echo "</div>";
                                     echo "<img src='pics/ThreeDotsIcon.svg'>";
                                     echo "</div>";
-                                    if ($hashtag_name != null) {
+                                    if ($hashtag_id != 0) {
+                                        $hashtag_name = $connect->query("SELECT name FROM hashtags WHERE id = $hashtag_id")->fetch_assoc()['name'];
                                         echo "<p>" . $post_text . " <a href='?search=$hashtag_name'>#" . $hashtag_name . "</a></p>";
                                     } else {
                                         echo "<p>" . $post_text . "</p>";
