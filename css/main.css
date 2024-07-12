@@ -449,11 +449,11 @@ input {
     fill: var(--else-text-color-33);
 }
 
-#liked {
+.liked {
     background-color: var(--like-button-accent-color);
     color: var(--error-accent-color);
 }
 
-#liked svg {
+.liked svg {
     fill: var(--error-accent-color);
 }
