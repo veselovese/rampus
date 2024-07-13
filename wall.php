@@ -133,7 +133,7 @@ require('like-or-dislike.php')
                                         echo "</div>";
                                     }
                                     echo "<div class='current-user'>";
-                                    echo "<img src='uploads/avatar/" . $avatar . "'>";
+                                    echo "<img src='uploads/avatar/" . $_SESSION['user']['avatar'] . "'>";
                                     echo "<form action='./comment' method='post'>
                                         <input required name='comment' placeholder='Ответить..'>
                                         <input type='hidden' name='comment_id' value='$i'>
