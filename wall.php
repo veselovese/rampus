@@ -102,31 +102,31 @@ require('like-or-dislike.php')
                                     }
                                     echo "<div class='div-line'></div>";
                                     echo "<div class='wall__comments'>";
-                                    $sql_reply = "SELECT replies.text AS reply_text, users.first_name AS first_name, users.second_name AS second_name, users.avatar AS avatar, DATE_FORMAT(replies.reply_date, '%d %M в %k:%i') AS reply_date
-                                    FROM replies
-                                    JOIN users ON replies.user_id = users.id
-                                    JOIN posts ON replies.post_id = posts.id
-                                    WHERE replies.post_id = " . $i;
-                                    $result_reply = $connect->query($sql_reply);
-                                    $rows_num_reply = $result_reply->num_rows;
-                                    if ($rows_num_reply > 0) {
+                                    $sql_comment = "SELECT comments.text AS comment_text, users.first_name AS first_name, users.second_name AS second_name, users.avatar AS avatar, DATE_FORMAT(comments.comment_date, '%d %M в %k:%i') AS comment_date
+                                    FROM comments
+                                    JOIN users ON comments.user_id = users.id
+                                    JOIN posts ON comments.post_id = posts.id
+                                    WHERE comments.post_id = " . $i;
+                                    $result_comment = $connect->query($sql_comment);
+                                    $rows_num_comment = $result_comment->num_rows;
+                                    if ($rows_num_comment > 0) {
                                         echo "<div class='other-users'>";
-                                        while ($row_reply = $result_reply->fetch_assoc()) {
-                                            $rows_num_reply -= 1;
-                                            $first_name = $row_reply['first_name'];
-                                            $second_name = $row_reply['second_name'];
-                                            $avatar = $row_reply['avatar'];
-                                            $reply_text = $row_reply['reply_text'];
-                                            $reply_date = $row_reply['reply_date'];
+                                        while ($row_comment = $result_comment->fetch_assoc()) {
+                                            $rows_num_comment -= 1;
+                                            $first_name = $row_comment['first_name'];
+                                            $second_name = $row_comment['second_name'];
+                                            $avatar = $row_comment['avatar'];
+                                            $comment_text = $row_comment['comment_text'];
+                                            $comment_date = $row_comment['comment_date'];
                                             echo "<div class='user-comment'>";
                                             echo "<img src='uploads/avatar/" . $avatar . "'>";
                                             echo "<div>";
                                             echo "<p class='first-and-second-names'>" . $first_name . " " . $second_name . "</p>";
-                                            echo "<p class='comment-text'>" . $reply_text . "</p>";
-                                            echo "<span class='date'>" . $reply_date . "</span>";
+                                            echo "<p class='comment-text'>" . $comment_text . "</p>";
+                                            echo "<span class='date'>" . $comment_date . "</span>";
                                             echo "</div>";
                                             echo "</div>";
-                                            if ($rows_num_reply > 0) {
+                                            if ($rows_num_comment > 0) {
                                                 echo "<div class='div-line'></div>";
                                             }
                                         }
@@ -134,8 +134,9 @@ require('like-or-dislike.php')
                                     }
                                     echo "<div class='current-user'>";
                                     echo "<img src='uploads/avatar/" . $avatar . "'>";
-                                    echo "<form action='./comment'>
-                                        <input required placeholder='Ответить..'>
+                                    echo "<form action='./comment' method='post'>
+                                        <input required name='comment' placeholder='Ответить..'>
+                                        <input type='hidden' name='comment_id' value='$i'>
                                         <button type='submit'><img src='pics/SendIcon.svg'></button>
                                     </form>";
                                     echo "</div>";

@@ -278,10 +278,6 @@
     width: auto;
 }
 
-#checked {
-    background-color: var(--block-accent-color-110);
-}
-
 #checked a {
     color: var(--main-accent-color);
 }
