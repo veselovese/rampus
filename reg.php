@@ -16,32 +16,37 @@ session_start();
     <?php require('header.php'); ?>
     <main>
         <h1 class="title">Регистрация в Rampus (Рампус)</h1>
-        <section class="wrapper reg__section">
-            <form method="POST" class="reg__form" action="./signup">
-                <legend>Регистрация Rampus</legend>
-                <div>
-                    <div class="reg__input-div">
-                        <label>Имя<input type="text" required placeholder="Рампус" name="first_name"></label>
-                        <label>Фамилия<input type="text" required placeholder="Рампусов" name="second_name"></label>
-                        <label>ID (имя пользователя)<input type="text" required placeholder="rampus" name="username"></label>
-                        <a href="./auth">У меня есть аккаунт</a>
-                    </div>
-                    <div class="div-line"></div>
-                    <div class="reg__input-div">
-                        <label>Почта<input type="email" required placeholder="rampus@example.com" name="email"></label>
-                        <label id="reg__lable_pass-1">Пароль
-                            <input type="password" required placeholder="********" minlength="8" name="password_1">
-                            <div><span>8 символов</span><span>Цифра</span><span>Символ «!» или «?»</span></div>
+        <?php if (isset($_SESSION['user'])) {
+            header("Location: profile");
+            exit();
+        } else { ?>
+            <section class="wrapper reg__section">
+                <form method="POST" class="reg__form" action="./signup">
+                    <legend>Регистрация Rampus</legend>
+                    <div>
+                        <div class="reg__input-div">
+                            <label>Имя<input type="text" required placeholder="Рампус" name="first_name"></label>
+                            <label>Фамилия<input type="text" required placeholder="Рампусов" name="second_name"></label>
+                            <label>ID (имя пользователя)<input type="text" required placeholder="rampus" name="username"></label>
+                            <a href="./auth">У меня есть аккаунт</a>
+                        </div>
+                        <div class="div-line"></div>
+                        <div class="reg__input-div">
+                            <label>Почта<input type="email" required placeholder="rampus@example.com" name="email"></label>
+                            <label id="reg__lable_pass-1">Пароль
+                                <input type="password" required placeholder="********" minlength="8" name="password_1">
+                                <div><span>8 символов</span><span>Цифра</span><span>Символ «!» или «?»</span></div>
 
-                        </label>
-                        <label id="reg__lable_pass-2"><input type="password" required placeholder="Тот же пароль ещё раз" minlength="8" name="password_2"></label>
-                        <button type="submit">Создать</button>
+                            </label>
+                            <label id="reg__lable_pass-2"><input type="password" required placeholder="Тот же пароль ещё раз" minlength="8" name="password_2"></label>
+                            <button type="submit">Создать</button>
+                        </div>
                     </div>
-                </div>
-            </form>
-        </section>
+                </form>
+            </section>
     </main>
-    <?php require('footer.php'); ?>
+<?php require('footer.php');
+        } ?>
 </body>
 
 </html>
