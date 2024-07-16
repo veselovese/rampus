@@ -111,7 +111,6 @@ require('like-or-dislike.php');
                                             </svg>";
                                             echo "<span class='like-counter'>" . $post_likes . "</span></button>";
                                         }
-                                        echo "<span>" . $post_likes . "</span></button>";
                                         echo "<span>" . $post_date . "</span>";
                                         echo "</div>";
                                         echo "</div>";

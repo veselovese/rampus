@@ -55,6 +55,7 @@ require('like-or-dislike.php');
                             JOIN users ON posts.user_id = users.id
                             LEFT JOIN hashtags ON posts.hashtag_id = hashtags.id
                             WHERE posts.status = 0 $search_condition";
+                            
                                 $result_post = $connect->query($sql_post);
                                 if ($result_post->num_rows > 0) {
                                     while ($row_post = $result_post->fetch_assoc()) {
@@ -110,7 +111,8 @@ require('like-or-dislike.php');
                                     FROM comments
                                     JOIN users ON comments.user_id = users.id
                                     JOIN posts ON comments.post_id = posts.id
-                                    WHERE comments.post_id = " . $i;
+                                    WHERE comments.post_id = $i
+                                    ORDER BY UNIX_TIMESTAMP(comments.comment_date) ASC";
                                         $result_comment = $connect->query($sql_comment);
                                         $rows_num_comment = $result_comment->num_rows;
                                         if ($rows_num_comment > 0) {
@@ -161,7 +163,7 @@ require('like-or-dislike.php');
                                                                                                 } else {
                                                                                                     echo null;
                                                                                                 } ?>>
-                                <img src="pics/SearchIcon.svg">
+                                <img id="icon-search-hashtag" src="pics/SearchIcon.svg">
                             </div>
                             <ul id="success-search-hashtag">
                             </ul>

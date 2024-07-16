@@ -185,6 +185,7 @@
     position: absolute;
     top: 1rem;
     right: 1.6rem;
+    cursor: pointer;
 }
 
 .like-button {

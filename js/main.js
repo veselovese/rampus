@@ -62,4 +62,8 @@ $(document).ready(function () {
             searchHashtag();
         }
     })
+
+    $('#icon-search-hashtag').on('click', function () {
+        $('#search-hashtag').trigger('focus')
+    })
 })
