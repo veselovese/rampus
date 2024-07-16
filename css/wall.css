@@ -278,6 +278,10 @@
     width: auto;
 }
 
+#checked {
+    order: -1;
+}
+
 #checked a {
     color: var(--main-accent-color);
 }

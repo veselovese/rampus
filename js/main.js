@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    $('.unliked').on('click', function() {
+    $('.unliked').on('click', function () {
         const postId = $(this).attr('id');
         $post = $(this);
         $.ajax({
@@ -18,7 +18,7 @@ $(document).ready(function () {
         })
     })
 
-    $('.liked').on('click', function() {
+    $('.liked').on('click', function () {
         const postId = $(this).attr('id');
         $post = $(this);
         $.ajax({
@@ -35,5 +35,31 @@ $(document).ready(function () {
                 $post.siblings().removeClass('hide');
             }
         })
+    })
+
+    searchHashtag();
+
+    function searchHashtag(query) {
+        const get = $('#get-status').val();
+        $.ajax({
+            url: "search-hashtag",
+            method: "POST",
+            data: {
+                'hashtag': query,
+                'get': get
+            },
+            success: function (data) {
+                $('#success-search-hashtag').html(data);
+            }
+        });
+    }
+    $('#search-hashtag').keyup(function () {
+        var search = $(this).val();
+        if (search != '') {
+            searchHashtag(search);
+        }
+        else {
+            searchHashtag();
+        }
     })
 })

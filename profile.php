@@ -25,8 +25,8 @@ require('like-or-dislike.php');
                 <ul>
                     <li id="active"><a href="./profile">Профиль</a></li>
                     <li><a href="./wall">Стена</a></li>
-                    <li><a href="./chats">Чаты</a></li>
-                    <li><a href="./people">Люди</a></li>
+                    <li><a href="./profile">****</a></li>
+                    <li><a href="./profile">****</a></li>
                     <li><a id="exit" href="./exit">Выйти</a></li>
                 </ul>
             </nav>
@@ -52,8 +52,8 @@ require('like-or-dislike.php');
                         <span>Пароль</span>
                     </div>
                     <div class="profile__new-post">
-                        <form action="./add">
-                            <input required placeholder="О чём расскажете сегодня?">
+                        <form action="./add" method="post">
+                            <input required placeholder="О чём расскажете сегодня?" name="post">
                             <button type="submit"><img src="pics/SendIcon.svg"></button>
                         </form>
                     </div>
@@ -67,7 +67,7 @@ require('like-or-dislike.php');
                             $current_user_id = $_SESSION['user']['id'];
                             $sql = "SELECT hashtags.name AS hashtag_name, posts.text AS post_text, DATE_FORMAT(posts.post_date, '%d %M в %k:%i') AS post_date, posts.likes AS post_likes, posts.id AS i
                   FROM posts
-                  JOIN hashtags ON posts.hashtag_id = hashtags.id
+                  LEFT JOIN hashtags ON posts.hashtag_id = hashtags.id
                   JOIN users ON posts.user_id = users.id
                   WHERE posts.user_id = $current_user_id";
                             $result = $connect->query($sql);
@@ -80,8 +80,8 @@ require('like-or-dislike.php');
                                     $i = $row["i"];
                                     echo "<div class='user-post'>";
                                     echo "<img src='pics/ThreeDotsIcon.svg'>";
-                                    if ($hashtag_name != null) {
-                                        echo "<p>" . $post_text . " <span>#" . $hashtag_name . "</span></p>";
+                                    if ($hashtag_name != 0) {
+                                        echo "<p>" . $post_text . " <a href='./wall?search=$hashtag_name'>#" . $hashtag_name . "</a></p>";
                                     } else {
                                         echo "<p>" . $post_text . "</p>";
                                     }

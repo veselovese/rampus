@@ -39,12 +39,6 @@ session_start();
                     </div>
                 </div>
             </form>
-            <?php
-            if (isset($_SESSION['message'])) {
-                echo '<p class="message"> ' . $_SESSION['message'] . ' </p>';
-                unset($_SESSION['message']);
-            }
-            ?>
         </section>
     </main>
     <?php require('footer.php'); ?>

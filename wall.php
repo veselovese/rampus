@@ -2,7 +2,7 @@
 session_start();
 
 require('connect.php');
-require('like-or-dislike.php')
+require('like-or-dislike.php');
 ?>
 
 <!DOCTYPE html>
@@ -25,8 +25,8 @@ require('like-or-dislike.php')
                 <ul>
                     <li><a href="./profile">Профиль</a></li>
                     <li id="active"><a href="./wall">Стена</a></li>
-                    <li><a href="./chats">Чаты</a></li>
-                    <li><a href="./people">Люди</a></li>
+                    <li><a href="./wall">****</a></li>
+                    <li><a href="./wall">****</a></li>
                 </ul>
             </nav>
             <div class="second-and-third-parts">
@@ -49,7 +49,7 @@ require('like-or-dislike.php')
                             $sql_post = "SELECT posts.hashtag_id AS hashtag_id, posts.text AS post_text, DATE_FORMAT(posts.post_date, '%d %M в %k:%i') AS post_date, posts.likes AS post_likes, users.first_name AS first_name, users.second_name AS second_name, users.avatar AS avatar, posts.id AS i
                             FROM posts
                             JOIN users ON posts.user_id = users.id
-                            JOIN hashtags ON posts.hashtag_id = hashtags.id
+                            LEFT JOIN hashtags ON posts.hashtag_id = hashtags.id
                             WHERE posts.status = 0 $search_condition";
                             $result_post = $connect->query($sql_post);
                             if ($result_post->num_rows > 0) {
@@ -151,25 +151,11 @@ require('like-or-dislike.php')
                 <div class="third-part">
                     <div>
                         <div>
-                            <input placeholder="Поиск">
+                            <input type="text" name="search-hashtag" id="search-hashtag" placeholder="Поиск">
+                            <input type="hidden" name="get-status" id="get-status" value=<?php  if (isset($_GET['search'])) { echo $_GET['search']; } else { echo null; }?>>
                             <img src="pics/SearchIcon.svg">
                         </div>
-                        <ul>
-                            <?php
-                            $sql_hashtag = "SELECT hashtags.name AS hashtag_name
-                                FROM hashtags";
-                            $result_hashtag = $connect->query($sql_hashtag);
-                            if ($result_hashtag->num_rows > 0) {
-                                while ($row_hashtag = $result_hashtag->fetch_assoc()) {
-                                    $hashtag_name = $row_hashtag['hashtag_name'];
-                                    if ((isset(($_GET['search']))) && ($_GET['search'] == $hashtag_name)) {
-                                        echo "<li id ='checked'><a href='?search=$hashtag_name'>#" . $hashtag_name . "</a></li>";
-                                    } else {
-                                        echo "<li><a href='?search=$hashtag_name'>#" . $hashtag_name . "</a></li>";
-                                    }
-                                }
-                            }
-                            ?>
+                        <ul id="success-search-hashtag">
                         </ul>
                     </div>
                 </div>

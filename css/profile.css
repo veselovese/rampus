@@ -150,6 +150,11 @@
     justify-content: space-between;
 }
 
+.profile__posts div img, .profile__likes div img {
+    max-width: 28px;
+    max-height: 24px;
+}
+
 .profile__new-post {
     margin-top: 6.6rem;
     padding-right: 2.6rem;
@@ -225,7 +230,8 @@
     line-height: 110%;
 }
 
-.user-post p span {
+.user-post p a {
+    font-size: var(--font-size-2);
     color: var(--main-accent-color);
 }
 
