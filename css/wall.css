@@ -112,18 +112,22 @@
     margin: 0;
 }
 
-.wall__new-post input, .wall__comments input {
+.wall__new-post textarea, .wall__comments textarea {
     width: 100%;
     min-height: 4rem;
+    height: 4rem;
     border-radius: 2rem;
     outline: none;
     background-color: transparent;
     border: 1px solid var(--else-text-color-33);
-    padding: 0 2.6rem;
+    padding: 1.2rem 2.6rem;
     margin: 0;
+    resize: none;
+    overflow: hidden;       
 }
 
-.wall__new-post input::placeholder, .wall__comments input::placeholder {
+.wall__new-post textarea::placeholder, .wall__comments textarea::placeholder {
+    line-height: var(--font-size-1);
     font-size: var(--font-size-1);
     color: var(--else-text-color-50);
 }

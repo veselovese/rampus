@@ -38,7 +38,7 @@ session_start();
             exit();
         } else { ?>
             <section class="wrapper reg__section">
-                <form method="POST" class="reg__form" action="./signup">
+                <form method="POST" class="reg__form" action="./signup" autocomplete="off">
                     <legend>Регистрация Rampus</legend>
                     <div>
                         <div class="reg__input-div">
@@ -51,8 +51,8 @@ session_start();
                         <div class="reg__input-div">
                             <label>Почта<input type="email" required placeholder="rampus@example.com" name="email"></label>
                             <label id="reg__lable_pass-1">Пароль
-                                <input type="password" required placeholder="********" minlength="8" name="password_1">
-                                <div><span>8 символов</span><span>Цифра</span><span>Символ «!» или «?»</span></div>
+                                <input type="password" required placeholder="********" minlength="8" name="password_1" id="reg__password_1">
+                                <div><span id="reg__8-sim">8 символов</span><span id="reg__num">Цифра</span><span id="reg__!?">Символ «!» или «?»</span></div>
 
                             </label>
                             <label id="reg__lable_pass-2"><input type="password" required placeholder="Тот же пароль ещё раз" minlength="8" name="password_2"></label>
@@ -64,6 +64,7 @@ session_start();
     </main>
 <?php require('footer.php');
         } ?>
+<script src="js/reg.js"></script>
 </body>
 
 </html>

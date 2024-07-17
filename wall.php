@@ -53,8 +53,8 @@ require('like-or-dislike.php');
                 <div class="second-and-third-parts">
                     <div class="second-part">
                         <div class="wall__new-post">
-                            <form action="./add" method="post">
-                                <input required placeholder="О чём расскажете сегодня?" name="post">
+                            <form action="./add" method="post" autocomplete="off">
+                                <textarea required placeholder="О чём расскажете сегодня?" name="post"></textarea>
                                 <button type="submit"><img src="pics/SendIcon.svg"></button>
                             </form>
                         </div>
@@ -157,8 +157,8 @@ require('like-or-dislike.php');
                                         }
                                         echo "<div class='current-user'>";
                                         echo "<img src='uploads/avatar/" . $_SESSION['user']['avatar'] . "'>";
-                                        echo "<form action='./comment' method='post'>
-                                        <input required name='comment' placeholder='Ответить..'>
+                                        echo "<form action='./comment' method='post' autocomplete='off'>
+                                        <textarea required name='comment' placeholder='Ответить..'></textarea>
                                         <input type='hidden' name='comment_id' value='$i'>
                                         <button type='submit'><img src='pics/SendIcon.svg'></button>
                                     </form>";

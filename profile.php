@@ -73,7 +73,7 @@ require('like-or-dislike.php');
                             <span>Пароль</span>
                         </div>
                         <div class="profile__new-post">
-                            <form action="./add" method="post">
+                            <form action="./add" method="post" autocomplete="off">
                                 <input required placeholder="О чём расскажете сегодня?" name="post">
                                 <button type="submit"><img src="pics/SendIcon.svg"></button>
                             </form>
