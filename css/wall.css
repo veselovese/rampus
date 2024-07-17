@@ -124,8 +124,14 @@
     margin: 0;
     word-wrap: break-word;
     word-break: break-all;
+    scrollbar-width: none;
+    overflow-y: auto;
     font-size: var(--font-size-1);
     /* animation: none; */
+}
+
+.wall__new-post div::-webkit-scrollbar {
+    width: 0;
 }
 
 /* .wall__new-post div:focus {
@@ -143,8 +149,6 @@
 } */
 
 #textarea_input {
-    white-space: pre-wrap;
-    word-wrap: break-word;
     visibility: hidden;
     position: absolute;
     left: -9999px;
