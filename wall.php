@@ -54,7 +54,8 @@ require('like-or-dislike.php');
                     <div class="second-part">
                         <div class="wall__new-post">
                             <form action="./add" method="post" autocomplete="off">
-                                <textarea required placeholder="О чём расскажете сегодня?" name="post"></textarea>
+                                <div contenteditable="true" placeholder="О чём расскажете сегодня?" id="textarea" role="textbox" onkeyup="textarea(event)"></div>
+                                <input type="hidden" required name="post" id="textarea_input" value="">
                                 <button type="submit"><img src="pics/SendIcon.svg"></button>
                             </form>
                         </div>
@@ -158,7 +159,7 @@ require('like-or-dislike.php');
                                         echo "<div class='current-user'>";
                                         echo "<img src='uploads/avatar/" . $_SESSION['user']['avatar'] . "'>";
                                         echo "<form action='./comment' method='post' autocomplete='off'>
-                                        <textarea required name='comment' placeholder='Ответить..'></textarea>
+                                        <textarea required name='comment' placeholder='Ответить..' id='textarea' autocomplete='off'></textarea>
                                         <input type='hidden' name='comment_id' value='$i'>
                                         <button type='submit'><img src='pics/SendIcon.svg'></button>
                                     </form>";
@@ -192,6 +193,7 @@ require('like-or-dislike.php');
         } ?>
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script src="js/main.js"></script>
+<script src="js/wall.js"></script>
 </body>
 
 </html>
