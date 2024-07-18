@@ -119,6 +119,7 @@ header img {
     height: 2.4rem;
     border-radius: 1.2rem;
     margin: 0.2rem;
+    object-fit: cover;
 }
 
 header div {

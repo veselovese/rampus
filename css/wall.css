@@ -302,10 +302,13 @@
 }
 
 .wall__user-info img {
+    width: 50px;
+    height: 50px;
     max-width: 50px;
     max-height: 50px;
     border-radius: 2.5rem;
     margin: 0;
+    object-fit: cover;
 }
 
 .wall__user-info div {
@@ -333,17 +336,23 @@
 }
 
 .wall__comments .current-user img {
+    width: 40px;
+    height: 40px;
     max-width: 40px;
     max-height: 40px;
     border-radius: 2rem;
     margin: 0;
+    object-fit: cover;
 }
 
 .wall__comments .other-users img {
+    width: 50px;
+    height: 50px;
     max-width: 50px;
     max-height: 50px;
     border-radius: 2.5rem;
-    margin: 0
+    margin: 0;
+    object-fit: cover;
 }
 
 .wall__comments .other-users .user-comment {
