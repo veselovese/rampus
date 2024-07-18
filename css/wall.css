@@ -146,6 +146,8 @@
 .user-post p {
     margin: 1.6rem 0 0 0;
     line-height: 110%;
+    word-wrap: break-word;
+    word-break: break-all;
 }
 
 .user-post p a {
@@ -188,7 +190,8 @@
     pointer-events: all;
 }
 
-#textarea-post, .textarea-comment {
+#textarea-post,
+.textarea-comment {
     width: 100%;
     min-height: 4rem;
     max-height: 30rem;
@@ -205,15 +208,18 @@
     font-size: var(--font-size-1);
 }
 
-#textarea-post::-webkit-scrollbar, .textarea-comment::-webkit-scrollbar {
+#textarea-post::-webkit-scrollbar,
+.textarea-comment::-webkit-scrollbar {
     width: 0;
 }
 
-#textarea-post:focus, .textarea-comment:focus {
+#textarea-post:focus,
+.textarea-comment:focus {
     border: 1px solid var(--else-text-color-50);
 }
 
-#textarea-post_label, .textarea-comment_label {
+#textarea-post_label,
+.textarea-comment_label {
     font-size: var(--font-size-1);
     line-height: var(--font-size-1);
     color: var(--else-text-color-50);
@@ -224,7 +230,8 @@
     pointer-events: none;
 }
 
-#textarea-post_input, .textarea-comment_input {
+#textarea-post_input,
+.textarea-comment_input {
     visibility: hidden;
     position: absolute;
     left: -9999px;
@@ -235,9 +242,11 @@
     max-height: none;
     margin: 0;
     border-radius: 0;
+    width: auto;
+    height: auto;
 }
 
-.third-part > div {
+.third-part>div {
     display: flex;
     flex-direction: column;
     gap: 2.6rem;
