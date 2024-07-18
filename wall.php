@@ -69,12 +69,12 @@ require('like-or-dislike.php');
                                     $search = $_GET['search'];
                                 }
                                 $search_condition = $search !== 'all' ? "AND hashtags.name = '$search'" : '';
-                                $sql_post = "SELECT posts.hashtag_id AS hashtag_id, posts.text AS post_text, DATE_FORMAT(posts.post_date, '%d %M в %k:%i') AS post_date, posts.likes AS post_likes, users.first_name AS first_name, users.second_name AS second_name, users.avatar AS avatar, posts.id AS i
+                                $sql_post = "SELECT posts.hashtag_id AS hashtag_id, posts.text AS post_text, DATE_FORMAT(posts.post_date, '%d %M в %k:%i') AS post_date, posts.likes AS post_likes, posts.user_id AS user_id, users.first_name AS first_name, users.second_name AS second_name, users.avatar AS avatar, posts.id AS i
                             FROM posts
                             JOIN users ON posts.user_id = users.id
                             LEFT JOIN hashtags ON posts.hashtag_id = hashtags.id
                             WHERE posts.status = 0 $search_condition";
-                            
+
                                 $result_post = $connect->query($sql_post);
                                 if ($result_post->num_rows > 0) {
                                     while ($row_post = $result_post->fetch_assoc()) {
@@ -82,6 +82,7 @@ require('like-or-dislike.php');
                                         $post_text = $row_post["post_text"];
                                         $post_date = $row_post["post_date"];
                                         $post_likes = $row_post["post_likes"];
+                                        $user_id = $row_post["user_id"];
                                         $first_name = $row_post["first_name"];
                                         $second_name = $row_post["second_name"];
                                         $avatar = $row_post["avatar"];
@@ -95,7 +96,13 @@ require('like-or-dislike.php');
                                         echo "<span>" . $post_date . "</span>";
                                         echo "</div>";
                                         echo "</div>";
-                                        echo "<img src='pics/ThreeDotsIcon.svg'>";
+                                        if ($user_id == $_SESSION['user']['id']) {
+                                            echo "<img onclick='showPopup($i)' src='pics/ThreeDotsIcon.svg'>";
+                                            echo "<div class='three-dots-popup' id='three-dots-popup_$i'>";
+                                            echo "<a class='edit-post' href='./wall'>*************</a>";
+                                            echo "<a class='delete-post' href='deletepost?post=$i'>Удалить</a>";
+                                            echo "</div>";
+                                        }
                                         echo "</div>";
                                         if ($hashtag_id != 0) {
                                             $hashtag_name = $connect->query("SELECT name FROM hashtags WHERE id = $hashtag_id")->fetch_assoc()['name'];
@@ -164,7 +171,7 @@ require('like-or-dislike.php');
                                         <label for='textarea-comment' class='textarea-comment_label' id='textarea-comment_label_$i'>Ответить..</label>
                                         <input type='hidden' required name='comment' class='textarea-comment_input' id='textarea-comment_input_$i' value=''>
                                         <input type='hidden' name='comment_id' value='$i'>
-                                        <button type='submit'><img src='pics/SendIcon.svg'></button>
+                                        <button type='submit' id='textarea-comment_submit_$i' class='' disabled><img src='pics/SendIcon.svg'></button>
                                     </form>";
                                         echo "</div>";
                                         echo "</div>";

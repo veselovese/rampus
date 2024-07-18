@@ -74,8 +74,10 @@ require('like-or-dislike.php');
                         </div>
                         <div class="profile__new-post">
                             <form action="./add" method="post" autocomplete="off">
-                                <input required placeholder="О чём расскажете сегодня?" name="post">
-                                <button type="submit"><img src="pics/SendIcon.svg"></button>
+                                <div contenteditable="true" id="textarea-post" role="textbox" onkeyup="textareaPost(event)"></div>
+                                <label for="textarea-post" id="textarea-post_label">Что-то ещё не рассказали?</label>
+                                <input type="hidden" required name="post" id="textarea-post_input" value="">
+                                <button disabled class="" type="submit" id="textarea-post_sumbit"><img src="pics/SendIcon.svg"></button>
                             </form>
                         </div>
                         <div class="profile__user-posts">
@@ -100,7 +102,11 @@ require('like-or-dislike.php');
                                         $post_likes = $row["post_likes"];
                                         $i = $row["i"];
                                         echo "<div class='user-post'>";
-                                        echo "<img src='pics/ThreeDotsIcon.svg'>";
+                                        echo "<img onclick='showPopup($i)' src='pics/ThreeDotsIcon.svg'>";
+                                        echo "<div class='three-dots-popup' id='three-dots-popup_$i'>";
+                                        echo "<a class='edit-post' href='./profile'>*************</a>";
+                                        echo "<a class='delete-post' href='deletepost?post=$i'>Удалить</a>";
+                                        echo "</div>";
                                         if ($hashtag_name != 0) {
                                             echo "<p>" . $post_text . " <a href='./wall?search=$hashtag_name'>#" . $hashtag_name . "</a></p>";
                                         } else {
@@ -181,6 +187,7 @@ require('like-or-dislike.php');
         } ?>
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script src="js/main.js"></script>
+<script src="js/profile.js"></script>
 </body>
 
 </html>

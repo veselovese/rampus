@@ -42,6 +42,7 @@
     --like-button-accent-color: #FF220C10;
     --shadow-big: 0 0 15px #02020207;
     --shadow-small: 0 0 12px #02020205;
+    --shadow-popup: 0 0 9px #02020211;
     --font-size-1: 1.3rem;
     --font-size-2: 2rem;
     --font-size-3: 3.2rem;
@@ -68,6 +69,7 @@
     padding: 2.6rem;
     display: flex;
     flex-direction: column;
+    position: relative;
 }
 
 .user-post img {
@@ -75,6 +77,70 @@
     max-height: 6px;
     margin-top: 0.9rem;
     cursor: pointer;
+}
+
+.user-post .three-dots-popup {
+    font-size: var(--font-size-1);
+    border-radius: 2rem;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 5.2rem;
+    right: 2.6rem;
+    visibility: hidden;
+    animation: hidePopup 0.2s;
+    box-shadow: var(--shadow-popup);
+    z-index: 1;
+}
+
+.user-post .three-dots-popup.show {
+    visibility: visible;
+    animation: showPopup 0.2s;
+}
+
+@keyframes showPopup {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes hidePopup {
+    from {
+        opacity: 1;
+    }
+
+    to {
+        opacity: 0;
+    }
+}
+
+.user-post .three-dots-popup a {
+    display: block;
+    width: 100%;
+    padding: 0.8rem 2.6rem;
+    color: var(--main-text-color);
+    text-transform: none;
+    background-color: var(--block-color);
+}
+
+.user-post .three-dots-popup a:first-child {
+    padding-top: 1.6rem;
+    border-radius: 2rem 2rem 0 0;
+}
+
+.user-post .three-dots-popup a:last-child {
+    padding-bottom: 1.6rem;
+    border-radius: 0 0 2rem 2rem;
+    color: var(--error-accent-color);
+}
+
+.user-post .three-dots-popup a:hover {
+    background-color: var(--background-color);
 }
 
 .user-post p {
@@ -97,7 +163,7 @@
 .wall__new-post form,
 .wall__comments form {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     gap: 1.6rem;
     width: 100%;
     max-width: 97%;
@@ -109,6 +175,8 @@
     background-color: transparent;
     border: none;
     padding: 0;
+    padding-top: 0.75rem;
+    display: flex;
     margin: 0;
     opacity: 50%;
     pointer-events: none;
@@ -135,7 +203,6 @@
     scrollbar-width: none;
     overflow-y: auto;
     font-size: var(--font-size-1);
-    /* animation: none; */
 }
 
 #textarea-post::-webkit-scrollbar, .textarea-comment::-webkit-scrollbar {
@@ -143,19 +210,8 @@
 }
 
 #textarea-post:focus, .textarea-comment:focus {
-    /* animation: div-gradient 2s ease-in-out alternate infinite; */
     border: 1px solid var(--else-text-color-50);
 }
-
-/* @keyframes div-gradient {
-    from {
-        border: 1px solid var(--else-text-color-33);
-    }
-    
-    to {
-        border: 1px solid var(--main-accent-color);
-    }
-} */
 
 #textarea-post_label, .textarea-comment_label {
     font-size: var(--font-size-1);

@@ -42,6 +42,7 @@
     --like-button-accent-color: #FF220C10;
     --shadow-big: 0 0 15px #02020207;
     --shadow-small: 0 0 12px #02020205;
+    --shadow-popup: 0 0 9px #02020211;
     --font-size-1: 1.3rem;
     --font-size-2: 2rem;
     --font-size-3: 3.2rem;
@@ -157,36 +158,73 @@
 
 .profile__new-post {
     margin-top: 6.6rem;
-    padding-right: 2.6rem;
 }
 
 .profile__new-post form {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     gap: 1.6rem;
+    width: 100%;
+    max-width: 97%;
+    position: relative;
 }
 
 .profile__new-post button {
     background-color: transparent;
     border: none;
     padding: 0;
+    padding-top: 0.75rem;
+    display: flex;
     margin: 0;
+    opacity: 50%;
+    pointer-events: none;
 }
 
-.profile__new-post input {
+.profile__new-post button.active {
+    opacity: 100%;
+    pointer-events: all;
+}
+
+#textarea-post {
     width: 100%;
     min-height: 4rem;
+    max-height: 30rem;
     border-radius: 2rem;
     outline: none;
     background-color: transparent;
     border: 1px solid var(--else-text-color-33);
-    padding: 0 2.6rem;
+    padding: 1.25rem 2.6rem;
     margin: 0;
+    word-wrap: break-word;
+    word-break: break-all;
+    scrollbar-width: none;
+    overflow-y: auto;
+    font-size: var(--font-size-1);
 }
 
-.profile__new-post input::placeholder {
+#textarea-post::-webkit-scrollbar {
+    width: 0;
+}
+
+#textarea-post:focus {
+    border: 1px solid var(--else-text-color-50);
+}
+
+#textarea-post_label {
     font-size: var(--font-size-1);
+    line-height: var(--font-size-1);
     color: var(--else-text-color-50);
+    position: absolute;
+    left: 2.7rem;
+    top: 1.35rem;
+    cursor: text;
+    pointer-events: none;
+}
+
+#textarea-post_input {
+    visibility: hidden;
+    position: absolute;
+    left: -9999px;
 }
 
 .profile__user-posts {
@@ -215,6 +253,7 @@
     padding: 2.6rem;
     display: flex;
     flex-direction: column;
+    position: relative;
 }
 
 .user-post img {
@@ -223,6 +262,70 @@
     margin-top: 0.9rem;
     align-self: flex-end;
     cursor: pointer;
+}
+
+.user-post .three-dots-popup {
+    font-size: var(--font-size-1);
+    border-radius: 2rem;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 5.2rem;
+    right: 2.6rem;
+    visibility: hidden;
+    animation: hidePopup 0.2s;
+    box-shadow: var(--shadow-popup);
+    z-index: 1;
+}
+
+.user-post .three-dots-popup.show {
+    visibility: visible;
+    animation: showPopup 0.2s;
+}
+
+@keyframes showPopup {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes hidePopup {
+    from {
+        opacity: 1;
+    }
+
+    to {
+        opacity: 0;
+    }
+}
+
+.user-post .three-dots-popup a {
+    display: block;
+    width: 100%;
+    padding: 0.8rem 2.6rem;
+    color: var(--main-text-color);
+    text-transform: none;
+    background-color: var(--block-color);
+}
+
+.user-post .three-dots-popup a:first-child {
+    padding-top: 1.6rem;
+    border-radius: 2rem 2rem 0 0;
+}
+
+.user-post .three-dots-popup a:last-child {
+    padding-bottom: 1.6rem;
+    border-radius: 0 0 2rem 2rem;
+    color: var(--error-accent-color);
+}
+
+.user-post .three-dots-popup a:hover {
+    background-color: var(--background-color);
 }
 
 .user-post p {
