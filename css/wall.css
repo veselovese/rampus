@@ -101,6 +101,7 @@
     gap: 1.6rem;
     width: 100%;
     max-width: 97%;
+    position: relative;
 }
 
 .wall__new-post button,
@@ -109,10 +110,17 @@
     border: none;
     padding: 0;
     margin: 0;
+    opacity: 50%;
+    pointer-events: none;
 }
 
-.wall__new-post div,
-.wall__comments textarea {
+.wall__new-post button.active,
+.wall__comments button.active {
+    opacity: 100%;
+    pointer-events: all;
+}
+
+#textarea-post, .textarea-comment {
     width: 100%;
     min-height: 4rem;
     max-height: 30rem;
@@ -130,35 +138,40 @@
     /* animation: none; */
 }
 
-.wall__new-post div::-webkit-scrollbar {
+#textarea-post::-webkit-scrollbar, .textarea-comment::-webkit-scrollbar {
     width: 0;
 }
 
-/* .wall__new-post div:focus {
-    animation: div-gradient 2s ease-in-out alternate infinite;
+#textarea-post:focus, .textarea-comment:focus {
+    /* animation: div-gradient 2s ease-in-out alternate infinite; */
+    border: 1px solid var(--else-text-color-50);
 }
 
-@keyframes div-gradient {
+/* @keyframes div-gradient {
     from {
-        border: 1px solid var(--else-accent-color-2);
+        border: 1px solid var(--else-text-color-33);
     }
-
+    
     to {
-        border: 1px solid var(--else-accent-color-1);
+        border: 1px solid var(--main-accent-color);
     }
 } */
 
-#textarea_input {
+#textarea-post_label, .textarea-comment_label {
+    font-size: var(--font-size-1);
+    line-height: var(--font-size-1);
+    color: var(--else-text-color-50);
+    position: absolute;
+    left: 2.7rem;
+    top: 1.35rem;
+    cursor: text;
+    pointer-events: none;
+}
+
+#textarea-post_input, .textarea-comment_input {
     visibility: hidden;
     position: absolute;
     left: -9999px;
-}
-
-.wall__new-post div::placeholder,
-.wall__comments textarea::placeholder {
-    line-height: var(--font-size-1);
-    font-size: var(--font-size-1);
-    color: var(--else-text-color-50);
 }
 
 .wall__comments .current-user img:last-child {
@@ -168,7 +181,7 @@
     border-radius: 0;
 }
 
-.third-part>div {
+.third-part > div {
     display: flex;
     flex-direction: column;
     gap: 2.6rem;
