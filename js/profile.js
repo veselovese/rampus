@@ -7,15 +7,20 @@ $('#textarea-post').keypress(function (e) {
     }
 });
 
+function textareaPostPlaceholder(e) {
+    document.getElementById('textarea-post_label').style.display = 'none';
+    if ((document.getElementById('textarea-post').textContent.length < 2) && (e.key=="Backspace")) {
+        document.getElementById('textarea-post_label').style.display = 'block';
+    }
+}
+
 function textareaPost(e) {
     const obj = e.target;
     const div = document.getElementById(obj.id + '_input');
     if (document.getElementById('textarea-post').textContent != '') {
-        document.getElementById('textarea-post_label').style.display = 'none';
         $('#textarea-post_sumbit').addClass('active');
         $('#textarea-post_sumbit').removeAttr('disabled');
     } else {
-        document.getElementById('textarea-post_label').style.display = 'block';
         $('#textarea-post_sumbit').removeClass('active');
         $('#textarea-post_sumbit').Attr('disabled');
     }

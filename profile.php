@@ -74,9 +74,10 @@ require('like-or-dislike.php');
                         </div>
                         <div class="profile__new-post">
                             <form action="./add" method="post" autocomplete="off">
-                                <div contenteditable="true" id="textarea-post" role="textbox" onkeyup="textareaPost(event)"></div>
+                                <div contenteditable="true" id="textarea-post" role="textbox" onkeyup="textareaPost(event)" onkeydown="textareaPostPlaceholder(event)"></div>
                                 <label for="textarea-post" id="textarea-post_label">Что-то ещё не рассказали?</label>
                                 <input type="hidden" required name="post" id="textarea-post_input" value="">
+                                <input type="hidden" required name="post-source" value="source-profile">
                                 <button disabled class="" type="submit" id="textarea-post_sumbit"><img src="pics/SendIcon.svg"></button>
                             </form>
                         </div>
@@ -105,7 +106,7 @@ require('like-or-dislike.php');
                                         echo "<img onclick='showPopup($i)' src='pics/ThreeDotsIcon.svg'>";
                                         echo "<div class='three-dots-popup' id='three-dots-popup_$i'>";
                                         echo "<a class='edit-post' href='./profile'>*************</a>";
-                                        echo "<a class='delete-post' href='deletepost?post=$i'>Удалить</a>";
+                                        echo "<a class='delete-post' href='deletepost?post=$i&source=profile'>Удалить</a>";
                                         echo "</div>";
                                         if ($hashtag_name != 0) {
                                             echo "<p>" . $post_text . " <a href='./wall?search=$hashtag_name'>#" . $hashtag_name . "</a></p>";
@@ -139,7 +140,7 @@ require('like-or-dislike.php');
                                         echo "</div>";
                                     }
                                 } else {
-                                    echo "<p style='font-size: 2rem;'>Вы ещё не сделали постов</p>";
+                                    echo "<p>Вы ещё не сделали постов</p>";
                                 }
                                 ?>
                             </div>

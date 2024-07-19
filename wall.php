@@ -54,9 +54,11 @@ require('like-or-dislike.php');
                     <div class="second-part">
                         <div class="wall__new-post">
                             <form action="./add" method="post" autocomplete="off">
-                                <div contenteditable="true" id="textarea-post" role="textbox" onkeyup="textareaPost(event)"></div>
+                                <div contenteditable="true" id="textarea-post" role="textbox" onkeyup="textareaPost(event)" onkeydown="textareaPostPlaceholder(event)"></div>
                                 <label for="textarea-post" id="textarea-post_label">О чём расскажете сегодня?</label>
                                 <input type="hidden" required name="post" id="textarea-post_input" value="">
+                                <input type="hidden" required name="post-source" value="source-wall">
+                                <input type="hidden" required name="post-search" value="<?php if (isset($_GET['search'])) { echo $_GET['search']; }?>">
                                 <button disabled class="" type="submit" id="textarea-post_sumbit"><img src="pics/SendIcon.svg"></button>
                             </form>
                         </div>
@@ -100,7 +102,7 @@ require('like-or-dislike.php');
                                             echo "<img onclick='showPopup($i)' src='pics/ThreeDotsIcon.svg'>";
                                             echo "<div class='three-dots-popup' id='three-dots-popup_$i'>";
                                             echo "<a class='edit-post' href='./wall'>*************</a>";
-                                            echo "<a class='delete-post' href='deletepost?post=$i'>Удалить</a>";
+                                            echo "<a class='delete-post' href='deletepost?post=$i&source=wall'>Удалить</a>";
                                             echo "</div>";
                                         }
                                         echo "</div>";
@@ -167,7 +169,7 @@ require('like-or-dislike.php');
                                         echo "<div class='current-user'>";
                                         echo "<img src='uploads/avatar/" . $_SESSION['user']['avatar'] . "'>";
                                         echo "<form action='./comment' method='post' autocomplete='off'>
-                                        <div contenteditable='true' class='textarea-comment' id='textarea-comment_$i' role='textbox' onkeyup='textareaComment(event, $i)'></div>
+                                        <div contenteditable='true' class='textarea-comment' id='textarea-comment_$i' role='textbox' onkeyup='textareaComment(event, $i)' onkeydown='textareaCommentPlaceholder(event, $i)'></div>
                                         <label for='textarea-comment' class='textarea-comment_label' id='textarea-comment_label_$i'>Ответить..</label>
                                         <input type='hidden' required name='comment' class='textarea-comment_input' id='textarea-comment_input_$i' value=''>
                                         <input type='hidden' name='comment_id' value='$i'>

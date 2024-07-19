@@ -3,7 +3,9 @@ session_start();
 require('connect.php');
 
 $user_id = $_SESSION['user']['id'];
-$text_post = $_POST["post"];
+$text_post = $_POST['post'];
+$post_source = $_POST['post-source'];
+$post_search = $_POST['post-search'];
 
 preg_match_all('/#\w+/u', $text_post, $matches);
 $hashtags = $matches[0];
@@ -32,4 +34,15 @@ foreach ($hashtags as $hashtag) {
     }
 }
 
-header('Location: ./wall');
+
+if (($post_search != '') && ($post_search == ltrim($hashtags[0], '#'))) {
+    $post_search = '?search=' . $post_search;
+} else {
+    $post_search = '';
+}
+
+if ($post_source == 'source-profile') {
+    header('Location: ./profile');
+} else if ($post_source == 'source-wall') {
+    header('Location: ./wall' . $post_search);
+}
