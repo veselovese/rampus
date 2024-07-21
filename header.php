@@ -1,5 +1,8 @@
 <header>
-    <a href="./">Rampus</a>
+    <div>
+        <a class="phone-link" href="./"><img src="pics/RampusLogo.svg"></a>
+        <a href="./">Rampus</a>
+    </div>
     <?php if (isset($_SESSION['user'])) { ?>
     <div>
         <a href="./profile"><?= $_SESSION['user']['first_name'] . " " . $_SESSION['user']['second_name'] ?></a>

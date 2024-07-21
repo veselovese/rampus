@@ -72,6 +72,39 @@ require('like-or-dislike.php');
                             <span>Почта</span>
                             <span>Пароль</span>
                         </div>
+                        <?php
+                        require('connect.php');
+                        $current_user_id = $_SESSION['user']['id'];
+                        $sql = "SELECT posts.likes AS post_likes
+                    FROM posts
+                    JOIN users ON posts.user_id = users.id
+                    WHERE posts.user_id = $current_user_id";
+                        $result = $connect->query($sql);
+                        $posts_count = $result->num_rows;
+                        $likes_count = 0;
+                        if ($posts_count > 0) {
+                            while ($row = $result->fetch_assoc()) {
+                                $post_likes = $row["post_likes"];
+                                $likes_count += $post_likes;
+                            }
+                        }
+                        ?>
+                        <div class="third-part-mobile">
+                            <div class="profile__posts">
+                                <div>
+                                    <img src="pics/PostIcon.svg">
+                                    <span> <?= $posts_count ?></span>
+                                </div>
+                                <p>посты</p>
+                            </div>
+                            <div class="profile__likes">
+                                <div>
+                                    <img src="pics/LikeIcon.svg">
+                                    <span><?= $likes_count ?></span>
+                                </div>
+                                <p>лайки</p>
+                            </div>
+                        </div>
                         <div class="profile__new-post">
                             <form action="./add" method="post" autocomplete="off">
                                 <div contenteditable="true" id="textarea-post" role="textbox" onkeyup="textareaPost(event)" onkeydown="textareaPostPlaceholder(event)"></div>

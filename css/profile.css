@@ -96,10 +96,36 @@
     margin-top: 4.1rem;
 }
 
-.third-part>div {
+.third-part > div {
     display: flex;
     flex-direction: column;
     gap: 2.6rem;
+}
+
+.third-part-mobile {
+    display: none;
+    flex-direction: row;
+    gap: 2.6rem;
+    margin-top: 2.6rem;
+}
+
+.third-part-mobile .profile__posts, .third-part-mobile .profile__likes {
+    width: 100%;
+    height: auto;
+    align-items: center;
+}
+
+.third-part-mobile .profile__posts div, .third-part-mobile .profile__likes div {
+    flex-direction: row;
+    gap: 1.6rem;
+    align-items: center;
+}
+
+.third-part-mobile .profile__posts div img, .third-part-mobile .profile__likes div img {
+    width: 3.5rem;
+    height: 3rem;
+    max-width: none;
+    max-height: none;
 }
 
 .profile__posts,
@@ -136,7 +162,10 @@
     padding: 1rem 4.1rem;
     border-radius: 2rem;
     transition: 0.2s;
+    width: 100%;
+    text-align: center;
 }
+
 
 .profile__user-menu span:hover {
     color: var(--main-text-color);
@@ -352,4 +381,41 @@
     color: var(--else-text-color-33);
     font-size: var(--font-size-1);
     text-transform: lowercase;
+}
+
+@media (max-width: 1320px) {
+    .third-part-mobile {
+        display: flex;
+    }
+
+    .third-part {
+        display: none;
+    }
+}
+
+@media (max-width: 1080px) {
+    .profile__user-menu {
+        gap: 1rem 1.6rem;
+        font-size: var(--font-size-1);
+    }
+
+    .profile__user-menu span {
+        padding: 1rem 2.6rem;
+    }
+
+    .profile__user-info .avatar {
+        width: 20rem;
+        height: 20rem;
+        align-self: flex-start;
+    }
+
+    /* .profile__user-info {
+        flex-direction: column;
+    } */
+}
+
+@media (max-width: 920px) {
+    main {
+        padding: 0;
+    }
 }

@@ -106,12 +106,27 @@ header {
     z-index: 2;
 }
 
-header > a {
+header > div:first-child {
+    gap: 1rem;
+}
+
+header > div:first-child a {
     font-family: 'Unbounded';
     font-weight: 900;
     color: var(--main-text-color);
     font-size: 2.4rem;
     display: block;
+}
+
+header .phone-link {
+    display: flex;
+}
+
+header .phone-link img {
+    border-radius: 0;
+    margin: 0;
+    width: 3rem;
+    height: 3rem;
 }
 
 header img {
@@ -217,6 +232,7 @@ textarea {
     padding: 4.1rem;
     display: flex;
     margin-top: 2.6rem;
+    margin-bottom: 2.6rem;
     align-items: center;
     gap: 4.1rem;
 }
@@ -248,6 +264,11 @@ textarea {
     flex-direction: column;
     justify-content: space-between;
     min-height: calc(52.7rem - 8.2rem);
+    width: 100%;
+}
+
+.reg__form {
+    width: 100%;
 }
 
 .auth__form legend,
@@ -324,7 +345,7 @@ textarea {
     opacity: 87%;
 }
 
-.auth__links {
+.auth__links, reg__link {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -340,7 +361,6 @@ textarea {
 .reg__form > div {
     display: flex;
     gap: 2.6rem;
-    align-items: center;
 }
 
 .reg__input-div {
@@ -355,6 +375,10 @@ textarea {
 .reg__input-div a {
     margin-top: 2.7rem;
     color: var(--else-text-color-50);
+}
+
+.reg__input-div a.mobile {
+    display: none;
 }
 
 .reg__input-div span {
@@ -372,14 +396,16 @@ textarea {
     padding: 0 2.6rem;
     display: inline-flex;
     justify-content: space-between;
-    margin-top: 1rem;
+    position: absolute;
+    top: 7.8rem;
+    left: 0;
 }
 
-#reg__lable_pass-1 {
-    margin-bottom: calc(10.6rem - 9.24rem);
+#reg__label_pass-1 {
+    position: relative;
 }
 
-#reg__lable_pass-2 {
+#reg__label_pass-2 {
     margin-top: 2rem;
 }
 
@@ -486,4 +512,96 @@ textarea {
 
 .hide {
     display: none;
+}
+
+@media (max-width: 920px) {
+    main {
+        padding: 0 5rem;
+    }
+
+    .auth__section img {
+        display: none;
+    }
+
+    .auth__section > .div-line, .reg__section .div-line {
+        display: none;
+    }
+
+    /* .auth__form button {
+        padding-bottom: 0.7rem;
+    } */
+
+    .reg__form > div {
+        flex-direction: column;
+        gap: 0;
+    }
+
+    .reg__input-div {
+        max-width: none;
+    }
+
+    .reg__input-div a.mobile {
+        display: flex;
+    }
+
+    .reg__input-div a.desktop {
+        display: none;
+    }
+
+    .reg__form button {
+        margin-top: 2.8rem;
+    }
+}
+
+@media (max-width: 720px) {
+    header {
+        padding: 1.6rem 2.5rem;
+    }
+
+    main {
+        padding: 0 2.5rem;
+    }
+
+    .auth__form legend, .reg__form legend {
+        margin-bottom: 4.1rem;
+    }
+
+    .auth__form {
+        min-height: 0;
+    }
+
+    .auth__form button {
+        margin-top: 2.8rem;
+    }
+
+    .auth__section, .reg__section {
+        padding: 2.6rem;
+    }
+}
+
+@media (max-width: 480px) {
+    main {
+        padding: 0 1.6rem;
+    }
+
+    header div a {
+        display: none;
+    }
+
+    header {
+        padding: 1.6rem;
+    }
+
+    .reg__input-div div {
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+
+    .reg__input-div div span:nth-child(3) {
+        order: -1;
+    }
+
+    #reg__label_pass-2 {
+        margin-top: 6.1rem;
+    }
 }
