@@ -59,18 +59,11 @@ require('like-or-dislike.php');
                                 <p class="first-and-second-names"><?= $_SESSION['user']['first_name'] ?> <?= $_SESSION['user']['second_name'] ?></p>
                                 <p class="username">@<?= $_SESSION['user']['username'] ?></p>
                                 <p class="description"><?= $_SESSION['user']['description'] ?></p>
-                                <div class="balance">
+                                <!-- <div class="balance">
                                     <img src="pics/EcoCoinLogo.svg">
                                     <p><?= $_SESSION['user']['balance'] ?></p>
-                                </div>
+                                </div> -->
                             </div>
-                        </div>
-                        <div class="profile__user-menu">
-                            <span>Имя</span>
-                            <span>ID</span>
-                            <span>Описание</span>
-                            <span>Почта</span>
-                            <span>Пароль</span>
                         </div>
                         <?php
                         require('connect.php');
@@ -89,20 +82,22 @@ require('like-or-dislike.php');
                             }
                         }
                         ?>
-                        <div class="third-part-mobile">
-                            <div class="profile__posts">
-                                <div>
-                                    <img src="pics/PostIcon.svg">
-                                    <span> <?= $posts_count ?></span>
+                        <div class="user-menu-and-third-past-mobile">
+                            <div class="third-part-mobile">
+                                <div class="profile__posts">
+                                    <div>
+                                        <img src="pics/PostIcon.svg">
+                                        <span> <?= $posts_count ?></span>
+                                    </div>
+                                    <p>посты</p>
                                 </div>
-                                <p>посты</p>
-                            </div>
-                            <div class="profile__likes">
-                                <div>
-                                    <img src="pics/LikeIcon.svg">
-                                    <span><?= $likes_count ?></span>
+                                <div class="profile__likes">
+                                    <div>
+                                        <img src="pics/LikeIcon.svg">
+                                        <span><?= $likes_count ?></span>
+                                    </div>
+                                    <p>лайки</p>
                                 </div>
-                                <p>лайки</p>
                             </div>
                         </div>
                         <div class="profile__new-post">
@@ -131,7 +126,7 @@ require('like-or-dislike.php');
                                 if ($result->num_rows > 0) {
                                     while ($row = $result->fetch_assoc()) {
                                         $hashtag_name = $row["hashtag_name"];
-                                        $post_text = $row["post_text"];
+                                        $post_text = preg_replace('/\xc2\xa0/', ' ', $row["post_text"]);
                                         $post_date = $row["post_date"];
                                         $post_likes = $row["post_likes"];
                                         $i = $row["i"];
@@ -180,10 +175,28 @@ require('like-or-dislike.php');
                         </div>
                         <nav class="first-part-mobile">
                             <ul>
-                                <li><a href="./wall">Стена</a></li>
-                                <li><a href="./profile">****</a></li>
-                                <li><a href="./profile">****</a></li>
-                                <li id="active"><a href="./profile">Профиль</a></li>
+                                <li><a href="./wall"><svg width="28" height="24" viewBox="0 0 28 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path fill-rule="evenodd" clip-rule="evenodd" d="M4.56528 18C4.54895 17.8355 4.54059 17.6687 4.54059 17.5V10.5C4.54059 7.18629 7.22688 4.5 10.5406 4.5H21.4865C21.6336 4.5 21.7792 4.50635 21.9231 4.5188C21.681 1.98313 19.545 0 16.9459 0H5.00001C2.23858 0 0 2.23858 0 5V18H4.56528Z" />
+                                            <path d="M6.05408 11C6.05408 8.23858 8.29265 6 11.0541 6H23C25.7614 6 28 8.23858 28 11V24H11.0541C8.29266 24 6.05408 21.7614 6.05408 19V11Z" />
+                                        </svg>
+                                        Стена
+                                    </a></li>
+                                <li><a href="./profile">
+                                        <svg width="16" height="24" viewBox="0 0 16 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M4.97802 21.033C4.97802 21.8681 5.25275 22.5714 5.8022 23.1429C6.35165 23.7143 7.04396 24 7.87912 24C8.73626 24 9.43956 23.7253 9.98901 23.1758C10.5604 22.6044 10.8462 21.9011 10.8462 21.0659C10.8462 20.2088 10.5604 19.4945 9.98901 18.9231C9.41758 18.3516 8.71429 18.0659 7.87912 18.0659C7.04396 18.0659 6.35165 18.3516 5.8022 18.9231C5.25275 19.4725 4.97802 20.1758 4.97802 21.033ZM15.5275 7.51648C15.5275 9.07692 15.0769 10.4505 14.1758 11.6374C13.2967 12.8022 12.0769 13.7473 10.5165 14.4725L7.21978 16.2198L5.73626 12.6593L8.73626 11.0769C10.4066 10.022 11.2418 8.84615 11.2418 7.54945C11.2418 6.58242 10.9231 5.8022 10.2857 5.20879C9.64835 4.59341 8.83517 4.28571 7.84615 4.28571C5.93407 4.28571 4.64835 5.43956 3.98901 7.74725L0 6.2967C0.615385 4.34066 1.59341 2.8022 2.93407 1.68132C4.27473 0.56044 5.9011 0 7.81319 0C10.033 0 11.8681 0.714286 13.3187 2.14286C14.7912 3.54945 15.5275 5.34066 15.5275 7.51648Z" />
+                                        </svg>
+                                        ****</a></li>
+                                <li><a href="./profile">
+                                        <svg width="16" height="24" viewBox="0 0 16 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M4.97802 21.033C4.97802 21.8681 5.25275 22.5714 5.8022 23.1429C6.35165 23.7143 7.04396 24 7.87912 24C8.73626 24 9.43956 23.7253 9.98901 23.1758C10.5604 22.6044 10.8462 21.9011 10.8462 21.0659C10.8462 20.2088 10.5604 19.4945 9.98901 18.9231C9.41758 18.3516 8.71429 18.0659 7.87912 18.0659C7.04396 18.0659 6.35165 18.3516 5.8022 18.9231C5.25275 19.4725 4.97802 20.1758 4.97802 21.033ZM15.5275 7.51648C15.5275 9.07692 15.0769 10.4505 14.1758 11.6374C13.2967 12.8022 12.0769 13.7473 10.5165 14.4725L7.21978 16.2198L5.73626 12.6593L8.73626 11.0769C10.4066 10.022 11.2418 8.84615 11.2418 7.54945C11.2418 6.58242 10.9231 5.8022 10.2857 5.20879C9.64835 4.59341 8.83517 4.28571 7.84615 4.28571C5.93407 4.28571 4.64835 5.43956 3.98901 7.74725L0 6.2967C0.615385 4.34066 1.59341 2.8022 2.93407 1.68132C4.27473 0.56044 5.9011 0 7.81319 0C10.033 0 11.8681 0.714286 13.3187 2.14286C14.7912 3.54945 15.5275 5.34066 15.5275 7.51648Z" />
+                                        </svg>
+                                        ****</a></li>
+                                <li id="active"><a href="./profile"><svg width="28" height="24" viewBox="0 0 28 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path fill-rule="evenodd" clip-rule="evenodd" d="M8.03709 11.3334C6.58858 12.0152 5.25423 12.9468 4.10051 14.1005C1.475 16.726 0 20.287 0 24L14 24H28C28 20.287 26.525 16.726 23.8995 14.1005C22.7458 12.9468 21.4114 12.0152 19.9629 11.3334C18.4981 12.97 16.3693 14 14 14C11.6307 14 9.50195 12.97 8.03709 11.3334Z" />
+                                            <circle cx="14" cy="6" r="6" />
+                                        </svg>
+                                        Профиль
+                                    </a></li>
                             </ul>
                         </nav>
                     </div>

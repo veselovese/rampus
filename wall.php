@@ -81,7 +81,7 @@ require('like-or-dislike.php');
                                 if ($result_post->num_rows > 0) {
                                     while ($row_post = $result_post->fetch_assoc()) {
                                         $hashtag_id = $row_post["hashtag_id"];
-                                        $post_text = $row_post["post_text"];
+                                        $post_text = preg_replace('/\xc2\xa0/', ' ', $row_post["post_text"]);
                                         $post_date = $row_post["post_date"];
                                         $post_likes = $row_post["post_likes"];
                                         $user_id = $row_post["user_id"];
@@ -150,7 +150,7 @@ require('like-or-dislike.php');
                                                 $first_name = $row_comment['first_name'];
                                                 $second_name = $row_comment['second_name'];
                                                 $avatar = $row_comment['avatar'];
-                                                $comment_text = $row_comment['comment_text'];
+                                                $comment_text = preg_replace('/\xc2\xa0/', ' ', $row_comment['comment_text']);
                                                 $comment_date = $row_comment['comment_date'];
                                                 echo "<div class='user-comment'>";
                                                 echo "<img src='uploads/avatar/" . $avatar . "'>";
