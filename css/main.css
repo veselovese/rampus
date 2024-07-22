@@ -104,6 +104,7 @@ header {
     position: sticky;
     top: 0;
     z-index: 2;
+    gap: 11.6rem;
 }
 
 header .phone-link {
@@ -546,15 +547,15 @@ reg__link {
     .reg__form button {
         margin-top: 2.8rem;
     }
+
+    header .phone-link span {
+        display: none;
+    }
 }
 
 @media (max-width: 720px) {
     header {
         padding: 1.6rem 2.5rem;
-    }
-
-    header .phone-link span {
-        display: none;
     }
 
     footer {

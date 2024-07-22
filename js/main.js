@@ -50,6 +50,7 @@ $(document).ready(function () {
             },
             success: function (data) {
                 $('#success-search-hashtag').html(data);
+                $('#success-search-hashtag-in-header').html(data);
             }
         });
     }
@@ -62,8 +63,25 @@ $(document).ready(function () {
             searchHashtag();
         }
     })
+    $('#search-hashtag-in-header').keyup(function () {
+        var search = $(this).val();
+        if (search != '') {
+            searchHashtag(search);
+        }
+        else {
+            searchHashtag();
+        }
+    })
 
     $('#icon-search-hashtag').on('click', function () {
-        $('#search-hashtag').trigger('focus')
+        $('#search-hashtag').trigger('focus');
+    })
+
+    $('#search-hashtag-in-header').focus(function () {
+        $('#success-search-hashtag-in-header').addClass('focus');
+    })
+
+    $('#search-hashtag-in-header').focusout(function () {
+        $('#success-search-hashtag-in-header').removeClass('focus');
     })
 })
