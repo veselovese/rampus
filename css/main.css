@@ -513,6 +513,10 @@ textarea {
     display: none;
 }
 
+.third-part-in-header {
+    display: none;
+}
+
 @media (max-width: 920px) {
     main {
         padding: 0 5rem;
