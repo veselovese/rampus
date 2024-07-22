@@ -55,14 +55,15 @@ require('like-or-dislike.php');
                     <div class="second-part">
                         <div class="profile__user-info">
                             <img class="avatar" src="uploads/avatar/<?= $_SESSION['user']['avatar'] ?>">
+                            <img class="three-dots" onclick='showPopupUserInfo()' src='pics/ThreeDotsIcon.svg'>
+                            <div class='three-dots-popup' id='three-dots-popup_user-info'>
+                                <a class='edit-profile' href='./'>*************</a>
+                                <a class='exit-profile' href='exit'>Выйти</a>
+                            </div>
                             <div>
                                 <p class="first-and-second-names"><?= $_SESSION['user']['first_name'] ?> <?= $_SESSION['user']['second_name'] ?></p>
                                 <p class="username">@<?= $_SESSION['user']['username'] ?></p>
                                 <p class="description"><?= $_SESSION['user']['description'] ?></p>
-                                <!-- <div class="balance">
-                                    <img src="pics/EcoCoinLogo.svg">
-                                    <p><?= $_SESSION['user']['balance'] ?></p>
-                                </div> -->
                             </div>
                         </div>
                         <?php

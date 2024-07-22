@@ -59,6 +59,7 @@
     padding: 4.1rem;
     gap: 4.1rem;
     align-items: center;
+    position: relative;
 }
 
 .profile__user-info .avatar {
@@ -282,7 +283,7 @@
     cursor: pointer;
 }
 
-.user-post .three-dots-popup {
+.user-post .three-dots-popup, .profile__user-info .three-dots-popup {
     font-size: var(--font-size-1);
     border-radius: 2rem;
     margin: 0;
@@ -295,9 +296,17 @@
     animation: hidePopup 0.2s;
     box-shadow: var(--shadow-popup);
     z-index: 1;
+    background-color: var(--block-color);
 }
 
-.user-post .three-dots-popup.show {
+
+.profile__user-info .three-dots-popup {
+    top: 5.8rem;
+    right: 4.1rem;
+}
+
+
+.user-post .three-dots-popup.show, .profile__user-info .three-dots-popup.show {
     visibility: visible;
     animation: showPopup 0.2s;
 }
@@ -322,27 +331,31 @@
     }
 }
 
-.user-post .three-dots-popup a {
+.user-post .three-dots-popup a, .profile__user-info .three-dots-popup a {
     display: block;
     width: 100%;
     padding: 0.8rem 2.6rem;
+    border-radius: 2rem;
     color: var(--main-text-color);
     text-transform: none;
     background-color: var(--block-color);
 }
 
-.user-post .three-dots-popup a:first-child {
+.user-post .three-dots-popup a:first-child, .profile__user-info .three-dots-popup a:first-child {
     padding-top: 1.6rem;
     border-radius: 2rem 2rem 0 0;
 }
 
-.user-post .three-dots-popup a:last-child {
+.user-post .three-dots-popup a:last-child, .profile__user-info .three-dots-popup a:last-child {
     padding-bottom: 1.6rem;
     border-radius: 0 0 2rem 2rem;
+}
+
+.user-post .three-dots-popup a.delete-post, .profile__user-info .three-dots-popup a.exit-profile {
     color: var(--error-accent-color);
 }
 
-.user-post .three-dots-popup a:hover {
+.user-post .three-dots-popup a:hover, .profile__user-info .three-dots-popup a:hover {
     background-color: var(--background-color);
 }
 
@@ -350,7 +363,7 @@
     margin: 2.6rem 0 0 0;
     line-height: 110%;
     word-wrap: break-word;
-    word-break: break-all;
+    word-break: break-word;
 }
 
 .user-post p a {
@@ -405,8 +418,11 @@
     opacity: 100%;
 }
 
-.user-menu-and-third-past-mobile .profile__user-menu {
-    display: none;
+.profile__user-info .three-dots {
+    position: absolute;
+    right: 4.1rem;
+    top: 4.1rem;
+    cursor: pointer;
 }
 
 @media (max-width: 1320px) {
@@ -458,6 +474,16 @@
         padding: 2.6rem;
     }
 
+    .profile__user-info .three-dots {
+        top: 2.6rem;
+        right: 2.6rem;
+    }
+
+    .profile__user-info .three-dots-popup {
+        top: 4.2rem;
+        right: 2.6rem;
+    }
+
     .profile__user-info .avatar {
         align-self: auto;
     }
@@ -468,11 +494,10 @@
         align-items: center;
     }
 
-    .profile__user-info .first-and-second-names {
+    .profile__user-info .first-and-second-names, .profile__user-info .description {
         text-align: center;
     }
 }
-
 
 @media (max-width: 480px) {
     .wrapper {

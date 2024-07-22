@@ -106,20 +106,14 @@ header {
     z-index: 2;
 }
 
-header>div:first-child {
-    gap: 1rem;
-}
-
-header>div:first-child a {
+header .phone-link {
+    display: flex;
+    gap: 1.6rem;
+    align-items: end;
     font-family: 'Unbounded';
     font-weight: 900;
     color: var(--main-text-color);
     font-size: 2.4rem;
-    display: block;
-}
-
-header .phone-link {
-    display: flex;
 }
 
 header .phone-link img {
@@ -532,10 +526,6 @@ reg__link {
         display: none;
     }
 
-    /* .auth__form button {
-        padding-bottom: 0.7rem;
-    } */
-
     .reg__form>div {
         flex-direction: column;
         gap: 0;
@@ -561,6 +551,10 @@ reg__link {
 @media (max-width: 720px) {
     header {
         padding: 1.6rem 2.5rem;
+    }
+
+    header .phone-link span {
+        display: none;
     }
 
     footer {
