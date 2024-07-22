@@ -178,6 +178,14 @@ require('like-or-dislike.php');
                                 ?>
                             </div>
                         </div>
+                        <nav class="first-part-mobile">
+                            <ul>
+                                <li><a href="./wall">Стена</a></li>
+                                <li><a href="./profile">****</a></li>
+                                <li><a href="./profile">****</a></li>
+                                <li id="active"><a href="./profile">Профиль</a></li>
+                            </ul>
+                        </nav>
                     </div>
                     <div class="third-part">
                         <?php

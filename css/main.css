@@ -106,11 +106,11 @@ header {
     z-index: 2;
 }
 
-header > div:first-child {
+header>div:first-child {
     gap: 1rem;
 }
 
-header > div:first-child a {
+header>div:first-child a {
     font-family: 'Unbounded';
     font-weight: 900;
     color: var(--main-text-color);
@@ -219,7 +219,7 @@ textarea {
     font-size: var(--font-size-1);
     color: var(--else-text-color-50);
     line-height: var(--font-size-1);
-    vertical-align: middle; 
+    vertical-align: middle;
 }
 
 .auth__section,
@@ -338,6 +338,9 @@ textarea {
     min-height: 4rem;
     border-radius: 2rem;
     font-weight: 400;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .auth__form button:hover,
@@ -345,7 +348,8 @@ textarea {
     opacity: 87%;
 }
 
-.auth__links, reg__link {
+.auth__links,
+reg__link {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -358,7 +362,7 @@ textarea {
     color: var(--else-text-color-33);
 }
 
-.reg__form > div {
+.reg__form>div {
     display: flex;
     gap: 2.6rem;
 }
@@ -432,7 +436,7 @@ textarea {
     top: calc(2.6rem + 6.2rem);
 }
 
-.third-part > div {
+.third-part>div {
     position: sticky;
     top: calc(2.6rem + 6.2rem);
 }
@@ -451,7 +455,7 @@ textarea {
 }
 
 .first-part li:hover {
-    background-color: var(--block-color);   
+    background-color: var(--block-color);
 }
 
 #exit {
@@ -523,7 +527,8 @@ textarea {
         display: none;
     }
 
-    .auth__section > .div-line, .reg__section .div-line {
+    .auth__section>.div-line,
+    .reg__section .div-line {
         display: none;
     }
 
@@ -531,7 +536,7 @@ textarea {
         padding-bottom: 0.7rem;
     } */
 
-    .reg__form > div {
+    .reg__form>div {
         flex-direction: column;
         gap: 0;
     }
@@ -558,11 +563,16 @@ textarea {
         padding: 1.6rem 2.5rem;
     }
 
+    footer {
+        padding: 1.77rem 2.5rem;
+    }
+
     main {
         padding: 0 2.5rem;
     }
 
-    .auth__form legend, .reg__form legend {
+    .auth__form legend,
+    .reg__form legend {
         margin-bottom: 4.1rem;
     }
 
@@ -574,7 +584,8 @@ textarea {
         margin-top: 2.8rem;
     }
 
-    .auth__section, .reg__section {
+    .auth__section,
+    .reg__section {
         padding: 2.6rem;
     }
 }
@@ -590,6 +601,10 @@ textarea {
 
     header {
         padding: 1.6rem;
+    }
+
+    footer {
+        padding: 1.77rem 1.6rem;
     }
 
     .reg__input-div div {
