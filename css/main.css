@@ -344,7 +344,7 @@ textarea {
 }
 
 .auth__links,
-reg__link {
+.reg__link {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -583,15 +583,15 @@ reg__link {
     .reg__section {
         padding: 2.6rem;
     }
+
+    header div a {
+        display: none;
+    } 
 }
 
 @media (max-width: 480px) {
     main {
         padding: 0 1.6rem;
-    }
-
-    header div a {
-        display: none;
     }
 
     header {

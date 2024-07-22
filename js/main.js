@@ -77,11 +77,15 @@ $(document).ready(function () {
         $('#search-hashtag').trigger('focus');
     })
 
-    $('#search-hashtag-in-header').focus(function () {
-        $('#success-search-hashtag-in-header').addClass('focus');
+    $('#icon-search-hashtag-in-header').on('click', function () {
+        $('#search-hashtag-in-header').trigger('focus');
     })
 
-    $('#search-hashtag-in-header').focusout(function () {
-        $('#success-search-hashtag-in-header').removeClass('focus');
+    $('#search-hashtag-in-header').focus(function () {
+        $('#success-search-hashtag-in-header').toggleClass('focus');
     })
+
+    // $('#search-hashtag-in-header').focusout(function () {
+    //     $('#success-search-hashtag-in-header').removeClass('focus');
+    // })
 })

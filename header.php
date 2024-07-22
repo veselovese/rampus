@@ -8,7 +8,7 @@
                                                                             } else {
                                                                                 echo null;
                                                                             } ?>>
-            <img id="icon-search-hashtag" src="pics/SearchIcon.svg">
+            <img id="icon-search-hashtag-in-header" src="pics/SearchIcon.svg">
         </div>
         <ul id="success-search-hashtag-in-header">
         </ul>
