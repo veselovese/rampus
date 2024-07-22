@@ -425,6 +425,10 @@
     cursor: pointer;
 }
 
+.third-part-in-header {
+    display: none;
+}
+
 @media (max-width: 1320px) {
     .third-part-mobile {
         display: flex;

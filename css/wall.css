@@ -296,8 +296,15 @@
     display: flex;
     visibility: hidden;
     position: absolute;
+    background-color: var(--block-color);
+    box-shadow: var(--shadow-popup);
+    border-radius: 2rem;
     top: 6.6rem;
+    max-width: max-content;
+    padding: 1.6rem;
+    width: 100%;
     animation: hidePopup 0.2s;
+    color: var(--main-text-color);
 }
 
 .third-part-in-header ul.focus {
@@ -305,13 +312,19 @@
     animation: showPopup 0.2s;
 }
 
-.third-part li,
-.third-part-in-header li {
+.third-part li {
     background-color: var(--block-color);
     box-shadow: var(--shadow-small);
     border-radius: 2rem;
     padding: 1.35rem 1.6rem;
     display: flex;
+}
+
+.third-part-in-header li {
+    border-radius: 2rem;
+    padding: 1.35rem 1.6rem;
+    display: flex;
+    background-color: var(--block-accent-color-06);
 }
 
 .third-part-in-header li a {
