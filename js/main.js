@@ -84,8 +84,4 @@ $(document).ready(function () {
     $('#search-hashtag-in-header').focus(function () {
         $('#success-search-hashtag-in-header').toggleClass('focus');
     })
-
-    // $('#search-hashtag-in-header').focusout(function () {
-    //     $('#success-search-hashtag-in-header').removeClass('focus');
-    // })
 })

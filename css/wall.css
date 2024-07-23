@@ -202,7 +202,7 @@
     padding: 1.25rem 2.6rem;
     margin: 0;
     word-wrap: break-word;
-    word-break: break-all;
+    word-break: break-word;
     scrollbar-width: none;
     overflow-y: auto;
     font-size: var(--font-size-1);

@@ -386,6 +386,26 @@ textarea {
     transition: 0.2s ease-in-out;
 }
 
+#reg__lable_id span, #reg__lable_email span {
+    display: none;
+    color: var(--main-accent-color);
+    margin-left: auto;
+}
+
+#reg__lable_id span.show, #reg__lable_email #reg__email:valid + div span.show {
+    display: block;
+} 
+
+#reg__lable_id span.off, #reg__lable_email span.off {
+    color: var(--error-accent-color);
+}
+
+#reg__id.off, #reg__email.off {
+    color: var(--error-accent-color);
+    border: 1px solid var(--error-accent-color);
+} 
+
+
 .reg__input-div span.done {
     color: var(--main-accent-color);
 }
@@ -400,7 +420,7 @@ textarea {
     left: 0;
 }
 
-#reg__label_pass-1 {
+#reg__label_pass-1, #reg__lable_id, #reg__lable_email {
     position: relative;
 }
 
