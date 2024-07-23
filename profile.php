@@ -143,6 +143,14 @@ require('like-or-dislike.php');
                                             echo "<p>" . $post_text . "</p>";
                                         }
                                         echo "<div>";
+                                        echo "<div class='post-buttons'>";
+                                        $sql_comment = "SELECT comments.text AS comment_text
+                                        FROM comments
+                                        JOIN posts ON comments.post_id = posts.id
+                                        WHERE comments.post_id = $i
+                                        ORDER BY UNIX_TIMESTAMP(comments.comment_date) ASC";
+                                        $result_comment = $connect->query($sql_comment);
+                                        $rows_num_comment = $result_comment->num_rows;
                                         $sql_like = "SELECT * FROM likes_on_posts WHERE post_id = $i AND user_id = " . $_SESSION['user']['id'];
                                         $result_like = $connect->query($sql_like);
                                         if ($result_like->num_rows > 0) {
@@ -164,6 +172,11 @@ require('like-or-dislike.php');
                                             </svg>";
                                             echo "<span class='like-counter'>" . $post_likes . "</span></button>";
                                         }
+                                        echo "<button class='comment-button comment'><svg width='28' height='24' viewBox='0 0 28 24' fill='none' xmlns='http://www.w3.org/2000/svg'>
+                                            <path d='M0 5C0 2.23858 2.23858 0 5 0L23 0C25.7614 0 28 2.23858 28 5L28 24L5 24C2.23858 24 0 21.7614 0 19L0 5Z' />
+                                            </svg>";
+                                        echo "<span class='comment-counter'>" . $rows_num_comment . "</span></button>";
+                                        echo "</div>";
                                         echo "<span>" . $post_date . "</span>";
                                         echo "</div>";
                                         echo "</div>";

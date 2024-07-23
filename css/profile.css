@@ -466,6 +466,11 @@
 }
 
 @media (max-width: 720px) {
+    :root {
+        --font-size-2: 1.6rem;
+        --font-size-3: 2.4rem;
+    }
+
     .wrapper {
         max-width: calc(100% - 5rem);
     }
@@ -509,7 +514,7 @@
     }
 
     .user-menu-and-third-past-mobile .third-part-mobile .profile__posts p, .user-menu-and-third-past-mobile .third-part-mobile .profile__likes p {
-        font-size: var(--font-size-1);
+        font-size: var(--font-size-2);
     }
 }
 

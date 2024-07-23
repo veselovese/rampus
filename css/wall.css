@@ -352,13 +352,6 @@
     margin: 0;
 }
 
-.post-buttons {
-    display: flex;
-    gap: 1.6rem;
-    margin-top: 4.1rem;
-    margin-bottom: 2.6rem;
-}
-
 .wall__user-info {
     display: flex;
     align-items: center;
@@ -544,6 +537,10 @@
 }
 
 @media (max-width: 720px) {
+    :root {
+        --font-size-2: 1.6rem
+    }
+
     .wrapper {
         max-width: calc(100% - 5rem);
     }

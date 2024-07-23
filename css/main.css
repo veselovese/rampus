@@ -40,6 +40,7 @@
     --block-accent-color-06: #02020206;
     --block-accent-color-210: #00663310;
     --like-button-accent-color: #FF220C10;
+    --like-button-hover-color: #FF220C14;
     --shadow-big: 0 0 15px #02020207;
     --shadow-small: 0 0 12px #02020205;
     --font-size-1: 1.3rem;
@@ -503,6 +504,13 @@ textarea {
     margin-left: 2.6rem;
 }
 
+.post-buttons {
+    display: flex;
+    gap: 1rem;
+    margin-top: 4.1rem;
+    margin-bottom: 2.6rem;
+}
+
 .like-button, .comment-button {
     background-color: var(--block-accent-color-06);
     border: none;
@@ -519,6 +527,10 @@ textarea {
 
 .like-button.unliked:hover, .comment-button:hover {
     background-color: var(--block-accent-color-110);
+}
+
+.like-button.liked:hover {
+    background-color: var(--like-button-hover-color);
 }
 
 .like-button:active, .comment-button:active {
