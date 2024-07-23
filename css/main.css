@@ -503,7 +503,7 @@ textarea {
     margin-left: 2.6rem;
 }
 
-.like-button {
+.like-button, .comment-button {
     background-color: var(--block-accent-color-06);
     border: none;
     padding: 1rem 1.6rem;
@@ -514,9 +514,64 @@ textarea {
     font-weight: 620;
     gap: 1rem;
     max-width: max-content;
+    transition: 0.2s;
 }
 
-.like-button svg {
+.like-button.unliked:hover, .comment-button:hover {
+    background-color: var(--block-accent-color-110);
+}
+
+.like-button:active, .comment-button:active {
+    transform: scale(95%);
+}
+
+.like-button.liked svg {
+    animation: like-post 1s;
+}
+
+.like-button.unliked svg {
+    animation: unlike-post 1s;
+}
+
+@keyframes like-post {
+    from {
+        transform: scale(100%);
+    }
+
+    20% {
+        transform: scale(95%);
+    }
+
+    40% {
+        transform: scale(125%);
+    }
+
+    to {
+        transform: scale(100%);
+    }
+}
+
+@keyframes unlike-post {
+    from {
+        transform: scale(100%);
+    }
+
+    20% {
+        transform: scale(105%);
+    }
+
+    40% {
+        transform: scale(75%);
+    }
+
+    to {
+        transform: scale(100%);
+    }
+}
+
+.like-button svg, .comment-button svg {
+    width: 23px;
+    height: 19px;
     fill: var(--else-text-color-33);
 }
 

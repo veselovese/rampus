@@ -91,7 +91,7 @@ require('like-or-dislike.php');
                                         $second_name = $row_post["second_name"];
                                         $avatar = $row_post["avatar"];
                                         $i = $row_post['i'];
-                                        echo "<div class='user-post'>";
+                                        echo "<div class='user-post' id='post$i'>";
                                         echo "<div>";
                                         echo "<div class='wall__user-info'>";
                                         echo "<img class='avatar' src='uploads/avatar/" . $avatar . "'>";
@@ -114,6 +114,15 @@ require('like-or-dislike.php');
                                         } else {
                                             echo "<p>" . $post_text . "</p>";
                                         }
+                                        echo "<div class='post-buttons'>";
+                                        $sql_comment = "SELECT comments.text AS comment_text, users.first_name AS first_name, users.second_name AS second_name, users.avatar AS avatar, DATE_FORMAT(comments.comment_date, '%d %M в %k:%i') AS comment_date
+                                        FROM comments
+                                        JOIN users ON comments.user_id = users.id
+                                        JOIN posts ON comments.post_id = posts.id
+                                        WHERE comments.post_id = $i
+                                        ORDER BY UNIX_TIMESTAMP(comments.comment_date) ASC";
+                                        $result_comment = $connect->query($sql_comment);
+                                        $rows_num_comment = $result_comment->num_rows;
                                         $sql_like = "SELECT * FROM likes_on_posts WHERE post_id = $i AND user_id = " . $_SESSION['user']['id'];
                                         $result_like = $connect->query($sql_like);
                                         if ($result_like->num_rows > 0) {
@@ -135,16 +144,13 @@ require('like-or-dislike.php');
                                             </svg>";
                                             echo "<span class='like-counter'>" . $post_likes . "</span></button>";
                                         }
+                                        echo "<button class='comment-button comment'><svg width='28' height='24' viewBox='0 0 28 24' fill='none' xmlns='http://www.w3.org/2000/svg'>
+                                            <path d='M0 5C0 2.23858 2.23858 0 5 0L23 0C25.7614 0 28 2.23858 28 5L28 24L5 24C2.23858 24 0 21.7614 0 19L0 5Z' />
+                                            </svg>";
+                                        echo "<span class='comment-counter'>" . $rows_num_comment . "</span></button>";
+                                        echo "</div>";
                                         echo "<div class='div-line'></div>";
                                         echo "<div class='wall__comments'>";
-                                        $sql_comment = "SELECT comments.text AS comment_text, users.first_name AS first_name, users.second_name AS second_name, users.avatar AS avatar, DATE_FORMAT(comments.comment_date, '%d %M в %k:%i') AS comment_date
-                                    FROM comments
-                                    JOIN users ON comments.user_id = users.id
-                                    JOIN posts ON comments.post_id = posts.id
-                                    WHERE comments.post_id = $i
-                                    ORDER BY UNIX_TIMESTAMP(comments.comment_date) ASC";
-                                        $result_comment = $connect->query($sql_comment);
-                                        $rows_num_comment = $result_comment->num_rows;
                                         if ($rows_num_comment > 0) {
                                             echo "<div class='other-users'>";
                                             while ($row_comment = $result_comment->fetch_assoc()) {

@@ -352,7 +352,9 @@
     margin: 0;
 }
 
-.like-button {
+.post-buttons {
+    display: flex;
+    gap: 1.6rem;
     margin-top: 4.1rem;
     margin-bottom: 2.6rem;
 }
