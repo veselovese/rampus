@@ -493,6 +493,26 @@
     opacity: 100%;
 }
 
+.wall__comments .other-users .see-all-comments {
+    margin-top: 2.6rem;
+    font-size: var(--font-size-1);
+    cursor: pointer;
+    color: var(--main-accent-color);
+    transition: 0.2s;
+    max-width: max-content;
+}
+
+.wall__comments .other-users .see-all-comments:hover {
+    opacity: 80%;
+}
+
+.wall__comments .other-users .user-comment.hide {
+    display: none;
+}
+
+.wall__comments .other-users .div-line.hide {
+    display: none;
+}
 
 @media (max-width: 1320px) {
     .third-part-in-header {

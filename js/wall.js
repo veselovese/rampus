@@ -16,6 +16,20 @@ $('.textarea-comment').keypress(function (e) {
     }
 });
 
+function commentButtonClick(i) {
+    $('#textarea-comment_' + i).trigger('focus');
+}
+
+function seeAllComments(i) {
+    $('.comment_div-line_' + i).toggleClass('hide');
+    $('.comment_user-comment_' + i).toggleClass('hide');
+    if ($('#see-all-comments_' + i).text() == 'Показать все комментарии') {
+        $('#see-all-comments_' + i).text('Скрыть комментарии');
+    } else {
+        $('#see-all-comments_' + i).text('Показать все комментарии');
+    }
+}
+
 function textareaPost(e) {
     const obj = e.target;
     const div = document.getElementById(obj.id + '_input');
