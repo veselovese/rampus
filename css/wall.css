@@ -137,9 +137,11 @@
 .user-post .three-dots-popup .three-dots-popup-li:last-child {
     padding-bottom: 1.6rem;
     border-radius: 0 0 2rem 2rem;
-    color: var(--error-accent-color);
 }
 
+.user-post .three-dots-popup .three-dots-popup-li.delete-post {
+    color: var(--error-accent-color);
+}
 .user-post .three-dots-popup .three-dots-popup-li:hover {
     background-color: var(--background-color);
 }

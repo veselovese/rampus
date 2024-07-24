@@ -8,4 +8,4 @@ $comment_id = $_POST['comment_id'];
 
 $connect->query("INSERT INTO comments (post_id, user_id, text) VALUES ($comment_id, $user_id, '$comment')");
 
-header('Location: ./wall');
+header('Location: ./wall#post-' . $comment_id);

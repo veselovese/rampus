@@ -26,14 +26,14 @@ foreach ($hashtags as $hashtag) {
         $hashtag_id = $connect->query("SELECT id FROM hashtags WHERE name = '$hashtag'")->fetch_assoc()['id'];
     }
     
-    $result = mysqli_query($connect, "INSERT INTO posts (hashtag_id, text, user_id) VALUES ($hashtag_id, '$text_without_hashtags', $user_id)");
+    $result = mysqli_query($connect, "INSERT INTO posts (hashtag_id, text, user_id) VALUES ($hashtag_id, '$text_without_hashtags', $user_id);");
+    $current_id = $connect->query("SELECT @@IDENTITY AS id")->fetch_assoc()['id'];
     if (!$result) { 
         echo "Error: " . mysqli_error($connect);
     } else {
         $_SESSION['message'] = 'Пост добавлен';
     }
 }
-
 
 if (($post_search != '') && ($post_search == ltrim($hashtags[0], '#'))) {
     $post_search = '?search=' . $post_search;
@@ -42,7 +42,7 @@ if (($post_search != '') && ($post_search == ltrim($hashtags[0], '#'))) {
 }
 
 if ($post_source == 'source-profile') {
-    header('Location: ./profile');
+    header('Location: ./profile' . '#post-' . $current_id);
 } else if ($post_source == 'source-wall') {
-    header('Location: ./wall' . $post_search);
+    header('Location: ./wall' . $post_search . '#post-' . $current_id);
 }

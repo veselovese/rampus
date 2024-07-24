@@ -609,7 +609,7 @@ textarea {
     display: none;
 }
 
-.wall__user-posts .user-post:target {
+.user-post:target {
     animation: scrollPost 1s 0.5s;
 }
 

@@ -104,7 +104,7 @@ require('like-or-dislike.php');
                                         echo "<div class='three-dots-popup' id='three-dots-popup_$i'>";
                                         echo "<span class='three-dots-popup-li copy-link' onclick='copyLinkToPost($i)'>Копировать ссылку</span>";
                                         if ($user_id == $_SESSION['user']['id']) {
-                                            echo "<a class='three-dots-popup-li edit-post' href='./wall'>*************</a>";
+                                            // echo "<a class='three-dots-popup-li edit-post' href='./wall'>*************</a>";
                                             echo "<a class='three-dots-popup-li delete-post' href='deletepost?post=$i&source=wall'>Удалить</a>";
                                         }
                                         echo "</div>";

@@ -131,12 +131,12 @@ require('like-or-dislike.php');
                                         $post_date = $row["post_date"];
                                         $post_likes = $row["post_likes"];
                                         $i = $row["i"];
-                                        echo "<div class='user-post'>";
+                                        echo "<div class='user-post' id='post-$i'>";
                                         echo "<img onclick='showPopup($i)' src='pics/ThreeDotsIcon.svg'>";
                                         echo "<div class='three-dots-popup' id='three-dots-popup_$i'>";
                                         echo "<a class='three-dots-popup-li open-post' href='./wall#post-$i'>Открыть на стене</a>";
                                         echo "<span class='three-dots-popup-li copy-link' onclick='copyLinkToPost($i)'>Копировать ссылку</span>";
-                                        echo "<a class='three-dots-popup-li edit-post' href='./profile'>*************</a>";
+                                        // echo "<a class='three-dots-popup-li edit-post' href='./profile'>*************</a>";
                                         echo "<a class='three-dots-popup-li delete-post' href='deletepost?post=$i&source=profile'>Удалить</a>";
                                         echo "</div>";
                                         if ($hashtag_name != 0) {
