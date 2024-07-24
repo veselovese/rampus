@@ -43,6 +43,7 @@
     --like-button-hover-color: #FF220C14;
     --shadow-big: 0 0 15px #02020207;
     --shadow-small: 0 0 12px #02020205;
+    --shadow-popup: 0 0 9px #02020211;
     --font-size-1: 1.3rem;
     --font-size-2: 2rem;
     --font-size-3: 3.2rem;
@@ -53,6 +54,10 @@
 
 html {
     scroll-behavior: smooth;
+}
+
+:target {
+    scroll-margin-top: calc(7.2rem + 2.6rem);
 }
 
 .wrapper {
@@ -82,7 +87,7 @@ footer {
     flex: 0 0 auto;
     display: flex;
     justify-content: space-between;
-    padding: 1.77rem 5rem;
+    padding: 2.275rem 5rem;
     color: var(--else-text-color-33);
     box-shadow: var(--shadow-big);
     align-items: center;
@@ -99,7 +104,7 @@ header {
     box-shadow: var(--shadow-big);
     border-radius: 0 0 2rem 2rem;
     color: var(--main-accent-color);
-    padding: 1.6rem 5rem;
+    padding: 2.1rem 5rem;
     align-items: center;
     font-size: var(--font-size-1);
     position: sticky;
@@ -449,12 +454,12 @@ textarea {
     flex-direction: column;
     gap: 1rem;
     position: sticky;
-    top: calc(2.6rem + 6.2rem);
+    top: calc(2.6rem + 7.2rem);
 }
 
 .third-part>div {
     position: sticky;
-    top: calc(2.6rem + 6.2rem);
+    top: calc(2.6rem + 7.2rem);
 }
 
 .first-part a {
@@ -604,6 +609,24 @@ textarea {
     display: none;
 }
 
+.wall__user-posts .user-post:target {
+    animation: scrollPost 1s 0.5s;
+}
+
+@keyframes scrollPost {
+    from {
+        background-color: var(--block-color);
+    }
+    
+    33% {
+        background-color: var(--block-accent-color-110);
+    }
+    
+    to {
+        background-color: var(--block-color);
+    }
+}
+
 @media (max-width: 920px) {
     main {
         padding: 0 5rem;
@@ -646,11 +669,11 @@ textarea {
 
 @media (max-width: 720px) {
     header {
-        padding: 1.6rem 2.5rem;
+        padding: 2.1rem 2.5rem;
     }
 
     footer {
-        padding: 1.77rem 2.5rem;
+        padding: 2.275rem 2.5rem;
     }
 
     main {
@@ -678,6 +701,10 @@ textarea {
     header div a {
         display: none;
     } 
+
+    .post-buttons {
+        margin: 2.6rem 0 1.6rem;
+    }
 }
 
 @media (max-width: 480px) {
@@ -686,11 +713,11 @@ textarea {
     }
 
     header {
-        padding: 1.6rem;
+        padding: 2.1rem 1.6rem;
     }
 
     footer {
-        padding: 1.77rem 1.6rem;
+        padding: 2.275rem 1.6rem;
     }
 
     .reg__input-div div {

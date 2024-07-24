@@ -27,10 +27,6 @@ function textareaPost(e) {
     div.setAttribute('value', obj.textContent);
 }
 
-function showPopup(i) {
-    document.getElementById('three-dots-popup_' + i).classList.toggle('show');
-}
-
 function showPopupUserInfo() {
     document.getElementById('three-dots-popup_user-info').classList.toggle('show');
 }

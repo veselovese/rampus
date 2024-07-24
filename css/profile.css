@@ -331,22 +331,22 @@
     }
 }
 
-.user-post .three-dots-popup a, .profile__user-info .three-dots-popup a {
+.user-post .three-dots-popup .three-dots-popup-li, .profile__user-info .three-dots-popup .three-dots-popup-li {
     display: block;
     width: 100%;
     padding: 0.8rem 2.6rem;
-    border-radius: 2rem;
     color: var(--main-text-color);
     text-transform: none;
     background-color: var(--block-color);
+    cursor: pointer;
 }
 
-.user-post .three-dots-popup a:first-child, .profile__user-info .three-dots-popup a:first-child {
+.user-post .three-dots-popup .three-dots-popup-li:first-child, .profile__user-info .three-dots-popup .three-dots-popup-li:first-child {
     padding-top: 1.6rem;
     border-radius: 2rem 2rem 0 0;
 }
 
-.user-post .three-dots-popup a:last-child, .profile__user-info .three-dots-popup a:last-child {
+.user-post .three-dots-popup .three-dots-popup-li:last-child, .profile__user-info .three-dots-popup .three-dots-popup-li:last-child {
     padding-bottom: 1.6rem;
     border-radius: 0 0 2rem 2rem;
 }
@@ -355,7 +355,7 @@
     color: var(--error-accent-color);
 }
 
-.user-post .three-dots-popup a:hover, .profile__user-info .three-dots-popup a:hover {
+.user-post .three-dots-popup .three-dots-popup-li:hover, .profile__user-info .three-dots-popup .three-dots-popup-li:hover {
     background-color: var(--background-color);
 }
 

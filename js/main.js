@@ -85,3 +85,12 @@ $(document).ready(function () {
         $('#success-search-hashtag-in-header').toggleClass('focus');
     })
 })
+
+function copyLinkToPost(i) {
+    navigator.clipboard.writeText('https://localhost/rampus/wall#post-' + i);
+    document.getElementById('three-dots-popup_' + i).classList.toggle('show');
+}
+
+function showPopup(i) {
+    document.getElementById('three-dots-popup_' + i).classList.toggle('show');
+}

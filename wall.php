@@ -91,7 +91,7 @@ require('like-or-dislike.php');
                                         $second_name = $row_post["second_name"];
                                         $avatar = $row_post["avatar"];
                                         $i = $row_post['i'];
-                                        echo "<div class='user-post' id='post$i'>";
+                                        echo "<div class='user-post' id='post-$i'>";
                                         echo "<div>";
                                         echo "<div class='wall__user-info'>";
                                         echo "<img class='avatar' src='uploads/avatar/" . $avatar . "'>";
@@ -100,13 +100,14 @@ require('like-or-dislike.php');
                                         echo "<span>" . $post_date . "</span>";
                                         echo "</div>";
                                         echo "</div>";
+                                        echo "<img onclick='showPopup($i)' src='pics/ThreeDotsIcon.svg'>";
+                                        echo "<div class='three-dots-popup' id='three-dots-popup_$i'>";
+                                        echo "<span class='three-dots-popup-li copy-link' onclick='copyLinkToPost($i)'>Копировать ссылку</span>";
                                         if ($user_id == $_SESSION['user']['id']) {
-                                            echo "<img onclick='showPopup($i)' src='pics/ThreeDotsIcon.svg'>";
-                                            echo "<div class='three-dots-popup' id='three-dots-popup_$i'>";
-                                            echo "<a class='edit-post' href='./wall'>*************</a>";
-                                            echo "<a class='delete-post' href='deletepost?post=$i&source=wall'>Удалить</a>";
-                                            echo "</div>";
+                                            echo "<a class='three-dots-popup-li edit-post' href='./wall'>*************</a>";
+                                            echo "<a class='three-dots-popup-li delete-post' href='deletepost?post=$i&source=wall'>Удалить</a>";
                                         }
+                                        echo "</div>";
                                         echo "</div>";
                                         if ($hashtag_id != 0) {
                                             $hashtag_name = $connect->query("SELECT name FROM hashtags WHERE id = $hashtag_id")->fetch_assoc()['name'];

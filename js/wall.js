@@ -55,7 +55,3 @@ function textareaComment(e, i) {
     }
     div.setAttribute('value', obj.textContent);
 }
-
-function showPopup(i) {
-    document.getElementById('three-dots-popup_' + i).classList.toggle('show');
-}

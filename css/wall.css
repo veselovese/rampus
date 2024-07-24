@@ -119,27 +119,28 @@
     }
 }
 
-.user-post .three-dots-popup a {
+.user-post .three-dots-popup .three-dots-popup-li {
     display: block;
     width: 100%;
     padding: 0.8rem 2.6rem;
     color: var(--main-text-color);
     text-transform: none;
     background-color: var(--block-color);
+    cursor: pointer;
 }
 
-.user-post .three-dots-popup a:first-child {
+.user-post .three-dots-popup .three-dots-popup-li:first-child {
     padding-top: 1.6rem;
     border-radius: 2rem 2rem 0 0;
 }
 
-.user-post .three-dots-popup a:last-child {
+.user-post .three-dots-popup .three-dots-popup-li:last-child {
     padding-bottom: 1.6rem;
     border-radius: 0 0 2rem 2rem;
     color: var(--error-accent-color);
 }
 
-.user-post .three-dots-popup a:hover {
+.user-post .three-dots-popup .three-dots-popup-li:hover {
     background-color: var(--background-color);
 }
 
@@ -504,6 +505,8 @@
 
     header {
         justify-content: left;
+        padding-top: 1.6rem;
+        padding-bottom: 1.6rem;
     }
 
     header div:last-child {
@@ -560,6 +563,22 @@
 
     .third-part-in-header {
         width: 100%;
+    }
+
+    .wall__comments .other-users .user-comment {
+        margin: 1rem 0;
+    }
+
+    .wall__comments .other-users .user-comment:first-child {
+        margin: 1.6rem 0 1rem;
+    }
+
+    .wall__comments .current-user {
+        margin-top: 1.6rem;
+    }
+
+    .wall__comments .other-users {
+        margin: 1.6rem 0 2.6rem;
     }
 }
 
