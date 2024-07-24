@@ -184,6 +184,11 @@ a {
     width: 1px;
 }
 
+.reg__form button.disabled {
+    pointer-events: none;
+    background-color: var(--else-text-color-33);
+}
+
 button {
     font-family: 'Cygre', sans-serif;
     font-weight: 400;
@@ -312,16 +317,14 @@ textarea {
     border: 1px solid var(--else-text-color-50);
 }
 
-.auth__form input:valid,
-.reg__form input:valid {
+.auth__form input:valid, .reg__form #reg__email:valid {
     border: 1px solid var(--main-accent-color);
     color: var(--main-accent-color);
 }
 
-.auth__form input:user-invalid,
-.reg__form input:user-invalid {
-    border: 1px solid var(--error-accent-color);
-    color: var(--error-accent-color);
+.reg__form #reg__email:invalid {
+    border: 1px solid var(--else-text-color-50);
+    color: var(--main-text-color);   
 }
 
 .auth__form input::placeholder,
@@ -392,25 +395,32 @@ textarea {
     transition: 0.2s ease-in-out;
 }
 
-#reg__lable_id span, #reg__lable_email span {
+#reg__lable_id span,
+#reg__lable_email span {
     display: none;
     color: var(--main-accent-color);
     margin-left: auto;
 }
 
-#reg__lable_id span.show, #reg__lable_email #reg__email:valid + div span.show {
+#reg__lable_id span.show,
+#reg__lable_email #reg__email:valid+div span.show {
     display: block;
-} 
+}
 
-#reg__lable_id span.off, #reg__lable_email span.off {
+#reg__lable_id span.off,
+#reg__lable_email span.off {
     color: var(--error-accent-color);
 }
 
-#reg__id.off, #reg__email.off {
+.reg__form input.off, #reg__lable_email #reg__email.off {
     color: var(--error-accent-color);
     border: 1px solid var(--error-accent-color);
-} 
+}
 
+.reg__form input.on {
+    color: var(--main-accent-color);
+    border: 1px solid var(--main-accent-color);
+}
 
 .reg__input-div span.done {
     color: var(--main-accent-color);
@@ -426,7 +436,9 @@ textarea {
     left: 0;
 }
 
-#reg__label_pass-1, #reg__lable_id, #reg__lable_email {
+#reg__label_pass-1,
+#reg__lable_id,
+#reg__lable_email {
     position: relative;
 }
 
@@ -516,7 +528,8 @@ textarea {
     margin-bottom: 2.6rem;
 }
 
-.like-button, .comment-button {
+.like-button,
+.comment-button {
     background-color: var(--block-accent-color-06);
     border: none;
     padding: 1rem 1.6rem;
@@ -530,7 +543,8 @@ textarea {
     transition: 0.2s;
 }
 
-.like-button.unliked:hover, .comment-button:hover {
+.like-button.unliked:hover,
+.comment-button:hover {
     background-color: var(--block-accent-color-110);
 }
 
@@ -538,7 +552,8 @@ textarea {
     background-color: var(--like-button-hover-color);
 }
 
-.like-button:active, .comment-button:active {
+.like-button:active,
+.comment-button:active {
     transform: scale(95%);
 }
 
@@ -586,7 +601,8 @@ textarea {
     }
 }
 
-.like-button svg, .comment-button svg {
+.like-button svg,
+.comment-button svg {
     width: 23px;
     height: 19px;
     fill: var(--else-text-color-33);
@@ -617,11 +633,11 @@ textarea {
     from {
         background-color: var(--block-color);
     }
-    
+
     33% {
         background-color: var(--block-accent-color-110);
     }
-    
+
     to {
         background-color: var(--block-color);
     }
@@ -700,7 +716,7 @@ textarea {
 
     header div a {
         display: none;
-    } 
+    }
 
     .post-buttons {
         margin: 2.6rem 0 1.6rem;

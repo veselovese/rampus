@@ -42,8 +42,8 @@ session_start();
                     <legend>Регистрация Rampus</legend>
                     <div>
                         <div class="reg__input-div">
-                            <label>Имя<input type="text" required placeholder="Рампус" name="first_name"></label>
-                            <label>Фамилия<input type="text" required placeholder="Рампусов" name="second_name"></label>
+                            <label>Имя<input type="text" required placeholder="Рампус" name="first_name" id="reg__first_name"></label>
+                            <label>Фамилия<input type="text" required placeholder="Рампусов" name="second_name" id="reg__second_name"></label>
                             <label id="reg__lable_id">ID (имя пользователя)<input type="text" required placeholder="rampus" name="username" id="reg__id">
                                 <div><span id="reg__id_on-or-off">Такой ID свободен</span></div>
                             </label>
@@ -55,11 +55,11 @@ session_start();
                                 <div><span id="reg__email_on-or-off">Такая почта свободна</span></div>
                             </label>
                             <label id="reg__label_pass-1">Пароль
-                                <input type="password" required placeholder="********" minlength="8" name="password_1" id="reg__password_1">
+                                <input type="password" required placeholder="********" name="password_1" id="reg__password_1" minlength="8">
                                 <div><span id="reg__8-sim">8 символов</span><span id="reg__num">Цифра</span><span id="reg__!?">Символ «!» или «?»</span></div>
                             </label>
-                            <label id="reg__label_pass-2"><input type="password" required placeholder="Тот же пароль ещё раз" minlength="8" name="password_2"></label>
-                            <button type="submit">Создать</button>
+                            <label id="reg__label_pass-2"><input type="password" required placeholder="Тот же пароль ещё раз" minlength="8" name="password_2" id="reg__password_2"></label>
+                            <button type="submit" class="" id="reg__submit-button">Создать</button>
                             <a href="./auth" class="mobile reg__link">У меня есть аккаунт</a>
                         </div>
                     </div>

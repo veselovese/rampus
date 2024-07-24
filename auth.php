@@ -47,7 +47,7 @@ session_start();
                         <label>Пароль<input type="password" required placeholder="********" minlength="8" name="password"></label>
                     </div>
                     <div>
-                        <button type="submit">Войти</button>
+                        <button type="submit" class="">Войти</button>
                         <div class="auth__links">
                             <a href="./">Не помню пароль</a>
                             <a href="./reg">Создать аккаунт</a>

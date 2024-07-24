@@ -3,11 +3,11 @@
     <div class="third-part-in-header">
         <div>
             <input type="text" name="search-hashtag" id="search-hashtag-in-header" placeholder="Поиск">
-            <input type="hidden" name="get-status" id="get-status" value=<?php if (isset($_GET['search'])) {
+            <input type="hidden" name="get-status" id="get-status" value="<?php if (isset($_GET['search'])) {
                                                                                 echo $_GET['search'];
                                                                             } else {
                                                                                 echo null;
-                                                                            } ?>>
+                                                                            } ?>">
             <img id="icon-search-hashtag-in-header" src="pics/SearchIcon.svg">
         </div>
         <ul id="success-search-hashtag-in-header">
