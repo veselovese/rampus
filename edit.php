@@ -2,7 +2,6 @@
 session_start();
 
 require('connect.php');
-require('like-or-dislike.php');
 ?>
 
 <!DOCTYPE html>
@@ -13,7 +12,7 @@ require('like-or-dislike.php');
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="css/profile.css">
-    <title>Профиль в Rampus (Рампус)</title>
+    <title>Редактирование профиля в Rampus (Рампус)</title>
     <link rel="apple-touch-icon" sizes="57x57" href="favicons/apple-icon-57x57.png">
     <link rel="apple-touch-icon" sizes="60x60" href="favicons/apple-icon-60x60.png">
     <link rel="apple-touch-icon" sizes="72x72" href="favicons/apple-icon-72x72.png">
@@ -36,7 +35,7 @@ require('like-or-dislike.php');
 <body>
     <?php require('header.php'); ?>
     <main>
-        <h1 class="title">Профиль пользователя в Rampus (Рампус)</h1>
+        <h1 class="title">Редактирование профиля пользователя в Rampus (Рампус)</h1>
         <?php if (!isset($_SESSION['user'])) {
             header("Location: auth");
             exit();
@@ -44,11 +43,7 @@ require('like-or-dislike.php');
             <section class="wrapper main-section">
                 <nav class="first-part">
                     <ul>
-                        <li id="active"><a href="./profile">Профиль</a></li>
-                        <li><a href="./wall">Стена</a></li>
-                        <li><a href="./profile">****</a></li>
-                        <li><a href="./profile">****</a></li>
-                        <li><a id="exit" href="./exit">Выйти</a></li>
+                        <li><a id="exit" href="./profile">Назад</a></li>
                     </ul>
                 </nav>
                 <div class="second-and-third-parts">
@@ -57,7 +52,7 @@ require('like-or-dislike.php');
                             <img class="avatar" src="uploads/avatar/<?= $_SESSION['user']['avatar'] ?>">
                             <img class="three-dots" onclick='showPopupUserInfo()' src='pics/ThreeDotsIcon.svg'>
                             <div class='three-dots-popup' id='three-dots-popup_user-info'>
-                                <a class='three-dots-popup-li edit-profile' href='edit'>Редактировать</a>
+                                <a class='three-dots-popup-li edit-profile' href='./'>*************</a>
                                 <a class='three-dots-popup-li exit-profile' href='exit'>Выйти</a>
                             </div>
                             <div>

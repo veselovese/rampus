@@ -14,3 +14,10 @@ RewriteRule ^index\.html$ http://http://rampus.ru/ [R=301,L]
 
 RewriteCond %{THE_REQUEST} ^[A-Z]{3,9}\ /index\.php\ HTTP/
 RewriteRule ^index\.php$ http://http://rampus.ru/ [R=301,L]
+
+RewriteCond %{REQUEST_URI} ^(.*)/{2,}(.*)$
+RewriteRule ^(.*)$ %1/%2 [R=301,L]
+
+RewriteCond %{THE_REQUEST} ([^\s]*)\/{2,}(\?[^\s]*)?
+RewriteRule ^(.*)$ / [R=301,L]
+
