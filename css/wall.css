@@ -433,6 +433,10 @@
     margin: 0;
 }
 
+.wall__comments .other-users p:nth-child(2) {
+    margin-top: 0.5rem;
+}
+
 .wall__comments .other-users .first-and-second-names {
     font-weight: 620;
 }

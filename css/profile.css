@@ -481,6 +481,27 @@
         flex-direction: column;
         align-items: center;
         padding: 2.6rem;
+        gap: 2.6rem;
+    }
+
+    .profile__user-info .username {
+        margin-top: 1rem;
+    }
+
+    .profile__user-info .description {
+        margin-top: 1.6rem;
+    }
+
+    .user-post p {
+        margin-top: 1.6rem;
+    }
+
+    .user-post div {
+        margin-top: 2.6rem;
+    }
+
+    .user-post div.post-buttons {
+        margin: 0;
     }
 
     .profile__user-info .three-dots {

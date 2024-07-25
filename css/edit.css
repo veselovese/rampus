@@ -1,0 +1,179 @@
+@font-face {
+    font-display: swap;
+    font-family: 'Unbounded';
+    font-style: normal;
+    font-weight: 900;
+    src: url('fonts/Unbounded-Black.woff') format('woff');
+}
+
+@font-face {
+    font-display: swap;
+    font-family: 'Cygre';
+    font-style: normal;
+    font-weight: 400;
+    src: url('fonts/Cygre-Regular.woff') format('woff');
+}
+
+@font-face {
+    font-display: swap;
+    font-family: 'Cygre';
+    font-style: normal;
+    font-weight: 600;
+    src: url('fonts/Cygre-Bold.woff') format('woff');
+}
+
+* {
+    box-sizing: border-box;
+}
+
+:root {
+    --background-color: #FBFBFB;
+    --block-color: #FFFFFF;
+    --main-text-color: #020202;
+    --else-text-color-50: #02020250;
+    --else-text-color-33: #02020233;
+    --main-accent-color: #006633;
+    --else-accent-color-1: #E3DFFF;
+    --else-accent-color-2: #F7D488;
+    --error-accent-color: #FF220C;
+    --block-accent-color-110: #02020210;
+    --block-accent-color-06: #02020206;
+    --block-accent-color-210: #00663310;
+    --like-button-accent-color: #FF220C10;
+    --shadow-big: 0 0 15px #02020207;
+    --shadow-small: 0 0 12px #02020205;
+    --shadow-popup: 0 0 9px #02020211;
+    --font-size-1: 1.3rem;
+    --font-size-2: 2rem;
+    --font-size-3: 3.2rem;
+
+    font-size: 62.5%;
+    height: 100%
+}
+
+.edit__form {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4.1rem;
+    width: 100%;
+}
+
+.edit__upload-avatar {
+    position: absolute;
+    top: 0;
+    width: 25rem;
+    height: 25rem;
+    overflow: hidden;
+    border-radius: 12.5rem;
+}
+
+.edit__form .edit__upload-avatar input {
+    position: absolute;
+    transform: scale(20);
+    left: 1500px;
+    top: 100px;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.edit__form label {
+    font-size: var(--font-size-1);
+    display: inline-block;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+}
+
+.edit__form input {
+    width: 100%;
+    font-size: var(--font-size-2);
+    min-height: 4rem;
+    border-radius: 2rem;
+    outline: none;
+    background-color: transparent;
+    border: 1px solid var(--else-text-color-33);
+    padding: 0 2.6rem;
+    margin-top: 0.8rem;
+}
+
+.edit__form input:hover {
+    border: 1px solid var(--else-text-color-50);
+}
+
+.edit__form input:focus {
+    border: 1px solid var(--else-text-color-50);
+}
+
+.edit__form input::placeholder {
+    color: var(--else-text-color-33);
+}
+
+.edit__form button {
+    background-color: var(--main-accent-color);
+    color: var(--block-color);
+    border: none;
+    font-size: var(--font-size-2);
+    width: 100%;
+    min-height: 4rem;
+    border-radius: 2rem;
+    font-weight: 400;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.edit__form button:hover {
+    opacity: 87%;
+}
+
+.edit__user-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2.6rem;
+    width: 100%;
+}
+
+.edit__user-info .user-first-and-second-names {
+    display: flex;
+    gap: 2.6rem;
+}
+
+.edit__user-avatar {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: var(--font-size-1);
+    gap: 1.6rem;
+    color: var(--main-accent-color);
+}
+
+.edit__user-avatar span {
+    cursor: pointer;
+}
+
+.edit__user-avatar span:hover {
+    opacity: 87%;
+}
+
+@media(max-width: 1080px) {
+    .edit__upload-avatar {
+        width: 20rem;
+        height: 20rem;
+        border-radius: 10rem;
+    }
+}
+
+@media (max-width: 720px) {
+    :root {
+        --font-size-2: 1.6rem;
+        --font-size-3: 2.4rem;
+    }
+}
+
+@media (max-width: 580px) {
+    .edit__user-info .user-first-and-second-names {
+        flex-direction: column;
+    }
+}
