@@ -54,7 +54,7 @@ require('like-or-dislike.php');
                 <div class="second-and-third-parts">
                     <div class="second-part">
                         <div class="profile__user-info">
-                            <img class="avatar" src="uploads/avatar/<?= $_SESSION['user']['avatar'] ?>">
+                            <img class="avatar" src="uploads/avatar/small_<?= $_SESSION['user']['avatar'] ?>">
                             <img class="three-dots" onclick='showPopupUserInfo()' src='pics/ThreeDotsIcon.svg'>
                             <div class='three-dots-popup' id='three-dots-popup_user-info'>
                                 <a class='three-dots-popup-li edit-profile' href='edit'>Редактировать</a>

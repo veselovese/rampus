@@ -52,7 +52,7 @@ require('connect.php');
                         <div class="profile__user-info">
                             <form action="./editprofile" method="post" enctype="multipart/form-data" class="edit__form">
                                 <div class="edit__user-avatar">
-                                    <img class="avatar" id="current-avatar" src="uploads/avatar/<?= $_SESSION['user']['avatar'] ?>">
+                                    <img class="avatar" id="current-avatar" src="uploads/avatar/small_<?= $_SESSION['user']['avatar'] ?>">
                                     <div class="edit__upload-avatar">
                                         <input type="file" name="avatar" id="user-avatar">
                                     </div>

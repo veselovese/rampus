@@ -142,6 +142,7 @@
 .user-post .three-dots-popup .three-dots-popup-li.delete-post {
     color: var(--error-accent-color);
 }
+
 .user-post .three-dots-popup .three-dots-popup-li:hover {
     background-color: var(--background-color);
 }
@@ -245,8 +246,10 @@
     max-height: none;
     margin: 0;
     border-radius: 0;
-    width: auto;
-    height: auto;
+    width: 25px;
+    height: 25px;
+    min-width: 25px;
+    min-height: 25px;
 }
 
 .third-part-in-header {
@@ -362,8 +365,8 @@
 }
 
 .wall__user-info img {
-    width: 50px;
-    height: 50px;
+    min-width: 50px;
+    min-height: 50px;
     max-width: 50px;
     max-height: 50px;
     border-radius: 2.5rem;
@@ -396,8 +399,8 @@
 }
 
 .wall__comments .current-user img {
-    width: 40px;
-    height: 40px;
+    min-width: 40px;
+    min-height: 40px;
     max-width: 40px;
     max-height: 40px;
     border-radius: 2rem;
@@ -406,8 +409,8 @@
 }
 
 .wall__comments .other-users img {
-    width: 50px;
-    height: 50px;
+    min-width: 50px;
+    min-height: 50px;
     max-width: 50px;
     max-height: 50px;
     border-radius: 2.5rem;
@@ -434,7 +437,7 @@
 }
 
 .wall__comments .other-users p:nth-child(2) {
-    margin-top: 0.5rem;
+    margin-top: 0.35rem;
 }
 
 .wall__comments .other-users .first-and-second-names {

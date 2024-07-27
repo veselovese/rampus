@@ -94,7 +94,7 @@ require('like-or-dislike.php');
                                         echo "<div class='user-post' id='post-$i'>";
                                         echo "<div>";
                                         echo "<div class='wall__user-info'>";
-                                        echo "<img class='avatar' src='uploads/avatar/" . $avatar . "'>";
+                                        echo "<img class='avatar' src='uploads/avatar/thin_" . $avatar . "'>";
                                         echo "<div>";
                                         echo "<p class='first-and-second-names'>" . $first_name . " " . $second_name . "</p>";
                                         echo "<span>" . $post_date . "</span>";
@@ -168,7 +168,7 @@ require('like-or-dislike.php');
                                                             echo "<div class='div-line'></div>";
                                                         }
                                                         echo "<div class='user-comment'>";
-                                                        echo "<img src='uploads/avatar/" . $avatar . "'>";
+                                                        echo "<img src='uploads/avatar/thin_" . $avatar . "'>";
                                                         echo "<div>";
                                                         echo "<p class='first-and-second-names'>" . $first_name . " " . $second_name . "</p>";
                                                         echo "<p class='comment-text'>" . $comment_text . "</p>";
@@ -181,7 +181,7 @@ require('like-or-dislike.php');
                                                             echo "<div class='div-line hide comment_div-line_$i'></div>";
                                                         }
                                                         echo "<div class='user-comment hide comment_user-comment_$i'>";
-                                                        echo "<img src='uploads/avatar/" . $avatar . "'>";
+                                                        echo "<img src='uploads/avatar/thin_" . $avatar . "'>";
                                                         echo "<div>";
                                                         echo "<p class='first-and-second-names'>" . $first_name . " " . $second_name . "</p>";
                                                         echo "<p class='comment-text'>" . $comment_text . "</p>";
@@ -194,7 +194,7 @@ require('like-or-dislike.php');
                                                         echo "<div class='div-line'></div>";
                                                     }
                                                     echo "<div class='user-comment'>";
-                                                    echo "<img src='uploads/avatar/" . $avatar . "'>";
+                                                    echo "<img src='uploads/avatar/thin_" . $avatar . "'>";
                                                     echo "<div>";
                                                     echo "<p class='first-and-second-names'>" . $first_name . " " . $second_name . "</p>";
                                                     echo "<p class='comment-text'>" . $comment_text . "</p>";
@@ -210,7 +210,7 @@ require('like-or-dislike.php');
                                             echo "</div>";
                                         }
                                         echo "<div class='current-user'>";
-                                        echo "<img src='uploads/avatar/" . $_SESSION['user']['avatar'] . "'>";
+                                        echo "<img src='uploads/avatar/thin_" . $_SESSION['user']['avatar'] . "'>";
                                         echo "<form action='./comment' method='post' autocomplete='off'>
                                         <div contenteditable='true' class='textarea-comment' id='textarea-comment_$i' role='textbox' onkeyup='textareaComment(event, $i)' onkeydown='textareaCommentPlaceholder(event, $i)'></div>
                                         <label for='textarea-comment' class='textarea-comment_label' id='textarea-comment_label_$i'>Ответить..</label>
