@@ -131,11 +131,10 @@ header .phone-link img {
 }
 
 header img {
-    width: 2.4rem;
-    height: 2.4rem;
-    border-radius: 1.2rem;
-    margin: 0.2rem;
     object-fit: cover;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 1.5rem;
 }
 
 header div {
@@ -153,11 +152,7 @@ header div a:hover {
 }
 
 .header__avatar {
-    display: block;
-    border: 1px solid var(--main-accent-color);
-    width: 3rem;
-    height: 3rem;
-    border-radius: 1.5rem;
+    display: flex;
 }
 
 main {
@@ -524,7 +519,7 @@ textarea {
 .post-buttons {
     display: flex;
     gap: 1rem;
-    margin-top: 4.1rem;
+    margin-top: 2.6rem;
     margin-bottom: 2.6rem;
 }
 
@@ -557,12 +552,20 @@ textarea {
     transform: scale(95%);
 }
 
+.like-button span, .comment-button span {
+    line-height: 2rem;
+}
+
 .like-button.liked svg {
     animation: like-post 1s;
 }
 
 .like-button.unliked svg {
     animation: unlike-post 1s;
+}
+
+.comment-button svg {
+    animation: comment-post 1s;
 }
 
 @keyframes like-post {
@@ -594,6 +597,32 @@ textarea {
 
     40% {
         transform: scale(75%);
+    }
+
+    to {
+        transform: scale(100%);
+    }
+}
+
+@keyframes comment-post {
+    from {
+        transform: scale(100%);
+    }
+
+    20% {
+        transform: scale(95%);
+    }
+    
+    30% {
+        transform: scale(125%)  rotate(5deg);
+    }   
+
+    40% {
+        transform: scale(125%) rotate(-5deg);
+    }
+
+    50% {
+        transform: scale(120%) rotate(5deg);
     }
 
     to {
@@ -720,6 +749,11 @@ textarea {
 
     .post-buttons {
         margin: 2.6rem 0 1.6rem;
+    }
+
+    .like-button span, .comment-button span {
+        line-height: 1.7rem;
+        padding-bottom: 0.3rem;
     }
 }
 

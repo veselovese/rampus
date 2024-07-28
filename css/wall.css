@@ -149,14 +149,18 @@
 
 .user-post p {
     margin: 1.6rem 0 0 0;
-    line-height: 110%;
+    line-height: 100%;
     word-wrap: break-word;
     word-break: break-word;
 }
 
+.user-post p.main-text {
+    line-height: 125%;
+}
+
 .user-post p a {
     color: var(--main-accent-color);
-    line-height: 110%;
+    line-height: 125%;
     font-size: var(--font-size-2);
 }
 

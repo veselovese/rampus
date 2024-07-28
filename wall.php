@@ -111,9 +111,9 @@ require('like-or-dislike.php');
                                         echo "</div>";
                                         if ($hashtag_id != 0) {
                                             $hashtag_name = $connect->query("SELECT name FROM hashtags WHERE id = $hashtag_id")->fetch_assoc()['name'];
-                                            echo "<p>" . $post_text . " <a href='?search=$hashtag_name'>#" . $hashtag_name . "</a></p>";
+                                            echo "<p class='main-text'>" . $post_text . " <a href='?search=$hashtag_name'>#" . $hashtag_name . "</a></p>";
                                         } else {
-                                            echo "<p>" . $post_text . "</p>";
+                                            echo "<p class='main-text'>" . $post_text . "</p>";
                                         }
                                         echo "<div class='post-buttons'>";
                                         $sql_comment = "SELECT comments.text AS comment_text, users.first_name AS first_name, users.second_name AS second_name, users.avatar AS avatar, DATE_FORMAT(comments.comment_date, '%d %M в %k:%i') AS comment_date
@@ -171,7 +171,7 @@ require('like-or-dislike.php');
                                                         echo "<img src='uploads/avatar/thin_" . $avatar . "'>";
                                                         echo "<div>";
                                                         echo "<p class='first-and-second-names'>" . $first_name . " " . $second_name . "</p>";
-                                                        echo "<p class='comment-text'>" . $comment_text . "</p>";
+                                                        echo "<p class='comment-text main-text'>" . $comment_text . "</p>";
                                                         echo "<span class='date'>" . $comment_date . "</span>";
                                                         echo "</div>";
                                                         echo "</div>";
@@ -184,7 +184,7 @@ require('like-or-dislike.php');
                                                         echo "<img src='uploads/avatar/thin_" . $avatar . "'>";
                                                         echo "<div>";
                                                         echo "<p class='first-and-second-names'>" . $first_name . " " . $second_name . "</p>";
-                                                        echo "<p class='comment-text'>" . $comment_text . "</p>";
+                                                        echo "<p class='comment-text main-text'>" . $comment_text . "</p>";
                                                         echo "<span class='date'>" . $comment_date . "</span>";
                                                         echo "</div>";
                                                         echo "</div>";
@@ -197,7 +197,7 @@ require('like-or-dislike.php');
                                                     echo "<img src='uploads/avatar/thin_" . $avatar . "'>";
                                                     echo "<div>";
                                                     echo "<p class='first-and-second-names'>" . $first_name . " " . $second_name . "</p>";
-                                                    echo "<p class='comment-text'>" . $comment_text . "</p>";
+                                                    echo "<p class='comment-text main-text'>" . $comment_text . "</p>";
                                                     echo "<span class='date'>" . $comment_date . "</span>";
                                                     echo "</div>";
                                                     echo "</div>";
@@ -210,7 +210,6 @@ require('like-or-dislike.php');
                                             echo "</div>";
                                         }
                                         echo "<div class='current-user'>";
-                                        echo "<img src='uploads/avatar/thin_" . $_SESSION['user']['avatar'] . "'>";
                                         echo "<form action='./comment' method='post' autocomplete='off'>
                                         <div contenteditable='true' class='textarea-comment' id='textarea-comment_$i' role='textbox' onkeyup='textareaComment(event, $i)' onkeydown='textareaCommentPlaceholder(event, $i)'></div>
                                         <label for='textarea-comment' class='textarea-comment_label' id='textarea-comment_label_$i'>Ответить..</label>
