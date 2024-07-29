@@ -413,11 +413,11 @@
 }
 
 .wall__comments .other-users img {
-    min-width: 50px;
-    min-height: 50px;
-    max-width: 50px;
-    max-height: 50px;
-    border-radius: 2.5rem;
+    min-width: 40px;
+    min-height: 40px;
+    max-width: 40px;
+    max-height: 40px;
+    border-radius: 2rem;
     margin: 0;
     object-fit: cover;
 }
@@ -430,6 +430,7 @@
 
 .wall__comments .other-users {
     margin: 2.6rem 0 4.1rem;
+    padding-left: 2.1rem;
 }
 
 .wall__comments .other-users .user-comment:first-child {
@@ -612,6 +613,22 @@
 
     .wall__comments .other-users {
         margin: 1.6rem 0 2.6rem;
+    }
+
+    .wall__user-info img {
+        min-width: 40px;
+        min-height: 40px;
+        max-width: 40px;
+        max-height: 40px;
+        border-radius: 2rem;
+    }
+
+    .wall__user-info {
+        gap: 1rem;
+    }
+
+    .wall__comments .other-users .user-comment {
+        gap: 1rem;
     }
 }
 

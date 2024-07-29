@@ -40,7 +40,9 @@ session_start();
             <section class="wrapper auth__section">
                 <img src="pics/RampusLogo.svg">
                 <div class="div-line"></div>
-                <form method="POST" class="auth__form" action="./signin">
+                <?php $request = '' ?>
+                <?php if (isset($_GET['request'])) {$request = '?request=' . $_GET['request'];} ?>
+                <form method="POST" class="auth__form" action="./signin<?php echo $request ?>">
                     <div>
                         <legend>Вход Rampus</legend>
                         <label>ID или почта<input type="text" required placeholder="rampus" name="email_or_username"></label>

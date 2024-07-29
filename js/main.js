@@ -87,7 +87,7 @@ $(document).ready(function () {
 })
 
 function copyLinkToPost(i) {
-    navigator.clipboard.writeText('https://localhost/rampus/wall#post-' + i);
+    navigator.clipboard.writeText('https://localhost/rampus/post/' + i);
     document.getElementById('three-dots-popup_' + i).classList.toggle('show');
 }
 

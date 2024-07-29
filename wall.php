@@ -38,7 +38,7 @@ require('like-or-dislike.php');
     <main>
         <h1 class="title">Посты на стене в Rampus (Рампус)</h1>
         <?php if (!isset($_SESSION['user'])) {
-            header("Location: profile");
+            header("Location: auth?request=wall");
             exit();
         } else { ?>
             <section class="wrapper main-section">
