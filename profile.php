@@ -3,7 +3,19 @@ session_start();
 
 require('connect.php');
 require('like-or-dislike.php');
-?>
+
+$id = $_SESSION['user']['id'];
+$result = $connect->query("SELECT * FROM users WHERE id = $id");
+if ($result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+        $username = $row["username"];
+        $email = $row["email"];
+        $description = $row["description"];
+        $first_name = $row["first_name"];
+        $second_name = $row["second_name"];
+        $avatar = $row["avatar"];
+    }
+} ?>
 
 <!DOCTYPE html>
 <html lang="ru">
@@ -54,16 +66,16 @@ require('like-or-dislike.php');
                 <div class="second-and-third-parts">
                     <div class="second-part">
                         <div class="profile__user-info">
-                            <img class="avatar" src="uploads/avatar/small_<?= $_SESSION['user']['avatar'] ?>">
-                            <img class="three-dots" onclick='showPopupUserInfo()' src='pics/ThreeDotsIcon.svg'>
+                            <img class="avatar" src="uploads/avatar/small_<?= $avatar ?>">
+                            <img class="three-dots show-three-dots-popup" onclick='showPopupUserInfo()' src='pics/ThreeDotsIcon.svg'>
                             <div class='three-dots-popup' id='three-dots-popup_user-info'>
                                 <a class='three-dots-popup-li edit-profile' href='edit'>Редактировать</a>
                                 <a class='three-dots-popup-li exit-profile' href='exit'>Выйти</a>
                             </div>
                             <div>
-                                <p class="first-and-second-names"><?= $_SESSION['user']['first_name'] ?> <?= $_SESSION['user']['second_name'] ?></p>
-                                <p class="username">@<?= $_SESSION['user']['username'] ?></p>
-                                <p class="description"><?= $_SESSION['user']['description'] ?></p>
+                                <p class="first-and-second-names"><?= $first_name. " " . $second_name ?></p>
+                                <p class="username">@<?= $username ?></p>
+                                <p class="description"><?= $description ?></p>
                             </div>
                         </div>
                         <?php
@@ -132,7 +144,7 @@ require('like-or-dislike.php');
                                         $post_likes = $row["post_likes"];
                                         $i = $row["i"];
                                         echo "<div class='user-post' id='post-$i'>";
-                                        echo "<img onclick='showPopup($i)' src='pics/ThreeDotsIcon.svg'>";
+                                        echo "<img onclick='showPopup($i)' src='pics/ThreeDotsIcon.svg' class='show-three-dots-popup'>";
                                         echo "<div class='three-dots-popup' id='three-dots-popup_$i'>";
                                         echo "<a class='three-dots-popup-li open-post' href='./wall#post-$i'>Открыть на стене</a>";
                                         echo "<span class='three-dots-popup-li copy-link' onclick='copyLinkToPost($i)'>Копировать ссылку</span>";

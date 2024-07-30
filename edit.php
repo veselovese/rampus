@@ -2,7 +2,19 @@
 session_start();
 
 require('connect.php');
-?>
+
+$id = $_SESSION['user']['id'];
+$result = $connect->query("SELECT * FROM users WHERE id = $id");
+if ($result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+        $username = $row["username"];
+        $email = $row["email"];
+        $description = $row["description"];
+        $first_name = $row["first_name"];
+        $second_name = $row["second_name"];
+        $avatar = $row["avatar"];
+    }
+} ?>
 
 <!DOCTYPE html>
 <html lang="ru">
@@ -52,7 +64,7 @@ require('connect.php');
                         <div class="profile__user-info">
                             <form action="./editprofile" method="post" enctype="multipart/form-data" class="edit__form">
                                 <div class="edit__user-avatar">
-                                    <img class="avatar" id="current-avatar" src="uploads/avatar/small_<?= $_SESSION['user']['avatar'] ?>">
+                                    <img class="avatar" id="current-avatar" src="uploads/avatar/small_<?= $avatar ?>">
                                     <div class="edit__upload-avatar">
                                         <input type="file" name="avatar" id="user-avatar">
                                     </div>
@@ -62,16 +74,16 @@ require('connect.php');
                                     <div class="user-first-and-second-names">
                                         <label>
                                             Имя
-                                            <input type="text" class="" name="first-name" value="<?= $_SESSION['user']['first_name'] ?>">
+                                            <input type="text" class="" name="first-name" value="<?= $first_name?>">
                                         </label>
                                         <label>
                                             Фамилия
-                                            <input type="text" class="" name="second-name" value="<?= $_SESSION['user']['second_name'] ?>">
+                                            <input type="text" class="" name="second-name" value="<?= $second_name ?>">
                                         </label>
                                     </div>
                                     <label>
                                         Описание
-                                        <input type="text" class="" name="description" value="<?= $_SESSION['user']['description'] ?>">
+                                        <input type="text" class="" name="description" value="<?= $description ?>">
                                     </label>
                                 </div>
                                 <button type="submit" name="set_avatar">Сохранить</button>

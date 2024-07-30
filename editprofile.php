@@ -64,17 +64,6 @@ $check_user = mysqli_query($connect, "SELECT * FROM users WHERE id = $userid");
 if (mysqli_num_rows($check_user) > 0) {
 
     $user = mysqli_fetch_assoc($check_user);
-
-    $_SESSION['user'] = [
-        "id" => $user['id'],
-        "first_name" => $user['first_name'],
-        "second_name" => $user['second_name'],
-        "username" => $user['username'],
-        "email" => $user['email'],
-        "avatar" => $user['avatar'],
-        "balance" => $user['balance'],
-        "description" => $user['description']
-    ];
 }
 
 header('Location: ./profile');

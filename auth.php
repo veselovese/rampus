@@ -30,36 +30,37 @@ session_start();
 </head>
 
 <body>
+    <h1 class="title">Вход в Rampus (Рампус)</h1>
+    <?php if (isset($_SESSION['user'])) {
+        header("Location: profile");
+        exit();
+    } ?>
     <?php require('header.php'); ?>
     <main>
-        <h1 class="title">Вход в Rampus (Рампус)</h1>
-        <?php if (isset($_SESSION['user'])) {
-            header("Location: profile");
-            exit();
-        } else { ?>
-            <section class="wrapper auth__section">
-                <img src="pics/RampusLogo.svg">
-                <div class="div-line"></div>
-                <?php $request = '' ?>
-                <?php if (isset($_GET['request'])) {$request = '?request=' . $_GET['request'];} ?>
-                <form method="POST" class="auth__form" action="./signin<?php echo $request ?>">
-                    <div>
-                        <legend>Вход Rampus</legend>
-                        <label>ID или почта<input type="text" required placeholder="rampus" name="email_or_username"></label>
-                        <label>Пароль<input type="password" required placeholder="********" minlength="8" name="password"></label>
+        <section class="wrapper auth__section">
+            <img src="pics/RampusLogo.svg">
+            <div class="div-line"></div>
+            <?php $request = '' ?>
+            <?php if (isset($_GET['request'])) {
+                $request = '?request=' . $_GET['request'];
+            } ?>
+            <form method="POST" class="auth__form" action="./signin<?php echo $request ?>">
+                <div>
+                    <legend>Вход Rampus</legend>
+                    <label>ID или почта<input type="text" required placeholder="rampus" name="email_or_username"></label>
+                    <label>Пароль<input type="password" required placeholder="********" minlength="8" name="password"></label>
+                </div>
+                <div>
+                    <button type="submit" class="">Войти</button>
+                    <div class="auth__links">
+                        <a href="./">Не помню пароль</a>
+                        <a href="./reg">Создать аккаунт</a>
                     </div>
-                    <div>
-                        <button type="submit" class="">Войти</button>
-                        <div class="auth__links">
-                            <a href="./">Не помню пароль</a>
-                            <a href="./reg">Создать аккаунт</a>
-                        </div>
-                    </div>
-                </form>
-            </section>
+                </div>
+            </form>
+        </section>
     </main>
-<?php require('footer.php');
-        } ?>
+    <?php require('footer.php'); ?>
 </body>
 
 </html>

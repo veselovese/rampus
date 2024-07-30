@@ -14,13 +14,6 @@ if (mysqli_num_rows($check_user_by_email) > 0) {
 
     $_SESSION['user'] = [
         "id" => $user['id'],
-        "first_name" => $user['first_name'],
-        "second_name" => $user['second_name'],
-        "username" => $user['username'],
-        "email" => $user['email'],
-        "avatar" => $user['avatar'],
-        "balance" => $user['balance'],
-        "description" => $user['description']
     ];
 
     if ($request == 'wall') {

@@ -30,46 +30,45 @@ session_start();
 </head>
 
 <body>
+    <h1 class="title">Регистрация в Rampus (Рампус)</h1>
+    <?php if (isset($_SESSION['user'])) {
+        header("Location: profile");
+        exit();
+    } ?>
     <?php require('header.php'); ?>
     <main>
-        <h1 class="title">Регистрация в Rampus (Рампус)</h1>
-        <?php if (isset($_SESSION['user'])) {
-            header("Location: profile");
-            exit();
-        } else { ?>
-            <section class="wrapper reg__section">
-                <form method="POST" class="reg__form" action="./signup" autocomplete="off">
-                    <legend>Регистрация Rampus</legend>
-                    <div>
-                        <div class="reg__input-div">
-                            <label>Имя<input type="text" required placeholder="Рампус" name="first_name" id="reg__first_name"></label>
-                            <label>Фамилия<input type="text" required placeholder="Рампусов" name="second_name" id="reg__second_name"></label>
-                            <label id="reg__lable_id">ID (имя пользователя)<input type="text" required placeholder="rampus" name="username" id="reg__id">
-                                <div><span id="reg__id_on-or-off">Такой ID свободен</span></div>
-                            </label>
-                            <a href="./auth" class="desktop">У меня есть аккаунт</a>
-                        </div>
-                        <div class="div-line"></div>
-                        <div class="reg__input-div">
-                            <label id="reg__lable_email">Почта<input type="email" required placeholder="rampus@example.com" name="email" id="reg__email">
-                                <div><span id="reg__email_on-or-off">Такая почта свободна</span></div>
-                            </label>
-                            <label id="reg__label_pass-1">Пароль
-                                <input type="password" required placeholder="********" name="password_1" id="reg__password_1" minlength="8">
-                                <div><span id="reg__8-sim">8 символов</span><span id="reg__num">Цифра</span><span id="reg__!?">Символ «!» или «?»</span></div>
-                            </label>
-                            <label id="reg__label_pass-2"><input type="password" required placeholder="Тот же пароль ещё раз" minlength="8" name="password_2" id="reg__password_2"></label>
-                            <button type="submit" class="" id="reg__submit-button">Создать</button>
-                            <a href="./auth" class="mobile reg__link">У меня есть аккаунт</a>
-                        </div>
+        <section class="wrapper reg__section">
+            <form method="POST" class="reg__form" action="./signup" autocomplete="off">
+                <legend>Регистрация Rampus</legend>
+                <div>
+                    <div class="reg__input-div">
+                        <label>Имя<input type="text" required placeholder="Рампус" name="first_name" id="reg__first_name"></label>
+                        <label>Фамилия<input type="text" required placeholder="Рампусов" name="second_name" id="reg__second_name"></label>
+                        <label id="reg__lable_id">ID (имя пользователя)<input type="text" required placeholder="rampus" name="username" id="reg__id">
+                            <div><span id="reg__id_on-or-off">Такой ID свободен</span></div>
+                        </label>
+                        <a href="./auth" class="desktop">У меня есть аккаунт</a>
                     </div>
-                </form>
-            </section>
+                    <div class="div-line"></div>
+                    <div class="reg__input-div">
+                        <label id="reg__lable_email">Почта<input type="email" required placeholder="rampus@example.com" name="email" id="reg__email">
+                            <div><span id="reg__email_on-or-off">Такая почта свободна</span></div>
+                        </label>
+                        <label id="reg__label_pass-1">Пароль
+                            <input type="password" required placeholder="********" name="password_1" id="reg__password_1" minlength="8">
+                            <div><span id="reg__8-sim">8 символов</span><span id="reg__num">Цифра</span><span id="reg__!?">Символ «!» или «?»</span></div>
+                        </label>
+                        <label id="reg__label_pass-2"><input type="password" required placeholder="Тот же пароль ещё раз" minlength="8" name="password_2" id="reg__password_2"></label>
+                        <button type="submit" class="" id="reg__submit-button">Создать</button>
+                        <a href="./auth" class="mobile reg__link">У меня есть аккаунт</a>
+                    </div>
+                </div>
+            </form>
+        </section>
     </main>
-<?php require('footer.php');
-        } ?>
-<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-<script src="js/reg.js"></script>
+    <?php require('footer.php'); ?>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="js/reg.js"></script>
 </body>
 
 </html>

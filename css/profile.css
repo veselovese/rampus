@@ -297,6 +297,8 @@
     box-shadow: var(--shadow-popup);
     z-index: 1;
     background-color: var(--block-color);
+    border-radius: 2rem;
+    overflow: hidden;
 }
 
 
@@ -314,20 +316,24 @@
 @keyframes showPopup {
     from {
         opacity: 0;
+        transform: scale(0%) translate(50%, -50%);
     }
-
+    
     to {
         opacity: 1;
+        transform: scale(100%) translate(0, 0);
     }
 }
 
 @keyframes hidePopup {
     from {
         opacity: 1;
+        transform: scale(100%) translate(0, 0);
     }
-
+    
     to {
         opacity: 0;
+        transform: scale(0%) translate(50%, -50%);
     }
 }
 
@@ -343,12 +349,10 @@
 
 .user-post .three-dots-popup .three-dots-popup-li:first-child, .profile__user-info .three-dots-popup .three-dots-popup-li:first-child {
     padding-top: 1.6rem;
-    border-radius: 2rem 2rem 0 0;
 }
 
 .user-post .three-dots-popup .three-dots-popup-li:last-child, .profile__user-info .three-dots-popup .three-dots-popup-li:last-child {
     padding-bottom: 1.6rem;
-    border-radius: 0 0 2rem 2rem;
 }
 
 .user-post .three-dots-popup a.delete-post, .profile__user-info .three-dots-popup a.exit-profile {
