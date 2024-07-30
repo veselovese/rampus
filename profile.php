@@ -3,17 +3,18 @@ session_start();
 
 require('connect.php');
 require('like-or-dislike.php');
-
-$id = $_SESSION['user']['id'];
-$result = $connect->query("SELECT * FROM users WHERE id = $id");
-if ($result->num_rows > 0) {
-    while ($row = $result->fetch_assoc()) {
-        $username = $row["username"];
-        $email = $row["email"];
-        $description = $row["description"];
-        $first_name = $row["first_name"];
-        $second_name = $row["second_name"];
-        $avatar = $row["avatar"];
+if (isset($_SESSION['user'])) {
+    $id = $_SESSION['user']['id'];
+    $result = $connect->query("SELECT * FROM users WHERE id = $id");
+    if ($result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
+            $username = $row["username"];
+            $email = $row["email"];
+            $description = $row["description"];
+            $first_name = $row["first_name"];
+            $second_name = $row["second_name"];
+            $avatar = $row["avatar"];
+        }
     }
 } ?>
 
@@ -23,8 +24,8 @@ if ($result->num_rows > 0) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-    <link rel="stylesheet" href="css/main.css">
-    <link rel="stylesheet" href="css/profile.css">
+    <link rel="stylesheet" href="css/main.css?v=132">
+    <link rel="stylesheet" href="css/profile.css?v=132">
     <title>Профиль в Rampus (Рампус)</title>
     <link rel="apple-touch-icon" sizes="57x57" href="favicons/apple-icon-57x57.png">
     <link rel="apple-touch-icon" sizes="60x60" href="favicons/apple-icon-60x60.png">

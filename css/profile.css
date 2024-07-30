@@ -82,7 +82,6 @@
 }
 
 .profile__user-info .description {
-    color: var(--else-text-color-50);
     margin-top: 2.6rem;
     line-height: 1;
 }
@@ -278,7 +277,7 @@
 .user-post img {
     max-width: 24px;
     max-height: 6px;
-    margin-top: 0.9rem;
+    margin-top: 0;
     align-self: flex-end;
     cursor: pointer;
 }
@@ -290,7 +289,7 @@
     display: flex;
     flex-direction: column;
     position: absolute;
-    top: 5.2rem;
+    top: 4.3rem;
     right: 2.6rem;
     visibility: hidden;
     animation: hidePopup 0.2s;

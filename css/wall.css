@@ -436,7 +436,7 @@
 
 .wall__comments .other-users {
     margin: 2.6rem 0 4.1rem;
-    padding-left: 2.1rem;
+    padding-left: 1.6rem;
 }
 
 .wall__comments .other-users .user-comment:first-child {
@@ -619,6 +619,7 @@
 
     .wall__comments .other-users {
         margin: 1.6rem 0 2.6rem;
+        padding-left: 1rem;
     }
 
     .user-post img {
