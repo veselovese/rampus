@@ -47,7 +47,7 @@ require('like-or-dislike.php');
                         <li><a href="./profile">Профиль</a></li>
                         <li id="active"><a href="./wall">Стена</a></li>
                         <li><a href="./wall">****</a></li>
-                        <li><a href="./wall">****</a></li>
+                        <li><a href="./people">Люди</a></li>
                     </ul>
                 </nav>
                 <div class="second-and-third-parts">
@@ -73,7 +73,7 @@ require('like-or-dislike.php');
                                     $search = $_GET['search'];
                                 }
                                 $search_condition = $search !== 'all' ? "AND hashtags.name = '$search'" : '';
-                                $sql_post = "SELECT posts.hashtag_id AS hashtag_id, posts.text AS post_text, DATE_FORMAT(posts.post_date, '%d %M в %k:%i') AS post_date, posts.likes AS post_likes, posts.user_id AS user_id, users.first_name AS first_name, users.second_name AS second_name, users.avatar AS avatar, posts.id AS i
+                                $sql_post = "SELECT posts.hashtag_id AS hashtag_id, posts.text AS post_text, DATE_FORMAT(posts.post_date, '%d %M в %k:%i') AS post_date, posts.likes AS post_likes, posts.user_id AS user_id, users.first_name AS first_name, users.second_name AS second_name, users.avatar AS avatar, posts.id AS i, users.username AS username
                             FROM posts
                             JOIN users ON posts.user_id = users.id
                             LEFT JOIN hashtags ON posts.hashtag_id = hashtags.id
@@ -89,6 +89,7 @@ require('like-or-dislike.php');
                                         $user_id = $row_post["user_id"];
                                         $first_name = $row_post["first_name"];
                                         $second_name = $row_post["second_name"];
+                                        $username = $row_post["username"];
                                         $avatar = $row_post["avatar"];
                                         $i = $row_post['i'];
                                         echo "<div class='user-post' id='post-$i'>";
@@ -96,7 +97,11 @@ require('like-or-dislike.php');
                                         echo "<div class='wall__user-info'>";
                                         echo "<img class='avatar' src='uploads/avatar/thin_" . $avatar . "'>";
                                         echo "<div>";
-                                        echo "<p class='first-and-second-names'>" . $first_name . " " . $second_name . "</p>";
+                                        if ($user_id == $_SESSION['user']['id']) {
+                                            echo "<a href='./profile' class='first-and-second-names'>" . $first_name . " " . $second_name . "</a>";
+                                        } else {
+                                            echo "<a href='./user/$username' class='first-and-second-names'>" . $first_name . " " . $second_name . "</a>";
+                                        }
                                         echo "<span>" . $post_date . "</span>";
                                         echo "</div>";
                                         echo "</div>";
@@ -116,7 +121,7 @@ require('like-or-dislike.php');
                                             echo "<p class='main-text'>" . $post_text . "</p>";
                                         }
                                         echo "<div class='post-buttons'>";
-                                        $sql_comment = "SELECT comments.text AS comment_text, users.first_name AS first_name, users.second_name AS second_name, users.avatar AS avatar, DATE_FORMAT(comments.comment_date, '%d %M в %k:%i') AS comment_date
+                                        $sql_comment = "SELECT comments.text AS comment_text, users.first_name AS first_name, users.second_name AS second_name, users.avatar AS avatar, DATE_FORMAT(comments.comment_date, '%d %M в %k:%i') AS comment_date, users.id AS comment_user_id, users.username AS comment_username
                                         FROM comments
                                         JOIN users ON comments.user_id = users.id
                                         JOIN posts ON comments.post_id = posts.id
@@ -157,6 +162,8 @@ require('like-or-dislike.php');
                                             $comment_count = 2;
                                             $comment_count_current = $result_comment->num_rows;
                                             while ($row_comment = $result_comment->fetch_assoc()) {
+                                                $comment_user_id = $row_comment['comment_user_id'];
+                                                $comment_username = $row_comment['comment_username'];
                                                 $first_name = $row_comment['first_name'];
                                                 $second_name = $row_comment['second_name'];
                                                 $avatar = $row_comment['avatar'];
@@ -170,7 +177,11 @@ require('like-or-dislike.php');
                                                         echo "<div class='user-comment'>";
                                                         echo "<img src='uploads/avatar/thin_" . $avatar . "'>";
                                                         echo "<div>";
-                                                        echo "<p class='first-and-second-names'>" . $first_name . " " . $second_name . "</p>";
+                                                        if ($comment_user_id == $_SESSION['user']['id']) {
+                                                            echo "<a href='./profile' class='first-and-second-names'>" . $first_name . " " . $second_name . "</a>";
+                                                        } else {
+                                                            echo "<a href='./user/$comment_username' class='first-and-second-names'>" . $first_name . " " . $second_name . "</a>";
+                                                        }
                                                         echo "<p class='comment-text main-text'>" . $comment_text . "</p>";
                                                         echo "<span class='date'>" . $comment_date . "</span>";
                                                         echo "</div>";
@@ -183,7 +194,11 @@ require('like-or-dislike.php');
                                                         echo "<div class='user-comment hide comment_user-comment_$i'>";
                                                         echo "<img src='uploads/avatar/thin_" . $avatar . "'>";
                                                         echo "<div>";
-                                                        echo "<p class='first-and-second-names'>" . $first_name . " " . $second_name . "</p>";
+                                                        if ($comment_user_id == $_SESSION['user']['id']) {
+                                                            echo "<a href='./profile' class='first-and-second-names'>" . $first_name . " " . $second_name . "</a>";
+                                                        } else {
+                                                            echo "<a href='./user/$comment_username' class='first-and-second-names'>" . $first_name . " " . $second_name . "</a>";
+                                                        }
                                                         echo "<p class='comment-text main-text'>" . $comment_text . "</p>";
                                                         echo "<span class='date'>" . $comment_date . "</span>";
                                                         echo "</div>";
@@ -196,7 +211,11 @@ require('like-or-dislike.php');
                                                     echo "<div class='user-comment'>";
                                                     echo "<img src='uploads/avatar/thin_" . $avatar . "'>";
                                                     echo "<div>";
-                                                    echo "<p class='first-and-second-names'>" . $first_name . " " . $second_name . "</p>";
+                                                    if ($comment_user_id == $_SESSION['user']['id']) {
+                                                        echo "<a href='./profile' class='first-and-second-names'>" . $first_name . " " . $second_name . "</a>";
+                                                    } else {
+                                                        echo "<a href='./user/$comment_username' class='first-and-second-names'>" . $first_name . " " . $second_name . "</a>";
+                                                    }
                                                     echo "<p class='comment-text main-text'>" . $comment_text . "</p>";
                                                     echo "<span class='date'>" . $comment_date . "</span>";
                                                     echo "</div>";
@@ -238,11 +257,11 @@ require('like-or-dislike.php');
                                             <path d="M4.97802 21.033C4.97802 21.8681 5.25275 22.5714 5.8022 23.1429C6.35165 23.7143 7.04396 24 7.87912 24C8.73626 24 9.43956 23.7253 9.98901 23.1758C10.5604 22.6044 10.8462 21.9011 10.8462 21.0659C10.8462 20.2088 10.5604 19.4945 9.98901 18.9231C9.41758 18.3516 8.71429 18.0659 7.87912 18.0659C7.04396 18.0659 6.35165 18.3516 5.8022 18.9231C5.25275 19.4725 4.97802 20.1758 4.97802 21.033ZM15.5275 7.51648C15.5275 9.07692 15.0769 10.4505 14.1758 11.6374C13.2967 12.8022 12.0769 13.7473 10.5165 14.4725L7.21978 16.2198L5.73626 12.6593L8.73626 11.0769C10.4066 10.022 11.2418 8.84615 11.2418 7.54945C11.2418 6.58242 10.9231 5.8022 10.2857 5.20879C9.64835 4.59341 8.83517 4.28571 7.84615 4.28571C5.93407 4.28571 4.64835 5.43956 3.98901 7.74725L0 6.2967C0.615385 4.34066 1.59341 2.8022 2.93407 1.68132C4.27473 0.56044 5.9011 0 7.81319 0C10.033 0 11.8681 0.714286 13.3187 2.14286C14.7912 3.54945 15.5275 5.34066 15.5275 7.51648Z" />
                                         </svg>
                                         ****</a></li>
-                                <li><a href="./wall">
+                                <li><a href="./people">
                                         <svg width="16" height="24" viewBox="0 0 16 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                             <path d="M4.97802 21.033C4.97802 21.8681 5.25275 22.5714 5.8022 23.1429C6.35165 23.7143 7.04396 24 7.87912 24C8.73626 24 9.43956 23.7253 9.98901 23.1758C10.5604 22.6044 10.8462 21.9011 10.8462 21.0659C10.8462 20.2088 10.5604 19.4945 9.98901 18.9231C9.41758 18.3516 8.71429 18.0659 7.87912 18.0659C7.04396 18.0659 6.35165 18.3516 5.8022 18.9231C5.25275 19.4725 4.97802 20.1758 4.97802 21.033ZM15.5275 7.51648C15.5275 9.07692 15.0769 10.4505 14.1758 11.6374C13.2967 12.8022 12.0769 13.7473 10.5165 14.4725L7.21978 16.2198L5.73626 12.6593L8.73626 11.0769C10.4066 10.022 11.2418 8.84615 11.2418 7.54945C11.2418 6.58242 10.9231 5.8022 10.2857 5.20879C9.64835 4.59341 8.83517 4.28571 7.84615 4.28571C5.93407 4.28571 4.64835 5.43956 3.98901 7.74725L0 6.2967C0.615385 4.34066 1.59341 2.8022 2.93407 1.68132C4.27473 0.56044 5.9011 0 7.81319 0C10.033 0 11.8681 0.714286 13.3187 2.14286C14.7912 3.54945 15.5275 5.34066 15.5275 7.51648Z" />
                                         </svg>
-                                        ****</a></li>
+                                        Люди</a></li>
                                 <li><a href="./profile"><svg width="28" height="24" viewBox="0 0 28 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                             <path fill-rule="evenodd" clip-rule="evenodd" d="M8.03709 11.3334C6.58858 12.0152 5.25423 12.9468 4.10051 14.1005C1.475 16.726 0 20.287 0 24L14 24H28C28 20.287 26.525 16.726 23.8995 14.1005C22.7458 12.9468 21.4114 12.0152 19.9629 11.3334C18.4981 12.97 16.3693 14 14 14C11.6307 14 9.50195 12.97 8.03709 11.3334Z" />
                                             <circle cx="14" cy="6" r="6" />

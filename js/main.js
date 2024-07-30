@@ -120,3 +120,8 @@ $(document).click(function (e) {
         })
     }
 })
+
+function copyLinkToUser(i) {
+    console.log(i);
+    navigator.clipboard.writeText('https://localhost/rampus/user/' + i);
+}
