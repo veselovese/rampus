@@ -27,3 +27,8 @@ $(document).ready(function () {
         $('#search-people').trigger('focus');
     })
 })
+
+function showPopupOtherUserInfo(i) {
+    document.getElementById('three-dots-popup_other-user-info_' + i).classList.toggle('show');
+}
+

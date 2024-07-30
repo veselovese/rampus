@@ -3,10 +3,10 @@ session_start();
 require('connect.php');
 
 if (isset($_POST["people"])) {
-    $sql_people = "SELECT users.username AS username
+    $sql_people = "SELECT *
     FROM users WHERE users.username LIKE '%" . $_POST["people"] . "%' OR users.first_name LIKE '%" . $_POST["people"] . "%' OR users.second_name LIKE '%" . $_POST["people"] . "%'";
 } else {
-    $sql_people = "SELECT users.username AS username
+    $sql_people = "SELECT *
     FROM users";
 }
 
@@ -15,8 +15,25 @@ $counter = $result_people->num_rows;
 if ($counter > 0) {
     while ($row_people = $result_people->fetch_assoc()) {
         $counter -= 1;
+        $id = $row_people['id'];
         $username = $row_people['username'];
-        echo "<li><a href='./user/$username'>" . $username . "</a></li>";
+        $avatar = $row_people['avatar'];
+        $first_name = $row_people['first_name'];
+        $second_name = $row_people['second_name'];
+        echo "<li class='user'>";
+        echo "<a href='./user/$username'>";
+        echo "<img class='three-dots show-three-dots-popup' onclick='showPopupOtherUserInfo($id)' src='pics/ThreeDotsIcon.svg'>";
+        echo "<div class='three-dots-popup' id='three-dots-popup_other-user-info_$id'>";
+        echo "<span class='three-dots-popup-li copy-link' onclick='copyLinkToUser(`$username`)'>Копировать ссылку</span>";
+        echo "<a class='three-dots-popup-li open-profile' href='./user/$username'>Открыть профиль</a>";
+        echo "</div>";
+        echo "<img src='uploads/avatar/thin_$avatar'>";
+        echo "<div class='current-user-info'>";
+        echo "<p>$first_name $second_name</p>";
+        echo "<p>@$username</p>";
+        echo "</div>";
+        echo "</a>";
+        echo "</li>";
         if ($counter > 0) {
             echo "<div class='div-line'></div>";
         }

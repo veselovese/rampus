@@ -96,7 +96,7 @@
     position: relative;
 }
 
-.second-part>div img {
+.second-part>div>img {
     max-width: 20px;
     max-height: 20px;
     position: absolute;
@@ -134,6 +134,138 @@
     margin: 0;
     padding: 0;
     list-style: none;
+}
+
+.user {
+    display: flex;
+    align-items: center;
+    gap: 1.6rem;
+    position: relative;
+    margin: 1.6rem 0;
+}
+
+.user:first-child {
+    margin-top: 0;
+}
+
+.user:last-child {
+    margin-bottom: 0;
+}
+
+.user img {
+    min-width: 75px;
+    min-height: 75px;
+    max-width: 75px;
+    max-height: 75px;
+    border-radius: 3.75rem;
+    object-fit: cover;
+
+}
+
+.user .current-user-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.user .current-user-info a {
+    color: var(--main-text-color);
+    font-size: var(--font-size-2);
+}
+
+.user .current-user-info a:hover {
+    opacity: 80%;
+}
+
+.user .current-user-info a:first-child {
+    font-weight: 620;
+}
+
+.user .current-user-info a:last-child {
+    color: var(--main-accent-color);
+    font-size: var(--font-size-1);
+    margin-top: 0.4rem;
+}
+
+.user .show-three-dots-popup {
+    max-width: 24px;
+    max-height: 6px;
+    min-width: 24px;
+    min-height: 6px;
+    cursor: pointer;
+    position: absolute;
+    right: 0;
+    top: 1rem;
+    cursor: pointer;
+}
+
+.user .three-dots-popup {
+    font-size: var(--font-size-1);
+    border-radius: 2rem;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 2.6rem;
+    right: 0;
+    visibility: hidden;
+    animation: hidePopup 0.2s;
+    box-shadow: var(--shadow-popup);
+    z-index: 1;
+    background-color: var(--block-color);
+    border-radius: 2rem;
+    overflow: hidden;
+}
+
+.user .three-dots-popup.show {
+    visibility: visible;
+    animation: showPopup 0.2s;
+}
+
+.three-dots-popup .three-dots-popup-li {
+    display: block;
+    width: 100%;
+    padding: 0.8rem 2.6rem;
+    padding-top: 0.8rem;
+    color: var(--main-text-color);
+    text-transform: none;
+    background-color: var(--block-color);
+    cursor: pointer;
+}
+
+.three-dots-popup .three-dots-popup-li:hover {
+    background-color: var(--background-color);
+}
+
+.three-dots-popup .three-dots-popup-li:first-child {
+    padding-top: 1.6rem;
+}
+
+.three-dots-popup .three-dots-popup-li:last-child {
+    padding-bottom: 1.6rem;
+}
+
+@keyframes showPopup {
+    from {
+        opacity: 0;
+        transform: scale(0%) translate(50%, -50%);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(100%) translate(0, 0);
+    }
+}
+
+@keyframes hidePopup {
+    from {
+        opacity: 1;
+        transform: scale(100%) translate(0, 0);
+    }
+
+    to {
+        opacity: 0;
+        transform: scale(0%) translate(50%, -50%);
+    }
 }
 
 @media (max-width: 1320px) {

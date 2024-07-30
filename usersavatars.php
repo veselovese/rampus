@@ -11,11 +11,11 @@ if ($result->num_rows > 0) {
         if (!$src) $src = imagecreatefromgif($uploadfile);
         list($old_width, $old_height) = getimagesize($uploadfile);
         if ($old_width >= $old_height) {
-            $k1 = $old_width / 96;
-            $k2 = $old_width / 720;
-        } else {
             $k1 = $old_height / 96;
-            $k2 = $old_height / 720;
+            $k2 = $old_height / 480;
+        } else {
+            $k1 = $old_width / 96;
+            $k2 = $old_width / 480;
         }
         $new_width1 = $old_width / $k1;
         $new_width2 = $old_width / $k2;
