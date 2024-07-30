@@ -186,10 +186,10 @@ if ($result->num_rows > 0) {
                                             </svg>";
                                             echo "<span class='like-counter'>" . $post_likes . "</span></button>";
                                         }
-                                        echo "<button class='comment-button comment'><svg width='28' height='24' viewBox='0 0 28 24' fill='none' xmlns='http://www.w3.org/2000/svg'>
+                                        echo "<a href='./wall#post-$i' class='comment-button comment'><svg width='28' height='24' viewBox='0 0 28 24' fill='none' xmlns='http://www.w3.org/2000/svg'>
                                             <path d='M0 5C0 2.23858 2.23858 0 5 0L23 0C25.7614 0 28 2.23858 28 5L28 24L5 24C2.23858 24 0 21.7614 0 19L0 5Z' />
                                             </svg>";
-                                        echo "<span class='comment-counter'>" . $rows_num_comment . "</span></button>";
+                                        echo "<span class='comment-counter'>" . $rows_num_comment . "</span></a>";
                                         echo "</div>";
                                         echo "<span>" . $post_date . "</span>";
                                         echo "</div>";

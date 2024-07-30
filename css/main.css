@@ -554,6 +554,7 @@ textarea {
 
 .like-button span, .comment-button span {
     line-height: 2rem;
+    font-size: var(--font-size-2);
 }
 
 .like-button.liked svg {
