@@ -79,10 +79,19 @@ $(document).ready(function () {
 
     $('#icon-search-hashtag-in-header').on('click', function () {
         $('#search-hashtag-in-header').trigger('focus');
+        $('#success-search-hashtag-in-header').addClass('focus');
     })
 
     $('#search-hashtag-in-header').focus(function () {
-        $('#success-search-hashtag-in-header').toggleClass('focus');
+        $('#success-search-hashtag-in-header').addClass('focus');
+    })
+
+    $(document).click(function (e) {
+        if ((!$('#search-hashtag-in-header').is(e.target)) && ($('#search-hashtag-in-header').has(e.target).length === 0)
+            && (!$('#success-search-hashtag-in-header').is(e.target)) && ($('#success-search-hashtag-in-header').has(e.target).length === 0)
+            && (!$('#icon-search-hashtag-in-header').is(e.target)) && ($('#icon-search-hashtag-in-header').has(e.target).length === 0)) {
+            $('#success-search-hashtag-in-header').removeClass('focus');
+        }
     })
 })
 
@@ -94,3 +103,20 @@ function copyLinkToPost(i) {
 function showPopup(i) {
     document.getElementById('three-dots-popup_' + i).classList.toggle('show');
 }
+
+const showPopupButton = $('.show-three-dots-popup');
+const popupDiv = $('.three-dots-popup');
+
+$(document).click(function (e) {
+    let flag = 0;
+    showPopupButton.each(function () {
+        if (($(this).is(e.target)) && ($(this).has(e.target).length === 0)) {
+            flag = 1;
+        }
+    })
+    if (flag === 0) {
+        popupDiv.each(function () {
+            $(this).removeClass('show');
+        })
+    }
+})

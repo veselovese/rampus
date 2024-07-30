@@ -75,6 +75,8 @@
 .user-post img {
     max-width: 24px;
     max-height: 6px;
+    min-width: 24px;
+    min-height: 6px;
     margin-top: 0.9rem;
     cursor: pointer;
 }
@@ -92,6 +94,8 @@
     animation: hidePopup 0.2s;
     box-shadow: var(--shadow-popup);
     z-index: 1;
+    border-radius: 2rem;
+    overflow: hidden;
 }
 
 .user-post .three-dots-popup.show {
@@ -102,20 +106,24 @@
 @keyframes showPopup {
     from {
         opacity: 0;
+        transform: scale(0%) translate(50%, -50%);
     }
-
+    
     to {
         opacity: 1;
+        transform: scale(100%) translate(0, 0);
     }
 }
 
 @keyframes hidePopup {
     from {
         opacity: 1;
+        transform: scale(100%) translate(0, 0);
     }
-
+    
     to {
         opacity: 0;
+        transform: scale(0%) translate(50%, -50%);
     }
 }
 
@@ -131,12 +139,10 @@
 
 .user-post .three-dots-popup .three-dots-popup-li:first-child {
     padding-top: 1.6rem;
-    border-radius: 2rem 2rem 0 0;
 }
 
 .user-post .three-dots-popup .three-dots-popup-li:last-child {
     padding-bottom: 1.6rem;
-    border-radius: 0 0 2rem 2rem;
 }
 
 .user-post .three-dots-popup .three-dots-popup-li.delete-post {
@@ -441,9 +447,9 @@
     margin: 0;
 }
 
-.wall__comments .other-users p:nth-child(2) {
+/* .wall__comments .other-users p:nth-child(2) {
     margin-top: 0.35rem;
-}
+} */
 
 .wall__comments .other-users .first-and-second-names {
     font-weight: 620;
@@ -453,7 +459,7 @@
     display: inline-block;
     font-size: var(--font-size-1);
     color: var(--else-text-color-50);
-    margin-top: 1rem;
+    margin-top: 0.4rem;
     text-transform: lowercase;
 }
 
@@ -615,12 +621,17 @@
         margin: 1.6rem 0 2.6rem;
     }
 
+    .user-post img {
+        margin-top: 0.4rem;
+    }
+
     .wall__user-info img {
         min-width: 40px;
         min-height: 40px;
         max-width: 40px;
         max-height: 40px;
         border-radius: 2rem;
+        margin: 0;
     }
 
     .wall__user-info {
@@ -630,6 +641,10 @@
     .wall__comments .other-users .user-comment {
         gap: 1rem;
     }
+
+    .user-post .three-dots-popup {
+        top: 4.7rem;
+    };
 }
 
 @media (max-width: 480px) {
