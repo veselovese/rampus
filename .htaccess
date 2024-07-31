@@ -23,4 +23,4 @@ RewriteRule ^(.*)$ / [R=301,L]
 
 RewriteRule ^post/([0-9]+)$ "https://localhost/rampus/wall#post-$1" [NE,R]
 
-RewriteRule ^user/([a-zA-Z]+)$ otheruserprofile.php?username=$1 
+RewriteRule ^user/([a-zA-Z0-9]+)$ otheruserprofile.php?username=$1
