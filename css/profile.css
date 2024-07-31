@@ -442,6 +442,9 @@
     border-radius: 2rem;
     padding: 2.6rem;
     margin-top: 1.6rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.6rem;
 }
 
 .user-friends div:first-child {
@@ -450,20 +453,19 @@
     justify-content: space-between;
 }
 
-.user-friends div:last-child {
+.user-friends div.friends {
     display: flex;
-    gap: 0.4rem;
-    margin-top: 1rem;
+    gap: 1rem;
     overflow-x: auto;
     scrollbar-width: 0;
 }
 
-.user-friends div:last-child::-webkit-scrollbar {
+.user-friends div.friends::-webkit-scrollbar {
     width: 0;
     height: 0;
 }
 
-.user-friends div:last-child img {
+.user-friends div.friends img {
     min-width: 50px;
     min-height: 50px;
     max-width: 50px;
@@ -471,6 +473,26 @@
     border-radius: 2.5rem;
     object-fit: cover;
 } 
+
+.user-friends div:first-child span {
+    color: var(--else-text-color-50);
+}
+
+.user-friends div.requests {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: var(--else-text-color-50);
+}
+
+.friends .current-friend {
+    display: flex;
+    gap: 0.4rem;
+    flex-direction: column;
+    max-width: max-content;
+    align-items: center;
+    font-size: var(--font-size-1);
+}
 
 @media (max-width: 1320px) {
     .third-part-mobile {
