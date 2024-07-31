@@ -3,6 +3,19 @@ session_start();
 
 require('connect.php');
 require('like-or-dislike.php');
+
+if (isset($_SESSION['user'])) {
+    $id = $_SESSION['user']['id'];
+    $result = $connect->query("SELECT * FROM users WHERE id = $id");
+    if ($result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
+            $username = $row["username"];
+            $first_name = $row["first_name"];
+            $second_name = $row["second_name"];
+            $avatar = $row["avatar"];
+        }
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -38,7 +51,7 @@ require('like-or-dislike.php');
     <main>
         <h1 class="title">Люди в Rampus (Рампус)</h1>
         <?php if (!isset($_SESSION['user'])) {
-            header("Location: auth?request=wall");
+            header("Location: auth?request=people");
             exit();
         } else { ?>
             <section class="wrapper main-section">
@@ -55,6 +68,18 @@ require('like-or-dislike.php');
                         <div>
                             <input type="text" name="search-people" id="search-people" placeholder="Поиск">
                             <img id="icon-search-people" src="pics/SearchIcon.svg">
+                        </div>
+                        <div class="people__current-user" onclick='openOtherUserProfile(event, "<?= $username ?>")'>
+                            <img class='three-dots show-three-dots-popup' onclick='showPopupUserInfo()' src='pics/ThreeDotsIcon.svg'>
+                            <div class='three-dots-popup' id='three-dots-popup_user-info'>
+                                <span class='three-dots-popup-li copy-link' onclick='copyLinkToUser("<?= $username ?>")'>Копировать ссылку</span>
+                                <a class='three-dots-popup-li open-profile' href='./user/<?= $username ?>'>Открыть профиль</a>
+                            </div>
+                            <img src='uploads/avatar/thin_<?= $avatar ?>'>
+                            <div class='current-user-info'>
+                                <p><?= $first_name ?> <?= $second_name?></p>
+                                <p>@<?= $username ?></p>
+                            </div>
                         </div>
                         <div class="people__users">
                             <ul id="success-search-people">

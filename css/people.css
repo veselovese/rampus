@@ -96,7 +96,7 @@
     position: relative;
 }
 
-.second-part>div>img {
+.second-part #icon-search-people {
     max-width: 20px;
     max-height: 20px;
     position: absolute;
@@ -123,11 +123,10 @@
     background-color: var(--block-color);
     box-shadow: var(--shadow-small);
     border-radius: 2rem;
-    padding: 2.6rem;
     display: flex;
     flex-direction: column;
     position: relative;
-    margin-top: 2.6rem;
+    margin-top: 1.6rem;
 }
 
 .people__users ul {
@@ -140,16 +139,85 @@
     display: flex;
     align-items: center;
     gap: 1.6rem;
+    padding: 1.6rem 2.6rem;
     position: relative;
-    margin: 1.6rem 0;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.user:hover {
+    background-color: var(--block-accent-color-06);
 }
 
 .user:first-child {
-    margin-top: 0;
+    border-top-left-radius: 2rem;
+    border-top-right-radius: 2rem;
+    padding-top: 2.6rem;
 }
 
 .user:last-child {
-    margin-bottom: 0;
+    border-bottom-left-radius: 2rem;
+    border-bottom-right-radius: 2rem;
+    padding-bottom: 2.6rem;
+}
+
+.people__current-user {
+    margin-top: 2.6rem;
+    background-color: var(--block-color);
+    box-shadow: var(--shadow-small);
+    padding: 2.6rem;
+    border-radius: 2rem;
+    display: flex;
+    gap: 1.6rem;
+    cursor: pointer;
+    align-items: center;
+    transition: 0.2s;
+}
+
+.people__current-user:hover {
+    background-color: var(--block-accent-color-06);
+}
+
+.people__current-user .current-user-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    font-weight: 620;
+}
+
+.people__current-user .current-user-info p:last-child {
+    font-weight: 400;
+    font-size: var(--font-size-1);
+    color: var(--main-accent-color);
+    
+}
+
+.people__current-user img {
+    min-width: 75px;
+    min-height: 75px;
+    max-width: 75px;
+    max-height: 75px;
+    border-radius: 3.75rem;
+    object-fit: cover;
+}
+
+.user .show-three-dots-popup, .people__current-user .show-three-dots-popup {
+    max-width: 24px;
+    max-height: 6px;
+    min-width: 24px;
+    min-height: 6px;
+    cursor: pointer;
+    position: absolute;
+    right: 2.6rem;
+    top: 3.6rem;
+}
+
+.people__users .user:first-child .show-three-dots-popup {
+    top: 3.6rem;
+}
+
+.user .show-three-dots-popup {
+    top: 2.6rem
 }
 
 .user img {
@@ -159,53 +227,30 @@
     max-height: 75px;
     border-radius: 3.75rem;
     object-fit: cover;
-
 }
 
 .user .current-user-info {
     display: flex;
     flex-direction: column;
-}
-
-.user .current-user-info a {
-    color: var(--main-text-color);
-    font-size: var(--font-size-2);
-}
-
-.user .current-user-info a:hover {
-    opacity: 80%;
-}
-
-.user .current-user-info a:first-child {
     font-weight: 620;
+    gap: 0.4rem;
 }
 
-.user .current-user-info a:last-child {
+.user .current-user-info p:last-child {
+    font-weight: 400;
     color: var(--main-accent-color);
     font-size: var(--font-size-1);
-    margin-top: 0.4rem;
 }
 
-.user .show-three-dots-popup {
-    max-width: 24px;
-    max-height: 6px;
-    min-width: 24px;
-    min-height: 6px;
-    cursor: pointer;
-    position: absolute;
-    right: 0;
-    top: 1rem;
-}
-
-.user .three-dots-popup {
+.three-dots-popup {
     font-size: var(--font-size-1);
     border-radius: 2rem;
     margin: 0;
     display: flex;
     flex-direction: column;
     position: absolute;
-    top: 2.6rem;
-    right: 0;
+    top: 4.2rem;
+    right: 2.6rem;
     visibility: hidden;
     animation: hidePopup 0.2s;
     box-shadow: var(--shadow-popup);
@@ -215,7 +260,20 @@
     overflow: hidden;
 }
 
-.user .three-dots-popup.show {
+.people__users .user:first-child .three-dots-popup {
+    top: 5.2rem;
+}
+
+.show-three-dots-popup:hover {
+    opacity: 80%;
+}
+
+.people__current-user .three-dots-popup {
+    right: 2.6rem;
+    top: 5.2rem;
+}
+
+.three-dots-popup.show {
     visibility: visible;
     animation: showPopup 0.2s;
 }
