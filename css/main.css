@@ -659,6 +659,69 @@ textarea {
     animation: scrollPost 1s 0.5s;
 }
 
+.friend-buttons-div {
+    display: flex;
+    align-items: center;
+    margin-top: 2.6rem;
+    gap: 1.6rem;
+}
+
+#add-to-friends, #unrequest-from-friends {
+    margin: 0;
+}
+
+#unrequest-from-friends {
+    font-size: var(--font-size-1);
+}
+
+.friend-buttons {
+    min-height: 4rem;
+    cursor: pointer;
+    margin-top: 2.6rem;
+    display: flex;
+    align-items: center;
+    padding: 0 1.6rem;
+    border-radius: 2rem;
+    color: var(--block-color);
+    background-color: var(--main-accent-color);
+    max-width: max-content;
+    transition: 0.2s;
+}
+
+.friend-buttons:hover {
+    opacity: 80%;
+}
+
+.friend-buttons:active {
+    transform: scale(95%);
+}
+
+#you-are-friends:hover, #delete-from-friends:hover {
+    opacity: 100%;
+}
+
+#you-are-friends:active, #delete-from-friends:active {
+    transform: scale(100%);
+}
+
+#unrequest-to-friends, #unrequest-from-friends {
+    padding: 0;
+    background-color: transparent;
+    color: var(--error-accent-color);
+}
+
+#delete-from-friends {
+    color: var(--error-accent-color);
+    margin: 0;
+    min-height: auto;
+    border-radius: 0;
+    max-width: none;
+}
+
+#delete-from-friends.friend-buttons.hide {
+    display: none;
+}
+
 .friend-buttons.hide {
     display: none;
 }

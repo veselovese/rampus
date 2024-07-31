@@ -39,6 +39,4 @@ if ($result_people->num_rows > 0) {
             }
         }
     }
-} else {
-    echo "Ничего не найдено";
-}
+} 

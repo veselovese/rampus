@@ -189,7 +189,7 @@
     font-weight: 400;
     font-size: var(--font-size-1);
     color: var(--main-accent-color);
-    
+
 }
 
 .people__current-user img {
@@ -201,7 +201,8 @@
     object-fit: cover;
 }
 
-.user .show-three-dots-popup, .people__current-user .show-three-dots-popup {
+.user .show-three-dots-popup,
+.people__current-user .show-three-dots-popup {
     max-width: 24px;
     max-height: 6px;
     min-width: 24px;
@@ -360,6 +361,14 @@
     header {
         justify-content: space-between;
         gap: 2.6rem;
+    }
+
+    .people__current-user img, .user img {
+        min-width: 50px;
+        min-height: 50px;
+        max-width: 50px;
+        max-height: 50px;
+        border-radius: 2.5rem;
     }
 }
 
