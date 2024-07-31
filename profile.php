@@ -16,7 +16,13 @@ if (isset($_SESSION['user'])) {
             $avatar = $row["avatar"];
         }
     }
-} ?>
+    $result_request_from = $connect->query("SELECT * FROM requests WHERE user_id_from = $id");
+    $result_request_to = $connect->query("SELECT * FROM requests WHERE user_id_to = $id");
+    $result_friend_1 = $connect->query("SELECT users.avatar AS friend_avatar FROM friends JOIN users ON friends.user_id_2 = users.id WHERE user_id_1 = $id");
+    $result_friend_2 = $connect->query("SELECT users.avatar AS friend_avatar FROM friends JOIN users ON friends.user_id_1 = users.id WHERE user_id_2 = $id");
+}
+
+?>
 
 <!DOCTYPE html>
 <html lang="ru">
@@ -78,6 +84,27 @@ if (isset($_SESSION['user'])) {
                                 <p class="first-and-second-names"><?= $first_name . " " . $second_name ?></p>
                                 <p class="username">@<?= $username ?></p>
                                 <p class="description"><?= $description ?></p>
+                            </div>
+                        </div>
+                        <div class="user-friends">
+                            <div>
+                                <p>Друзья</p>
+                                <span><?= $result_friend_1->num_rows + $result_friend_2->num_rows ?></span>
+                            </div>
+                            <div>
+                                <?php if ($result_friend_1->num_rows > 0) {
+                                    while ($row_friend_1 = $result_friend_1->fetch_assoc()) {
+                                        $avatar = $row_friend_1["friend_avatar"];
+                                        echo "<img src='uploads/avatar/thin_$avatar'>";
+                                    }
+                                }
+                                if ($result_friend_2->num_rows > 0) {
+                                    while ($row_friend_2 = $result_friend_2->fetch_assoc()) {
+                                        $avatar = $row_friend_2["friend_avatar"];
+                                        echo "<img src='uploads/avatar/thin_$avatar'>";
+                                    }
+                                }
+                                ?>
                             </div>
                         </div>
                         <?php

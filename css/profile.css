@@ -436,6 +436,42 @@
     display: none;
 }
 
+.user-friends {
+    background-color: var(--block-color);
+    box-shadow: var(--shadow-small);
+    border-radius: 2rem;
+    padding: 2.6rem;
+    margin-top: 1.6rem;
+}
+
+.user-friends div:first-child {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.user-friends div:last-child {
+    display: flex;
+    gap: 0.4rem;
+    margin-top: 1rem;
+    overflow-x: auto;
+    scrollbar-width: 0;
+}
+
+.user-friends div:last-child::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+}
+
+.user-friends div:last-child img {
+    min-width: 50px;
+    min-height: 50px;
+    max-width: 50px;
+    max-height: 50px;
+    border-radius: 2.5rem;
+    object-fit: cover;
+} 
+
 @media (max-width: 1320px) {
     .third-part-mobile {
         display: flex;
