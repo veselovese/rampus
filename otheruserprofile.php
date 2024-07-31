@@ -94,6 +94,8 @@ if ($result->num_rows > 0) {
                                 <p class="first-and-second-names"><?= $other_first_name . " " . $other_second_name ?></p>
                                 <p class="username">@<?= $other_username ?></p>
                                 <p class="description"><?= $other_description ?></p>
+                                <span class="friend-buttons" id='request-to-friends' onclick="requestToFriends(<?= $id ?>, <?= $other_id ?>)">Добавить в друзья</span>
+                                <span class="friend-buttons hide" id='unrequest-to-friends' onclick="unrequestToFriends(<?= $id ?>, <?= $other_id ?>)">Отменить заявку</span>
                             </div>
                         </div>
                         <?php

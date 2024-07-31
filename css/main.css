@@ -659,6 +659,10 @@ textarea {
     animation: scrollPost 1s 0.5s;
 }
 
+.friend-buttons.hide {
+    display: none;
+}
+
 @keyframes scrollPost {
     from {
         background-color: var(--block-color);

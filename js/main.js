@@ -123,3 +123,20 @@ $(document).click(function (e) {
 function copyLinkToUser(i) {
     navigator.clipboard.writeText('https://localhost/rampus/user/' + i);
 }
+
+function copyLinkToOtherUser(id, username) {
+    navigator.clipboard.writeText('https://localhost/rampus/user/' + username);
+    document.getElementById('three-dots-popup_other-user-info_' + id).classList.toggle('show');
+}
+
+function requestToFriends(from, to) {
+    $.post('../request-to-friends', {id_from: from, id_to: to})
+    $('#request-to-friends').addClass('hide');
+    $('#request-to-friends').siblings().removeClass('hide');
+}
+
+function unrequestToFriends(from, to) {
+    $.post('../unrequest-to-friends', {id_from: from, id_to: to})
+    $('#unrequest-to-friends').addClass('hide');
+    $('#unrequest-to-friends').siblings().removeClass('hide');
+}
