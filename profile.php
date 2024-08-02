@@ -152,22 +152,30 @@ if (isset($_SESSION['user'])) {
                             }
                         }
                         ?>
-                        <div class="user-menu-and-third-past-mobile">
-                            <div class="third-part-mobile">
-                                <div class="profile__posts">
-                                    <div>
-                                        <img src="pics/PostIcon.svg">
-                                        <span> <?= $posts_count ?></span>
-                                    </div>
-                                    <p>посты</p>
+
+                        <div class="third-part-mobile">
+                            <div class="profile__posts">
+                                <div>
+                                    <img src="pics/PostsIcon.svg">
+                                    <p>Посты</p>
                                 </div>
-                                <div class="profile__likes">
-                                    <div>
-                                        <img src="pics/LikeIcon.svg">
-                                        <span><?= $likes_count ?></span>
-                                    </div>
-                                    <p>лайки</p>
+                                <span> <?= $posts_count ?></span>
+                            </div>
+                            <div class="div-line"></div>
+                            <div class="profile__likes">
+                                <div>
+                                    <img src="pics/LikesIcon.svg">
+                                    <p>Лайки</p>
                                 </div>
+                                <span><?= $likes_count ?></span>
+                            </div>
+                            <div class="div-line"></div>
+                            <div class="profile__comments">
+                                <div>
+                                    <img src="pics/CommentsIcon.svg">
+                                    <p>Комментарии</p>
+                                </div>
+                                <span><?= $likes_count ?></span>
                             </div>
                         </div>
                         <div class="profile__new-post">

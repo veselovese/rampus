@@ -104,33 +104,46 @@
 
 .third-part-mobile {
     display: none;
-    flex-direction: row;
-    gap: 2.6rem;
+    width: 100%;
     margin-top: 2.6rem;
+    box-shadow: var(--block-color);
+    border-radius: 2rem;
+    overflow: hidden;
+}
+
+.third-part-mobile span {
+    color: var(--else-text-color-50);
 }
 
 .third-part-mobile .profile__posts,
-.third-part-mobile .profile__likes {
+.third-part-mobile .profile__likes,
+.third-part-mobile .profile__comments {
     width: 100%;
 }
 
 .profile__posts,
-.profile__likes {
-    border-radius: 2rem;
-    padding: 2.6rem;
-    box-shadow: var(--shadow-small);
+.profile__likes,
+.profile__comments {
+    padding: 1.6rem 2.6rem;
     display: flex;
     justify-content: space-between;
-    height: calc((33.2rem - 2.6rem) / 2);
-    min-height: 15.3rem;
+    align-items: center;
+    background-color: var(--block-color);
+    transition: 0.2s;
 }
 
 .profile__posts {
-    background-color: var(--else-accent-color-1);
+    padding-top: 2.6rem;
 }
 
-.profile__likes {
-    background-color: var(--else-accent-color-2);
+.profile__comments {
+    padding-bottom: 2.6rem;
+}
+
+.profile__posts:hover,
+.profile__likes:hover,
+.profile__comments:hover {
+    background-color: var(--block-accent-color-06);
 }
 
 .profile__user-menu {
@@ -152,7 +165,6 @@
     text-align: center;
 }
 
-
 .profile__user-menu span:hover {
     color: var(--main-text-color);
     opacity: 50%;
@@ -161,18 +173,21 @@
 }
 
 .profile__posts div,
-.profile__likes div {
+.profile__likes div,
+.profile__comments div {
     display: flex;
-    flex-direction: column;
-    font-size: var(--font-size-3);
-    font-weight: 620;
-    justify-content: space-between;
+    font-size: var(--font-size-2);
+    gap: 1.6rem;
+    align-items: center;
 }
 
 .profile__posts div img,
-.profile__likes div img {
-    max-width: 28px;
+.profile__likes div img,
+.profile__comments div img {
+    max-width: 24px;
     max-height: 24px;
+    min-width: 24px;
+    min-height: 24px;
 }
 
 .profile__new-post {
@@ -474,13 +489,15 @@
     justify-content: space-between;
 }
 
-.friends-info div, .requests div {
+.friends-info div,
+.requests div {
     display: flex;
     align-items: center;
     gap: 1rem;
 }
 
-.friends-info div svg, .requests div svg {
+.friends-info div svg,
+.requests div svg {
     transform: rotate(180deg);
     min-height: 13px;
     max-height: 13px;
@@ -529,8 +546,7 @@
 
 @media (max-width: 1320px) {
     .third-part-mobile {
-        display: flex;
-        width: 100%;
+        display: block;
     }
 
     .third-part {

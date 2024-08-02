@@ -740,6 +740,12 @@ textarea {
     }
 }
 
+@media (max-width: 1080px) {
+    .friend-buttons {
+        font-size: var(--font-size-1);
+    }
+}
+
 @media (max-width: 920px) {
     main {
         padding: 0 5rem;

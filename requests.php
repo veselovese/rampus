@@ -83,8 +83,7 @@ if (isset($_SESSION['user'])) {
                                     echo "</div>";
                                     echo "<span class='friend-buttons hide' id='you-are-friends'>В друзьях</span>";                                    
                                     echo "<div class='friend-buttons-div'>";
-                                    echo "<span class='friend-buttons' id='unrequest-from-friends' onclick='unrequestToFriends($other_id, $id)'>Отклонить</span>";
-                                    echo "<span class='friend-buttons' id='add-to-friends' onclick='addToFriends($other_id, $id)'>Принять заявку</span>";
+                                    echo "<span class='friend-buttons' id='add-to-friends' onclick='addToFriends($other_id, $id)'>Принять</span>";
                                     echo "</div>";
                                     echo "</li>";
                                     if ($counter > 0) {
