@@ -111,7 +111,7 @@ if (isset($_SESSION['user'])) {
                                 }
                                 echo "</ul>";
                             } else { ?>
-                            <p>Не расстраивайся, но у тебя ещё нет друзей</p>
+                            <p>Не расстраивайся, но у тебя нет друзей</p>
                             <?php } ?>
                         </div>
                         <nav class="first-part-mobile">

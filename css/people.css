@@ -338,6 +338,16 @@
     margin-bottom: 2.6rem;
 }
 
+.friend-buttons-div {
+    margin: 0;
+    margin-left: auto;
+}
+
+#you-are-friends {
+    margin: 0;
+    margin-left: auto;
+}
+
 @media (max-width: 1320px) {
     .third-part {
         display: none;

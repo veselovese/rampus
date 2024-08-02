@@ -130,31 +130,37 @@ function copyLinkToOtherUser(id, username) {
 }
 
 function requestToFriends(from, to) {
-    $.post('../request-to-friends', {id_from: from, id_to: to})
+    $.post('../request-to-friends', { id_from: from, id_to: to })
+    $.post('./request-to-friends', { id_from: from, id_to: to })
     $('#request-to-friends').addClass('hide');
     $('#unrequest-to-friends').removeClass('hide');
 }
 
 function unrequestToFriends(from, to) {
-    $.post('../unrequest-to-friends', {id_from: from, id_to: to})
+    $.post('../unrequest-to-friends', { id_from: from, id_to: to })
+    $.post('./unrequest-to-friends', { id_from: from, id_to: to })
     $('#unrequest-to-friends').addClass('hide');
-    $('#unrequest-from-friends').addClass('hide');
-    $('#add-to-friends').addClass('hide');
+    $('.friend-buttons-div').addClass('hide');
+    // $('#add-to-friends').addClass('hide');
+    // $('#unrequest-from-friends').addClass('hide');
     $('#request-to-friends').removeClass('hide');
 }
 
 function addToFriends(from, to) {
-    $.post('../add-to-friends', {id_from: from, id_to: to})
-    $('#add-to-friends').addClass('hide');
+    $.post('../add-to-friends', { id_from: from, id_to: to });
+    $.post('./add-to-friends', { id_from: from, id_to: to });
+    $('.friend-buttons-div').addClass('hide');
+    // $('#add-to-friends').addClass('hide');
+    // $('#unrequest-from-friends').addClass('hide');
     $('#unrequest-to-friends').addClass('hide');
-    $('#unrequest-from-friends').addClass('hide');
     $('#request-to-friends').addClass('hide');
     $('#you-are-friends').removeClass('hide');
     $('#delete-from-friends').removeClass('hide');
 }
 
 function deleteFromFriends(from, to) {
-    $.post('../delete-from-friends', {id_from: from, id_to: to})
+    $.post('../delete-from-friends', { id_from: from, id_to: to })
+    $.post('./delete-from-friends', { id_from: from, id_to: to })
     $('#you-are-friends').addClass('hide');
     $('#delete-from-friends').addClass('hide');
     $('#request-to-friends').removeClass('hide');

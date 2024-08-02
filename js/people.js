@@ -38,7 +38,9 @@ function showPopupUserInfo() {
 
 function openOtherUserProfile(e, i) {
     if ((!$('.show-three-dots-popup').is(e.target)) && ($('.show-three-dots-popup').has(e.target).length === 0)
-        && (!$('.three-dots-popup').is(e.target)) && ($('.three-dots-popup').has(e.target).length === 0)) {
+        && (!$('.three-dots-popup').is(e.target)) && ($('.three-dots-popup').has(e.target).length === 0)
+        && (!$('.friend-buttons-div').is(e.target)) && ($('.friend-buttons-div').has(e.target).length === 0)
+        && (!$('.friend-buttons').is(e.target)) && ($('.friend-buttons').has(e.target).length === 0)) {
         window.location = "user/" + i;
     }
 }

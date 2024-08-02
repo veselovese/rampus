@@ -722,7 +722,7 @@ textarea {
     display: none;
 }
 
-.friend-buttons.hide {
+.friend-buttons.hide, .friend-buttons-div.hide {
     display: none;
 }
 

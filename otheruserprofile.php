@@ -196,7 +196,7 @@ $result_friend = $connect->query("SELECT * FROM friends WHERE (user_id_1 = $id A
                                         ORDER BY UNIX_TIMESTAMP(comments.comment_date) ASC";
                                         $result_comment = $connect->query($sql_comment);
                                         $rows_num_comment = $result_comment->num_rows;
-                                        $sql_like = "SELECT * FROM likes_on_posts WHERE post_id = $i AND user_id = " . $other_id;
+                                        $sql_like = "SELECT * FROM likes_on_posts WHERE post_id = $i AND user_id = " . $id;
                                         $result_like = $connect->query($sql_like);
                                         if ($result_like->num_rows > 0) {
                                             echo "<button id='$i' class='like-button liked'><svg width='23' height='19' viewBox='0 0 23 19' fill='none' xmlns='http://www.w3.org/2000/svg'>

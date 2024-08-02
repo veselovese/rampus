@@ -70,7 +70,7 @@ if (isset($_SESSION['user'])) {
                                 $counter = $result_request_to->num_rows;
                                 while ($row_request = $result_request_to->fetch_assoc()) {
                                     $counter -= 1;
-                                    $id = $row_request['id'];
+                                    $other_id = $row_request['id'];
                                     $username = $row_request['username'];
                                     $avatar = $row_request['avatar'];
                                     $first_name = $row_request['first_name'];
@@ -80,6 +80,11 @@ if (isset($_SESSION['user'])) {
                                     echo "<div class='current-user-info'>";
                                     echo "<p>$first_name $second_name</p>";
                                     echo "<p>@$username</p>";
+                                    echo "</div>";
+                                    echo "<span class='friend-buttons hide' id='you-are-friends'>В друзьях</span>";                                    
+                                    echo "<div class='friend-buttons-div'>";
+                                    echo "<span class='friend-buttons' id='unrequest-from-friends' onclick='unrequestToFriends($other_id, $id)'>Отклонить</span>";
+                                    echo "<span class='friend-buttons' id='add-to-friends' onclick='addToFriends($other_id, $id)'>Принять заявку</span>";
                                     echo "</div>";
                                     echo "</li>";
                                     if ($counter > 0) {
