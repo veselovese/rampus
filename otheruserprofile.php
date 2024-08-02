@@ -46,8 +46,8 @@ $result_friend = $connect->query("SELECT * FROM friends WHERE (user_id_1 = $id A
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-    <link rel="stylesheet" href="../css/main.css?v=140beta">
-    <link rel="stylesheet" href="../css/profile.css?v=140beta">
+    <link rel="stylesheet" href="../css/main.css?v=1401beta">
+    <link rel="stylesheet" href="../css/profile.css?v=1401beta">
     <title>Профиль в Rampus (Рампус)</title>
     <link rel="apple-touch-icon" sizes="57x57" href="../favicons/apple-icon-57x57.png">
     <link rel="apple-touch-icon" sizes="60x60" href="../favicons/apple-icon-60x60.png">
@@ -128,8 +128,14 @@ $result_friend = $connect->query("SELECT * FROM friends WHERE (user_id_1 = $id A
                     FROM posts
                     JOIN users ON posts.user_id = users.id
                     WHERE posts.user_id = $other_id";
+                        $sql_comment_counter = "SELECT comments.id
+                    FROM comments 
+                    JOIN posts ON comments.post_id = posts.id    
+                    JOIN users ON users.id = posts.user_id
+                    WHERE posts.user_id = $other_id";
                         $result = $connect->query($sql);
                         $posts_count = $result->num_rows;
+                        $comment_count = $connect->query($sql_comment_counter)->num_rows;
                         $likes_count = 0;
                         if ($posts_count > 0) {
                             while ($row = $result->fetch_assoc()) {
@@ -140,19 +146,30 @@ $result_friend = $connect->query("SELECT * FROM friends WHERE (user_id_1 = $id A
                         ?>
                         <div class="user-menu-and-third-past-mobile">
                             <div class="third-part-mobile">
-                                <div class="profile__posts">
-                                    <div>
-                                        <img src="../pics/PostIcon.svg">
+                                <div class="profile__counters">
+                                    <div class="profile__posts">
+                                        <div>
+                                            <img src="../pics/PostsIcon.svg">
+                                            <p>Посты</p>
+                                        </div>
                                         <span> <?= $posts_count ?></span>
                                     </div>
-                                    <p>посты</p>
-                                </div>
-                                <div class="profile__likes">
-                                    <div>
-                                        <img src="../pics/LikeIcon.svg">
+                                    <div class="div-line"></div>
+                                    <div class="profile__likes">
+                                        <div>
+                                            <img src="../pics/LikesIcon.svg">
+                                            <p>Лайки</p>
+                                        </div>
                                         <span><?= $likes_count ?></span>
                                     </div>
-                                    <p>лайки</p>
+                                    <div class="div-line"></div>
+                                    <div class="profile__comments">
+                                        <div>
+                                            <img src="../pics/CommentsIcon.svg">
+                                            <p>Комментарии</p>
+                                        </div>
+                                        <span><?= $comment_count ?></span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -276,20 +293,20 @@ $result_friend = $connect->query("SELECT * FROM friends WHERE (user_id_1 = $id A
                             }
                         }
                         ?>
-                        <div>
+                        <div class="profile__counters">
                             <div class="profile__posts">
-                                <div>
-                                    <img src="../pics/PostIcon.svg">
-                                    <span> <?= $posts_count ?></span>
-                                </div>
-                                <p>посты</p>
+                                <img src="../pics/PostsIcon.svg">
+                                <span> <?= $posts_count ?></span>
                             </div>
+                            <div class="div-line"></div>
                             <div class="profile__likes">
-                                <div>
-                                    <img src="../pics/LikeIcon.svg">
-                                    <span><?= $likes_count ?></span>
-                                </div>
-                                <p>лайки</p>
+                                <img src="../pics/LikesIcon.svg">
+                                <span><?= $likes_count ?></span>
+                            </div>
+                            <div class="div-line"></div>
+                            <div class="profile__comments">
+                                <img src="../pics/CommentsIcon.svg">
+                                <span><?= $comment_count ?></span>
                             </div>
                         </div>
                     </div>
@@ -299,9 +316,9 @@ $result_friend = $connect->query("SELECT * FROM friends WHERE (user_id_1 = $id A
 <?php require('footer-2.php');
         } ?>
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-<script src="../js/main.js?v=140beta"></script>
-<script src="../js/profile.js?v=140beta"></script>
-<script src="../js/otheruserprofile.js?v=140beta"></script>
+<script src="../js/main.js?v=1401beta"></script>
+<script src="../js/profile.js?v=1401beta"></script>
+<script src="../js/otheruserprofile.js?v=1401beta"></script>
 </body>
 
 </html>
