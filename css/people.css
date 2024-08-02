@@ -37,7 +37,7 @@
     --else-accent-color-2: #F7D488;
     --error-accent-color: #FF220C;
     --block-accent-color-110: #02020210;
-    --block-accent-color-06: #02020206;
+    --block-accent-color-06: #02020208;
     --block-accent-color-210: #00663310;
     --like-button-accent-color: #FF220C10;
     --shadow-big: 0 0 15px #02020207;
@@ -120,7 +120,6 @@
 
 .people__users {
     width: 100%;
-    background-color: var(--block-color);
     box-shadow: var(--shadow-small);
     border-radius: 2rem;
     display: flex;
@@ -143,6 +142,7 @@
     position: relative;
     cursor: pointer;
     transition: 0.2s;
+    background-color: var(--block-color);
 }
 
 .user:hover {
@@ -324,6 +324,18 @@
         opacity: 0;
         transform: scale(0%) translate(50%, -50%);
     }
+}
+
+.friends__users ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.friends__users > p:first-child {
+    font-size: var(--font-size-3);
+    font-weight: 620;
+    margin-bottom: 2.6rem;
 }
 
 @media (max-width: 1320px) {

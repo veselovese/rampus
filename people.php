@@ -70,14 +70,9 @@ if (isset($_SESSION['user'])) {
                             <img id="icon-search-people" src="pics/SearchIcon.svg">
                         </div>
                         <div class="people__current-user" onclick='openOtherUserProfile(event, "<?= $username ?>")'>
-                            <img class='three-dots show-three-dots-popup' onclick='showPopupUserInfo()' src='pics/ThreeDotsIcon.svg'>
-                            <div class='three-dots-popup' id='three-dots-popup_user-info'>
-                                <span class='three-dots-popup-li copy-link' onclick='copyLinkToUser("<?= $username ?>")'>Копировать ссылку</span>
-                                <a class='three-dots-popup-li open-profile' href='./user/<?= $username ?>'>Открыть профиль</a>
-                            </div>
                             <img src='uploads/avatar/thin_<?= $avatar ?>'>
                             <div class='current-user-info'>
-                                <p><?= $first_name ?> <?= $second_name?></p>
+                                <p><?= $first_name ?> <?= $second_name ?></p>
                                 <p>@<?= $username ?></p>
                             </div>
                         </div>

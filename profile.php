@@ -87,40 +87,53 @@ if (isset($_SESSION['user'])) {
                             </div>
                         </div>
                         <div class="user-friends">
-                            <div>
-                                <p>Друзья</p>
-                                <span><?= $result_friend_1->num_rows + $result_friend_2->num_rows ?></span>
-                            </div>
-                            <?php if (($result_friend_1->num_rows > 0) || ($result_friend_2->num_rows > 0)) {
-                                echo "<div class='friends'>";
-                                if ($result_friend_1->num_rows > 0) {
-                                    while ($row_friend_1 = $result_friend_1->fetch_assoc()) {
-                                        $avatar = $row_friend_1["friend_avatar"];
-                                        $first_name = $row_friend_1["friend_first_name"];
-                                        echo "<div class='current-friend'>";
-                                        echo "<img src='uploads/avatar/thin_$avatar'>";
-                                        echo "<p>$first_name</p>";
-                                        echo "</div>";
-                                    }
-                                }
-                                if ($result_friend_2->num_rows > 0) {
-                                    while ($row_friend_2 = $result_friend_2->fetch_assoc()) {
-                                        $avatar = $row_friend_2["friend_avatar"];
-                                        $first_name = $row_friend_2["friend_first_name"];
-                                        echo "<div class='current-friend'>";
-                                        echo "<img src='uploads/avatar/thin_$avatar'>";
-                                        echo "<p>$first_name</p>";
-                                        echo "</div>";
-                                    }
-                                }
-                                echo "</div>";
-                            } if ($result_request_to->num_rows > 0) { ?>
-                                <div class='div-line'></div>
-                                <div class="requests">
-                                    <p>Заявки</p>
-                                    <span><?= $result_request_to->num_rows ?></span>
+                            <a href="./friends">
+                                <div class="friends-info">
+                                    <p>Друзья</p>
+                                    <div>
+                                        <span><?= $result_friend_1->num_rows + $result_friend_2->num_rows ?></span>
+                                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 240.823 240.823">
+                                            <path d="M57.633,129.007L165.93,237.268c4.752,4.74,12.451,4.74,17.215,0c4.752-4.74,4.752-12.439,0-17.179 l-99.707-99.671l99.695-99.671c4.752-4.74,4.752-12.439,0-17.191c-4.752-4.74-12.463-4.74-17.215,0L57.621,111.816 C52.942,116.507,52.942,124.327,57.633,129.007z"></path>
+                                        </svg>
+                                    </div>
                                 </div>
-                            <?php } ?>
+                                <?php if (($result_friend_1->num_rows > 0) || ($result_friend_2->num_rows > 0)) {
+                                    echo "<div class='friends'>";
+                                    if ($result_friend_1->num_rows > 0) {
+                                        while ($row_friend_1 = $result_friend_1->fetch_assoc()) {
+                                            $avatar = $row_friend_1["friend_avatar"];
+                                            $first_name = $row_friend_1["friend_first_name"];
+                                            echo "<div class='current-friend'>";
+                                            echo "<img src='uploads/avatar/thin_$avatar'>";
+                                            echo "<p>$first_name</p>";
+                                            echo "</div>";
+                                        }
+                                    }
+                                    if ($result_friend_2->num_rows > 0) {
+                                        while ($row_friend_2 = $result_friend_2->fetch_assoc()) {
+                                            $avatar = $row_friend_2["friend_avatar"];
+                                            $first_name = $row_friend_2["friend_first_name"];
+                                            echo "<div class='current-friend'>";
+                                            echo "<img src='uploads/avatar/thin_$avatar'>";
+                                            echo "<p>$first_name</p>";
+                                            echo "</div>";
+                                        }
+                                    }
+                                    echo "</div>";
+                                }
+                                echo "</a>";
+                                if ($result_request_to->num_rows > 0) { ?>
+                                    <div class='div-line'></div>
+                                    <a class="requests" href="./requests">
+                                        <p>Заявки</p>
+                                        <div>
+                                            <span><?= $result_request_to->num_rows ?></span>
+                                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 240.823 240.823">
+                                                <path d="M57.633,129.007L165.93,237.268c4.752,4.74,12.451,4.74,17.215,0c4.752-4.74,4.752-12.439,0-17.179 l-99.707-99.671l99.695-99.671c4.752-4.74,4.752-12.439,0-17.191c-4.752-4.74-12.463-4.74-17.215,0L57.621,111.816 C52.942,116.507,52.942,124.327,57.633,129.007z"></path>
+                                            </svg>
+                                        </div>
+                                    </a>
+                                <?php } ?>
                         </div>
                         <?php
                         require('connect.php');
