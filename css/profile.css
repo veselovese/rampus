@@ -97,33 +97,40 @@
 }
 
 .third-part>div {
-    display: flex;
-    flex-direction: column;
-    gap: 2.6rem;
+    border-radius: 2rem;
+    overflow: hidden;
+    cursor: pointer;
 }
 
 .third-part-mobile {
     display: none;
     width: 100%;
     margin-top: 2.6rem;
+    cursor: pointer;
+}
+
+.third-part-mobile .profile__counters {
+    margin-top: 1.6rem;
     box-shadow: var(--block-color);
     border-radius: 2rem;
     overflow: hidden;
 }
 
-.third-part-mobile span {
+.third-part-mobile span, .third-part span {
     color: var(--else-text-color-50);
 }
 
 .third-part-mobile .profile__posts,
 .third-part-mobile .profile__likes,
-.third-part-mobile .profile__comments {
+.third-part-mobile .profile__comments,
+.third-part-mobile .profile__edit {
     width: 100%;
 }
 
 .profile__posts,
 .profile__likes,
-.profile__comments {
+.profile__comments,
+.profile__edit {
     padding: 1.6rem 2.6rem;
     display: flex;
     justify-content: space-between;
@@ -140,9 +147,16 @@
     padding-bottom: 2.6rem;
 }
 
+.profile__edit {
+    padding: 2.6rem;
+    border-radius: 2rem;
+    color: var(--main-text-color);
+}
+
 .profile__posts:hover,
 .profile__likes:hover,
-.profile__comments:hover {
+.profile__comments:hover,
+.profile__edit:hover {
     background-color: var(--block-accent-color-06);
 }
 
@@ -174,7 +188,8 @@
 
 .profile__posts div,
 .profile__likes div,
-.profile__comments div {
+.profile__comments div,
+.profile__edit div {
     display: flex;
     font-size: var(--font-size-2);
     gap: 1.6rem;
@@ -460,7 +475,7 @@
 .user-friends {
     box-shadow: var(--shadow-small);
     border-radius: 2rem;
-    margin-top: 1.6rem;
+    margin-top: 2.6rem;
     display: flex;
     flex-direction: column;
     overflow: hidden;
@@ -497,7 +512,8 @@
 }
 
 .friends-info div svg,
-.requests div svg {
+.requests div svg,
+.profile__edit svg {
     transform: rotate(180deg);
     min-height: 13px;
     max-height: 13px;

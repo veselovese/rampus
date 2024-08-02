@@ -86,6 +86,65 @@ if (isset($_SESSION['user'])) {
                                 <p class="description"><?= $description ?></p>
                             </div>
                         </div>
+                        <?php
+                        require('connect.php');
+                        $current_user_id = $_SESSION['user']['id'];
+                        $sql = "SELECT posts.likes AS post_likes
+                    FROM posts
+                    JOIN users ON posts.user_id = users.id
+                    WHERE posts.user_id = $current_user_id";
+                        $sql_comment_counter = "SELECT comments.id
+                    FROM comments 
+                    JOIN posts ON comments.post_id = posts.id    
+                    JOIN users ON users.id = posts.user_id
+                    WHERE posts.user_id = $current_user_id";
+                        $result = $connect->query($sql);
+                        $posts_count = $result->num_rows;
+                        $comment_count = $connect->query($sql_comment_counter)->num_rows;
+                        $likes_count = 0;
+                        if ($posts_count > 0) {
+                            while ($row = $result->fetch_assoc()) {
+                                $post_likes = $row["post_likes"];
+                                $likes_count += $post_likes;
+                            }
+                        }
+                        ?>
+                        <div class="third-part-mobile">
+                            <a href="./edit" class="profile__edit">
+                                <div>
+                                    <img src="pics/EditProfileIcon.svg">
+                                    <p>Редактировать</p>
+                                </div>
+                                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 240.823 240.823">
+                                    <path d="M57.633,129.007L165.93,237.268c4.752,4.74,12.451,4.74,17.215,0c4.752-4.74,4.752-12.439,0-17.179 l-99.707-99.671l99.695-99.671c4.752-4.74,4.752-12.439,0-17.191c-4.752-4.74-12.463-4.74-17.215,0L57.621,111.816 C52.942,116.507,52.942,124.327,57.633,129.007z"></path>
+                                </svg>
+                            </a>
+                            <div class="profile__counters">
+                                <div class="profile__posts">
+                                    <div>
+                                        <img src="pics/PostsIcon.svg">
+                                        <p>Посты</p>
+                                    </div>
+                                    <span> <?= $posts_count ?></span>
+                                </div>
+                                <div class="div-line"></div>
+                                <div class="profile__likes">
+                                    <div>
+                                        <img src="pics/LikesIcon.svg">
+                                        <p>Лайки</p>
+                                    </div>
+                                    <span><?= $likes_count ?></span>
+                                </div>
+                                <div class="div-line"></div>
+                                <div class="profile__comments">
+                                    <div>
+                                        <img src="pics/CommentsIcon.svg">
+                                        <p>Комментарии</p>
+                                    </div>
+                                    <span><?= $comment_count ?></span>
+                                </div>
+                            </div>
+                        </div>
                         <div class="user-friends">
                             <a href="./friends">
                                 <div class="friends-info">
@@ -134,49 +193,6 @@ if (isset($_SESSION['user'])) {
                                         </div>
                                     </a>
                                 <?php } ?>
-                        </div>
-                        <?php
-                        require('connect.php');
-                        $current_user_id = $_SESSION['user']['id'];
-                        $sql = "SELECT posts.likes AS post_likes
-                    FROM posts
-                    JOIN users ON posts.user_id = users.id
-                    WHERE posts.user_id = $current_user_id";
-                        $result = $connect->query($sql);
-                        $posts_count = $result->num_rows;
-                        $likes_count = 0;
-                        if ($posts_count > 0) {
-                            while ($row = $result->fetch_assoc()) {
-                                $post_likes = $row["post_likes"];
-                                $likes_count += $post_likes;
-                            }
-                        }
-                        ?>
-
-                        <div class="third-part-mobile">
-                            <div class="profile__posts">
-                                <div>
-                                    <img src="pics/PostsIcon.svg">
-                                    <p>Посты</p>
-                                </div>
-                                <span> <?= $posts_count ?></span>
-                            </div>
-                            <div class="div-line"></div>
-                            <div class="profile__likes">
-                                <div>
-                                    <img src="pics/LikesIcon.svg">
-                                    <p>Лайки</p>
-                                </div>
-                                <span><?= $likes_count ?></span>
-                            </div>
-                            <div class="div-line"></div>
-                            <div class="profile__comments">
-                                <div>
-                                    <img src="pics/CommentsIcon.svg">
-                                    <p>Комментарии</p>
-                                </div>
-                                <span><?= $likes_count ?></span>
-                            </div>
                         </div>
                         <div class="profile__new-post">
                             <form action="./add" method="post" autocomplete="off">
@@ -311,20 +327,20 @@ if (isset($_SESSION['user'])) {
                             }
                         }
                         ?>
-                        <div>
+                        <div class="profile__counters">
                             <div class="profile__posts">
-                                <div>
-                                    <img src="pics/PostIcon.svg">
-                                    <span> <?= $posts_count ?></span>
-                                </div>
-                                <p>посты</p>
+                                <img src="pics/PostsIcon.svg">
+                                <span> <?= $posts_count ?></span>
                             </div>
+                            <div class="div-line"></div>
                             <div class="profile__likes">
-                                <div>
-                                    <img src="pics/LikeIcon.svg">
-                                    <span><?= $likes_count ?></span>
-                                </div>
-                                <p>лайки</p>
+                                <img src="pics/LikesIcon.svg">
+                                <span><?= $likes_count ?></span>
+                            </div>
+                            <div class="div-line"></div>
+                            <div class="profile__comments">
+                                <img src="pics/CommentsIcon.svg">
+                                <span><?= $comment_count ?></span>
                             </div>
                         </div>
                     </div>
