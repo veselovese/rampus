@@ -18,8 +18,8 @@ if (isset($_SESSION['user'])) {
     }
     $result_request_from = $connect->query("SELECT * FROM requests WHERE user_id_from = $id");
     $result_request_to = $connect->query("SELECT * FROM requests WHERE user_id_to = $id");
-    $result_friend_1 = $connect->query("SELECT users.avatar AS friend_avatar, users.first_name AS friend_first_name FROM friends JOIN users ON friends.user_id_2 = users.id WHERE user_id_1 = $id");
-    $result_friend_2 = $connect->query("SELECT users.avatar AS friend_avatar, users.first_name AS friend_first_name FROM friends JOIN users ON friends.user_id_1 = users.id WHERE user_id_2 = $id");
+    $result_friend_1 = $connect->query("SELECT users.avatar AS friend_avatar, users.first_name AS friend_first_name FROM friends JOIN users ON friends.user_id_2 = users.id WHERE user_id_1 = $id ORDER BY friend_date");
+    $result_friend_2 = $connect->query("SELECT users.avatar AS friend_avatar, users.first_name AS friend_first_name FROM friends JOIN users ON friends.user_id_1 = users.id WHERE user_id_2 = $id ORDER BY friend_date");
 }
 
 ?>
@@ -30,8 +30,8 @@ if (isset($_SESSION['user'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-    <link rel="stylesheet" href="css/main.css?v=1401beta">
-    <link rel="stylesheet" href="css/profile.css?v=1401beta">
+    <link rel="stylesheet" href="css/main.css?v=140">
+    <link rel="stylesheet" href="css/profile.css?v=140">
     <title>Профиль в Rampus (Рампус)</title>
     <link rel="apple-touch-icon" sizes="57x57" href="favicons/apple-icon-57x57.png">
     <link rel="apple-touch-icon" sizes="60x60" href="favicons/apple-icon-60x60.png">
@@ -86,73 +86,14 @@ if (isset($_SESSION['user'])) {
                                 <p class="description"><?= $description ?></p>
                             </div>
                         </div>
-                        <?php
-                        require('connect.php');
-                        $current_user_id = $_SESSION['user']['id'];
-                        $sql = "SELECT posts.likes AS post_likes
-                    FROM posts
-                    JOIN users ON posts.user_id = users.id
-                    WHERE posts.user_id = $current_user_id";
-                        $sql_comment_counter = "SELECT comments.id
-                    FROM comments 
-                    JOIN posts ON comments.post_id = posts.id    
-                    JOIN users ON users.id = posts.user_id
-                    WHERE posts.user_id = $current_user_id";
-                        $result = $connect->query($sql);
-                        $posts_count = $result->num_rows;
-                        $comment_count = $connect->query($sql_comment_counter)->num_rows;
-                        $likes_count = 0;
-                        if ($posts_count > 0) {
-                            while ($row = $result->fetch_assoc()) {
-                                $post_likes = $row["post_likes"];
-                                $likes_count += $post_likes;
-                            }
-                        }
-                        ?>
-                        <div class="third-part-mobile">
-                            <a href="./edit" class="profile__edit">
-                                <div>
-                                    <img src="pics/EditProfileIcon.svg">
-                                    <p>Редактировать</p>
-                                </div>
-                                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 240.823 240.823">
-                                    <path d="M57.633,129.007L165.93,237.268c4.752,4.74,12.451,4.74,17.215,0c4.752-4.74,4.752-12.439,0-17.179 l-99.707-99.671l99.695-99.671c4.752-4.74,4.752-12.439,0-17.191c-4.752-4.74-12.463-4.74-17.215,0L57.621,111.816 C52.942,116.507,52.942,124.327,57.633,129.007z"></path>
-                                </svg>
-                            </a>
-                            <div class="profile__counters">
-                                <div class="profile__posts">
-                                    <div>
-                                        <img src="pics/PostsIcon.svg">
-                                        <p>Посты</p>
-                                    </div>
-                                    <span> <?= $posts_count ?></span>
-                                </div>
-                                <div class="div-line"></div>
-                                <div class="profile__likes">
-                                    <div>
-                                        <img src="pics/LikesIcon.svg">
-                                        <p>Лайки</p>
-                                    </div>
-                                    <span><?= $likes_count ?></span>
-                                </div>
-                                <div class="div-line"></div>
-                                <div class="profile__comments">
-                                    <div>
-                                        <img src="pics/CommentsIcon.svg">
-                                        <p>Комментарии</p>
-                                    </div>
-                                    <span><?= $comment_count ?></span>
-                                </div>
-                            </div>
-                        </div>
                         <div class="user-friends">
                             <a href="./friends">
                                 <div class="friends-info">
                                     <p>Друзья</p>
                                     <div>
                                         <span><?= $result_friend_1->num_rows + $result_friend_2->num_rows ?></span>
-                                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 240.823 240.823">
-                                            <path d="M57.633,129.007L165.93,237.268c4.752,4.74,12.451,4.74,17.215,0c4.752-4.74,4.752-12.439,0-17.179 l-99.707-99.671l99.695-99.671c4.752-4.74,4.752-12.439,0-17.191c-4.752-4.74-12.463-4.74-17.215,0L57.621,111.816 C52.942,116.507,52.942,124.327,57.633,129.007z"></path>
+                                        <svg width="8" height="13" viewBox="0 0 8 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M6.96771 6.03603L1.12165 0.191904C0.865127 -0.0639698 0.449521 -0.0639698 0.192352 0.191904C-0.0641698 0.447777 -0.0641699 0.863383 0.192352 1.11926L5.57471 6.49968L0.192999 11.8801C-0.0635223 12.136 -0.0635224 12.5516 0.192999 12.8081C0.44952 13.064 0.865774 13.064 1.1223 12.8081L6.96836 6.96403C7.22094 6.7108 7.22094 6.28866 6.96771 6.03603Z" />
                                         </svg>
                                     </div>
                                 </div>
@@ -187,12 +128,71 @@ if (isset($_SESSION['user'])) {
                                         <p>Заявки</p>
                                         <div>
                                             <span><?= $result_request_to->num_rows ?></span>
-                                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 240.823 240.823">
-                                                <path d="M57.633,129.007L165.93,237.268c4.752,4.74,12.451,4.74,17.215,0c4.752-4.74,4.752-12.439,0-17.179 l-99.707-99.671l99.695-99.671c4.752-4.74,4.752-12.439,0-17.191c-4.752-4.74-12.463-4.74-17.215,0L57.621,111.816 C52.942,116.507,52.942,124.327,57.633,129.007z"></path>
+                                            <svg width="8" height="13" viewBox="0 0 8 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M6.96771 6.03603L1.12165 0.191904C0.865127 -0.0639698 0.449521 -0.0639698 0.192352 0.191904C-0.0641698 0.447777 -0.0641699 0.863383 0.192352 1.11926L5.57471 6.49968L0.192999 11.8801C-0.0635223 12.136 -0.0635224 12.5516 0.192999 12.8081C0.44952 13.064 0.865774 13.064 1.1223 12.8081L6.96836 6.96403C7.22094 6.7108 7.22094 6.28866 6.96771 6.03603Z" />
                                             </svg>
                                         </div>
                                     </a>
                                 <?php } ?>
+                        </div>
+                        <?php
+                        require('connect.php');
+                        $current_user_id = $_SESSION['user']['id'];
+                        $sql = "SELECT posts.likes AS post_likes
+                    FROM posts
+                    JOIN users ON posts.user_id = users.id
+                    WHERE posts.user_id = $current_user_id";
+                        $sql_comment_counter = "SELECT comments.id
+                    FROM comments 
+                    JOIN posts ON comments.post_id = posts.id    
+                    JOIN users ON users.id = posts.user_id
+                    WHERE posts.user_id = $current_user_id";
+                        $result = $connect->query($sql);
+                        $posts_count = $result->num_rows;
+                        $comment_count = $connect->query($sql_comment_counter)->num_rows;
+                        $likes_count = 0;
+                        if ($posts_count > 0) {
+                            while ($row = $result->fetch_assoc()) {
+                                $post_likes = $row["post_likes"];
+                                $likes_count += $post_likes;
+                            }
+                        }
+                        ?>
+                        <div class="third-part-mobile">
+                            <a href="./edit" class="profile__edit">
+                                <div>
+                                    <img src="pics/EditProfileIcon.svg">
+                                    <p>Редактировать</p>
+                                </div>
+                                <svg width="8" height="13" viewBox="0 0 8 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M6.96771 6.03603L1.12165 0.191904C0.865127 -0.0639698 0.449521 -0.0639698 0.192352 0.191904C-0.0641698 0.447777 -0.0641699 0.863383 0.192352 1.11926L5.57471 6.49968L0.192999 11.8801C-0.0635223 12.136 -0.0635224 12.5516 0.192999 12.8081C0.44952 13.064 0.865774 13.064 1.1223 12.8081L6.96836 6.96403C7.22094 6.7108 7.22094 6.28866 6.96771 6.03603Z" />
+                                </svg>
+                            </a>
+                            <div class="profile__counters">
+                                <div class="profile__posts">
+                                    <div>
+                                        <img src="pics/PostsIcon.svg">
+                                        <p>Посты</p>
+                                    </div>
+                                    <span> <?= $posts_count ?></span>
+                                </div>
+                                <div class="div-line"></div>
+                                <div class="profile__likes">
+                                    <div>
+                                        <img src="pics/LikesIcon.svg">
+                                        <p>Лайки</p>
+                                    </div>
+                                    <span><?= $likes_count ?></span>
+                                </div>
+                                <div class="div-line"></div>
+                                <div class="profile__comments">
+                                    <div>
+                                        <img src="pics/CommentsIcon.svg">
+                                        <p>Комментарии</p>
+                                    </div>
+                                    <span><?= $comment_count ?></span>
+                                </div>
+                            </div>
                         </div>
                         <div class="profile__new-post">
                             <form action="./add" method="post" autocomplete="off">
@@ -350,8 +350,8 @@ if (isset($_SESSION['user'])) {
 <?php require('footer.php');
         } ?>
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-<script src="js/main.js?v=1401beta"></script>
-<script src="js/profile.js?v=1401beta"></script>
+<script src="js/main.js?v=140"></script>
+<script src="js/profile.js?v=140"></script>
 </body>
 
 </html>

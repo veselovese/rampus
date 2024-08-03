@@ -5,10 +5,10 @@ $current_user_id = $_SESSION['user']['id'];
 
 if (isset($_POST["people"])) {
     $sql_people = "SELECT *
-    FROM users WHERE users.username LIKE '%" . $_POST["people"] . "%' OR users.first_name LIKE '%" . $_POST["people"] . "%' OR users.second_name LIKE '%" . $_POST["people"] . "%'";
+    FROM users WHERE users.username LIKE '%" . $_POST["people"] . "%' OR users.first_name LIKE '%" . $_POST["people"] . "%' OR users.second_name LIKE '%" . $_POST["people"] . "%' ORDER BY first_name";
 } else {
     $sql_people = "SELECT *
-    FROM users";
+    FROM users ORDER BY first_name";
 }
 
 $result_people = $connect->query($sql_people);

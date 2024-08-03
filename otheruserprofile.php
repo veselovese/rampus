@@ -46,8 +46,8 @@ $result_friend = $connect->query("SELECT * FROM friends WHERE (user_id_1 = $id A
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-    <link rel="stylesheet" href="../css/main.css?v=1401beta">
-    <link rel="stylesheet" href="../css/profile.css?v=1401beta">
+    <link rel="stylesheet" href="../css/main.css?v=140">
+    <link rel="stylesheet" href="../css/profile.css?v=140">
     <title>Профиль в Rampus (Рампус)</title>
     <link rel="apple-touch-icon" sizes="57x57" href="../favicons/apple-icon-57x57.png">
     <link rel="apple-touch-icon" sizes="60x60" href="../favicons/apple-icon-60x60.png">
@@ -316,9 +316,9 @@ $result_friend = $connect->query("SELECT * FROM friends WHERE (user_id_1 = $id A
 <?php require('footer-2.php');
         } ?>
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-<script src="../js/main.js?v=1401beta"></script>
-<script src="../js/profile.js?v=1401beta"></script>
-<script src="../js/otheruserprofile.js?v=1401beta"></script>
+<script src="../js/main.js?v=140"></script>
+<script src="../js/profile.js?v=140"></script>
+<script src="../js/otheruserprofile.js?v=140"></script>
 </body>
 
 </html>
