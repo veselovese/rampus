@@ -38,7 +38,7 @@
     --error-accent-color: #FF220C;
     --block-accent-color-110: #02020210;
     --block-accent-color-06: #02020208;
-    --block-accent-color-210: #00663310;
+    --block-accent-color-210: #EFF5F2;
     --like-button-accent-color: #FF220C10;
     --shadow-big: 0 0 15px #02020207;
     --shadow-small: 0 0 12px #02020205;
@@ -145,6 +145,10 @@
     background-color: var(--block-color);
 }
 
+.requests.user {
+    cursor: auto;
+}
+
 .user:hover {
     background-color: var(--block-accent-color-06);
 }
@@ -199,7 +203,12 @@
 .requests .current-user-info p {
     color: var(--main-accent-color);
     font-weight: 400;
+    cursor: pointer;
 } 
+
+.requests .current-user-info p:hover {
+    opacity: 80%;
+}
 
 .people__current-user img {
     min-width: 75px;
@@ -237,6 +246,10 @@
     max-height: 75px;
     border-radius: 3.75rem;
     object-fit: cover;
+}
+
+.user.requests img {
+    cursor: pointer;
 }
 
 .three-dots-popup {
@@ -339,17 +352,33 @@
     margin-left: auto;
 }
 
-#you-are-friends {
-    margin: 0;
-    margin-left: auto;
-}
-
 .answer-to-request-div {
     position: relative;
     margin-left: auto;
+    max-width: max-content;
+}
+
+.profile__user-info .answer-to-request-div {
+    margin: 2.6rem 0 0;
+}
+
+.answer-to-request.you-are-friends {
+    color: var(--main-accent-color);
+    border: 1px solid var(--main-accent-color);
+    background-color: var(--block-accent-color-210);
+}
+
+.answer-to-request.not-friends {
+    color: var(--main-accent-color);
+    border: 1px solid var(--main-accent-color);
+}
+
+.answer-to-request.you-are-friends svg {
+    fill: var(--main-accent-color);
 }
 
 .answer-to-request {
+    cursor: pointer;
     position: relative;
     display: flex;
     align-items: center;
@@ -362,6 +391,7 @@
     padding: 1rem 1.6rem;
     transition: 0.2s;
     z-index: 7;
+    max-width: max-content;
 }
 
 .answer-to-request:hover, .answer-to-request:active {
@@ -371,6 +401,18 @@
 .answer-to-request.show {
     gap: 2.6rem;
     padding: 1rem 1.6rem 1rem 1.6rem;
+}
+
+.answer-to-request.hide {
+    display: none;
+}
+
+.answer-to-request.unrequested {
+    pointer-events: none;
+}
+
+.answer-to-request.unrequested svg {
+    display: none;
 }
 
 .answer-to-request.show svg {
@@ -384,7 +426,6 @@
     transition: 0.2s;
 }
 
-
 .answer-to-requests-popup {
     font-size: var(--font-size-1);
     border-radius: 1.73rem;
@@ -396,16 +437,16 @@
     right: 0;
     width: 100%;
     visibility: hidden;
-    animation: hidePopupRequest 0.2s;
     border: 1px solid var(--else-text-color-50);
     z-index: 6;
     background-color: var(--block-color);
     overflow: hidden;
+    animation: hidePopupRequest 0.2s;
 }
 
 .answer-to-requests-popup.show {
-    visibility: visible;
     animation: showPopupRequest 0.2s;
+    visibility: visible;
 }
 
 @keyframes showPopupRequest {
@@ -423,12 +464,12 @@
 @keyframes hidePopupRequest {
     from {
         opacity: 1;
-        transform: scale(100%) translate(0, 0);
+        /* transform: scale(100%) translate(0, 0); */
     }
 
     to {
         opacity: 0;
-        transform: scale(0%) translate(0%, -50%);
+        /* transform: scale(0%) translate(0%, -50%); */
     }
 }
 

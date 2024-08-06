@@ -108,6 +108,16 @@ function showPopupAnswerToUser(i) {
     $('#answer-to-request_' + i).toggleClass('show');
 }
 
+function showPopupDeleteUser(i) {
+    $('#popup_delete-from-friends_' + i).toggleClass('show');
+    $('#delete-from-friends_' + i).toggleClass('show');
+}
+
+function showPopupUnrequestToUser(i) {
+    $('#popup_unrequest-to-friends_' + i).toggleClass('show');
+    $('#unrequest-to-friends_' + i).toggleClass('show');
+}
+
 const showPopupButton = $('.show-three-dots-popup');
 const popupDiv = $('.three-dots-popup');
 
@@ -125,6 +135,26 @@ $(document).click(function (e) {
     }
 })
 
+const showPopupButtonRequest = $('.answer-to-request');
+const popupDivRequest = $('.answer-to-requests-popup');
+
+$(document).click(function (e) {
+    let flag = 0;
+    showPopupButtonRequest.each(function () {
+        if (($(this).is(e.target)) && ($(this).has(e.target).length === 0)) {
+            flag = 1;
+        }
+    })
+    if (flag === 0) {
+        popupDivRequest.each(function () {
+            $(this).removeClass('show');
+        })
+        showPopupButtonRequest.each(function () {
+            $(this).removeClass('show');
+        })
+    }
+})
+
 function copyLinkToUser(i) {
     navigator.clipboard.writeText('https://localhost/rampus/user/' + i);
 }
@@ -135,38 +165,49 @@ function copyLinkToOtherUser(id, username) {
 }
 
 function requestToFriends(from, to) {
-    $.post('../request-to-friends', { id_from: from, id_to: to })
-    $.post('./request-to-friends', { id_from: from, id_to: to })
-    $('#request-to-friends').addClass('hide');
-    $('#unrequest-to-friends').removeClass('hide');
+    $.post('../request-to-friends', { id_from: from, id_to: to });
+    $('#request-to-friends_' + to).addClass('hide');
+    $('#unrequest-to-friends_' + to).removeClass('hide');
+    // $('#request-to-friends').addClass('hide');
+    // $('#unrequest-to-friends').removeClass('hide');
 }
 
 function unrequestToFriends(from, to) {
-    $.post('../unrequest-to-friends', { id_from: from, id_to: to })
-    $.post('./unrequest-to-friends', { id_from: from, id_to: to })
-    $('#unrequest-to-friends').addClass('hide');
-    $('.friend-buttons-div').addClass('hide');
-    // $('#add-to-friends').addClass('hide');
-    // $('#unrequest-from-friends').addClass('hide');
-    $('#request-to-friends').removeClass('hide');
+    $.post('../unrequest-to-friends', { id_from: from, id_to: to });
+    $('#unrequest-to-friends_' + to).addClass('hide');
+    $('#request-to-friends_' + to).removeClass('hide');
+
 }
 
-function addToFriends(from, to) {
-    $.post('../add-to-friends', { id_from: from, id_to: to });
+function unrequestToFriendsRequestPage(from, to) {
+    $.post('./unrequest-to-friends', { id_from: from, id_to: to });
+    $('#popup_answer-to-request_' + from).removeClass('show');
+    $('#answer-to-request_' + from).removeClass('show').addClass('unrequested');
+    $('#answer-to-request_' + from).text('Отклонена');
+    // $('#unrequest-to-friends').addClass('hide');
+    // $('.friend-buttons-div').addClass('hide');
+    // // $('#add-to-friends').addClass('hide');
+    // // $('#unrequest-from-friends').addClass('hide');
+    // $('#request-to-friends').removeClass('hide');
+}
+
+function addToFriendsRequestPage(from, to) {
     $.post('./add-to-friends', { id_from: from, id_to: to });
-    $('.friend-buttons-div').addClass('hide');
-    // $('#add-to-friends').addClass('hide');
-    // $('#unrequest-from-friends').addClass('hide');
-    $('#unrequest-to-friends').addClass('hide');
-    $('#request-to-friends').addClass('hide');
-    $('#you-are-friends').removeClass('hide');
-    $('#delete-from-friends').removeClass('hide');
+    $('#popup_answer-to-request_' + from).removeClass('show');
+    $('#answer-to-request_' + from).removeClass('show').addClass('unrequested');
+    $('#answer-to-request_' + from).text('Принята');
+    // $('.friend-buttons-div').addClass('hide');
+    // $('#unrequest-to-friends').addClass('hide');
+    // $('#request-to-friends').addClass('hide');
+    // $('#you-are-friends').removeClass('hide');
+    // $('#delete-from-friends').removeClass('hide');
 }
 
 function deleteFromFriends(from, to) {
-    $.post('../delete-from-friends', { id_from: from, id_to: to })
-    $.post('./delete-from-friends', { id_from: from, id_to: to })
-    $('#you-are-friends').addClass('hide');
-    $('#delete-from-friends').addClass('hide');
-    $('#request-to-friends').removeClass('hide');
+    $.post('../delete-from-friends', { id_from: from, id_to: to });
+    $('#popup_delete-from-friends' + from).removeClass('show');
+    $('#delete-from-friends_' + from).removeClass('show').addClass('hide');
+    // $('#you-are-friends').addClass('hide');
+    // $('#delete-from-friends').addClass('hide');
+    // $('#request-to-friends').removeClass('hide');
 }

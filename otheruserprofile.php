@@ -7,8 +7,8 @@ require('like-or-dislike.php');
 $username = $_GET['username'];
 
 if (!isset($_SESSION['user'])) {
-            header("Location: ../auth");
-            exit();
+    header("Location: ../auth");
+    exit();
 } else {
     $id = $_SESSION['user']['id'];
     $result = $connect->query("SELECT * FROM users WHERE id = $id");
@@ -52,6 +52,7 @@ $result_friend = $connect->query("SELECT * FROM friends WHERE (user_id_1 = $id A
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
     <link rel="stylesheet" href="../css/main.css?v=140">
     <link rel="stylesheet" href="../css/profile.css?v=140">
+    <link rel="stylesheet" href="../css/people.css?v=140">
     <title>Профиль в Rampus (Рампус)</title>
     <link rel="apple-touch-icon" sizes="57x57" href="../favicons/apple-icon-57x57.png">
     <link rel="apple-touch-icon" sizes="60x60" href="../favicons/apple-icon-60x60.png">
@@ -106,9 +107,20 @@ $result_friend = $connect->query("SELECT * FROM friends WHERE (user_id_1 = $id A
                                 <p class="username">@<?= $other_username ?></p>
                                 <p class="description"><?= $other_description ?></p>
                                 <?php if ($result_friend->num_rows > 0) { ?>
-                                    <span class="friend-buttons" id='you-are-friends'>В друзьях</span>
+                                    <div class='answer-to-request-div'>
+                                        <div class='answer-to-request show-answer-to-request-popup you-are-friends' id='delete-from-friends_<?= $other_id ?>' onclick='showPopupDeleteUser(<?= $other_id ?>)'>
+                                            Друзья
+                                            <svg width='8' height='13' viewBox='0 0 8 13' fill='none' xmlns='http://www.w3.org/2000/svg'>
+                                                <path d='M6.96771 6.03603L1.12165 0.191904C0.865127 -0.0639698 0.449521 -0.0639698 0.192352 0.191904C-0.0641698 0.447777 -0.0641699 0.863383 0.192352 1.11926L5.57471 6.49968L0.192999 11.8801C-0.0635223 12.136 -0.0635224 12.5516 0.192999 12.8081C0.44952 13.064 0.865774 13.064 1.1223 12.8081L6.96836 6.96403C7.22094 6.7108 7.22094 6.28866 6.96771 6.03603Z' />
+                                            </svg>
+                                        </div>
+                                        <div class='answer-to-requests-popup' id='popup_delete-from-friends_<?= $other_id ?>'>
+                                            <span class='answer-to-requests-popup-li unrequest' id='unrequest-from-friends_<?= $other_id ?>' onclick='deleteFromFriends(<?= $other_id ?>, <?= $id ?>)'>Удалить</span>
+                                        </div>
+                                    </div>
+                                    <!-- <span class="friend-buttons" id='you-are-friends'>В друзьях</span>
                                     <span class="friend-buttons hide" id='request-to-friends' onclick="requestToFriends(<?= $id ?>, <?= $other_id ?>)">Добавить в друзья</span>
-                                    <span class="friend-buttons hide" id='unrequest-to-friends' onclick="unrequestToFriends(<?= $id ?>, <?= $other_id ?>)">Отменить заявку</span>
+                                    <span class="friend-buttons hide" id='unrequest-to-friends' onclick="unrequestToFriends(<?= $id ?>, <?= $other_id ?>)">Отменить заявку</span> -->
                                 <?php } else if ($result_request_to->num_rows > 0) { ?>
                                     <span class="friend-buttons hide" id='you-are-friends'>В друзьях</span>
                                     <div class="friend-buttons-div">
@@ -118,11 +130,39 @@ $result_friend = $connect->query("SELECT * FROM friends WHERE (user_id_1 = $id A
                                     <span class="friend-buttons hide" id='request-to-friends' onclick="requestToFriends(<?= $id ?>, <?= $other_id ?>)">Добавить в друзья</span>
                                     <span class="friend-buttons hide" id='unrequest-to-friends' onclick="unrequestToFriends(<?= $id ?>, <?= $other_id ?>)">Отменить заявку</span>
                                 <?php } else if ($result_request_from->num_rows > 0) { ?>
-                                    <span class="friend-buttons hide" id='request-to-friends' onclick="requestToFriends(<?= $id ?>, <?= $other_id ?>)">Добавить в друзья</span>
-                                    <span class="friend-buttons" id='unrequest-to-friends' onclick="unrequestToFriends(<?= $id ?>, <?= $other_id ?>)">Отменить заявку</span>
+                                    <div class='answer-to-request-div'>
+                                        <div class='answer-to-request show-answer-to-request-popup' id='unrequest-to-friends_<?= $other_id ?>' onclick='showPopupUnrequestToUser(<?= $other_id ?>)'>
+                                            Заявка отправлена
+                                            <svg width='8' height='13' viewBox='0 0 8 13' fill='none' xmlns='http://www.w3.org/2000/svg'>
+                                                <path d='M6.96771 6.03603L1.12165 0.191904C0.865127 -0.0639698 0.449521 -0.0639698 0.192352 0.191904C-0.0641698 0.447777 -0.0641699 0.863383 0.192352 1.11926L5.57471 6.49968L0.192999 11.8801C-0.0635223 12.136 -0.0635224 12.5516 0.192999 12.8081C0.44952 13.064 0.865774 13.064 1.1223 12.8081L6.96836 6.96403C7.22094 6.7108 7.22094 6.28866 6.96771 6.03603Z' />
+                                            </svg>
+                                        </div>
+                                        <div class='answer-to-requests-popup' id='popup_unrequest-to-friends_<?= $other_id ?>'>
+                                            <span class='answer-to-requests-popup-li unrequest' id='unrequest-to-friends_<?= $other_id ?>' onclick='unrequestToFriends(<?= $id ?>, <?= $other_id ?>)'>Отменить</span>
+                                        </div>
+                                        <div class='answer-to-request show-answer-to-request-popup not-friends hide' id='request-to-friends_<?= $other_id ?>' onclick='requestToFriends(<?= $id ?>, <?= $other_id ?>)'>
+                                            Добавить в друзья
+                                        </div> 
+                                    </div>
+                                    <!-- <span class="friend-buttons hide" id='request-to-friends' onclick="requestToFriends(<?= $id ?>, <?= $other_id ?>)">Добавить в друзья</span>
+                                    <span class="friend-buttons" id='unrequest-to-friends' onclick="unrequestToFriends(<?= $id ?>, <?= $other_id ?>)">Отменить заявку</span> -->
                                 <?php } else { ?>
-                                    <span class="friend-buttons" id='request-to-friends' onclick="requestToFriends(<?= $id ?>, <?= $other_id ?>)">Добавить в друзья</span>
-                                    <span class="friend-buttons hide" id='unrequest-to-friends' onclick="unrequestToFriends(<?= $id ?>, <?= $other_id ?>)">Отменить заявку</span>
+                                    <div class='answer-to-request-div'>
+                                        <div class='answer-to-request show-answer-to-request-popup not-friends' id='request-to-friends_<?= $other_id ?>' onclick='requestToFriends(<?= $id ?>, <?= $other_id ?>)'>
+                                            Добавить в друзья
+                                        </div> 
+                                        <div class='answer-to-request show-answer-to-request-popup hide' id='unrequest-to-friends_<?= $other_id ?>' onclick='showPopupUnrequestToUser(<?= $other_id ?>)'>
+                                            Заявка отправлена
+                                            <svg width='8' height='13' viewBox='0 0 8 13' fill='none' xmlns='http://www.w3.org/2000/svg'>
+                                                <path d='M6.96771 6.03603L1.12165 0.191904C0.865127 -0.0639698 0.449521 -0.0639698 0.192352 0.191904C-0.0641698 0.447777 -0.0641699 0.863383 0.192352 1.11926L5.57471 6.49968L0.192999 11.8801C-0.0635223 12.136 -0.0635224 12.5516 0.192999 12.8081C0.44952 13.064 0.865774 13.064 1.1223 12.8081L6.96836 6.96403C7.22094 6.7108 7.22094 6.28866 6.96771 6.03603Z' />
+                                            </svg>
+                                        </div>
+                                        <div class='answer-to-requests-popup' id='popup_unrequest-to-friends_<?= $other_id ?>'>
+                                            <span class='answer-to-requests-popup-li unrequest' id='unrequest-to-friends_<?= $other_id ?>' onclick='unrequestToFriends(<?= $id ?>, <?= $other_id ?>)'>Отменить</span>
+                                        </div>
+                                    </div>
+                                    <!-- <span class="friend-buttons" id='request-to-friends' onclick="requestToFriends(<?= $id ?>, <?= $other_id ?>)">Добавить в друзья</span>
+                                    <span class="friend-buttons hide" id='unrequest-to-friends' onclick="unrequestToFriends(<?= $id ?>, <?= $other_id ?>)">Отменить заявку</span> -->
                                 <?php } ?>
                             </div>
                         </div>
