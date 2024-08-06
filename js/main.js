@@ -103,6 +103,11 @@ function showPopup(i) {
     document.getElementById('three-dots-popup_' + i).classList.toggle('show');
 }
 
+function showPopupAnswerToUser(i) {
+    $('#popup_answer-to-request_' + i).toggleClass('show');
+    $('#answer-to-request_' + i).toggleClass('show');
+}
+
 const showPopupButton = $('.show-three-dots-popup');
 const popupDiv = $('.three-dots-popup');
 

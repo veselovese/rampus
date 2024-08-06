@@ -30,3 +30,9 @@ function textareaPost(e) {
 function showPopupUserInfo() {
     document.getElementById('three-dots-popup_user-info').classList.toggle('show');
 }
+
+function openFriendsPage(e) {
+    if ((!$('.current-friend').is(e.target)) && ($('.current-friend').has(e.target).length === 0)) {
+        window.location = "friends";
+    }
+}

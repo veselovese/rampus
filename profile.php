@@ -18,8 +18,8 @@ if (isset($_SESSION['user'])) {
     }
     $result_request_from = $connect->query("SELECT * FROM requests WHERE user_id_from = $id");
     $result_request_to = $connect->query("SELECT * FROM requests WHERE user_id_to = $id");
-    $result_friend_1 = $connect->query("SELECT users.avatar AS friend_avatar, users.first_name AS friend_first_name FROM friends JOIN users ON friends.user_id_2 = users.id WHERE user_id_1 = $id ORDER BY friend_date");
-    $result_friend_2 = $connect->query("SELECT users.avatar AS friend_avatar, users.first_name AS friend_first_name FROM friends JOIN users ON friends.user_id_1 = users.id WHERE user_id_2 = $id ORDER BY friend_date");
+    $result_friend_1 = $connect->query("SELECT users.avatar AS friend_avatar, users.first_name AS friend_first_name, users.username AS friend_username FROM friends JOIN users ON friends.user_id_2 = users.id WHERE user_id_1 = $id ORDER BY friend_date");
+    $result_friend_2 = $connect->query("SELECT users.avatar AS friend_avatar, users.first_name AS friend_first_name, users.username AS friend_username FROM friends JOIN users ON friends.user_id_1 = users.id WHERE user_id_2 = $id ORDER BY friend_date");
 }
 
 ?>
@@ -87,7 +87,7 @@ if (isset($_SESSION['user'])) {
                             </div>
                         </div>
                         <div class="user-friends">
-                            <a href="./friends">
+                            <div class="section" onclick="openFriendsPage(event)">
                                 <div class="friends-info">
                                     <p>Друзья</p>
                                     <div>
@@ -101,27 +101,29 @@ if (isset($_SESSION['user'])) {
                                     echo "<div class='friends'>";
                                     if ($result_friend_1->num_rows > 0) {
                                         while ($row_friend_1 = $result_friend_1->fetch_assoc()) {
+                                            $friend_username = $row_friend_1["friend_username"];
                                             $avatar = $row_friend_1["friend_avatar"];
                                             $first_name = $row_friend_1["friend_first_name"];
-                                            echo "<div class='current-friend'>";
+                                            echo "<a class='current-friend' href='./user/$friend_username'>";
                                             echo "<img src='uploads/avatar/thin_$avatar'>";
                                             echo "<p>$first_name</p>";
-                                            echo "</div>";
+                                            echo "</a>";
                                         }
                                     }
                                     if ($result_friend_2->num_rows > 0) {
                                         while ($row_friend_2 = $result_friend_2->fetch_assoc()) {
+                                            $friend_username = $row_friend_2["friend_username"];
                                             $avatar = $row_friend_2["friend_avatar"];
                                             $first_name = $row_friend_2["friend_first_name"];
-                                            echo "<div class='current-friend'>";
+                                            echo "<a class='current-friend' href='./user/$friend_username'>";
                                             echo "<img src='uploads/avatar/thin_$avatar'>";
                                             echo "<p>$first_name</p>";
-                                            echo "</div>";
+                                            echo "</a>";
                                         }
                                     }
                                     echo "</div>";
                                 }
-                                echo "</a>";
+                                echo "</div>";
                                 if ($result_request_to->num_rows > 0) { ?>
                                     <div class='div-line'></div>
                                     <a class="requests" href="./requests">

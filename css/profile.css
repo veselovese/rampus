@@ -99,14 +99,12 @@
 .third-part>div {
     border-radius: 2rem;
     overflow: hidden;
-    cursor: pointer;
 }
 
 .third-part-mobile {
     display: none;
     width: 100%;
     margin-top: 1.6rem;
-    cursor: pointer;
 }
 
 .third-part-mobile .profile__counters {
@@ -145,9 +143,9 @@
     color: var(--main-text-color);
 }
 
-.profile__posts:hover,
-.profile__likes:hover,
-.profile__comments:hover,
+.profile__posts:active,
+.profile__likes:active,
+.profile__comments:active,
 .profile__edit:hover {
     background-color: var(--block-accent-color-06);
 }
@@ -320,7 +318,6 @@
     box-shadow: var(--shadow-popup);
     z-index: 1;
     background-color: var(--block-color);
-    border-radius: 2rem;
     overflow: hidden;
 }
 
@@ -473,27 +470,40 @@
     overflow: hidden;
 }
 
-.user-friends a {
+.user-friends div.section, .user-friends a.requests {
     background-color: var(--block-color);
     font-size: var(--font-size-2);
     color: var(--main-text-color);
     padding: 1.6rem 2.6rem;
 }
 
-.user-friends a:first-child {
+.user-friends div.section {
     display: flex;
     flex-direction: column;
     gap: 1.6rem;
 }
 
-.user-friends a:hover {
+.user-friends div.section:hover, .user-friends a.requests:hover {
     background-color: var(--block-accent-color-06);
+}
+
+.user-friends div.section:hover .friends-info div {
+    gap: 1.2rem;
+}
+
+.user-friends a.requests:hover div {
+    gap: 1.2rem;
+}
+
+.user-friends a.current-friend:hover {
+    opacity: 80%;
 }
 
 .user-friends div.friends-info {
     width: 100%;
     display: flex;
     justify-content: space-between;
+    cursor: pointer;
 }
 
 .friends-info div,
@@ -501,6 +511,7 @@
     display: flex;
     align-items: center;
     gap: 1rem;
+    transition: 0.2s;
 }
 
 .friends-info div svg,

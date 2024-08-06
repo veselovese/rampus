@@ -149,6 +149,10 @@
     background-color: var(--block-accent-color-06);
 }
 
+.user.requests:hover {
+    background-color: var(--block-color);
+}
+
 .user:first-child {
     border-top-left-radius: 2rem;
     border-top-right-radius: 2rem;
@@ -178,19 +182,24 @@
     background-color: var(--block-accent-color-06);
 }
 
-.people__current-user .current-user-info {
+.current-user-info {
     display: flex;
     flex-direction: column;
     gap: 0.4rem;
-    font-weight: 620;
-}
-
-.people__current-user .current-user-info p:last-child {
-    font-weight: 400;
     font-size: var(--font-size-1);
     color: var(--main-accent-color);
-
 }
+
+.current-user-info p:first-child {
+    font-weight: 620;
+    color: var(--main-text-color);
+    font-size: var(--font-size-2);
+}
+
+.requests .current-user-info p {
+    color: var(--main-accent-color);
+    font-weight: 400;
+} 
 
 .people__current-user img {
     min-width: 75px;
@@ -228,19 +237,6 @@
     max-height: 75px;
     border-radius: 3.75rem;
     object-fit: cover;
-}
-
-.user .current-user-info {
-    display: flex;
-    flex-direction: column;
-    font-weight: 620;
-    gap: 0.4rem;
-}
-
-.user .current-user-info p:last-child {
-    font-weight: 400;
-    color: var(--main-accent-color);
-    font-size: var(--font-size-1);
 }
 
 .three-dots-popup {
@@ -332,7 +328,7 @@
     list-style: none;
 }
 
-.friends__users > p:first-child {
+.friends__users>p:first-child {
     font-size: var(--font-size-3);
     font-weight: 620;
     margin-bottom: 2.6rem;
@@ -346,6 +342,124 @@
 #you-are-friends {
     margin: 0;
     margin-left: auto;
+}
+
+.answer-to-request-div {
+    position: relative;
+    margin-left: auto;
+}
+
+.answer-to-request {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 0.625rem;
+    color: var(--else-text-color-50);
+    font-size: var(--font-size-1);
+    border: 1px solid var(--else-text-color-50);
+    background-color: var(--block-color);
+    border-radius: 5rem;
+    padding: 1rem 1.6rem;
+    transition: 0.2s;
+    z-index: 7;
+}
+
+.answer-to-request:hover, .answer-to-request:active {
+    gap: 1rem;
+}
+
+.answer-to-request.show {
+    gap: 2.6rem;
+    padding: 1rem 1.6rem 1rem 1.6rem;
+}
+
+.answer-to-request.show svg {
+    transform: rotate(90deg);
+}
+
+.answer-to-request svg {
+    min-height: 10px;
+    max-height: 10px;
+    fill: var(--else-text-color-50);
+    transition: 0.2s;
+}
+
+
+.answer-to-requests-popup {
+    font-size: var(--font-size-1);
+    border-radius: 1.73rem;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 100%;
+    visibility: hidden;
+    animation: hidePopupRequest 0.2s;
+    border: 1px solid var(--else-text-color-50);
+    z-index: 6;
+    background-color: var(--block-color);
+    overflow: hidden;
+}
+
+.answer-to-requests-popup.show {
+    visibility: visible;
+    animation: showPopupRequest 0.2s;
+}
+
+@keyframes showPopupRequest {
+    from {
+        opacity: 0;
+        transform: scale(0%) translate(0%, -50%);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(100%) translate(0, 0);
+    }
+}
+
+@keyframes hidePopupRequest {
+    from {
+        opacity: 1;
+        transform: scale(100%) translate(0, 0);
+    }
+
+    to {
+        opacity: 0;
+        transform: scale(0%) translate(0%, -50%);
+    }
+}
+
+.answer-to-requests-popup-li {
+    display: block;
+    width: 100%;
+    padding: 1rem 1.6rem;
+    text-transform: none;
+    color: var(--main-accent-color);
+    background-color: var(--block-color);
+    cursor: pointer;
+}
+
+.answer-to-requests-popup-li.unrequest {
+    color: var(--error-accent-color);
+}
+
+.answer-to-requests-popup-li:hover {
+    background-color: var(--block-accent-color-210);
+}
+
+.answer-to-requests-popup-li.unrequest:hover {
+    background-color: var(--like-button-accent-color);
+}
+
+.answer-to-requests-popup-li:first-child {
+    padding-top: 4.46rem;
+}
+
+.answer-to-requests-popup-li:last-child {
+    padding-bottom: 1rem;
 }
 
 @media (max-width: 1320px) {
@@ -385,7 +499,8 @@
         gap: 2.6rem;
     }
 
-    .people__current-user img, .user img {
+    .people__current-user img,
+    .user img {
         min-width: 50px;
         min-height: 50px;
         max-width: 50px;

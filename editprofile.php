@@ -19,14 +19,15 @@ function avatarSecurity($avatar) {
     foreach ($blacklist as $row) {
         if (preg_match("/$row\$/i", $name)) return false;
     }
-
+    
     if (($type != "image/png") && ($type != "image/jpg") && ($type != "image/jpeg")) return false;
-
+    
     return true;
 }
 
 if (avatarSecurity($avatar)) {
     if (move_uploaded_file($avatar['tmp_name'], $uploadfile)) {
+        $uploadfile2 = '../' . $uploadfile;
         $src = imagecreatefromjpeg($uploadfile);
         if(!$src) $src = imagecreatefrompng($uploadfile);
         if(!$src) $src = imagecreatefromgif($uploadfile);

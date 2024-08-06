@@ -5,7 +5,11 @@ require('connect.php');
 require('like-or-dislike.php');
 
 $username = $_GET['username'];
-if (isset($_SESSION['user'])) {
+
+if (!isset($_SESSION['user'])) {
+            header("Location: ../auth");
+            exit();
+} else {
     $id = $_SESSION['user']['id'];
     $result = $connect->query("SELECT * FROM users WHERE id = $id");
     if ($result->num_rows > 0) {
