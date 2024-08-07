@@ -483,8 +483,8 @@
     gap: 1.6rem;
 }
 
-.user-friends div.section:hover, .user-friends a.requests:hover {
-    background-color: var(--block-accent-color-06);
+.user-friends a.requests:hover {
+    background-color: var(--background-color);
 }
 
 .user-friends div.section:hover .friends-info div {

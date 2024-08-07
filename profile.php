@@ -83,7 +83,9 @@ if (isset($_SESSION['user'])) {
                             <div>
                                 <p class="first-and-second-names"><?= $first_name . " " . $second_name ?></p>
                                 <p class="username">@<?= $username ?></p>
-                                <p class="description"><?= $description ?></p>
+                                <?php if ($description != '') { ?>
+                                    <p class="description"><?= $description ?></p>
+                                <?php } ?>
                             </div>
                         </div>
                         <div class="user-friends">

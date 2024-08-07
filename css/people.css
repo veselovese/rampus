@@ -347,6 +347,10 @@
     margin-bottom: 2.6rem;
 }
 
+.friends__users > p:first-child span {
+    color: var(--main-accent-color);
+}
+
 .friend-buttons-div {
     margin: 0;
     margin-left: auto;
@@ -464,12 +468,10 @@
 @keyframes hidePopupRequest {
     from {
         opacity: 1;
-        /* transform: scale(100%) translate(0, 0); */
     }
 
     to {
         opacity: 0;
-        /* transform: scale(0%) translate(0%, -50%); */
     }
 }
 
@@ -522,7 +524,7 @@
 
     .first-part-mobile {
         display: block;
-        z-index: 3;
+        z-index: 998;
     }
 }
 

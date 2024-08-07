@@ -45,3 +45,7 @@ function openOtherUserProfile(e, i) {
         window.location = "user/" + i;
     }
 }
+
+function openOtherUserProfileFromOtherProfile (e, i) {
+    window.location = "../" + i;
+}
