@@ -80,6 +80,11 @@ if (isset($_SESSION['user'])) {
                                         echo "<li class='user' onclick='openOtherUserProfile(event, `$username`)'>";
                                         echo "<img src='uploads/avatar/thin_$avatar'>";
                                         echo "<div class='current-user-info'>";
+                                        if ($username == 'rampus') {
+                                            echo "<p class='rampus'>$first_name $second_name<img src='pics/SuperUserIcon.svg'></p>";
+                                        } else {
+                                            echo "<p>$first_name $second_name</p>";
+                                        }
                                         echo "<p>$first_name $second_name</p>";
                                         echo "<p>@$username</p>";
                                         echo "</div>";
@@ -100,7 +105,11 @@ if (isset($_SESSION['user'])) {
                                         echo "<li class='user' onclick='openOtherUserProfile(event, `$username`)'>";
                                         echo "<img src='uploads/avatar/thin_$avatar'>";
                                         echo "<div class='current-user-info'>";
-                                        echo "<p>$first_name $second_name</p>";
+                                        if ($username == 'rampus') {
+                                            echo "<p class='rampus'>$first_name $second_name<img src='pics/SuperUserIcon.svg'></p>";
+                                        } else {
+                                            echo "<p>$first_name $second_name</p>";
+                                        }
                                         echo "<p>@$username</p>";
                                         echo "</div>";
                                         echo "</li>";

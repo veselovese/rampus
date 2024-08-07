@@ -72,7 +72,11 @@ if (isset($_SESSION['user'])) {
                         <div class="people__current-user" onclick='openOtherUserProfile(event, "<?= $username ?>")'>
                             <img src='uploads/avatar/thin_<?= $avatar ?>'>
                             <div class='current-user-info'>
-                                <p><?= $first_name ?> <?= $second_name ?></p>
+                                <?php if ($username == 'rampus') { ?>
+                                    <p class="rampus"><?= $first_name ?> <?= $second_name ?> <img src="pics/SuperUserIcon.svg"></p>
+                                <?php } else { ?>
+                                    <p><?= $first_name ?> <?= $second_name ?></p>
+                                <?php } ?>
                                 <p>@<?= $username ?></p>
                             </div>
                         </div>

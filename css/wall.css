@@ -130,7 +130,7 @@
 .user-post .three-dots-popup .three-dots-popup-li {
     display: block;
     width: 100%;
-    padding: 0.8rem 2.6rem;
+    padding: 1rem 2.6rem;
     color: var(--main-text-color);
     text-transform: none;
     background-color: var(--block-color);
@@ -458,6 +458,20 @@
     cursor: pointer;
 }
 
+.user-post .first-and-second-names.rampus {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--main-accent-color);
+}
+
+.user-post .first-and-second-names.rampus img {
+    max-width: 16px;
+    max-height: 16px;
+    min-height: 16px;
+    min-width: 16px;
+}
+
 .user-post .first-and-second-names:hover {
     opacity: 80%;
 }
@@ -654,7 +668,16 @@
         top: 4.7rem;
     }
 
-    ;
+    /* .user-post .first-and-second-names.rampus {
+        align-items: flex-start;
+    } */
+
+    .user-post .first-and-second-names.rampus img {
+        max-width: 14px;
+        max-height: 14px;
+        min-height: 14px;
+        min-width: 14px;
+    }
 }
 
 @media (max-width: 480px) {

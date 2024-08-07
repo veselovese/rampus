@@ -204,7 +204,21 @@
     color: var(--main-accent-color);
     font-weight: 400;
     cursor: pointer;
-} 
+}
+
+.current-user-info p.rampus {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--main-accent-color);
+}
+
+.current-user-info p.rampus img {
+    max-width: 16px;
+    max-height: 16px;
+    min-height: 16px;
+    min-width: 16px;
+}
 
 .requests .current-user-info p:hover {
     opacity: 80%;
@@ -347,7 +361,7 @@
     margin-bottom: 2.6rem;
 }
 
-.friends__users > p:first-child span {
+.friends__users>p:first-child span {
     color: var(--main-accent-color);
 }
 
@@ -398,7 +412,8 @@
     max-width: max-content;
 }
 
-.answer-to-request:hover, .answer-to-request:active {
+.answer-to-request:hover,
+.answer-to-request:active {
     gap: 1rem;
 }
 
@@ -530,7 +545,8 @@
 
 @media (max-width: 720px) {
     :root {
-        --font-size-2: 1.6rem
+        --font-size-2: 1.6rem;
+        --font-size-3: 2.4rem;
     }
 
     .wrapper {
@@ -550,7 +566,15 @@
         max-height: 50px;
         border-radius: 2.5rem;
     }
+
+    .current-user-info p.rampus img {
+        max-width: 14px;
+        max-height: 14px;
+        min-height: 14px;
+        min-width: 14px;
+    }
 }
+
 
 @media (max-width: 480px) {
     .wrapper {

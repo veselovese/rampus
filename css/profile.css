@@ -75,6 +75,20 @@
     font-size: var(--font-size-3);
 }
 
+.profile__user-info .first-and-second-names.rampus {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    color: var(--main-accent-color);
+}
+
+.profile__user-info .first-and-second-names.rampus img {
+    max-width: 28px;
+    max-height: 28px;
+    min-height: 28px;
+    min-width: 28px;
+}
+
 .profile__user-info .username {
     color: var(--main-accent-color);
     line-height: 1;
@@ -360,7 +374,7 @@
 .profile__user-info .three-dots-popup .three-dots-popup-li {
     display: block;
     width: 100%;
-    padding: 0.8rem 2.6rem;
+    padding: 1rem 2.6rem;
     color: var(--main-text-color);
     text-transform: none;
     background-color: var(--block-color);
@@ -389,12 +403,13 @@
 
 .user-post p {
     margin: 1.6rem 0 0 0;
-    line-height: 110%;
+    line-height: 125%;
     word-wrap: break-word;
     word-break: break-word;
 }
 
 .user-post p a {
+    line-height: 125%;
     font-size: var(--font-size-2);
     color: var(--main-accent-color);
 }
@@ -470,7 +485,8 @@
     overflow: hidden;
 }
 
-.user-friends div.section, .user-friends a.requests {
+.user-friends div.section,
+.user-friends a.requests {
     background-color: var(--block-color);
     font-size: var(--font-size-2);
     color: var(--main-text-color);
@@ -562,6 +578,11 @@
     font-size: var(--font-size-1);
 }
 
+.friends .current-friend .rampus {
+    color: var(--main-accent-color);
+}
+
+
 @media (max-width: 1320px) {
     .third-part-mobile {
         display: block;
@@ -619,6 +640,17 @@
     .profile__edit svg {
         min-height: 10px;
         max-height: 10px;
+    }
+
+    .profile__user-info .first-and-second-names.rampus {
+        gap: 0.625rem;
+    }
+
+    .profile__user-info .first-and-second-names.rampus img {
+        max-width: 22px;
+        max-height: 22px;
+        min-height: 22px;
+        min-width: 22px;
     }
 }
 

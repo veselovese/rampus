@@ -76,7 +76,11 @@ $result_friend_1 = $connect->query("SELECT * FROM friends JOIN users ON friends.
                                         echo "<li class='user' onclick='openOtherUserProfileFromOtherProfile(event, `$username`)'>";
                                         echo "<img src='../../uploads/avatar/thin_$avatar'>";
                                         echo "<div class='current-user-info'>";
-                                        echo "<p>$first_name $second_name</p>";
+                                        if ($username == 'rampus') {
+                                            echo "<p class='rampus'>$first_name $second_name<img src='../../pics/SuperUserIcon.svg'></p>";
+                                        } else {
+                                            echo "<p>$first_name $second_name</p>";
+                                        }
                                         echo "<p>@$username</p>";
                                         echo "</div>";
                                         echo "</li>";
@@ -96,7 +100,11 @@ $result_friend_1 = $connect->query("SELECT * FROM friends JOIN users ON friends.
                                         echo "<li class='user' onclick='openOtherUserProfileFromOtherProfile(event, `$username`)'>";
                                         echo "<img src='../../uploads/avatar/thin_$avatar'>";
                                         echo "<div class='current-user-info'>";
-                                        echo "<p>$first_name $second_name</p>";
+                                        if ($username == 'rampus') {
+                                            echo "<p class='rampus'>$first_name $second_name<img src='../../pics/SuperUserIcon.svg'></p>";
+                                        } else {
+                                            echo "<p>$first_name $second_name</p>";
+                                        }
                                         echo "<p>@$username</p>";
                                         echo "</div>";
                                         echo "</li>";
@@ -107,7 +115,7 @@ $result_friend_1 = $connect->query("SELECT * FROM friends JOIN users ON friends.
                                 }
                                 echo "</ul>";
                             } else { ?>
-                                <p>Не расстраивайся, но у тебя нет друзей</p>
+                                <p>У пользователя нет друзей</p>
                             <?php } ?>
                         </div>
                         <nav class="first-part-mobile">

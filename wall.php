@@ -98,9 +98,17 @@ require('like-or-dislike.php');
                                         echo "<img class='avatar' src='uploads/avatar/thin_" . $avatar . "'>";
                                         echo "<div>";
                                         if ($user_id == $_SESSION['user']['id']) {
-                                            echo "<a href='./profile' class='first-and-second-names'>" . $first_name . " " . $second_name . "</a>";
+                                            if ($username == 'rampus') {
+                                                echo "<a href='./profile' class='first-and-second-names rampus'>" . $first_name . " " . $second_name . "<img src='pics/SuperUserIcon.svg'></a>";
+                                            } else {
+                                                echo "<a href='./profile' class='first-and-second-names'>" . $first_name . " " . $second_name . "</a>";
+                                            }
                                         } else {
-                                            echo "<a href='./user/$username' class='first-and-second-names'>" . $first_name . " " . $second_name . "</a>";
+                                            if ($username == 'rampus') {
+                                                echo "<a href='./user/$username' class='first-and-second-names rampus'>" . $first_name . " " . $second_name . "<img src='pics/SuperUserIcon.svg'></a>";
+                                            } else {
+                                                echo "<a href='./user/$username' class='first-and-second-names'>" . $first_name . " " . $second_name . "</a>";
+                                            }
                                         }
                                         echo "<span>" . $post_date . "</span>";
                                         echo "</div>";
@@ -179,9 +187,17 @@ require('like-or-dislike.php');
                                                         echo "<img src='uploads/avatar/thin_" . $avatar . "'>";
                                                         echo "<div>";
                                                         if ($comment_user_id == $_SESSION['user']['id']) {
-                                                            echo "<a href='./profile' class='first-and-second-names'>" . $first_name . " " . $second_name . "</a>";
+                                                            if ($comment_username == 'rampus') {
+                                                                echo "<a href='./profile' class='first-and-second-names rampus'>" . $first_name . " " . $second_name . "<img src='pics/SuperUserIcon.svg'></a>";
+                                                            } else {
+                                                                echo "<a href='./profile' class='first-and-second-names'>" . $first_name . " " . $second_name . "</a>";
+                                                            }
                                                         } else {
-                                                            echo "<a href='./user/$comment_username' class='first-and-second-names'>" . $first_name . " " . $second_name . "</a>";
+                                                            if ($comment_username == 'rampus') {
+                                                                echo "<a href='./user/$comment_username' class='first-and-second-names rampus'>" . $first_name . " " . $second_name . "<img src='pics/SuperUserIcon.svg'></a>";
+                                                            } else {
+                                                                echo "<a href='./user/$comment_username' class='first-and-second-names'>" . $first_name . " " . $second_name . "</a>";
+                                                            }
                                                         }
                                                         echo "<p class='comment-text main-text'>" . $comment_text . "</p>";
                                                         echo "<span class='date'>" . $comment_date . "</span>";
@@ -196,9 +212,17 @@ require('like-or-dislike.php');
                                                         echo "<img src='uploads/avatar/thin_" . $avatar . "'>";
                                                         echo "<div>";
                                                         if ($comment_user_id == $_SESSION['user']['id']) {
-                                                            echo "<a href='./profile' class='first-and-second-names'>" . $first_name . " " . $second_name . "</a>";
+                                                            if ($comment_username == 'rampus') {
+                                                                echo "<a href='./profile' class='first-and-second-names rampus'>" . $first_name . " " . $second_name . "<img src='pics/SuperUserIcon.svg'></a>";
+                                                            } else {
+                                                                echo "<a href='./profile' class='first-and-second-names'>" . $first_name . " " . $second_name . "</a>";
+                                                            }
                                                         } else {
-                                                            echo "<a href='./user/$comment_username' class='first-and-second-names'>" . $first_name . " " . $second_name . "</a>";
+                                                            if ($comment_username == 'rampus') {
+                                                                echo "<a href='./user/$comment_username' class='first-and-second-names rampus'>" . $first_name . " " . $second_name . "<img src='pics/SuperUserIcon.svg'></a>";
+                                                            } else {
+                                                                echo "<a href='./user/$comment_username' class='first-and-second-names'>" . $first_name . " " . $second_name . "</a>";
+                                                            }
                                                         }
                                                         echo "<p class='comment-text main-text'>" . $comment_text . "</p>";
                                                         echo "<span class='date'>" . $comment_date . "</span>";
@@ -213,9 +237,17 @@ require('like-or-dislike.php');
                                                     echo "<img src='uploads/avatar/thin_" . $avatar . "'>";
                                                     echo "<div>";
                                                     if ($comment_user_id == $_SESSION['user']['id']) {
-                                                        echo "<a href='./profile' class='first-and-second-names'>" . $first_name . " " . $second_name . "</a>";
+                                                        if ($comment_username == 'rampus') {
+                                                            echo "<a href='./profile' class='first-and-second-names rampus'>" . $first_name . " " . $second_name . "<img src='pics/SuperUserIcon.svg'></a>";
+                                                        } else {
+                                                            echo "<a href='./profile' class='first-and-second-names'>" . $first_name . " " . $second_name . "</a>";
+                                                        }
                                                     } else {
-                                                        echo "<a href='./user/$comment_username' class='first-and-second-names'>" . $first_name . " " . $second_name . "</a>";
+                                                        if ($comment_username == 'rampus') {
+                                                            echo "<a href='./user/$comment_username' class='first-and-second-names rampus'>" . $first_name . " " . $second_name . "<img src='pics/SuperUserIcon.svg'></a>";
+                                                        } else {
+                                                            echo "<a href='./user/$comment_username' class='first-and-second-names'>" . $first_name . " " . $second_name . "</a>";
+                                                        }
                                                     }
                                                     echo "<p class='comment-text main-text'>" . $comment_text . "</p>";
                                                     echo "<span class='date'>" . $comment_date . "</span>";

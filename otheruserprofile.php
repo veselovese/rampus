@@ -105,7 +105,11 @@ $result_friend_2 = $connect->query("SELECT users.avatar AS friend_avatar, users.
                                 <?php } ?>
                             </div>
                             <div>
-                                <p class="first-and-second-names"><?= $other_first_name . " " . $other_second_name ?></p>
+                                <?php if ($other_username == 'rampus') { ?>
+                                    <p class="first-and-second-names rampus"><?= $other_first_name . " " . $other_second_name ?> <img src="../pics/SuperUserIcon.svg"></p>
+                                <?php } else { ?>
+                                    <p class="first-and-second-names"><?= $other_first_name . " " . $other_second_name ?></p>
+                                <?php } ?>
                                 <p class="username">@<?= $other_username ?></p>
                                 <?php if ($other_description != '') { ?>
                                     <p class="description"><?= $other_description ?></p>
@@ -244,7 +248,11 @@ $result_friend_2 = $connect->query("SELECT users.avatar AS friend_avatar, users.
                                             $first_name = $row_friend_1["friend_first_name"];
                                             echo "<a class='current-friend' href='../user/$friend_username'>";
                                             echo "<img src='../uploads/avatar/thin_$avatar'>";
-                                            echo "<p>$first_name</p>";
+                                            if ($friend_username == 'rampus') {
+                                                echo "<p class='rampus'>$first_name</p>";
+                                            } else {
+                                                echo "<p>$first_name</p>";
+                                            }
                                             echo "</a>";
                                         }
                                     }
@@ -255,7 +263,11 @@ $result_friend_2 = $connect->query("SELECT users.avatar AS friend_avatar, users.
                                             $first_name = $row_friend_2["friend_first_name"];
                                             echo "<a class='current-friend' href='../user/$friend_username'>";
                                             echo "<img src='../uploads/avatar/thin_$avatar'>";
-                                            echo "<p>$first_name</p>";
+                                            if ($friend_username == 'rampus') {
+                                                echo "<p class='rampus'>$first_name</p>";
+                                            } else {
+                                                echo "<p>$first_name</p>";
+                                            }
                                             echo "</a>";
                                         }
                                     }
