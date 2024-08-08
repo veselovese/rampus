@@ -520,6 +520,11 @@
     padding-bottom: 1rem;
 }
 
+.friend-status {
+    fill: var(--else-text-color-33);
+    margin-left: auto;
+}
+
 @media (max-width: 1320px) {
     .third-part {
         display: none;
@@ -540,6 +545,10 @@
     .first-part-mobile {
         display: block;
         z-index: 998;
+    }
+
+    .friends__users {
+        min-height: calc(100vh - 7.2rem*2 - 2.6rem*2);
     }
 }
 
@@ -572,6 +581,11 @@
         max-height: 14px;
         min-height: 14px;
         min-width: 14px;
+    }
+
+    .friend-status {
+        max-width: 24px;
+        min-width: 24px;
     }
 }
 

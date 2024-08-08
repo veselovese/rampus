@@ -27,7 +27,7 @@ if ($result_friend_2->num_rows > 0) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
     <link rel="stylesheet" href="css/main.css?v=141">
-    <link rel="stylesheet" href="css/wall2.css?v=141">
+    <link rel="stylesheet" href="css/wall.css?v=141">
     <title>Посты на стене в Rampus (Рампус)</title>
     <link rel="apple-touch-icon" sizes="57x57" href="favicons/apple-icon-57x57.png">
     <link rel="apple-touch-icon" sizes="60x60" href="favicons/apple-icon-60x60.png">
