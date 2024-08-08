@@ -111,6 +111,8 @@
 }
 
 .third-part>div {
+    top: calc(2.6rem + 1.6rem + 7.2rem + 12.125rem);
+    margin-top: 1.6rem;
     border-radius: 2rem;
     overflow: hidden;
 }
@@ -584,14 +586,19 @@
 
 .third-part .blossom-level {
     border-radius: 0;
-    top: calc(2.6rem + 7.2rem + 17.2rem + 2.6rem);
-    margin-top: 2.6rem;
+    top: calc(2.6rem + 7.2rem);
+    background-color: var(--block-color);
+    box-shadow: var(--shadow-small);
+    padding: 2.6rem;
+    border-radius: 2rem;
+    margin: 0;
 }
 
 .blossom-level .progress-div {
     position: relative;
     display: flex;
     align-items: center;
+    margin-top: 1rem;
 }
 
 .blossom-level a {
@@ -604,7 +611,27 @@
 
 .blossom-level a:hover {
     gap: 1.2rem;
-} 
+}
+
+.blossom-level a:hover~.progress-div progress {
+    border: 1px solid var(--main-accent-color);
+}
+
+.blossom-level a:hover~.progress-div progress::-webkit-progress-value {
+    background: var(--main-accent-color);
+}
+
+.blossom-level a:hover~.progress-div progress::-moz-progress-bar {
+    background: var(--main-accent-color);
+}
+
+.blossom-level a:hover~.progress-div .progress {
+    color: var(--main-accent-color);
+}
+
+.blossom-level a:hover~.level span {
+    color: var(--main-accent-color);
+}
 
 .blossom-level svg {
     fill: var(--else-text-color-50);
@@ -614,22 +641,52 @@
     position: absolute;
     left: calc(100% - (100% - var(--r)) + 0.5rem);
     font-size: var(--font-size-1);
+    transition: 0.2s;
+    padding-right: 0.5rem;
+}
+
+.blossom-level .level {
+    display: flex;
+    align-items: center;
+    font-size: var(--font-size-1);
+    justify-content: space-between;
+    width: 100%;
+    margin-top: 0.625rem;
+}
+
+.blossom-level .level span {
+    transition: 0.2s;
 }
 
 .blossom-level progress {
     width: 100%;
     appearance: none;
+    height: 2rem;
+    border-radius: 1rem;
+    border: 1px solid var(--else-text-color-50);
+    background-color: transparent;
+    transition: 0.2s;
+    overflow: hidden;
 }
 
 .blossom-level progress::-webkit-progress-bar {
-    background: #eee;
+    border-radius: 1rem;
+    background: transparent;
+    transition: 0.2s;
+    overflow: hidden;
 }
 
-.blossom-level progress::-webkit-progress-value, .blossom-level progress::-moz-progress-bar {
-    background: var(--main-accent-color);
+.blossom-level progress::-webkit-progress-value {
+    border-radius: 1rem;
+    background: var(--else-text-color-50);
+    transition: 0.2s;
 }
 
-
+.blossom-level progress::-moz-progress-bar {
+    border-radius: 1rem;
+    background: var(--else-text-color-50);
+    transition: 0.2s;
+}
 
 @media (max-width: 1320px) {
     .third-part-mobile {
