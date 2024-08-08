@@ -85,7 +85,6 @@ if (isset($_SESSION['user'])) {
                                         } else {
                                             echo "<p>$first_name $second_name</p>";
                                         }
-                                        echo "<p>$first_name $second_name</p>";
                                         echo "<p>@$username</p>";
                                         echo "</div>";
                                         echo "</li>";

@@ -45,14 +45,14 @@ function textareaPost(e) {
 
 function textareaPostPlaceholder(e) {
     document.getElementById('textarea-post_label').style.display = 'none';
-    if ((document.getElementById('textarea-post').textContent.length < 2) && (e.key=="Backspace")) {
+    if ((document.getElementById('textarea-post').textContent.length < 2) && (e.key == "Backspace")) {
         document.getElementById('textarea-post_label').style.display = 'block';
     }
 }
 
 function textareaCommentPlaceholder(e, i) {
     document.getElementById('textarea-comment_label_' + i).style.display = 'none';
-    if ((document.getElementById('textarea-comment_' + i).textContent.length < 2) && (e.key=="Backspace")) {
+    if ((document.getElementById('textarea-comment_' + i).textContent.length < 2) && (e.key == "Backspace")) {
         document.getElementById('textarea-comment_label_' + i).style.display = 'block';
     }
 }
@@ -69,3 +69,26 @@ function textareaComment(e, i) {
     }
     div.setAttribute('value', obj.textContent);
 }
+
+function showPopupWallFilter() {
+    document.getElementById('popup_wall-filter').classList.toggle('show');
+    document.getElementById('wall-filter').classList.toggle('show');
+    document.getElementById('active').classList.toggle('show');
+}
+
+$(document).click(function (e) {
+    if ((!$('.wall-filter-div').is(e.target)) && ($('.wall-filter-div').has(e.target).length === 0)) {
+        document.getElementById('popup_wall-filter').classList.remove('show');
+        document.getElementById('wall-filter').classList.remove('show');
+        document.getElementById('active').classList.remove('show');
+    }
+})
+
+
+$('#popup_wall-filter').on('click', () => {
+    if ($('#wall-filter-all').is(':checked')) {
+        $('#wall-filter div span').text('все');
+    } else if ($('#wall-filter-friends').is(':checked')) {
+        $('#wall-filter div span').text('друзья');
+    }
+})

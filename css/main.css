@@ -473,12 +473,13 @@ textarea {
     font-size: var(--font-size-2);
     display: block;
     color: var(--else-text-color-50);
-    padding: 2.1rem 2.6rem;
     min-width: 13.935rem;
+    padding: 2.1rem 2.6rem;
 }
 
 .first-part li {
     border-radius: 2rem;
+    overflow: hidden;
     transition: 0.2s;
 }
 
