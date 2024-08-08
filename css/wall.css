@@ -53,6 +53,7 @@
 
 .wall__user-posts {
     margin-top: 2.6rem;
+    display: none;
 }
 
 .wall__user-posts>div:first-child {
@@ -555,6 +556,178 @@
     display: none;
 }
 
+.wall-filter-div {
+    position: relative;
+    width: 100%;
+    display: block;
+    min-width: 13.935rem;
+}
+
+.wall-filter {
+    background-color: var(--block-color);
+    padding: 2.1rem 2.6rem;
+    cursor: pointer;
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    transition: 0.2s;
+    z-index: 9;
+    border-radius: 2rem;
+    color: var(--main-accent-color);
+}
+
+.wall-filter div {
+    font-size: var(--font-size-1);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.wall-filter svg {
+    fill: var(--main-accent-color);
+    min-height: 10px;
+    max-height: 10px;
+    transition: 0.2s;
+}
+
+#active.show {
+    padding-bottom: calc(12.9rem - 6.2rem);
+}
+
+.wall-filter.show {
+    box-shadow: var(--shadow-popup);
+}
+
+.wall-filter.show svg {
+    transform: rotate(90deg);
+}
+
+.wall-filter-popup {
+    font-size: var(--font-size-1);
+    border-radius: 1.73rem;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 100%;
+    visibility: hidden;
+    z-index: 8;
+    background-color: var(--block-color);
+    overflow: hidden;
+    animation: hidePopupRequest 0.2s;
+}
+
+.wall-filter-popup.show {
+    animation: showPopupRequest 0.2s;
+    visibility: visible;
+}
+
+@keyframes showPopupRequest {
+    from {
+        opacity: 0;
+        transform: scale(0%) translate(0%, -50%);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(100%) translate(0, 0);
+    }
+}
+
+@keyframes hidePopupRequest {
+    from {
+        opacity: 1;
+    }
+
+    to {
+        opacity: 0;
+    }
+}
+
+.wall-filter-popup-li {
+    display: block;
+    width: 100%;
+    padding: 1rem 2.6rem;
+    text-transform: none;
+    color: var(--main-text-color);
+    background-color: var(--block-color);
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.wall-filter-popup-li:hover {
+    background-color: var(--block-accent-color-06);
+}
+
+
+.wall-filter-popup-li:first-child {
+    padding-top: 7.2rem;
+}
+
+.wall-filter-popup-li:last-child {
+    padding-bottom: 1rem;
+}
+
+.wall-filter-popup-li input[type='radio'] {
+    display: none;
+}
+
+.wall-filter-popup-li:has([type='radio']:checked) {
+    color: var(--main-accent-color);
+    background-color: var(--block-accent-color-210);
+}
+
+.first-part:has(#wall-filter-all:checked)+.second-and-third-parts #posts-filter-all,
+.first-part:has(#wall-filter-friends:checked)+.second-and-third-parts #posts-filter-friends {
+    display: block;
+}
+
+.wall-filter-mobile {
+    display: none;
+    align-items: center;
+    background-color: var(--block-color);
+    box-shadow: var(--shadow-small);
+    border-radius: 2rem;
+    overflow: hidden;
+    margin-top: 2.6rem;
+}
+
+.wall-filter-mobile .div-line {
+    height: 4rem;
+    width: 1px;
+}
+
+.wall-filter-popup-li-mobile {
+    display: block;
+    width: 100%;
+    /* padding: 1rem 0; */
+    line-height: 4rem;
+    text-transform: none;
+    color: var(--main-text-color);
+    cursor: pointer;
+    transition: 0.2s;
+    display: flex;
+    justify-content: center;
+    min-height: 4rem;
+}
+
+.wall-filter-popup-li-mobile:hover {
+    background-color: var(--block-accent-color-06);
+}
+
+.wall-filter-popup-li-mobile input[type='radio'] {
+    display: none;
+}
+
+.wall-filter-popup-li-mobile:has([type='radio']:checked) {
+    color: var(--main-accent-color);
+    background-color: var(--block-accent-color-210);
+}
+
 @media (max-width: 1320px) {
     .third-part-in-header {
         display: flex;
@@ -597,6 +770,24 @@
     .first-part-mobile {
         display: block;
         z-index: 3;
+    }
+
+    .wall__user-posts {
+        margin-top: 1.6rem;
+    }
+
+    .wall-filter-mobile {
+        display: flex;
+    }
+
+    .first-part:has(#wall-filter-all:checked)+.second-and-third-parts #posts-filter-all,
+    .first-part:has(#wall-filter-friends:checked)+.second-and-third-parts #posts-filter-friends {
+        display: none;
+    }
+
+    .second-and-third-parts .second-part:has(#wall-filter-all-mobile:checked) #posts-filter-all, 
+    .second-and-third-parts .second-part:has(#wall-filter-friends-mobile:checked) #posts-filter-friends {
+        display: block;
     }
 }
 
