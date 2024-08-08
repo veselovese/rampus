@@ -20,8 +20,39 @@ if (isset($_SESSION['user'])) {
     $result_request_to = $connect->query("SELECT * FROM requests WHERE user_id_to = $id");
     $result_friend_1 = $connect->query("SELECT users.avatar AS friend_avatar, users.first_name AS friend_first_name, users.username AS friend_username FROM friends JOIN users ON friends.user_id_2 = users.id WHERE user_id_1 = $id ORDER BY friend_date");
     $result_friend_2 = $connect->query("SELECT users.avatar AS friend_avatar, users.first_name AS friend_first_name, users.username AS friend_username FROM friends JOIN users ON friends.user_id_1 = users.id WHERE user_id_2 = $id ORDER BY friend_date");
-}
 
+    $sql = "SELECT posts.likes AS post_likes
+                    FROM posts
+                    JOIN users ON posts.user_id = users.id
+                    WHERE posts.user_id = $id";
+    $sql_comment_counter = "SELECT comments.id
+                    FROM comments 
+                    JOIN posts ON comments.post_id = posts.id    
+                    JOIN users ON users.id = posts.user_id
+                    WHERE posts.user_id = $id";
+    $sql_commented_counter = "SELECT comments.id
+                    FROM comments
+                    WHERE comments.user_id = $id";
+    $sql_liked_counter = "SELECT likes_on_posts.id
+                    FROM likes_on_posts
+                    WHERE likes_on_posts.user_id = $id";
+    $result = $connect->query($sql);
+    $posts_count = $result->num_rows;
+    $comment_count = $connect->query($sql_comment_counter)->num_rows;
+    $commented_count = $connect->query($sql_commented_counter)->num_rows;
+    $liked_count = $connect->query($sql_liked_counter)->num_rows;
+    $likes_count = 0;
+    if ($posts_count > 0) {
+        while ($row = $result->fetch_assoc()) {
+            $post_likes = $row["post_likes"];
+            $likes_count += $post_likes;
+        }
+    }
+
+    $blossom = ($posts_count * 0.2 + $likes_count * 0.3 + $comment_count * 0.3 + $liked_count * 0.1 + $comment_count * 0.1) / 10;
+    $user_level = intval($blossom);
+    $user_progress = round($blossom - $user_level, 2) * 100;
+}
 ?>
 
 <!DOCTYPE html>
@@ -151,29 +182,6 @@ if (isset($_SESSION['user'])) {
                                     </a>
                                 <?php } ?>
                             </div>
-                            <?php
-                            require('connect.php');
-                            $current_user_id = $_SESSION['user']['id'];
-                            $sql = "SELECT posts.likes AS post_likes
-                    FROM posts
-                    JOIN users ON posts.user_id = users.id
-                    WHERE posts.user_id = $current_user_id";
-                            $sql_comment_counter = "SELECT comments.id
-                    FROM comments 
-                    JOIN posts ON comments.post_id = posts.id    
-                    JOIN users ON users.id = posts.user_id
-                    WHERE posts.user_id = $current_user_id";
-                            $result = $connect->query($sql);
-                            $posts_count = $result->num_rows;
-                            $comment_count = $connect->query($sql_comment_counter)->num_rows;
-                            $likes_count = 0;
-                            if ($posts_count > 0) {
-                                while ($row = $result->fetch_assoc()) {
-                                    $post_likes = $row["post_likes"];
-                                    $likes_count += $post_likes;
-                                }
-                            }
-                            ?>
                             <div class="third-part-mobile">
                                 <a href="./edit" class="profile__edit">
                                     <div>
@@ -326,23 +334,6 @@ if (isset($_SESSION['user'])) {
                             </nav>
                         </div>
                         <div class="third-part">
-                            <?php
-                            require('connect.php');
-                            $current_user_id = $_SESSION['user']['id'];
-                            $sql = "SELECT posts.likes AS post_likes
-                    FROM posts
-                    JOIN users ON posts.user_id = users.id
-                    WHERE posts.user_id = $current_user_id";
-                            $result = $connect->query($sql);
-                            $posts_count = $result->num_rows;
-                            $likes_count = 0;
-                            if ($posts_count > 0) {
-                                while ($row = $result->fetch_assoc()) {
-                                    $post_likes = $row["post_likes"];
-                                    $likes_count += $post_likes;
-                                }
-                            }
-                            ?>
                             <div class="profile__counters">
                                 <div class="profile__posts">
                                     <img src="pics/PostsIcon.svg">
@@ -357,6 +348,22 @@ if (isset($_SESSION['user'])) {
                                 <div class="profile__comments">
                                     <img src="pics/CommentsIcon.svg">
                                     <span><?= $comment_count ?></span>
+                                </div>
+                            </div>
+                            <div class="blossom-level">
+                                <a>
+                                    Blossom
+                                    <svg width="8" height="13" viewBox="0 0 8 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M6.96771 6.03603L1.12165 0.191904C0.865127 -0.0639698 0.449521 -0.0639698 0.192352 0.191904C-0.0641698 0.447777 -0.0641699 0.863383 0.192352 1.11926L5.57471 6.49968L0.192999 11.8801C-0.0635223 12.136 -0.0635224 12.5516 0.192999 12.8081C0.44952 13.064 0.865774 13.064 1.1223 12.8081L6.96836 6.96403C7.22094 6.7108 7.22094 6.28866 6.96771 6.03603Z" />
+                                    </svg>
+                                </a>
+                                <div class="progress-div">
+                                    <progress value="<?= $user_progress ?>" max="100"></progress>
+                                    <span class="progress" style="--r:<?= $user_progress ?>%"><?= $user_progress ?>%</span>
+                                </div>
+                                <div>
+                                    <span><?= $user_level ?></span>
+                                    <span><?= $user_level + 1 ?></span>
                                 </div>
                             </div>
                         </div>
