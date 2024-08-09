@@ -44,6 +44,39 @@ $result_request_to = $connect->query("SELECT * FROM requests WHERE user_id_from 
 $result_friend = $connect->query("SELECT * FROM friends WHERE (user_id_1 = $id AND user_id_2 = $other_id) OR (user_id_2 = $id AND user_id_1 = $other_id)");
 $result_friend_1 = $connect->query("SELECT users.avatar AS friend_avatar, users.first_name AS friend_first_name, users.username AS friend_username FROM friends JOIN users ON friends.user_id_2 = users.id WHERE user_id_1 = $other_id ORDER BY friend_date");
 $result_friend_2 = $connect->query("SELECT users.avatar AS friend_avatar, users.first_name AS friend_first_name, users.username AS friend_username FROM friends JOIN users ON friends.user_id_1 = users.id WHERE user_id_2 = $other_id ORDER BY friend_date");
+
+$sql = "SELECT posts.likes AS post_likes
+                    FROM posts
+                    JOIN users ON posts.user_id = users.id
+                    WHERE posts.user_id = $other_id";
+$sql_comment_counter = "SELECT comments.id
+                    FROM comments 
+                    JOIN posts ON comments.post_id = posts.id    
+                    JOIN users ON users.id = posts.user_id
+                    WHERE posts.user_id = $other_id";
+$sql_commented_counter = "SELECT comments.id
+                    FROM comments
+                    WHERE comments.user_id = $other_id";
+$sql_liked_counter = "SELECT likes_on_posts.id
+                    FROM likes_on_posts
+                    WHERE likes_on_posts.user_id = $other_id";
+$result = $connect->query($sql);
+$posts_count = $result->num_rows;
+$comment_count = $connect->query($sql_comment_counter)->num_rows;
+$commented_count = $connect->query($sql_commented_counter)->num_rows;
+$liked_count = $connect->query($sql_liked_counter)->num_rows;
+$likes_count = 0;
+if ($posts_count > 0) {
+    while ($row = $result->fetch_assoc()) {
+        $post_likes = $row["post_likes"];
+        $likes_count += $post_likes;
+    }
+}
+
+$blossom = ($posts_count + $likes_count * 0.3 + $comment_count * 0.4 + $liked_count * 0.2 + $comment_count * 0.3 + ($result_friend_1->num_rows + $result_friend_2->num_rows) * 0.7) / 10;
+$user_level = intval($blossom);
+$user_progress = round($blossom - $user_level, 2) * 100;
+$user_level += 1;
 ?>
 
 <!DOCTYPE html>
@@ -206,28 +239,19 @@ $result_friend_2 = $connect->query("SELECT users.avatar AS friend_avatar, users.
                                 <?php } ?>
                             </div>
                         </div>
-                        <?php
-                        require('connect.php');
-                        $sql = "SELECT posts.likes AS post_likes
-                    FROM posts
-                    JOIN users ON posts.user_id = users.id
-                    WHERE posts.user_id = $other_id";
-                        $sql_comment_counter = "SELECT comments.id
-                    FROM comments 
-                    JOIN posts ON comments.post_id = posts.id    
-                    JOIN users ON users.id = posts.user_id
-                    WHERE posts.user_id = $other_id";
-                        $result = $connect->query($sql);
-                        $posts_count = $result->num_rows;
-                        $comment_count = $connect->query($sql_comment_counter)->num_rows;
-                        $likes_count = 0;
-                        if ($posts_count > 0) {
-                            while ($row = $result->fetch_assoc()) {
-                                $post_likes = $row["post_likes"];
-                                $likes_count += $post_likes;
-                            }
-                        }
-                        ?>
+                        <div class="blossom-level mobile">
+                            <a>
+                                Цветение
+                            </a>
+                            <div class="progress-div">
+                                <progress value="<?= $user_progress ?>" max="100"></progress>
+                                <span class="progress" style="--r:<?= $user_progress ?>%"><?= $user_progress ?>%</span>
+                            </div>
+                            <div class="level">
+                                <span><?= $user_level ?> уровень</span>
+                                <span><?= $user_level + 1 ?></span>
+                            </div>
+                        </div>
                         <div class="user-friends">
                             <div class="section" onclick="openOtherFriendsPage(event, '<?= $other_username ?>')">
                                 <div class="friends-info">
@@ -408,22 +432,19 @@ $result_friend_2 = $connect->query("SELECT users.avatar AS friend_avatar, users.
                                 </nav>
                             </div>
                             <div class="third-part">
-                                <?php
-                                require('connect.php');
-                                $sql = "SELECT posts.likes AS post_likes
-                    FROM posts
-                    JOIN users ON posts.user_id = users.id
-                    WHERE posts.user_id = $other_id";
-                                $result = $connect->query($sql);
-                                $posts_count = $result->num_rows;
-                                $likes_count = 0;
-                                if ($posts_count > 0) {
-                                    while ($row = $result->fetch_assoc()) {
-                                        $post_likes = $row["post_likes"];
-                                        $likes_count += $post_likes;
-                                    }
-                                }
-                                ?>
+                                <div class="blossom-level">
+                                    <a>
+                                        Цветение
+                                    </a>
+                                    <div class="progress-div">
+                                        <progress value="<?= $user_progress ?>" max="100"></progress>
+                                        <span class="progress" style="--r:<?= $user_progress ?>%"><?= $user_progress ?>%</span>
+                                    </div>
+                                    <div class="level">
+                                        <span><?= $user_level ?> уровень</span>
+                                        <span><?= $user_level + 1 ?></span>
+                                    </div>
+                                </div>
                                 <div class="profile__counters">
                                     <div class="profile__posts">
                                         <img src="../pics/PostsIcon.svg">

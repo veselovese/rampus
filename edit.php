@@ -14,6 +14,7 @@ if (isset($_SESSION['user'])) {
             $first_name = $row["first_name"];
             $second_name = $row["second_name"];
             $avatar = $row["avatar"];
+            $level = $row["blossom_level"];
         }
     }
 } ?>

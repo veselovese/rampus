@@ -596,6 +596,7 @@
 
 .second-part .blossom-level {
     margin-top: 1.6rem;
+    position: static;
     display: none;
     color: var(--else-text-color-50);
 }
@@ -692,6 +693,108 @@
     border-radius: 1rem;
     background: var(--else-text-color-50);
     transition: 0.2s;
+}
+
+.user__blossom p {
+    font-size: var(--font-size-3);
+    font-weight: 620;
+}
+
+.user__blossom>div {
+    margin-top: 2.6rem;
+}
+
+.user__blossom .blossom-description {
+    font-size: var(--font-size-2);
+    color: var(--else-text-color-50);
+    font-weight: 400;
+    padding: 2.6rem;
+    background-color: var(--block-color);
+    box-shadow: var(--shadow-small);
+    border-radius: 2rem;
+    line-height: 125%;
+    cursor: default;
+}
+
+.main-statistic-div {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    margin-top: 1.6rem;
+}
+
+.main-statistic {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: calc((100% - 2.6rem*2)/3);
+    background-color: var(--block-color);
+    box-shadow: var(--shadow-small);
+    border-radius: 2rem;
+    padding: 2.6rem;
+    gap: 1rem;
+    text-align: center;
+    font-size: var(--font-size-1);
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.main-statistic:hover {
+    color: var(--main-accent-color);
+    transform: scale(105%);
+}
+
+.main-statistic span {
+    font-size: var(--font-size-3);
+    font-weight: 620;
+}
+
+.blossom-param {
+    display: flex;
+    gap: 1.6rem;
+    width: 100%;
+    margin-top: 1.6rem;
+}
+
+.blossom-param > div {
+    display: flex;
+    flex-direction: column;
+    gap: 1.6rem;
+    width: 100%;
+}
+
+.blossom-param .current-param {
+    display: flex;
+    gap: 1rem;
+    background-color: var(--block-color);
+    box-shadow: var(--shadow-small);
+    padding: 2.6rem;
+    align-items: center;
+    border-radius: 2rem;
+    transition: 0.2s;
+    cursor: pointer;
+}
+
+.blossom-param .current-param:hover {
+    transform: scale(105%);
+}
+
+.blossom-param .current-param img {
+    transition: 0.2s;
+}
+
+.blossom-param .current-param:hover img {
+    transform: scale(125%); 
+}
+
+.blossom-param .current-param p {
+    font-size: var(--font-size-1);
+    font-weight: 400;
+}
+
+.blossom-param .current-param span {
+    margin-left: auto;
+    color: var(--else-text-color-50);
 }
 
 @media (max-width: 1320px) {
