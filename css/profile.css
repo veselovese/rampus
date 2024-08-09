@@ -584,8 +584,8 @@
     color: var(--main-accent-color);
 }
 
-.third-part .blossom-level {
-    border-radius: 0;
+.third-part .blossom-level,
+.second-part .blossom-level {
     top: calc(2.6rem + 7.2rem);
     background-color: var(--block-color);
     box-shadow: var(--shadow-small);
@@ -594,11 +594,19 @@
     margin: 0;
 }
 
+.second-part .blossom-level {
+    margin-top: 1.6rem;
+    display: none;
+    color: var(--else-text-color-50);
+}
+
 .blossom-level .progress-div {
     position: relative;
     display: flex;
     align-items: center;
     margin-top: 1rem;
+    overflow: hidden;
+    border-radius: 1rem;
 }
 
 .blossom-level a {
@@ -642,7 +650,6 @@
     left: calc(100% - (100% - var(--r)) + 0.5rem);
     font-size: var(--font-size-1);
     transition: 0.2s;
-    padding-right: 0.5rem;
 }
 
 .blossom-level .level {
@@ -666,7 +673,6 @@
     border: 1px solid var(--else-text-color-50);
     background-color: transparent;
     transition: 0.2s;
-    overflow: hidden;
 }
 
 .blossom-level progress::-webkit-progress-bar {
@@ -695,6 +701,10 @@
 
     .third-part {
         display: none;
+    }
+
+    .second-part .blossom-level {
+        display: block;
     }
 }
 
@@ -756,6 +766,11 @@
         max-height: 22px;
         min-height: 22px;
         min-width: 22px;
+    }
+
+    .second-part .blossom-level svg {
+        min-height: 10px;
+        max-height: 10px;
     }
 }
 

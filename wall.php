@@ -98,10 +98,20 @@ if ($result_friend_2->num_rows > 0) {
                                 <button disabled class="" type="submit" id="textarea-post_sumbit"><img src="pics/SendIcon.svg"></button>
                             </form>
                         </div>
-                        <div class="wall-filter-mobile">
-                            <label class="wall-filter-popup-li-mobile">Все<input checked name="wall-filter-mobile" id="wall-filter-all-mobile" type="radio" value=""></label>
-                            <div class='div-line'></div>
-                            <label class="wall-filter-popup-li-mobile">Друзья<input name="wall-filter-mobile" id="wall-filter-friends-mobile" type="radio" value=""></label>
+                        <div class="wall-filter-mobile" id="wall-filter-mobile">
+                            <div class="wall-filter-mobile-info" id='wall-filter-mobile-info' onclick='showPopupWallFilterMobile()'>
+                                <span>
+                                    Все
+                                </span>
+                                <svg width='8' height='13' viewBox='0 0 8 13' fill='none' xmlns='http://www.w3.org/2000/svg'>
+                                    <path d='M6.96771 6.03603L1.12165 0.191904C0.865127 -0.0639698 0.449521 -0.0639698 0.192352 0.191904C-0.0641698 0.447777 -0.0641699 0.863383 0.192352 1.11926L5.57471 6.49968L0.192999 11.8801C-0.0635223 12.136 -0.0635224 12.5516 0.192999 12.8081C0.44952 13.064 0.865774 13.064 1.1223 12.8081L6.96836 6.96403C7.22094 6.7108 7.22094 6.28866 6.96771 6.03603Z' />
+                                </svg>
+                            </div>
+                            <div class='wall-filter-popup-mobile' id='popup_wall-filter-mobile'>
+                                <label class="wall-filter-popup-li-mobile">все<input checked name="wall-filter-mobile" id="wall-filter-all-mobile" type="radio" value=""></label>
+                                <div class='div-line'></div>
+                                <label class="wall-filter-popup-li-mobile">друзья<input name="wall-filter-mobile" id="wall-filter-friends-mobile" type="radio" value=""></label>
+                            </div>
                         </div>
                         <div class="wall__user-posts" id="posts-filter-all">
                             <div>

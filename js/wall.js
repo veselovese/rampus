@@ -84,11 +84,34 @@ $(document).click(function (e) {
     }
 })
 
-
 $('#popup_wall-filter').on('click', () => {
     if ($('#wall-filter-all').is(':checked')) {
         $('#wall-filter div span').text('все');
     } else if ($('#wall-filter-friends').is(':checked')) {
         $('#wall-filter div span').text('друзья');
+    }
+})
+
+function showPopupWallFilterMobile() {
+    document.getElementById('wall-filter-mobile').classList.toggle('show');
+    document.getElementById('wall-filter-mobile-info').classList.toggle('show');
+    document.getElementById('popup_wall-filter-mobile').classList.toggle('show');
+}
+
+$(document).click(function (e) {
+    if ((!$('.wall-filter-mobile').is(e.target)) && ($('.wall-filter-mobile').has(e.target).length === 0)) {
+        document.getElementById('popup_wall-filter-mobile').classList.remove('show');
+        document.getElementById('wall-filter-mobile').classList.remove('show');
+        document.getElementById('wall-filter-mobile-info').classList.remove('show');
+    }
+})
+
+$('#popup_wall-filter-mobile').on('click', () => {
+    if ($('#wall-filter-all-mobile').is(':checked')) {
+        $('#wall-filter-mobile div span').text('Все');
+        $('#popup_wall-filter-mobile').removeClass('friends');
+    } else if ($('#wall-filter-friends-mobile').is(':checked')) {
+        $('#wall-filter-mobile div span').text('Друзья');
+        $('#popup_wall-filter-mobile').addClass('friends');
     }
 })
