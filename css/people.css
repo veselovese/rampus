@@ -525,6 +525,31 @@
     margin-left: auto;
 }
 
+.people__top-users {
+    background-color: var(--block-color);
+    margin-top: 2.6rem;
+    border-radius: 2rem;
+    cursor: pointer;
+}
+
+.people__top-users .top-title {
+    padding: 1.6rem 2.6rem 0;
+    margin-bottom: 1.6rem;
+    display: flex;
+    align-items: center;
+}
+
+.people__top-users .top-title svg {
+    fill: var(--else-text-color-50);
+    margin-left: auto;
+    margin-right: 0.2rem;
+    transition: 0.2s;
+}
+
+.people__top-users .top-title:hover svg {
+    margin-right: 0;
+}
+
 @media (max-width: 1320px) {
     .third-part {
         display: none;
