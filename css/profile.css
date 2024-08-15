@@ -40,7 +40,7 @@
     --block-accent-color-06: #02020206;
     --block-accent-color-210: #00663310;
     --like-button-accent-color: #FF220C10;
-    --blossom-color: #533A7B;
+    --param-color: #533A7B;
     --posts-color: #3891A6;
     --likes-color: #DB5461;
     --comments-color: #D5A021;
@@ -153,16 +153,13 @@
     transition: 0.2s;
 }
 
-.profile__posts:hover {
-    color: var(--posts-color);
-}
-
-.profile__likes:hover {
-    color: var(--likes-color)
-}
-
-.profile__comments:hover {
-    color: var(--comments-color);
+.profile__posts:hover,
+.profile__likes:hover,
+.profile__comments:hover,
+.profile__posts:active,
+.profile__likes:active,
+.profile__comments:active {
+    color: var(--param-color);
 }
 
 .profile__edit {
@@ -646,7 +643,7 @@
 }
 
 .blossom-level:hover .progress-div .progress {
-   opacity: 1;
+    opacity: 1;
 }
 
 .blossom-level:hover .blossom-title svg:last-child {
@@ -701,21 +698,24 @@
 
 .blossom-level progress::-webkit-progress-value {
     border-radius: 1rem;
-    /* background: var(--blossom-color); */
     background: linear-gradient(-135deg, var(--posts-color), var(--likes-color), var(--comments-color));
     transition: 0.2s;
 }
 
 .blossom-level progress::-moz-progress-bar {
     border-radius: 1rem;
-    /* background: var(--blossom-color); */
     background: linear-gradient(-135deg, var(--posts-color), var(--likes-color), var(--comments-color));
     transition: 0.2s;
 }
 
-.user__blossom p {
+.user__blossom h2 {
+    background: linear-gradient(-135deg, var(--posts-color), var(--likes-color), var(--comments-color));
+    -webkit-background-clip: text;
+    background-clip: text; 
+    -webkit-text-fill-color: transparent;
     font-size: var(--font-size-3);
     font-weight: 620;
+    max-width: max-content;
 }
 
 .user__blossom>div {
@@ -764,13 +764,16 @@
 }
 
 .main-statistic:hover {
-    color: var(--main-accent-color);
     transform: scale(105%);
 }
 
 .main-statistic span {
     font-size: var(--font-size-3);
     font-weight: 620;
+    background: linear-gradient(-135deg, var(--posts-color), var(--likes-color), var(--comments-color));
+    -webkit-background-clip: text;
+    background-clip: text; 
+    -webkit-text-fill-color: transparent;
 }
 
 .blossom-param {

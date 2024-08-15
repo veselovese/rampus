@@ -98,7 +98,7 @@ if (isset($_SESSION['user'])) {
                 <div class="second-and-third-parts">
                     <div class="second-part">
                         <div class="user__blossom">
-                            <p>Уровень цветения</p>
+                            <h2>Уровень цветения</h2>
                             <div>
                                 <p class="blossom-description">Уровень цветения профиля — это показатель вашей активности, который складывается из нескольких показателей</p>
                                 <div class="main-statistic-div">
@@ -106,7 +106,7 @@ if (isset($_SESSION['user'])) {
                                     <div class="main-statistic"><span>*</span>место в рейтинге</div>
                                     <div class="main-statistic"><span><?= 100 - $user_progress ?>%</span>до <?= $user_level + 1 ?> уровня</div>
                                 </div>
-                                <p class="blossom-description">Ваши показатели</p>
+                                <!-- <p class="blossom-description">Ваши показатели</p> -->
                                 <div class="blossom-param">
                                     <div>
                                         <div class="current-param">
@@ -127,17 +127,17 @@ if (isset($_SESSION['user'])) {
                                     </div>
                                     <div>
                                         <div class="current-param">
-                                            <img src="pics/PostsIcon.svg">
+                                            <img src="pics/FriendsIcon.svg">
                                             <p>Друзья</p>
                                             <span><?= ($result_friend_1->num_rows + $result_friend_2->num_rows) ?></span>
                                         </div>
                                         <div class="current-param">
-                                            <img src="pics/LikesIcon.svg">
+                                            <img src="pics/LikedIcon.svg">
                                             <p>Поставленные лайки</p>
                                             <span><?= $liked_count ?></span>
                                         </div>
                                         <div class="current-param">
-                                            <img src="pics/CommentsIcon.svg">
+                                            <img src="pics/CommentedIcon.svg">
                                             <p>Оставленные комментарии</p>
                                             <span><?= $commented_count ?></span>
                                         </div>
