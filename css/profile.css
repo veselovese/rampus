@@ -41,6 +41,9 @@
     --block-accent-color-210: #00663310;
     --like-button-accent-color: #FF220C10;
     --blossom-color: #533A7B;
+    --posts-color: #3891A6;
+    --likes-color: #DB5461;
+    --comments-color: #D5A021;
     --shadow-big: 0 0 15px #02020207;
     --shadow-small: 0 0 12px #02020205;
     --shadow-popup: 0 0 9px #02020211;
@@ -142,7 +145,6 @@
 .profile__edit {
     padding: 1rem 0;
     display: flex;
-    /* justify-content: space-between; */
     font-size: var(--font-size-1);
     color: var(--else-text-color-50);
     gap: 1rem;
@@ -151,16 +153,21 @@
     transition: 0.2s;
 }
 
+.profile__posts:hover {
+    color: var(--posts-color);
+}
+
+.profile__likes:hover {
+    color: var(--likes-color)
+}
+
+.profile__comments:hover {
+    color: var(--comments-color);
+}
+
 .profile__edit {
     border-radius: 2rem;
     color: var(--main-text-color);
-}
-
-.profile__posts:active,
-.profile__likes:active,
-.profile__comments:active,
-.profile__edit:hover {
-    background-color: var(--block-accent-color-06);
 }
 
 .profile__user-menu {
@@ -195,19 +202,19 @@
     box-shadow: var(--shadow-small);
     border-radius: 2rem;
     overflow: hidden;
+    cursor: pointer;
 }
 
 
-.profile__counters p {
-    color: var(--else-text-color-50);
-    padding: 1.6rem 2.6rem 1rem;
+.profile__counters .counters-title {
+    color: var(--main-text-color);
+    padding: 1.6rem 2.6rem 0.6rem;
     display: flex;
     align-items: center;
     gap: 1rem;
 }
 
 .profile__counters .profile__counters-div {
-    cursor: pointer;
     padding: 0 2.6rem 0.6rem;
 }
 
@@ -631,7 +638,7 @@
 
 .blossom-level .blossom-title {
     font-size: var(--font-size-2);
-    color: var(--blossom-color);
+    color: var(--main-text-color);
     display: flex;
     gap: 1rem;
     align-items: center;
@@ -657,7 +664,7 @@
     position: absolute;
     left: calc(100% - (100% - var(--r)) + 0.5rem);
     font-size: var(--font-size-1);
-    color: var(--blossom-color);
+    color: var(--else-text-color-50);
     transition: 0.2s;
     opacity: 0;
 }
@@ -680,7 +687,7 @@
     appearance: none;
     height: 2rem;
     border-radius: 1rem;
-    border: 1px solid var(--blossom-color);
+    border: 1px solid var(--else-text-color-50);
     background-color: transparent;
     transition: 0.2s;
 }
@@ -694,13 +701,15 @@
 
 .blossom-level progress::-webkit-progress-value {
     border-radius: 1rem;
-    background: var(--blossom-color);
+    /* background: var(--blossom-color); */
+    background: linear-gradient(-135deg, var(--posts-color), var(--likes-color), var(--comments-color));
     transition: 0.2s;
 }
 
 .blossom-level progress::-moz-progress-bar {
     border-radius: 1rem;
-    background: var(--blossom-color);
+    /* background: var(--blossom-color); */
+    background: linear-gradient(-135deg, var(--posts-color), var(--likes-color), var(--comments-color));
     transition: 0.2s;
 }
 

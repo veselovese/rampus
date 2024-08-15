@@ -374,9 +374,10 @@ if (isset($_SESSION['user'])) {
                                     </div>
                                 </a>
                                 <div class="profile__counters">
-                                    <p>
+                                    <div class="counters-title">
+                                        <img src="pics/ParamIcon.svg">
                                         Показатели
-                                    </p>
+                                    </div>
                                     <!-- <div class="div-line"></div> -->
                                     <div class="profile__counters-div">
                                         <div class="profile__posts">
