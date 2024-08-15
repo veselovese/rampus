@@ -100,45 +100,46 @@ if (isset($_SESSION['user'])) {
                         <div class="user__blossom">
                             <p>Уровень цветения</p>
                             <div>
-                                <p class="blossom-description">Уровень цветения профиля — это показатель вашей активности в Rampus, он складывается из нескольких показателей</p>
+                                <p class="blossom-description">Уровень цветения профиля — это показатель вашей активности, который складывается из нескольких показателей</p>
                                 <div class="main-statistic-div">
                                     <div class="main-statistic"><span><?= $user_level ?></span>текущий уровень</div>
                                     <div class="main-statistic"><span>*</span>место в рейтинге</div>
                                     <div class="main-statistic"><span><?= 100 - $user_progress ?>%</span>до <?= $user_level + 1 ?> уровня</div>
                                 </div>
+                                <p class="blossom-description">Ваши показатели</p>
                                 <div class="blossom-param">
                                     <div>
                                         <div class="current-param">
                                             <img src="pics/PostsIcon.svg">
                                             <p>Сделанные посты</p>
-                                            <span><?= $posts_count / 10 ?></span>
+                                            <span><?= $posts_count ?></span>
                                         </div>
                                         <div class="current-param">
                                             <img src="pics/LikesIcon.svg">
                                             <p>Полученные лайки</p>
-                                            <span><?= $likes_count * 0.3 / 10 ?></span>
+                                            <span><?= $likes_count ?></span>
                                         </div>
                                         <div class="current-param">
                                             <img src="pics/CommentsIcon.svg">
                                             <p>Полученные комментарии</p>
-                                            <span><?= $comment_count * 0.4 / 10 ?></span>
+                                            <span><?= $comment_count ?></span>
                                         </div>
                                     </div>
                                     <div>
                                         <div class="current-param">
                                             <img src="pics/PostsIcon.svg">
                                             <p>Друзья</p>
-                                            <span><?= ($result_friend_1->num_rows + $result_friend_2->num_rows) * 0.7 / 10 ?></span>
+                                            <span><?= ($result_friend_1->num_rows + $result_friend_2->num_rows) ?></span>
                                         </div>
                                         <div class="current-param">
                                             <img src="pics/LikesIcon.svg">
                                             <p>Поставленные лайки</p>
-                                            <span><?= $liked_count * 0.2 / 10 ?></span>
+                                            <span><?= $liked_count ?></span>
                                         </div>
                                         <div class="current-param">
                                             <img src="pics/CommentsIcon.svg">
                                             <p>Оставленные комментарии</p>
-                                            <span><?= $commented_count * 0.3 / 10 ?></span>
+                                            <span><?= $commented_count ?></span>
                                         </div>
                                     </div>
                                 </div>

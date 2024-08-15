@@ -30,13 +30,13 @@
     --background-color: #FBFBFB;
     --block-color: #FFFFFF;
     --main-text-color: #020202;
-    --else-text-color-50: #02020250;
-    --else-text-color-33: #02020233;
+    --else-text-color-50: #ACACAC;
+    --else-text-color-33: #CCCCCC;
     --main-accent-color: #006633;
     --else-accent-color-1: #E3DFFF;
     --else-accent-color-2: #F7D488;
     --error-accent-color: #FF220C;
-    --block-accent-color-110: #02020210;
+    --block-accent-color-110: #E6E6E6;
     --block-accent-color-06: #02020206;
     --block-accent-color-210: #00663310;
     --like-button-accent-color: #FF220C10;

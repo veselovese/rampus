@@ -30,16 +30,17 @@
     --background-color: #FBFBFB;
     --block-color: #FFFFFF;
     --main-text-color: #020202;
-    --else-text-color-50: #02020250;
-    --else-text-color-33: #02020233;
+    --else-text-color-50: #ACACAC;
+    --else-text-color-33: #CCCCCC;
     --main-accent-color: #006633;
     --else-accent-color-1: #E3DFFF;
     --else-accent-color-2: #F7D488;
     --error-accent-color: #FF220C;
-    --block-accent-color-110: #02020210;
+    --block-accent-color-110: #E6E6E6;
     --block-accent-color-06: #02020206;
     --block-accent-color-210: #00663310;
     --like-button-accent-color: #FF220C10;
+    --blossom-color: #533A7B;
     --shadow-big: 0 0 15px #02020207;
     --shadow-small: 0 0 12px #02020205;
     --shadow-popup: 0 0 9px #02020211;
@@ -110,13 +111,6 @@
     margin-top: 2.6rem;
 }
 
-.third-part>div {
-    top: calc(2.6rem + 1.6rem + 7.2rem + 12.125rem);
-    margin-top: 1.6rem;
-    border-radius: 2rem;
-    overflow: hidden;
-}
-
 .third-part-mobile {
     display: none;
     width: 100%;
@@ -130,9 +124,9 @@
     overflow: hidden;
 }
 
-.third-part-mobile span,
-.third-part span {
-    color: var(--else-text-color-50);
+.third-part-mobile .profile__counters span,
+.third-part .profile__counters span {
+    margin-left: auto;
 }
 
 .third-part-mobile .profile__posts,
@@ -146,9 +140,12 @@
 .profile__likes,
 .profile__comments,
 .profile__edit {
-    padding: 1.6rem 2.6rem;
+    padding: 1rem 0;
     display: flex;
-    justify-content: space-between;
+    /* justify-content: space-between; */
+    font-size: var(--font-size-1);
+    color: var(--else-text-color-50);
+    gap: 1rem;
     align-items: center;
     background-color: var(--block-color);
     transition: 0.2s;
@@ -190,6 +187,28 @@
     opacity: 50%;
     background-color: transparent;
     box-shadow: none;
+}
+
+.profile__counters {
+    margin-top: 1.6rem;
+    background-color: var(--block-color);
+    box-shadow: var(--shadow-small);
+    border-radius: 2rem;
+    overflow: hidden;
+}
+
+
+.profile__counters p {
+    color: var(--else-text-color-50);
+    padding: 1.6rem 2.6rem 1rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.profile__counters .profile__counters-div {
+    cursor: pointer;
+    padding: 0 2.6rem 0.6rem;
 }
 
 .profile__posts div,
@@ -586,17 +605,17 @@
 
 .third-part .blossom-level,
 .second-part .blossom-level {
-    top: calc(2.6rem + 7.2rem);
+    display: block;
     background-color: var(--block-color);
     box-shadow: var(--shadow-small);
-    padding: 2.6rem;
+    padding: 1.6rem 2.6rem;
     border-radius: 2rem;
     margin: 0;
+    cursor: pointer;
 }
 
 .second-part .blossom-level {
     margin-top: 1.6rem;
-    position: static;
     display: none;
     color: var(--else-text-color-50);
 }
@@ -605,52 +624,42 @@
     position: relative;
     display: flex;
     align-items: center;
-    margin-top: 1rem;
+    margin-top: 1.6rem;
     overflow: hidden;
     border-radius: 1rem;
 }
 
-.blossom-level a {
+.blossom-level .blossom-title {
     font-size: var(--font-size-2);
+    color: var(--blossom-color);
     display: flex;
     gap: 1rem;
-    cursor: pointer;
     align-items: center;
+    transition: 0.2s;
 }
 
-.blossom-level a:hover {
-    gap: 1.2rem;
+.blossom-level:hover .progress-div .progress {
+   opacity: 1;
 }
 
-.blossom-level a:hover~.progress-div progress {
-    border: 1px solid var(--main-accent-color);
+.blossom-level:hover .blossom-title svg:last-child {
+    margin-right: 0;
 }
 
-.blossom-level a:hover~.progress-div progress::-webkit-progress-value {
-    background: var(--main-accent-color);
-}
-
-.blossom-level a:hover~.progress-div progress::-moz-progress-bar {
-    background: var(--main-accent-color);
-}
-
-.blossom-level a:hover~.progress-div .progress {
-    color: var(--main-accent-color);
-}
-
-.blossom-level a:hover~.level span {
-    color: var(--main-accent-color);
-}
-
-.blossom-level svg {
+.blossom-level .blossom-title svg:last-child {
+    margin-left: auto;
+    margin-right: 0.2rem;
     fill: var(--else-text-color-50);
+    transition: 0.2s;
 }
 
 .blossom-level .progress {
     position: absolute;
     left: calc(100% - (100% - var(--r)) + 0.5rem);
     font-size: var(--font-size-1);
+    color: var(--blossom-color);
     transition: 0.2s;
+    opacity: 0;
 }
 
 .blossom-level .level {
@@ -671,7 +680,7 @@
     appearance: none;
     height: 2rem;
     border-radius: 1rem;
-    border: 1px solid var(--else-text-color-50);
+    border: 1px solid var(--blossom-color);
     background-color: transparent;
     transition: 0.2s;
 }
@@ -685,13 +694,13 @@
 
 .blossom-level progress::-webkit-progress-value {
     border-radius: 1rem;
-    background: var(--else-text-color-50);
+    background: var(--blossom-color);
     transition: 0.2s;
 }
 
 .blossom-level progress::-moz-progress-bar {
     border-radius: 1rem;
-    background: var(--else-text-color-50);
+    background: var(--blossom-color);
     transition: 0.2s;
 }
 
@@ -716,11 +725,17 @@
     cursor: default;
 }
 
+.user__blossom>div .blossom-description:nth-child(2) {
+    margin-top: 1.6rem;
+    color: var(--error-accent-color);
+}
+
 .main-statistic-div {
     display: flex;
     width: 100%;
     justify-content: space-between;
     margin-top: 1.6rem;
+    margin-bottom: 1.6rem;
 }
 
 .main-statistic {
@@ -756,7 +771,7 @@
     margin-top: 1.6rem;
 }
 
-.blossom-param > div {
+.blossom-param>div {
     display: flex;
     flex-direction: column;
     gap: 1.6rem;
@@ -781,10 +796,6 @@
 
 .blossom-param .current-param img {
     transition: 0.2s;
-}
-
-.blossom-param .current-param:hover img {
-    transform: scale(125%); 
 }
 
 .blossom-param .current-param p {
