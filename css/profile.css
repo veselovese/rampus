@@ -77,6 +77,7 @@
     font-weight: 620;
     line-height: 1;
     font-size: var(--font-size-3);
+    position: relative;
 }
 
 .profile__user-info .first-and-second-names.rampus {
@@ -86,11 +87,36 @@
     color: var(--main-accent-color);
 }
 
-.profile__user-info .first-and-second-names.rampus img {
+.profile__user-info .first-and-second-names.user-from-top {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.profile__user-info .first-and-second-names.rampus img, .profile__user-info .first-and-second-names.user-from-top img {
     max-width: 28px;
     max-height: 28px;
     min-height: 28px;
     min-width: 28px;
+    cursor: pointer;
+}
+
+.profile__user-info .first-and-second-names span {
+    font-size: var(--font-size-1);
+    color: var(--else-text-color-50);
+    position: absolute;
+    max-width: max-content;
+    left: calc(100% + 1rem);
+    opacity: 0;
+    width: 100%;
+    font-weight: 400;
+    transition: 0.2s;
+    cursor: default;
+    pointer-events: none;
+}
+
+.profile__user-info .first-and-second-names img:hover+span {
+    opacity: 1;
 }
 
 .profile__user-info .username {
@@ -102,6 +128,21 @@
 .profile__user-info .description {
     margin-top: 2.6rem;
     line-height: 1;
+}
+
+.profile__user-info a.description {
+    color: var(--main-accent-color);
+    text-decoration: underline;
+    display: block;
+    font-size: var(--font-size-1);
+    margin-top: 2.6rem;
+    line-height: 1;
+    transition: 0.2s;
+}
+
+.profile__user-info a.description:hover {
+    text-decoration: none;
+    color: var(--main-text-color);
 }
 
 .profile__user-info .balance {
@@ -900,11 +941,11 @@
         max-height: 10px;
     }
 
-    .profile__user-info .first-and-second-names.rampus {
+    .profile__user-info .first-and-second-names.rampus, .profile__user-info .first-and-second-names.user-from-top {
         gap: 0.625rem;
     }
 
-    .profile__user-info .first-and-second-names.rampus img {
+    .profile__user-info .first-and-second-names.rampus img, .profile__user-info .first-and-second-names.user-from-top img  {
         max-width: 22px;
         max-height: 22px;
         min-height: 22px;
@@ -929,7 +970,7 @@
         margin-top: 1rem;
     }
 
-    .profile__user-info .description {
+    .profile__user-info .description, .profile__user-info a.description {
         margin-top: 1.6rem;
     }
 

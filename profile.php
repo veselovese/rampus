@@ -54,6 +54,20 @@ if (isset($_SESSION['user'])) {
     $user_progress = round($blossom - $user_level, 2) * 100;
     $user_level += 1;
     $connect->query("UPDATE users SET blossom_level = $user_level WHERE id = $id");
+    $connect->query("UPDATE users SET blossom_progress = $user_progress WHERE id = $id");
+
+    $sql_top = "SELECT id FROM users ORDER BY blossom_level DESC, blossom_progress DESC";
+    $result_top = $connect->query($sql_top);
+    $top_count = 0;
+    if ($result_top->num_rows > 0) {
+        while ($row = $result_top->fetch_assoc()) {
+            $current_id = $row["id"];
+            $top_count += 1;
+            if ($current_id == $id) {
+                break;
+            }
+        }
+    }
 }
 ?>
 
@@ -116,12 +130,29 @@ if (isset($_SESSION['user'])) {
                             <div>
                                 <?php if ($username == 'rampus') { ?>
                                     <p class="first-and-second-names rampus"><?= $first_name . " " . $second_name ?> <img src="pics/SuperUserIcon.svg"></p>
-                                <?php } else { ?>
-                                    <p class="first-and-second-names"><?= $first_name . " " . $second_name ?></p>
+                                <?php } else {
+                                    switch ($top_count) {
+                                        case 1:
+                                            echo "<p class='first-and-second-names user-from-top'>" . $first_name . " " . $second_name . "<img src='pics/BlossomFirstIcon.svg'</p>";
+                                            echo "<span сlass='top-info'>Первый в рейтинге</span>";
+                                            break;
+                                        case 2:
+                                            echo "<p class='first-and-second-names user-from-top'>" . $first_name . " " . $second_name . "<img src='pics/BlossomSecondIcon.svg'</p>";
+                                            echo "<span сlass='top-info'>Второй в рейтинге</span>";
+                                            break;
+                                        case 3:
+                                            echo "<p class='first-and-second-names user-from-top'>" . $first_name . " " . $second_name . "<img src='pics/BlossomThirdIcon.svg'</p>";
+                                            echo "<span сlass='top-info'>Третий в рейтинге</span>";
+                                            break;
+                                        default:
+                                            echo "<p class='first-and-second-names'>" . $first_name . " " . $second_name . "</p>";
+                                    } ?>
                                 <?php } ?>
                                 <p class="username">@<?= $username ?></p>
                                 <?php if ($description != '') { ?>
                                     <p class="description"><?= $description ?></p>
+                                <?php } else { ?>
+                                    <a class="description" href="./edit">Добавить описание</a>
                                 <?php } ?>
                             </div>
                         </div>

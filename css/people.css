@@ -39,6 +39,10 @@
     --block-accent-color-110: #E6E6E6;
     --block-accent-color-06: #02020206;
     --block-accent-color-210: #00663310;
+    --param-color: #533A7B;
+    --posts-color: #3891A6;
+    --likes-color: #DB5461;
+    --comments-color: #D5A021;
     --like-button-accent-color: #FF220C10;
     --shadow-big: 0 0 15px #02020207;
     --shadow-small: 0 0 12px #02020205;
@@ -118,7 +122,7 @@
     margin: 0;
 }
 
-.people { 
+.people {
     display: none;
 }
 
@@ -807,6 +811,26 @@
 .people-filter-popup-li-mobile:has([type='radio']:checked) {
     color: var(--main-accent-color);
     background-color: var(--block-accent-color-210);
+}
+
+.blossom-status {
+    margin-left: auto;
+    font-weight: 620;
+    background: linear-gradient(-135deg, var(--posts-color), var(--likes-color), var(--comments-color));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.counter-top {
+    font-weight: 620;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 28px;
+    min-height: 28px;
+    max-width: 28px;
+    max-height: 28px;
 }
 
 @media (max-width: 1320px) {

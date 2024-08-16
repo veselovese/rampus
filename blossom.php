@@ -50,7 +50,21 @@ if (isset($_SESSION['user'])) {
     $user_level = intval($blossom);
     $user_progress = round($blossom - $user_level, 2) * 100;
     $user_level += 1;
+
+    $sql_top = "SELECT id FROM users ORDER BY blossom_level DESC, blossom_progress DESC";
+    $result_top = $connect->query($sql_top);
+    $top_count = 0;
+    if ($result_top->num_rows > 0) {
+        while ($row = $result_top->fetch_assoc()) {
+            $current_id = $row["id"];
+            $top_count += 1;
+            if ($current_id == $id) {
+                break;
+            }
+        }
+    }
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -103,10 +117,9 @@ if (isset($_SESSION['user'])) {
                                 <p class="blossom-description">Уровень цветения профиля — это показатель вашей активности, который складывается из нескольких показателей</p>
                                 <div class="main-statistic-div">
                                     <div class="main-statistic"><span><?= $user_level ?></span>текущий уровень</div>
-                                    <div class="main-statistic"><span>*</span>место в рейтинге</div>
+                                    <div class="main-statistic"><span><?= $top_count ?></span>место в рейтинге</div>
                                     <div class="main-statistic"><span><?= 100 - $user_progress ?>%</span>до <?= $user_level + 1 ?> уровня</div>
                                 </div>
-                                <!-- <p class="blossom-description">Ваши показатели</p> -->
                                 <div class="blossom-param">
                                     <div>
                                         <div class="current-param">
