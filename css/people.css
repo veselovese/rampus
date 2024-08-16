@@ -128,9 +128,6 @@
 
 .people__users {
     width: 100%;
-    box-shadow: var(--shadow-small);
-    border-radius: 2rem;
-    flex-direction: column;
     position: relative;
 }
 
@@ -823,7 +820,6 @@
 }
 
 .counter-top {
-    font-weight: 620;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -897,6 +893,11 @@
     }
 }
 
+@media (max-width: 580px) {
+    .profile__user-info .answer-to-request-div {
+        margin-top: 1.6rem;
+    }
+}
 
 @media (max-width: 480px) {
     .wrapper {

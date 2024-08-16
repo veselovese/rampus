@@ -106,7 +106,7 @@
     color: var(--else-text-color-50);
     position: absolute;
     max-width: max-content;
-    left: calc(100% + 1rem);
+    left: calc(100% - 1.4rem);
     opacity: 0;
     width: 100%;
     font-weight: 400;

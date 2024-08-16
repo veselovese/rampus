@@ -134,15 +134,15 @@ if (isset($_SESSION['user'])) {
                                     switch ($top_count) {
                                         case 1:
                                             echo "<p class='first-and-second-names user-from-top'>" . $first_name . " " . $second_name . "<img src='pics/BlossomFirstIcon.svg'</p>";
-                                            echo "<span сlass='top-info'>Первый в рейтинге</span>";
+                                            // echo "<span сlass='top-info'>Первый в рейтинге</span>";
                                             break;
                                         case 2:
                                             echo "<p class='first-and-second-names user-from-top'>" . $first_name . " " . $second_name . "<img src='pics/BlossomSecondIcon.svg'</p>";
-                                            echo "<span сlass='top-info'>Второй в рейтинге</span>";
+                                            // echo "<span сlass='top-info'>Второй в рейтинге</span>";
                                             break;
                                         case 3:
                                             echo "<p class='first-and-second-names user-from-top'>" . $first_name . " " . $second_name . "<img src='pics/BlossomThirdIcon.svg'</p>";
-                                            echo "<span сlass='top-info'>Третий в рейтинге</span>";
+                                            // echo "<span сlass='top-info'>Третий в рейтинге</span>";
                                             break;
                                         default:
                                             echo "<p class='first-and-second-names'>" . $first_name . " " . $second_name . "</p>";

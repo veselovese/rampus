@@ -73,10 +73,26 @@ if ($posts_count > 0) {
     }
 }
 
-$blossom = ($posts_count + $likes_count * 0.3 + $comment_count * 0.4 + $liked_count * 0.2 + $comment_count * 0.3 + ($result_friend_1->num_rows + $result_friend_2->num_rows) * 0.7) / 10;
+$blossom = ($posts_count + $likes_count * 0.3 + $comment_count * 0.4 + $liked_count * 0.2 + $commented_count * 0.3 + ($result_friend_1->num_rows + $result_friend_2->num_rows) * 0.7) / 10;
 $user_level = intval($blossom);
 $user_progress = round($blossom - $user_level, 2) * 100;
 $user_level += 1;
+
+$connect->query("UPDATE users SET blossom_level = $user_level WHERE id = $other_id");
+$connect->query("UPDATE users SET blossom_progress = $user_progress WHERE id = $other_id");
+
+$sql_top = "SELECT id FROM users ORDER BY blossom_level DESC, blossom_progress DESC";
+$result_top = $connect->query($sql_top);
+$top_count = 0;
+if ($result_top->num_rows > 0) {
+    while ($row = $result_top->fetch_assoc()) {
+        $current_id = $row["id"];
+        $top_count += 1;
+        if ($current_id == $other_id) {
+            break;
+        }
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -138,11 +154,26 @@ $user_level += 1;
                                 <?php } ?>
                             </div>
                             <div>
-                                <?php if ($other_username == 'rampus') { ?>
-                                    <p class="first-and-second-names rampus"><?= $other_first_name . " " . $other_second_name ?> <img src="../pics/SuperUserIcon.svg"></p>
-                                <?php } else { ?>
-                                    <p class="first-and-second-names"><?= $other_first_name . " " . $other_second_name ?></p>
-                                <?php } ?>
+                                <?php if ($username == 'rampus') { ?>
+                                    <p class="first-and-second-names rampus"><?= $first_name . " " . $second_name ?> <img src="pics/SuperUserIcon.svg"></p>
+                                <?php } else {
+                                    switch ($top_count) {
+                                        case 1:
+                                            echo "<p class='first-and-second-names user-from-top'>" . $other_first_name . " " . $other_second_name . "<img src='../pics/BlossomFirstIcon.svg'</p>";
+                                            // echo "<span сlass='top-info'>Первый в рейтинге</span>";
+                                            break;
+                                        case 2:
+                                            echo "<p class='first-and-second-names user-from-top'>" . $other_first_name . " " . $other_second_name . "<img src='../pics/BlossomSecondIcon.svg'</p>";
+                                            // echo "<span сlass='top-info'>Второй в рейтинге</span>";
+                                            break;
+                                        case 3:
+                                            echo "<p class='first-and-second-names user-from-top'>" . $other_first_name . " " . $other_second_name . "<img src='../pics/BlossomThirdIcon.svg'</p>";
+                                            // echo "<span сlass='top-info'>Третий в рейтинге</span>";
+                                            break;
+                                        default:
+                                            echo "<p class='first-and-second-names'>" . $other_first_name . " " . $other_second_name . "</p>";
+                                    }
+                                } ?>
                                 <p class="username">@<?= $other_username ?></p>
                                 <?php if ($other_description != '') { ?>
                                     <p class="description"><?= $other_description ?></p>
@@ -240,9 +271,10 @@ $user_level += 1;
                             </div>
                         </div>
                         <div class="blossom-level mobile">
-                            <a>
+                            <div class="blossom-title">
+                                <img src="../pics/BlossomIcon.svg">
                                 Цветение
-                            </a>
+                            </div>
                             <div class="progress-div">
                                 <progress value="<?= $user_progress ?>" max="100"></progress>
                                 <span class="progress" style="--r:<?= $user_progress ?>%"><?= $user_progress ?>%</span>
@@ -255,6 +287,7 @@ $user_level += 1;
                         <div class="user-friends">
                             <div class="section" onclick="openOtherFriendsPage(event, '<?= $other_username ?>')">
                                 <div class="friends-info">
+                                    <img src="../pics/FriendsIcon.svg">
                                     <p>Друзья</p>
                                     <div>
                                         <span><?= $result_friend_1->num_rows + $result_friend_2->num_rows ?></span>
@@ -302,28 +335,25 @@ $user_level += 1;
                                 <div class="user-menu-and-third-past-mobile">
                                     <div class="third-part-mobile">
                                         <div class="profile__counters">
-                                            <div class="profile__posts">
-                                                <div>
-                                                    <img src="../pics/PostsIcon.svg">
-                                                    <p>Посты</p>
-                                                </div>
-                                                <span> <?= $posts_count ?></span>
+                                            <div class="counters-title">
+                                                <img src="../pics/ParamIcon.svg">
+                                                Показатели
                                             </div>
-                                            <div class="div-line"></div>
-                                            <div class="profile__likes">
-                                                <div>
-                                                    <img src="../pics/LikesIcon.svg">
-                                                    <p>Лайки</p>
+                                            <div class="profile__counters-div">
+                                                <div class="profile__posts">
+                                                    Посты
+                                                    <span> <?= $posts_count ?></span>
                                                 </div>
-                                                <span><?= $likes_count ?></span>
-                                            </div>
-                                            <div class="div-line"></div>
-                                            <div class="profile__comments">
-                                                <div>
-                                                    <img src="../pics/CommentsIcon.svg">
-                                                    <p>Комментарии</p>
+                                                <div class="div-line"></div>
+                                                <div class="profile__likes">
+                                                    Лайки
+                                                    <span><?= $likes_count ?></span>
                                                 </div>
-                                                <span><?= $comment_count ?></span>
+                                                <div class="div-line"></div>
+                                                <div class="profile__comments">
+                                                    Комментарии
+                                                    <span><?= $comment_count ?></span>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -432,33 +462,42 @@ $user_level += 1;
                                 </nav>
                             </div>
                             <div class="third-part">
-                                <div class="blossom-level">
-                                    <a>
-                                        Цветение
-                                    </a>
-                                    <div class="progress-div">
-                                        <progress value="<?= $user_progress ?>" max="100"></progress>
-                                        <span class="progress" style="--r:<?= $user_progress ?>%"><?= $user_progress ?>%</span>
+                                <div>
+                                    <div class="blossom-level">
+                                        <div class="blossom-title">
+                                            <img src="../pics/BlossomIcon.svg">
+                                            Цветение
+                                        </div>
+                                        <div class="progress-div">
+                                            <progress value="<?= $user_progress ?>" max="100"></progress>
+                                            <span class="progress" style="--r:<?= $user_progress ?>%"><?= $user_progress ?>%</span>
+                                        </div>
+                                        <div class="level">
+                                            <span><?= $user_level ?> уровень</span>
+                                            <span><?= $user_level + 1 ?></span>
+                                        </div>
                                     </div>
-                                    <div class="level">
-                                        <span><?= $user_level ?> уровень</span>
-                                        <span><?= $user_level + 1 ?></span>
-                                    </div>
-                                </div>
-                                <div class="profile__counters">
-                                    <div class="profile__posts">
-                                        <img src="../pics/PostsIcon.svg">
-                                        <span> <?= $posts_count ?></span>
-                                    </div>
-                                    <div class="div-line"></div>
-                                    <div class="profile__likes">
-                                        <img src="../pics/LikesIcon.svg">
-                                        <span><?= $likes_count ?></span>
-                                    </div>
-                                    <div class="div-line"></div>
-                                    <div class="profile__comments">
-                                        <img src="../pics/CommentsIcon.svg">
-                                        <span><?= $comment_count ?></span>
+                                    <div class="profile__counters">
+                                        <div class="counters-title">
+                                            <img src="../pics/ParamIcon.svg">
+                                            Показатели
+                                        </div>
+                                        <div class="profile__counters-div">
+                                            <div class="profile__posts">
+                                                Посты
+                                                <span> <?= $posts_count ?></span>
+                                            </div>
+                                            <div class="div-line"></div>
+                                            <div class="profile__likes">
+                                                Лайки
+                                                <span><?= $likes_count ?></span>
+                                            </div>
+                                            <div class="div-line"></div>
+                                            <div class="profile__comments">
+                                                Комментарии
+                                                <span><?= $comment_count ?></span>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
