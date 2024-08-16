@@ -126,7 +126,8 @@ if (isset($_SESSION['user'])) {
                             </div>
                         </div>
                         <a href="./blossom" class="blossom-level mobile">
-                            <div>
+                            <div class="blossom-title">
+                                <img src="pics/BlossomIcon.svg">
                                 Цветение
                                 <svg width="8" height="13" viewBox="0 0 8 13" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M6.96771 6.03603L1.12165 0.191904C0.865127 -0.0639698 0.449521 -0.0639698 0.192352 0.191904C-0.0641698 0.447777 -0.0641699 0.863383 0.192352 1.11926L5.57471 6.49968L0.192999 11.8801C-0.0635223 12.136 -0.0635224 12.5516 0.192999 12.8081C0.44952 13.064 0.865774 13.064 1.1223 12.8081L6.96836 6.96403C7.22094 6.7108 7.22094 6.28866 6.96771 6.03603Z" />
@@ -144,6 +145,7 @@ if (isset($_SESSION['user'])) {
                         <div class="user-friends">
                             <div class="section" onclick="openFriendsPage(event)">
                                 <div class="friends-info">
+                                    <img src="pics/FriendsIcon.svg">
                                     <p>Друзья</p>
                                     <div>
                                         <span><?= $result_friend_1->num_rows + $result_friend_2->num_rows ?></span>
@@ -211,28 +213,25 @@ if (isset($_SESSION['user'])) {
                                     </svg>
                                 </a>
                                 <div class="profile__counters">
-                                    <div class="profile__posts">
-                                        <div>
-                                            <img src="pics/PostsIcon.svg">
-                                            <p>Посты</p>
-                                        </div>
-                                        <span> <?= $posts_count ?></span>
+                                    <div class="counters-title">
+                                        <img src="pics/ParamIcon.svg">
+                                        Показатели
                                     </div>
-                                    <div class="div-line"></div>
-                                    <div class="profile__likes">
-                                        <div>
-                                            <img src="pics/LikesIcon.svg">
-                                            <p>Лайки</p>
+                                    <div class="profile__counters-div">
+                                        <div class="profile__posts">
+                                            Посты
+                                            <span> <?= $posts_count ?></span>
                                         </div>
-                                        <span><?= $likes_count ?></span>
-                                    </div>
-                                    <div class="div-line"></div>
-                                    <div class="profile__comments">
-                                        <div>
-                                            <img src="pics/CommentsIcon.svg">
-                                            <p>Комментарии</p>
+                                        <div class="div-line"></div>
+                                        <div class="profile__likes">
+                                            Лайки
+                                            <span><?= $likes_count ?></span>
                                         </div>
-                                        <span><?= $comment_count ?></span>
+                                        <div class="div-line"></div>
+                                        <div class="profile__comments">
+                                            Комментарии
+                                            <span><?= $comment_count ?></span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -355,9 +354,6 @@ if (isset($_SESSION['user'])) {
                             <div>
                                 <a href="./blossom" class="blossom-level">
                                     <div class="blossom-title">
-                                        <!-- <svg width="24" height="22" viewBox="0 0 24 22" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M24 9.56541C24 6.84939 21.6669 4.64847 18.7845 4.64847C18.2329 4.64847 17.71 4.75055 17.2144 4.89789C17.2007 2.19071 14.8756 0 11.9993 0C9.12492 0 6.7965 2.19071 6.78567 4.89789C6.29006 4.75055 5.76717 4.64847 5.21555 4.64847C2.33316 4.64847 0 6.84939 0 9.56541C0 11.7414 1.50802 13.5638 3.58748 14.2108C2.96433 15.0219 2.59017 16.0075 2.59017 17.0826C2.59017 19.7986 4.92328 22 7.8052 22C9.53302 22 11.05 21.2027 11.9993 19.9828C12.9501 21.2027 14.4671 22 16.193 22C19.0768 22 21.4085 19.7987 21.4085 17.0826C21.4085 16.0075 21.0338 15.0219 20.4126 14.2108C22.492 13.5639 24 11.7415 24 9.56541ZM11.9993 14.5987C10.5007 14.5987 9.28397 13.4534 9.28397 12.0405C9.28397 10.6272 10.5007 9.48197 11.9993 9.48197C13.4993 9.48197 14.7146 10.6272 14.7146 12.0405C14.7146 13.4534 13.4993 14.5987 11.9993 14.5987Z" />
-                                        </svg> -->
                                         <img src="pics/BlossomIcon.svg">
                                         Цветение
                                         <svg width="8" height="13" viewBox="0 0 8 13" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -378,22 +374,18 @@ if (isset($_SESSION['user'])) {
                                         <img src="pics/ParamIcon.svg">
                                         Показатели
                                     </div>
-                                    <!-- <div class="div-line"></div> -->
                                     <div class="profile__counters-div">
                                         <div class="profile__posts">
-                                            <!-- <img src="pics/PostsIcon.svg"> -->
                                             Посты
                                             <span> <?= $posts_count ?></span>
                                         </div>
                                         <div class="div-line"></div>
                                         <div class="profile__likes">
-                                            <!-- <img src="pics/LikesIcon.svg"> -->
                                             Лайки
                                             <span><?= $likes_count ?></span>
                                         </div>
                                         <div class="div-line"></div>
                                         <div class="profile__comments">
-                                            <!-- <img src="pics/CommentsIcon.svg"> -->
                                             Комментарии
                                             <span><?= $comment_count ?></span>
                                         </div>

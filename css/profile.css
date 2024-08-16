@@ -163,8 +163,13 @@
 }
 
 .profile__edit {
+    padding: 1.6rem 2.6rem;
     border-radius: 2rem;
     color: var(--main-text-color);
+}
+
+.profile__edit:hover svg {
+    margin-right: 0.2rem;
 }
 
 .profile__user-menu {
@@ -221,7 +226,7 @@
 .profile__edit div {
     display: flex;
     font-size: var(--font-size-2);
-    gap: 1.6rem;
+    gap: 1rem;
     align-items: center;
 }
 
@@ -543,7 +548,8 @@
 .user-friends div.friends-info {
     width: 100%;
     display: flex;
-    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
     cursor: pointer;
 }
 
@@ -553,6 +559,7 @@
     align-items: center;
     gap: 1rem;
     transition: 0.2s;
+    margin-left: auto;
 }
 
 .friends-info div svg,
@@ -561,6 +568,8 @@
     min-height: 13px;
     max-height: 13px;
     fill: var(--else-text-color-50);
+    margin-left: auto;
+    transition: 0.2s;
 }
 
 .user-friends div.friends {
@@ -650,11 +659,19 @@
     margin-right: 0;
 }
 
+.blossom-level.mobile:hover .blossom-title svg:last-child {
+    margin-right: 0.2rem;
+}
+
 .blossom-level .blossom-title svg:last-child {
     margin-left: auto;
     margin-right: 0.2rem;
     fill: var(--else-text-color-50);
     transition: 0.2s;
+}
+
+.blossom-level.mobile .blossom-title svg:last-child {
+    margin-right: 0;
 }
 
 .blossom-level .progress {
