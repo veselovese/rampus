@@ -3,6 +3,7 @@ session_start();
 
 require('connect.php');
 require('like-or-dislike.php');
+require('ratingtrophies.php');
 
 if (isset($_SESSION['user'])) {
     $id = $_SESSION['user']['id'];

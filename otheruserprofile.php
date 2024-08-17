@@ -3,6 +3,7 @@ session_start();
 
 require('connect.php');
 require('like-or-dislike.php');
+require('ratingtrophies.php');
 
 $username = $_GET['username'];
 
@@ -93,6 +94,10 @@ if ($result_top->num_rows > 0) {
         }
     }
 }
+
+$sql_trophies = "SELECT * FROM trophies WHERE user_id = $other_id";
+$result_trophies = $connect->query($sql_trophies);
+$result_trophies_m = $connect->query($sql_trophies);
 ?>
 
 <!DOCTYPE html>
@@ -155,7 +160,7 @@ if ($result_top->num_rows > 0) {
                             </div>
                             <div>
                                 <?php if ($username == 'rampus') { ?>
-                                    <p class="first-and-second-names rampus"><?= $first_name . " " . $second_name ?> <img src="pics/SuperUserIcon.svg"></p>
+                                    <p class="first-and-second-names rampus"><?= $other_first_name . " " . $other_second_name ?> <img src="../pics/SuperUserIcon.svg"></p>
                                 <?php } else {
                                     switch ($top_count) {
                                         case 1:
@@ -281,6 +286,26 @@ if ($result_top->num_rows > 0) {
                                 <span><?= $user_level + 1 ?></span>
                             </div>
                         </div>
+                        <div href="./trophy" class="case mobile">
+                            <div class="case-title">
+                                <img src="../pics/CaseIcon.svg">
+                                Трофеи
+                            </div>
+                            <div class="case-trophies">
+                                <?php if ($result_trophies_m->num_rows > 0) {
+                                    while ($row = $result_trophies_m->fetch_assoc()) {
+                                        $trophy_name_m = $row["name"];
+                                        $trophy_description_m = $row["description"];
+                                        $trophy_image_m = $row["image"];
+                                        echo "<div class='trophy'>";
+                                        echo "<img src='../$trophy_image_m'>";
+                                        echo "<span>$trophy_description_m</span>";
+                                        echo "</div>";
+                                    }
+                                }
+                                ?>
+                            </div>
+                            </div>
                         <div class="user-friends">
                             <div class="section" onclick="openOtherFriendsPage(event, '<?= $other_username ?>')">
                                 <div class="friends-info">
@@ -474,6 +499,26 @@ if ($result_top->num_rows > 0) {
                                             <span><?= $user_level + 1 ?></span>
                                         </div>
                                     </div>
+                                    <div class="case">
+                                        <div class="case-title">
+                                            <img src="../pics/CaseIcon.svg">
+                                            Трофеи
+                                        </div>
+                                        <div class="case-trophies">
+                                            <?php if ($result_trophies->num_rows > 0) {
+                                                while ($row = $result_trophies->fetch_assoc()) {
+                                                    $trophy_name = $row["name"];
+                                                    $trophy_description = $row["description"];
+                                                    $trophy_image = $row["image"];
+                                                    echo "<div class='trophy'>";
+                                                    echo "<img src='../$trophy_image'>";
+                                                    echo "<span>$trophy_description</span>";
+                                                    echo "</div>";
+                                                }
+                                            }
+                                            ?>
+                                        </div>
+                                    </div>
                                     <div class="profile__counters">
                                         <div class="counters-title">
                                             <img src="../pics/ParamIcon.svg">
@@ -496,6 +541,7 @@ if ($result_top->num_rows > 0) {
                                             </div>
                                         </div>
                                     </div>
+
                                 </div>
                             </div>
                         </div>
