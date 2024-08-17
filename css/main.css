@@ -451,6 +451,7 @@ textarea {
     width: 100%;
     max-width: 25rem;
     margin-right: 4.1rem;
+    flex-shrink: 2;
 }
 
 .first-part ul {
@@ -504,6 +505,7 @@ textarea {
     display: flex;
     width: 100%;
     justify-content: center;
+    flex-shrink: 1;
 }
 
 .second-part {

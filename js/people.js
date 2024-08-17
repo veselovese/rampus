@@ -89,9 +89,9 @@ $(document).click(function (e) {
 $('#popup_people-filter-mobile').on('click', () => {
     if ($('#people-filter-all-mobile').is(':checked')) {
         $('#people-filter-mobile div span').text('Все');
-        $('#popup_people-filter-mobile').removeClass('top');
+        $('#popup_people-filter-mobile').addClass('all');
     } else if ($('#people-filter-top-mobile').is(':checked')) {
         $('#people-filter-mobile div span').text('Рейтинг');
-        $('#popup_people-filter-mobile').addClass('top');
+        $('#popup_people-filter-mobile').removeClass('all');
     }
 })

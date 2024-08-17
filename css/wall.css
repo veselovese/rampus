@@ -466,7 +466,13 @@
     color: var(--main-accent-color);
 }
 
-.user-post .first-and-second-names.rampus img {
+.user-post .first-and-second-names.user-from-top {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.user-post .first-and-second-names.rampus img, .user-post .first-and-second-names.user-from-top img {
     max-width: 16px;
     max-height: 16px;
     min-height: 16px;
@@ -950,7 +956,7 @@
         align-items: flex-start;
     } */
 
-    .user-post .first-and-second-names.rampus img {
+    .user-post .first-and-second-names.rampus img, .user-post .first-and-second-names.user-from-top img {
         max-width: 14px;
         max-height: 14px;
         min-height: 14px;

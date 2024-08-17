@@ -159,16 +159,13 @@ if ($result_top->num_rows > 0) {
                                 <?php } else {
                                     switch ($top_count) {
                                         case 1:
-                                            echo "<p class='first-and-second-names user-from-top'>" . $other_first_name . " " . $other_second_name . "<img src='../pics/BlossomFirstIcon.svg'</p>";
-                                            // echo "<span сlass='top-info'>Первый в рейтинге</span>";
+                                            echo "<p class='first-and-second-names user-from-top'>" . $other_first_name . " " . $other_second_name . "<img src='../pics/BlossomFirstIcon.svg'></p>";
                                             break;
                                         case 2:
-                                            echo "<p class='first-and-second-names user-from-top'>" . $other_first_name . " " . $other_second_name . "<img src='../pics/BlossomSecondIcon.svg'</p>";
-                                            // echo "<span сlass='top-info'>Второй в рейтинге</span>";
+                                            echo "<p class='first-and-second-names user-from-top'>" . $other_first_name . " " . $other_second_name . "<img src='../pics/BlossomSecondIcon.svg'></p>";
                                             break;
                                         case 3:
-                                            echo "<p class='first-and-second-names user-from-top'>" . $other_first_name . " " . $other_second_name . "<img src='../pics/BlossomThirdIcon.svg'</p>";
-                                            // echo "<span сlass='top-info'>Третий в рейтинге</span>";
+                                            echo "<p class='first-and-second-names user-from-top'>" . $other_first_name . " " . $other_second_name . "<img src='../pics/BlossomThirdIcon.svg'></p>";
                                             break;
                                         default:
                                             echo "<p class='first-and-second-names'>" . $other_first_name . " " . $other_second_name . "</p>";
