@@ -15,30 +15,29 @@ if (mysqli_num_rows($check_user_by_email) > 0) {
     $_SESSION['user'] = [
         "id" => $user['id'],
     ];
+    $id = $user['id'];
+    $connect->query("UPDATE users SET last_auth_date = NOW() WHERE id = $id");
 
     if ($request == 'wall') {
         header('Location: ./wall');
     } else {
         header('Location: ./profile');
     }
-    
 } else if (mysqli_num_rows($check_user_by_username) > 0) {
 
     $user = mysqli_fetch_assoc($check_user_by_username);
 
     $_SESSION['user'] = [
         "id" => $user['id'],
-        "first_name" => $user['first_name'],
-        "second_name" => $user['second_name'],
-        "username" => $user['username'],
-        "email" => $user['email'],
-        "avatar" => $user['avatar'],
-        "balance" => $user['balance'],
-        "description" => $user['description']
     ];
+    $id = $user['id'];
+    $connect->query("UPDATE users SET last_auth_date = NOW() WHERE id = $id");
 
-    header('Location: ./profile');
-
+    if ($request == 'wall') {
+        header('Location: ./wall');
+    } else {
+        header('Location: ./profile');
+    }
 } else {
     $_SESSION['message'] = 'Неверный логин или пароль';
     header('Location: ./auth');

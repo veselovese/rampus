@@ -4,18 +4,20 @@ session_start();
 require('connect.php');
 require('like-or-dislike.php');
 
-$id = $_SESSION['user']['id'];
-$result_friend_1 = $connect->query("SELECT user_id_1 FROM friends JOIN users ON friends.user_id_1 = users.id WHERE user_id_2 = $id");
-$result_friend_2 = $connect->query("SELECT user_id_2 FROM friends JOIN users ON friends.user_id_2 = users.id WHERE user_id_1 = $id");
-$friends_id = array();
-if ($result_friend_1->num_rows > 0) {
-    while ($row_friend = $result_friend_1->fetch_assoc()) {
-        $friends_id[] = $row_friend['user_id_1'];
+if (isset($_SESSION['user'])) {
+    $id = $_SESSION['user']['id'];
+    $result_friend_1 = $connect->query("SELECT user_id_1 FROM friends JOIN users ON friends.user_id_1 = users.id WHERE user_id_2 = $id");
+    $result_friend_2 = $connect->query("SELECT user_id_2 FROM friends JOIN users ON friends.user_id_2 = users.id WHERE user_id_1 = $id");
+    $friends_id = array();
+    if ($result_friend_1->num_rows > 0) {
+        while ($row_friend = $result_friend_1->fetch_assoc()) {
+            $friends_id[] = $row_friend['user_id_1'];
+        }
     }
-}
-if ($result_friend_2->num_rows > 0) {
-    while ($row_friend = $result_friend_2->fetch_assoc()) {
-        $friends_id[] = $row_friend['user_id_2'];
+    if ($result_friend_2->num_rows > 0) {
+        while ($row_friend = $result_friend_2->fetch_assoc()) {
+            $friends_id[] = $row_friend['user_id_2'];
+        }
     }
 }
 ?>
@@ -122,7 +124,7 @@ if ($result_friend_2->num_rows > 0) {
                                     $search = $_GET['search'];
                                 }
                                 $search_condition = $search !== 'all' ? "AND hashtags.name = '$search'" : '';
-                                $sql_post = "SELECT posts.hashtag_id AS hashtag_id, posts.text AS post_text, DATE_FORMAT(posts.post_date, '%d %M в %k:%i') AS post_date, posts.likes AS post_likes, posts.user_id AS user_id, users.first_name AS first_name, users.second_name AS second_name, users.avatar AS avatar, posts.id AS i, users.username AS username
+                                $sql_post = "SELECT posts.hashtag_id AS hashtag_id, posts.text AS post_text, DATE_FORMAT(posts.post_date, '%e %M в %k:%i') AS post_date, posts.likes AS post_likes, posts.user_id AS user_id, users.first_name AS first_name, users.second_name AS second_name, users.avatar AS avatar, posts.id AS i, users.username AS username
                             FROM posts
                             JOIN users ON posts.user_id = users.id
                             LEFT JOIN hashtags ON posts.hashtag_id = hashtags.id
@@ -215,7 +217,7 @@ if ($result_friend_2->num_rows > 0) {
                                             echo "<p class='main-text'>" . $post_text . "</p>";
                                         }
                                         echo "<div class='post-buttons'>";
-                                        $sql_comment = "SELECT comments.text AS comment_text, users.first_name AS first_name, users.second_name AS second_name, users.avatar AS avatar, DATE_FORMAT(comments.comment_date, '%d %M в %k:%i') AS comment_date, users.id AS comment_user_id, users.username AS comment_username
+                                        $sql_comment = "SELECT comments.text AS comment_text, users.first_name AS first_name, users.second_name AS second_name, users.avatar AS avatar, DATE_FORMAT(comments.comment_date, '%e %M в %k:%i') AS comment_date, users.id AS comment_user_id, users.username AS comment_username
                                         FROM comments
                                         JOIN users ON comments.user_id = users.id
                                         JOIN posts ON comments.post_id = posts.id
@@ -455,7 +457,7 @@ if ($result_friend_2->num_rows > 0) {
                                     $search = $_GET['search'];
                                 }
                                 $search_condition = $search !== 'all' ? "AND hashtags.name = '$search'" : '';
-                                $sql_post = "SELECT posts.hashtag_id AS hashtag_id, posts.text AS post_text, DATE_FORMAT(posts.post_date, '%d %M в %k:%i') AS post_date, posts.likes AS post_likes, posts.user_id AS user_id, users.first_name AS first_name, users.second_name AS second_name, users.avatar AS avatar, posts.id AS i, users.username AS username
+                                $sql_post = "SELECT posts.hashtag_id AS hashtag_id, posts.text AS post_text, DATE_FORMAT(posts.post_date, '%e %M в %k:%i') AS post_date, posts.likes AS post_likes, posts.user_id AS user_id, users.first_name AS first_name, users.second_name AS second_name, users.avatar AS avatar, posts.id AS i, users.username AS username
                             FROM posts
                             JOIN users ON posts.user_id = users.id
                             LEFT JOIN hashtags ON posts.hashtag_id = hashtags.id
@@ -549,7 +551,7 @@ if ($result_friend_2->num_rows > 0) {
                                                 echo "<p class='main-text'>" . $post_text . "</p>";
                                             }
                                             echo "<div class='post-buttons'>";
-                                            $sql_comment = "SELECT comments.text AS comment_text, users.first_name AS first_name, users.second_name AS second_name, users.avatar AS avatar, DATE_FORMAT(comments.comment_date, '%d %M в %k:%i') AS comment_date, users.id AS comment_user_id, users.username AS comment_username
+                                            $sql_comment = "SELECT comments.text AS comment_text, users.first_name AS first_name, users.second_name AS second_name, users.avatar AS avatar, DATE_FORMAT(comments.comment_date, '%e %M в %k:%i') AS comment_date, users.id AS comment_user_id, users.username AS comment_username
                                         FROM comments
                                         JOIN users ON comments.user_id = users.id
                                         JOIN posts ON comments.post_id = posts.id

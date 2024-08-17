@@ -93,7 +93,8 @@
     gap: 1rem;
 }
 
-.profile__user-info .first-and-second-names.rampus img, .profile__user-info .first-and-second-names.user-from-top img {
+.profile__user-info .first-and-second-names.rampus img,
+.profile__user-info .first-and-second-names.user-from-top img {
     max-width: 28px;
     max-height: 28px;
     min-height: 28px;
@@ -769,7 +770,7 @@
 .user__blossom h2 {
     background: linear-gradient(-135deg, var(--posts-color), var(--likes-color), var(--comments-color));
     -webkit-background-clip: text;
-    background-clip: text; 
+    background-clip: text;
     -webkit-text-fill-color: transparent;
     font-size: var(--font-size-3);
     font-weight: 620;
@@ -830,7 +831,7 @@
     font-weight: 620;
     background: linear-gradient(-135deg, var(--posts-color), var(--likes-color), var(--comments-color));
     -webkit-background-clip: text;
-    background-clip: text; 
+    background-clip: text;
     -webkit-text-fill-color: transparent;
 }
 
@@ -876,6 +877,81 @@
 .blossom-param .current-param span {
     margin-left: auto;
     color: var(--else-text-color-50);
+}
+
+.case {
+    display: block;
+    background-color: var(--block-color);
+    box-shadow: var(--shadow-small);
+    border-radius: 2rem;
+    padding: 1.6rem 2.6rem;
+    margin-top: 1.6rem;
+    cursor: pointer;
+}
+
+.case .case-title {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    color: var(--main-text-color);
+    font-size: var(--font-size-2);
+}
+
+.case .case-title svg:last-child {
+    margin-left: auto;
+    margin-right: 0.2rem;
+    fill: var(--else-text-color-50);
+    transition: 0.2s;
+}
+
+.case:hover .case-title svg:last-child {
+    margin-right: 0;
+}
+
+.case .case-trophies {
+    margin-top: 1.6rem;
+}
+
+.case .case-trophies .trophy {
+    position: relative;
+    max-width: max-content;
+}
+
+.case .case-trophies .trophy img {
+    max-width: 24px;
+    max-height: 24px;
+    min-height: 24px;
+    min-width: 24px;
+}
+
+.case-trophies .trophy span {
+    position: absolute;
+    min-width: max-content;
+    top: calc(24px + 0.5rem);
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: var(--block-color);
+    padding: 1rem 1.6rem;
+    border-radius: 2rem;
+    box-shadow: var(--shadow-popup);
+    cursor: default;
+    pointer-events: none;
+    opacity: 0;
+    transition: 0.2s;
+}
+
+.case-trophies .trophy span::before {
+    content: "";
+    position: absolute;
+    top: -1rem;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 5px solid transparent;
+    border-bottom: 5px solid var(--block-color);
+}
+
+.case-trophies .trophy:hover span {
+    opacity: 1;
 }
 
 @media (max-width: 1320px) {
@@ -941,11 +1017,13 @@
         max-height: 10px;
     }
 
-    .profile__user-info .first-and-second-names.rampus, .profile__user-info .first-and-second-names.user-from-top {
+    .profile__user-info .first-and-second-names.rampus,
+    .profile__user-info .first-and-second-names.user-from-top {
         gap: 0.625rem;
     }
 
-    .profile__user-info .first-and-second-names.rampus img, .profile__user-info .first-and-second-names.user-from-top img  {
+    .profile__user-info .first-and-second-names.rampus img,
+    .profile__user-info .first-and-second-names.user-from-top img {
         max-width: 22px;
         max-height: 22px;
         min-height: 22px;
@@ -970,7 +1048,8 @@
         margin-top: 1rem;
     }
 
-    .profile__user-info .description, .profile__user-info a.description {
+    .profile__user-info .description,
+    .profile__user-info a.description {
         margin-top: 1.6rem;
     }
 
