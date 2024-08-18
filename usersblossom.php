@@ -2,7 +2,7 @@
 require('connect.php');
 
 $users = $connect->query("SELECT * FROM users");
-while ($row = $users->fetch_assoc) {
+while ($row = $users->fetch_assoc()) {
     $id = $row['id'];
 
     $result_friend_1 = $connect->query("SELECT users.avatar AS friend_avatar, users.first_name AS friend_first_name, users.username AS friend_username FROM friends JOIN users ON friends.user_id_2 = users.id WHERE user_id_1 = $id ORDER BY friend_date");
