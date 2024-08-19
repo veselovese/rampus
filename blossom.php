@@ -114,11 +114,11 @@ if (isset($_SESSION['user'])) {
                         <div class="user__blossom">
                             <h2>Уровень цветения</h2>
                             <div>
-                                <p class="blossom-description">Уровень цветения профиля — это показатель вашей активности, который складывается из нескольких показателей</p>
+                                <p class="blossom-description">Уровень цветения профиля — это показатель вашей активности, который складывается из нескольких параметров</p>
                                 <div class="main-statistic-div">
-                                    <div class="main-statistic"><span><?= $user_level ?></span>текущий уровень</div>
-                                    <div class="main-statistic"><span><?= $top_count ?></span>место в рейтинге</div>
-                                    <div class="main-statistic"><span><?= 100 - $user_progress ?>%</span>до <?= $user_level + 1 ?> уровня</div>
+                                    <div class="main-statistic"><span><?= $user_level ?></span><span>текущий уровень</span></div>
+                                    <div class="main-statistic"><span><?= $top_count ?></span><span>место в рейтинге</span></div>
+                                    <div class="main-statistic"><span><?= 100 - $user_progress ?>%</span><span>до <?= $user_level + 1 ?> уровня</span></div>
                                 </div>
                                 <div class="blossom-param">
                                     <div>

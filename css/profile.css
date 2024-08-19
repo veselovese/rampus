@@ -808,13 +808,15 @@
     justify-content: space-between;
     margin-top: 1.6rem;
     margin-bottom: 1.6rem;
+    gap: 1.6rem;
 }
 
 .main-statistic {
     display: flex;
     flex-direction: column;
     align-items: center;
-    min-width: calc((100% - 2.6rem*2)/3);
+    min-width: calc((100% - 1.6rem*2)/3);
+    max-width: calc((100% - 1.6rem*2)/3);
     background-color: var(--block-color);
     box-shadow: var(--shadow-small);
     border-radius: 2rem;
@@ -830,7 +832,7 @@
     transform: scale(105%);
 }
 
-.main-statistic span {
+.main-statistic span:first-child {
     font-size: var(--font-size-3);
     font-weight: 620;
     background: linear-gradient(-135deg, var(--posts-color), var(--likes-color), var(--comments-color));
@@ -881,6 +883,10 @@
 .blossom-param .current-param span {
     margin-left: auto;
     color: var(--else-text-color-50);
+}
+
+.user__case {
+    min-height: calc(100vh - 7.2rem*2 - 2.6rem*2);
 }
 
 .case {
@@ -1040,6 +1046,10 @@
 @media (max-width: 920px) {
     main {
         padding: 0;
+    }
+
+    .blossom-param {
+        flex-direction: column;
     }
 }
 
