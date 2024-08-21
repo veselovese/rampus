@@ -29,8 +29,8 @@ if (isset($_SESSION['user'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-    <link rel="stylesheet" href="css/main.css?v=141">
-    <link rel="stylesheet" href="css/wall.css?v=141">
+    <link rel="stylesheet" href="css/main.css?v=200beta">
+    <link rel="stylesheet" href="css/wall.css?v=200beta">
     <title>Посты на стене в Rampus (Рампус)</title>
     <link rel="apple-touch-icon" sizes="57x57" href="favicons/apple-icon-57x57.png">
     <link rel="apple-touch-icon" sizes="60x60" href="favicons/apple-icon-60x60.png">
@@ -79,7 +79,9 @@ if (isset($_SESSION['user'])) {
                                 <div class='wall-filter-popup' id='popup_wall-filter'>
                                     <label class="wall-filter-popup-li">Все<input checked name="wall-filter" id="wall-filter-all" type="radio" value=""></label>
                                     <div class='div-line'></div>
-                                    <label class="wall-filter-popup-li">Друзья<input name="wall-filter" id="wall-filter-friends" type="radio" value=""></label>
+                                    <label class="wall-filter-popup-li <?php if (($result_friend_1->num_rows + $result_friend_2->num_rows) == 0) {
+                                                                            echo "no-friends";
+                                                                        } ?>">Друзья<input name="wall-filter" id="wall-filter-friends" type="radio" value=""></label>
                                 </div>
                             </div>
                         </li>
@@ -111,9 +113,11 @@ if (isset($_SESSION['user'])) {
                                 </svg>
                             </div>
                             <div class='wall-filter-popup-mobile' id='popup_wall-filter-mobile'>
-                                <label class="wall-filter-popup-li-mobile">все<input checked name="wall-filter-mobile" id="wall-filter-all-mobile" type="radio" value=""></label>
+                                <label class="wall-filter-popup-li-mobile">Все<input checked name="wall-filter-mobile" id="wall-filter-all-mobile" type="radio" value=""></label>
                                 <div class='div-line'></div>
-                                <label class="wall-filter-popup-li-mobile">друзья<input name="wall-filter-mobile" id="wall-filter-friends-mobile" type="radio" value=""></label>
+                                <label class="wall-filter-popup-li-mobile <?php if (($result_friend_1->num_rows + $result_friend_2->num_rows) == 0) {
+                                                                                echo "no-friends";
+                                                                            } ?>">Друзья<input name="wall-filter-mobile" id="wall-filter-friends-mobile" type="radio" value=""></label>
                             </div>
                         </div>
                         <div class="wall__user-posts" id="posts-filter-all">
@@ -831,8 +835,8 @@ if (isset($_SESSION['user'])) {
 <?php require('footer.php');
         } ?>
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-<script src="js/main.js?v=141"></script>
-<script src="js/wall.js?v=141"></script>
+<script src="js/main.js?v=200beta"></script>
+<script src="js/wall.js?v=200beta"></script>
 </body>
 
 </html>

@@ -10,10 +10,10 @@ if (isset($_SESSION['user'])) {
     $result = $connect->query("SELECT * FROM users WHERE id = $id");
     if ($result->num_rows > 0) {
         while ($row = $result->fetch_assoc()) {
-            $username = $row["username"];
-            $first_name = $row["first_name"];
-            $second_name = $row["second_name"];
-            $avatar = $row["avatar"];
+            $current_username = $row["username"];
+            $current_first_name = $row["first_name"];
+            $current_second_name = $row["second_name"];
+            $current_avatar = $row["avatar"];
         }
     }
 
@@ -30,6 +30,19 @@ if (isset($_SESSION['user'])) {
             $friends_id[] = $row_friend['user_id_2'];
         }
     }
+
+    $sql_user_in_top = "SELECT id FROM users ORDER BY blossom_level DESC, blossom_progress DESC";
+    $result_user_in_top = $connect->query($sql_user_in_top);
+    $user_in_top_count = 0;
+    if ($result_user_in_top->num_rows > 0) {
+        while ($row = $result_user_in_top->fetch_assoc()) {
+            $current_id = $row["id"];
+            $user_in_top_count += 1;
+            if ($current_id == $id) {
+                break;
+            }
+        }
+    }
 }
 
 $sql_top = "SELECT * FROM users ORDER BY blossom_level DESC, blossom_progress DESC";
@@ -42,8 +55,8 @@ $result_top = $connect->query($sql_top);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-    <link rel="stylesheet" href="css/main.css?v=141">
-    <link rel="stylesheet" href="css/people.css?v=141">
+    <link rel="stylesheet" href="css/main.css?v=200beta">
+    <link rel="stylesheet" href="css/people.css?v=200beta">
     <title>Люди в Rampus (Рампус)</title>
     <link rel="apple-touch-icon" sizes="57x57" href="favicons/apple-icon-57x57.png">
     <link rel="apple-touch-icon" sizes="60x60" href="favicons/apple-icon-60x60.png">
@@ -112,12 +125,16 @@ $result_top = $connect->query($sql_top);
                                 </svg>
                             </div>
                             <div class='people-filter-popup-mobile' id='popup_people-filter-mobile'>
-                                <label class="people-filter-popup-li-mobile">рейтинг<input checked name="people-filter-mobile" id="people-filter-top-mobile" type="radio" value=""></label>
+                                <label class="people-filter-popup-li-mobile">Рейтинг<input checked name="people-filter-mobile" id="people-filter-top-mobile" type="radio" value=""></label>
                                 <div class='div-line'></div>
-                                <label class="people-filter-popup-li-mobile">все<input name="people-filter-mobile" id="people-filter-all-mobile" type="radio" value=""></label>
+                                <label class="people-filter-popup-li-mobile">Все<input name="people-filter-mobile" id="people-filter-all-mobile" type="radio" value=""></label>
                             </div>
                         </div>
                         <div class="people people__top-users" id="users-filter-top">
+                            <div class="user-in-top mobile">
+                                <img src="pics/CaseIcon.svg">
+                                <span>Вы на <?= $user_in_top_count ?> месте</span>
+                            </div>
                             <div class="top-users">
                                 <?php if ($result_top->num_rows > 0) {
                                     $counter = $result_top->num_rows;
@@ -210,14 +227,18 @@ $result_top = $connect->query($sql_top);
                         </nav>
                     </div>
                     <div class="third-part">
+                        <div class="user-in-top">
+                            <img src="pics/CaseIcon.svg">
+                            <span>Вы на <?= $user_in_top_count ?> месте</span>
+                        </div>
                     </div>
             </section>
     </main>
 <?php require('footer.php');
         } ?>
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-<script src="js/main.js?v=141"></script>
-<script src="js/people.js?v=141"></script>
+<script src="js/main.js?v=200beta"></script>
+<script src="js/people.js?v=200beta"></script>
 </body>
 
 </html>

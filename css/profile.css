@@ -207,7 +207,9 @@
 .profile__edit {
     padding: 1.6rem 2.6rem;
     border-radius: 2rem;
+    margin-top: 1.6rem;
     color: var(--main-text-color);
+    box-shadow: var(--shadow-small);
 }
 
 .profile__edit:hover svg {
@@ -914,6 +916,14 @@
     transition: 0.2s;
 }
 
+.case.mobile .case-title svg:last-child {
+    margin-right: 0;
+}
+
+.case.mobile:hover .case-title svg:last-child {
+    margin-right: 0.2rem;
+}
+
 .case:hover .case-title svg:last-child {
     margin-right: 0;
 }
@@ -927,6 +937,8 @@
     margin-top: 1.6rem;
     position: relative;
     max-width: max-content;
+    font-size: var(--font-size-1);
+    color: var(--else-text-color-50);
 }
 
 .case .case-trophies .trophy img {

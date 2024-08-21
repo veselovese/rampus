@@ -164,13 +164,13 @@
 .user:first-child {
     border-top-left-radius: 2rem;
     border-top-right-radius: 2rem;
-    padding-top: 2.6rem;
+    /* padding-top: 2.6rem; */
 }
 
 .user:last-child {
     border-bottom-left-radius: 2rem;
     border-bottom-right-radius: 2rem;
-    padding-bottom: 2.6rem;
+    /* padding-bottom: 2.6rem; */
 }
 
 .people__current-user {
@@ -852,9 +852,33 @@
     max-height: 28px;
 }
 
+.user-in-top {
+    background-color: var(--block-color);
+    box-shadow: var(--shadow-small);
+    padding: 1.6rem 2.6rem;
+    border-radius: 2rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.user-in-top.mobile {
+    margin-bottom: 1.6rem;
+    display: none;
+}
+
+.user-in-top span {
+    color: var(--else-text-color-50);
+}
+
 @media (max-width: 1320px) {
     .third-part {
         display: none;
+    }
+
+    .user-in-top.mobile {
+        display: flex;
     }
 }
 

@@ -106,10 +106,10 @@ $result_trophies_m = $connect->query($sql_trophies);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-    <link rel="stylesheet" href="../css/main.css?v=141">
-    <link rel="stylesheet" href="../css/profile.css?v=141">
-    <link rel="stylesheet" href="../css/people.css?v=141">
-    <title>Профиль в Rampus (Рампус)</title>
+    <link rel="stylesheet" href="../css/main.css?v=200beta">
+    <link rel="stylesheet" href="../css/profile.css?v=200beta">
+    <link rel="stylesheet" href="../css/people.css?v=200beta">
+    <title>Профиль другого пользователя в Rampus (Рампус)</title>
     <link rel="apple-touch-icon" sizes="57x57" href="../favicons/apple-icon-57x57.png">
     <link rel="apple-touch-icon" sizes="60x60" href="../favicons/apple-icon-60x60.png">
     <link rel="apple-touch-icon" sizes="72x72" href="../favicons/apple-icon-72x72.png">
@@ -132,7 +132,7 @@ $result_trophies_m = $connect->query($sql_trophies);
 <body>
     <?php require('header-2.php'); ?>
     <main>
-        <h1 class="title">Профиль друга в Rampus (Рампус)</h1>
+        <h1 class="title">Профиль другого пользователя в Rampus (Рампус)</h1>
         <?php if (!isset($_SESSION['user'])) {
             header("Location: ../auth");
             exit();
@@ -302,6 +302,8 @@ $result_trophies_m = $connect->query($sql_trophies);
                                         echo "<span>$trophy_description_m</span>";
                                         echo "</div>";
                                     }
+                                } else {
+                                    echo "<span class='trophy'>Нет трофеев</span>";
                                 }
                                 ?>
                             </div>
@@ -515,6 +517,8 @@ $result_trophies_m = $connect->query($sql_trophies);
                                                     echo "<span>$trophy_description</span>";
                                                     echo "</div>";
                                                 }
+                                            } else {
+                                                echo "<span class='trophy'>Нет трофеев</span>";
                                             }
                                             ?>
                                         </div>
@@ -550,9 +554,9 @@ $result_trophies_m = $connect->query($sql_trophies);
 <?php require('footer-2.php');
         } ?>
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-<script src="../js/main.js?v=141"></script>
-<script src="../js/profile.js?v=141"></script>
-<script src="../js/otheruserprofile.js?v=141"></script>
+<script src="../js/main.js?v=200beta"></script>
+<script src="../js/profile.js?v=200beta"></script>
+<script src="../js/otheruserprofile.js?v=200beta"></script>
 </body>
 
 </html>

@@ -685,6 +685,11 @@
     padding-bottom: 1rem;
 }
 
+.wall-filter-popup-li.no-friends {
+    pointer-events: none;
+    color: var(--else-text-color-50);
+}
+
 .wall-filter-popup-li input[type='radio'] {
     display: none;
 }
@@ -706,7 +711,6 @@
     border-radius: 2rem;
     overflow: hidden;
     margin-top: 2.6rem;
-    cursor: pointer;
     max-width: max-content;
     box-shadow: var(--shadow-small);
     transition: 0.2s;
@@ -726,6 +730,7 @@
     padding: 1rem 2.6rem;
     border-radius: 2rem;
     transition: 0.2s;
+    cursor: pointer;
 }
 
 .wall-filter-mobile .wall-filter-mobile-info:hover {
@@ -798,6 +803,11 @@
     justify-content: center;
     min-height: 4rem;
     color: var(--else-text-color-50);
+}
+
+.wall-filter-popup-li-mobile.no-friends {
+    pointer-events: none;
+    color: var(--else-text-color-33);
 }
 
 .wall-filter-popup-li-mobile:first-child {
