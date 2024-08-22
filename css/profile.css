@@ -143,7 +143,7 @@
 
 .profile__user-info a.description:hover {
     text-decoration: none;
-    color: var(--main-text-color);
+    opacity: 87%;
 }
 
 .profile__user-info .balance {

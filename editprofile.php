@@ -7,21 +7,25 @@ $avatar = $_FILES['avatar'];
 $first_name = $_POST['first-name'];
 $second_name = $_POST['second-name'];
 $description = $_POST['description'];
+if (isset($_POST['username'])) {
+    $username = $_POST['username'];
+}
 $type = $avatar['type'];
 $name = md5(microtime()) . '.' . substr($type, strlen("image/"));
 $dir = 'uploads/avatar/';
 $uploadfile = $dir . $name;
 
-function avatarSecurity($avatar) {
+function avatarSecurity($avatar)
+{
     $name = $avatar['name'];
     $type = $avatar['type'];
     $blacklist = array(".php", ".js", ".html");
     foreach ($blacklist as $row) {
         if (preg_match("/$row\$/i", $name)) return false;
     }
-    
+
     if (($type != "image/png") && ($type != "image/jpg") && ($type != "image/jpeg")) return false;
-    
+
     return true;
 }
 
@@ -29,8 +33,8 @@ if (avatarSecurity($avatar)) {
     if (move_uploaded_file($avatar['tmp_name'], $uploadfile)) {
         $uploadfile2 = '../' . $uploadfile;
         $src = imagecreatefromjpeg($uploadfile);
-        if(!$src) $src = imagecreatefrompng($uploadfile);
-        if(!$src) $src = imagecreatefromgif($uploadfile);
+        if (!$src) $src = imagecreatefrompng($uploadfile);
+        if (!$src) $src = imagecreatefromgif($uploadfile);
         list($old_width, $old_height) = getimagesize($uploadfile);
         if ($old_width >= $old_height) {
             $k1 = $old_height / 96;
@@ -56,15 +60,12 @@ if (avatarSecurity($avatar)) {
     }
 }
 
-$sql = "UPDATE users SET first_name = '$first_name', second_name = '$second_name', description = '$description' WHERE id = $userid";
+if (isset($_POST['username'])) {
+    $sql = "UPDATE users SET first_name = '$first_name', second_name = '$second_name', description = '$description', username = '$username' WHERE id = $userid";
     $result = $connect->query($sql);
-
-
-
-$check_user = mysqli_query($connect, "SELECT * FROM users WHERE id = $userid");
-if (mysqli_num_rows($check_user) > 0) {
-
-    $user = mysqli_fetch_assoc($check_user);
+} else {
+    $sql = "UPDATE users SET first_name = '$first_name', second_name = '$second_name', description = '$description' WHERE id = $userid";
+    $result = $connect->query($sql);
 }
 
 header('Location: ./profile');

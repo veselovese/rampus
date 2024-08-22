@@ -65,7 +65,7 @@ if (isset($_SESSION['user'])) {
                 <div class="second-and-third-parts">
                     <div class="second-part">
                         <div class="profile__user-info">
-                            <form action="./editprofile" method="post" enctype="multipart/form-data" class="edit__form">
+                            <form action="./editprofile" method="post" enctype="multipart/form-data" class="edit__form" autocomplete='off'>
                                 <div class="edit__user-avatar">
                                     <img class="avatar" id="current-avatar" src="uploads/avatar/small_<?= $avatar ?>">
                                     <div class="edit__upload-avatar">
@@ -77,21 +77,31 @@ if (isset($_SESSION['user'])) {
                                     <div class="user-first-and-second-names">
                                         <label>
                                             Имя
-                                            <input type="text" class="" name="first-name" value="<?= $first_name?>">
+                                            <input type="text" class="" name="first-name" value="<?= $first_name ?>" require>
                                         </label>
                                         <label>
                                             Фамилия
-                                            <input type="text" class="" name="second-name" value="<?= $second_name ?>">
+                                            <input type="text" class="" name="second-name" value="<?= $second_name ?>" require>
                                         </label>
                                     </div>
                                     <label>
                                         Описание
-                                        <input type="text" class="" name="description" value="<?= $description ?>">
+                                        <input type="text" class="" name="description" value="<?= $description ?>" require>
                                     </label>
-                                    <label>
-                                        ID
-                                        <input type="text" class="" name="id" value="<?= $username ?>">
-                                    </label>
+                                    <?php if ($level == 2) { ?>
+                                        <label id="reg__lable_id">
+                                            ID (имя пользователя)
+                                            <input type="text" class="" name="username" value="<?= $username ?>" id="reg__id" data-username="<?= $username ?>" require>
+                                            <span class="at">@</span>
+                                            <div><span id="reg__id_on-or-off">Такой ID свободен</span></div>
+                                        </label>
+                                    <?php } else { ?>
+                                        <label id="reg__lable_id" class="blocked">
+                                            ID (доступно со 2 уровня)
+                                            <input type="text" class="" value="<?= $username ?>" id="reg__id">
+                                            <span class="at">@</span>
+                                        </label>
+                                    <?php } ?>
                                 </div>
                                 <button type="submit" name="set_avatar">Сохранить</button>
                             </form>

@@ -85,6 +85,7 @@
     margin: 0;
     padding: 0;
     width: 100%;
+    cursor: pointer;
 }
 
 .edit__form input {
@@ -96,7 +97,7 @@
     background-color: transparent;
     border: 1px solid var(--else-text-color-33);
     padding: 0 2.6rem;
-    margin-top: 0.8rem;
+    margin-top: 0.625rem;
 }
 
 .edit__form input:hover {
@@ -136,6 +137,16 @@
     width: 100%;
 }
 
+.edit__user-info input.on {
+    color: var(--main-accent-color);
+    border: 1px solid var(--main-accent-color);
+}
+
+.edit__user-info input.off {
+    color: var(--error-accent-color);
+    border: 1px solid var(--error-accent-color);
+}
+
 .edit__user-info .user-first-and-second-names {
     display: flex;
     gap: 2.6rem;
@@ -158,6 +169,49 @@
     opacity: 87%;
 }
 
+#reg__lable_id.blocked {
+    pointer-events: none;
+    cursor: default;
+    color: var(--else-text-color-50);
+}
+
+#reg__lable_id.blocked input {
+    color: var(--else-text-color-50);
+}
+
+.edit__user-info #reg__lable_id:has(input[id='reg__id']) {
+    position: relative;
+}
+
+.edit__user-info #reg__lable_id:has(input[id='reg__id']) div {
+    width: 100%;
+    padding: 0 2.6rem;
+    display: inline-flex;
+    position: absolute;
+    top: 6.9rem;
+    left: 0;
+}
+
+.edit__user-info #reg__lable_id:has(input[id='reg__id']) input {
+    padding-left: 4.2rem;
+}
+
+.edit__user-info #reg__lable_id:has(input[id='reg__id']) .at {
+    position: absolute;
+    display: block;
+    font-size: var(--font-size-2);
+    top: calc(50% + 0.1rem);
+    color: var(--else-text-color-50);
+    left: 2.6rem;
+    pointer-events: none;
+}
+
+.edit__form:has(.off) button {
+    pointer-events: none;
+    background-color: var(--else-text-color-50);
+    cursor: default;
+}
+
 @media(max-width: 1080px) {
     .edit__upload-avatar {
         width: 20rem;
@@ -171,10 +225,20 @@
         --font-size-2: 1.6rem;
         --font-size-3: 2.4rem;
     }
+
+    .edit__user-info #reg__lable_id:has(input[id="reg__id"]) .at {
+        top: calc(50% + 0.2rem);
+
+    }
+
+    .edit__user-info #reg__lable_id:has(input[id="reg__id"]) input {
+        padding-left: 4rem;
+    }
 }
 
 @media (max-width: 580px) {
     .edit__user-info .user-first-and-second-names {
         flex-direction: column;
+        gap: 1.6rem;
     }
 }
