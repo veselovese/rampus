@@ -96,7 +96,7 @@ $(document).ready(function () {
 })
 
 function copyLinkToPost(i) {
-    navigator.clipboard.writeText('https://localhost/rampus/post/' + i);
+    navigator.clipboard.writeText('https://rampus.ru/post/' + i);
 }
 
 function showPopup(i) {
@@ -156,11 +156,11 @@ $(document).click(function (e) {
 })
 
 function copyLinkToUser(i) {
-    navigator.clipboard.writeText('https://localhost/rampus/user/' + i);
+    navigator.clipboard.writeText('https://rampus.ru/user/' + i);
 }
 
 function copyLinkToOtherUser(id, username) {
-    navigator.clipboard.writeText('https://localhost/rampus/user/' + username);
+    navigator.clipboard.writeText('https://rampus.ru/user/' + username);
     document.getElementById('three-dots-popup_other-user-info_' + id).classList.toggle('show');
 }
 

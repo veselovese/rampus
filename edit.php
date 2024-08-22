@@ -25,9 +25,9 @@ if (isset($_SESSION['user'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-    <link rel="stylesheet" href="css/main.css?v=200beta">
-    <link rel="stylesheet" href="css/profile.css?v=200beta">
-    <link rel="stylesheet" href="css/edit.css?v=200beta">
+    <link rel="stylesheet" href="css/main.css?v=200">
+    <link rel="stylesheet" href="css/profile.css?v=200">
+    <link rel="stylesheet" href="css/edit.css?v=200">
     <title>Редактирование профиля в Rampus (Рампус)</title>
     <link rel="apple-touch-icon" sizes="57x57" href="favicons/apple-icon-57x57.png">
     <link rel="apple-touch-icon" sizes="60x60" href="favicons/apple-icon-60x60.png">
@@ -88,7 +88,7 @@ if (isset($_SESSION['user'])) {
                                         Описание
                                         <input type="text" class="" name="description" value="<?= $description ?>" require>
                                     </label>
-                                    <?php if ($level == 2) { ?>
+                                    <?php if ($level >= 2) { ?>
                                         <label id="reg__lable_id">
                                             ID (имя пользователя)
                                             <input type="text" class="" name="username" value="<?= $username ?>" id="reg__id" data-username="<?= $username ?>" require>
@@ -141,8 +141,8 @@ if (isset($_SESSION['user'])) {
 <?php require('footer.php');
         } ?>
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-<script src="js/main.js?v=200beta"></script>
-<script src="js/edit.js?v=200beta"></script>
+<script src="js/main.js?v=200"></script>
+<script src="js/edit.js?v=200"></script>
 </body>
 
 </html>
