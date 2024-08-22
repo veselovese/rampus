@@ -848,12 +848,7 @@ textarea {
     }
 
     .reg__input-div div {
-        flex-direction: column;
         gap: 0.75rem;
-    }
-
-    .reg__input-div div span:nth-child(3) {
-        order: -1;
     }
 
     #reg__label_pass-2 {

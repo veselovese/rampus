@@ -56,7 +56,7 @@ session_start();
                         </label>
                         <label id="reg__label_pass-1">Пароль
                             <input type="password" required placeholder="********" name="password_1" id="reg__password_1" minlength="8">
-                            <div><span id="reg__8-sim">8 символов</span><span id="reg__num">Цифра</span><span id="reg__!?">Символ «!» или «?»</span></div>
+                            <div><span id="reg__8-sim">8 символов</span><span id="reg__num">Цифра</span><span id="reg__!?">! или ?</span></div>
                         </label>
                         <label id="reg__label_pass-2"><input type="password" required placeholder="Тот же пароль ещё раз" minlength="8" name="password_2" id="reg__password_2"></label>
                         <button type="submit" class="" id="reg__submit-button">Создать</button>

@@ -27,8 +27,16 @@ $(document).ready(function () {
                     $('#reg__id_on-or-off').text('Ура, такой ID свободен');
                     $('#reg__id_on-or-off').removeClass('off').addClass('show');
                     $('#reg__id').removeClass('off').addClass('on');
-                } else if (flag == 1) {
+                } else if (flag == 'have') {
                     $('#reg__id_on-or-off').text('О нет, такой ID занят');
+                    $('#reg__id_on-or-off').addClass('off').addClass('show');
+                    $('#reg__id').removeClass('on').addClass('off');
+                } else if (flag == 'rus') {
+                    $('#reg__id_on-or-off').text('Только английские буквы, цифры и _');
+                    $('#reg__id_on-or-off').addClass('off').addClass('show');
+                    $('#reg__id').removeClass('on').addClass('off');
+                } else if (flag == 'length') {
+                    $('#reg__id_on-or-off').text('Максимум 16 символов');
                     $('#reg__id_on-or-off').addClass('off').addClass('show');
                     $('#reg__id').removeClass('on').addClass('off');
                 }

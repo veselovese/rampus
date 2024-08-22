@@ -88,6 +88,10 @@ if (isset($_SESSION['user'])) {
                                         Описание
                                         <input type="text" class="" name="description" value="<?= $description ?>">
                                     </label>
+                                    <label>
+                                        ID
+                                        <input type="text" class="" name="id" value="<?= $username ?>">
+                                    </label>
                                 </div>
                                 <button type="submit" name="set_avatar">Сохранить</button>
                             </form>

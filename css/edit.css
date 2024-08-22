@@ -71,10 +71,11 @@
 
 .edit__form .edit__upload-avatar input {
     position: absolute;
-    transform: scale(20);
-    left: 1500px;
-    top: 100px;
+    transform: scale(8);
+    margin: 0;
+    padding: 0;
     opacity: 0;
+    top: 50%;
     cursor: pointer;
 }
 
@@ -131,7 +132,7 @@
 .edit__user-info {
     display: flex;
     flex-direction: column;
-    gap: 2.6rem;
+    gap: 1.6rem;
     width: 100%;
 }
 
