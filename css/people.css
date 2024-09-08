@@ -841,17 +841,6 @@
     min-height: 24px;
     min-width: 24px;
 }
-
-.counter-top {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-width: 28px;
-    min-height: 28px;
-    max-width: 28px;
-    max-height: 28px;
-}
-
 .user-in-top {
     background-color: var(--block-color);
     box-shadow: var(--shadow-small);
@@ -871,6 +860,13 @@
 .user-in-top span {
     color: var(--else-text-color-50);
 }
+
+.people__top-users .user svg {
+    position: absolute;
+    top: 1.1rem;
+    left: 2.1rem;
+}
+
 
 @media (max-width: 1320px) {
     .third-part {
@@ -994,20 +990,6 @@
 
     .user {
         gap: 1rem;
-    }
-
-    .people__top-users .user svg {
-        position: absolute;
-        top: 1.1rem;
-        left: 2.1rem;
-    }
-
-    .people__top-users .user:first-child svg {
-        top: 2.1rem;
-    }
-
-    .counter-top {
-        display: none;
     }
 }
 

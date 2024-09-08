@@ -191,7 +191,7 @@ button {
     color: var(--main-text-color);
     transition: 0.2s;
     letter-spacing: 0.03px;
-    line-height: 1;
+    /* line-height: 1; */
     cursor: pointer;
 }
 
@@ -521,33 +521,34 @@ textarea {
 
 .post-buttons {
     display: flex;
-    gap: 1rem;
+    gap: 2.1rem;
     margin-top: 2.6rem;
-    margin-bottom: 2.6rem;
+    margin-bottom: 1.6rem;
 }
 
 .like-button,
 .comment-button {
-    background-color: var(--block-accent-color-06);
+    background-color: transparent;
     border: none;
-    padding: 1rem 1.6rem;
+    display: -webkit-flex;
     display: flex;
+    -webkit-align-items: center;
     align-items: center;
-    border-radius: 2rem;
+    padding: 0;
     color: var(--else-text-color-33);
     font-weight: 620;
-    gap: 1rem;
+    gap: 0.625rem;
     max-width: max-content;
     transition: 0.2s;
 }
 
-.like-button.unliked:hover,
-.comment-button:hover {
-    background-color: var(--block-accent-color-110);
+.like-button.unliked:hover svg,
+.comment-button:hover svg {
+    fill: var(--else-text-color-33);
 }
 
 .like-button.liked:hover {
-    background-color: var(--like-button-hover-color);
+    opacity: 80%;;
 }
 
 .like-button:active,
@@ -556,20 +557,12 @@ textarea {
 }
 
 .like-button span, .comment-button span {
-    line-height: 2rem;
+    line-height: 1.9rem;
     font-size: var(--font-size-2);
 }
 
 .like-button.liked svg {
     animation: like-post 1s;
-}
-
-.like-button.unliked svg {
-    animation: unlike-post 1s;
-}
-
-.comment-button svg {
-    animation: comment-post 1s;
 }
 
 @keyframes like-post {
@@ -590,64 +583,22 @@ textarea {
     }
 }
 
-@keyframes unlike-post {
-    from {
-        transform: scale(100%);
-    }
-
-    20% {
-        transform: scale(105%);
-    }
-
-    40% {
-        transform: scale(75%);
-    }
-
-    to {
-        transform: scale(100%);
-    }
-}
-
-@keyframes comment-post {
-    from {
-        transform: scale(100%);
-    }
-
-    20% {
-        transform: scale(95%);
-    }
-    
-    30% {
-        transform: scale(125%)  rotate(5deg);
-    }   
-
-    40% {
-        transform: scale(125%) rotate(-5deg);
-    }
-
-    50% {
-        transform: scale(120%) rotate(5deg);
-    }
-
-    to {
-        transform: scale(100%);
-    }
-}
-
 .like-button svg,
 .comment-button svg {
-    width: 23px;
-    height: 19px;
-    fill: var(--else-text-color-33);
+    width: 28px;
+    height: 24px;
+    stroke: var(--else-text-color-33);
+    fill: transparent;
+    transition: 0.2s;
 }
 
 .liked {
-    background-color: var(--like-button-accent-color);
     color: var(--error-accent-color);
 }
 
 .liked svg {
     fill: var(--error-accent-color);
+    stroke: transparent;
 }
 
 .hide {
@@ -828,10 +779,10 @@ textarea {
         margin: 2.6rem 0 1.6rem;
     }
 
-    .like-button span, .comment-button span {
+    /* .like-button span, .comment-button span {
         line-height: 1.7rem;
         padding-bottom: 0.3rem;
-    }
+    } */
 }
 
 @media (max-width: 480px) {

@@ -67,7 +67,7 @@
     background-color: var(--block-color);
     box-shadow: var(--shadow-small);
     border-radius: 2rem;
-    padding: 2.6rem;
+    /* padding: 2.6rem; */
     display: flex;
     flex-direction: column;
     position: relative;
@@ -165,16 +165,29 @@
     line-height: 125%;
 }
 
+.user-post>p {
+    padding: 0 2.6rem;
+}
+
 .user-post p a {
     color: var(--main-accent-color);
     line-height: 125%;
     font-size: var(--font-size-2);
 }
 
+.user-post>div {
+    padding: 0 2.6rem;
+}
+
 .user-post>div:first-child {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
+    padding-top: 1.6rem;
+}
+
+.user-post>div:last-child {
+    padding-bottom: 1.6rem;
 }
 
 .wall__new-post form,
@@ -406,7 +419,7 @@
     display: flex;
     gap: 1.6rem;
     align-items: center;
-    margin-top: 2.6rem;
+    margin-top: 1.6rem;
 }
 
 .wall__comments .current-user img {
@@ -447,10 +460,6 @@
 .wall__comments .other-users p {
     margin: 0;
 }
-
-/* .wall__comments .other-users p:nth-child(2) {
-    margin-top: 0.35rem;
-} */
 
 .user-post .first-and-second-names {
     font-size: var(--font-size-2);

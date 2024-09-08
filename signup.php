@@ -12,7 +12,7 @@ $password_2 = $_POST['password_2'];
 $resultUsername = mysqli_query($connect, "SELECT * FROM users WHERE username = '$username'");
 $resultEmail = mysqli_query($connect, "SELECT * FROM users WHERE email = '$email'");
 
-if (!preg_match('/^(?=.*[A-Za-z])(?=.*[0-9])(?=.*).{8,}$/', $password_1) or strlen($password_1)<8) {
+if (!preg_match('/^(?=.*[0-9])(?=.*).{8,}$/', $password_1) or strlen($password_1)<8) {
     $_SESSION['message'] = 'Пароль минимум 8 символов, должны быть числа, знаки !? и буквы латинского алфавита';
     header('Location: ./reg');
 } else if (mysqli_num_rows($resultUsername) > 0) {
