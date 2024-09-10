@@ -22,6 +22,46 @@
     src: url('fonts/Cygre-Bold.woff') format('woff');
 }
 
+/* @font-face {
+    font-display: swap;
+    font-family: 'Idealist';
+    font-style: normal;
+    font-weight: 600;
+    src: url('fonts/Idealist.woff2') format('woff2');
+}
+
+@font-face {
+    font-display: swap;
+    font-family: 'Idealist';
+    font-style: normal;
+    font-weight: 400;
+    src: url('fonts/Idealist-Light.woff2') format('woff2');
+} */
+
+/* @font-face {
+    font-display: swap;
+    font-family: 'Lineyka';
+    font-style: normal;
+    font-weight: 400;
+    src: url('fonts/Lineyka.woff2') format('woff2');
+} */
+/* 
+@font-face {
+    font-display: swap;
+    font-family: 'AcherusFeral';
+    font-style: normal;
+    font-weight: 400;
+    src: url('fonts/AcherusFeral-Light.woff2') format('woff2');
+}
+
+@font-face {
+    font-display: swap;
+    font-family: 'AcherusFeral';
+    font-style: normal;
+    font-weight: 600;
+    src: url('fonts/AcherusFeral-Bold.woff2') format('woff2');
+} */
+
 * {
     box-sizing: border-box;
 }
@@ -45,7 +85,7 @@
     --shadow-small: 0 0 12px #02020205;
     --shadow-popup: 0 0 9px #02020211;
     --font-size-1: 1.3rem;
-    --font-size-2: 2rem;
+    --font-size-2: 1.6rem;
     --font-size-3: 3.2rem;
 
     font-size: 62.5%;
@@ -509,7 +549,7 @@ textarea {
 }
 
 .second-part {
-    /* max-width: 80.6rem; */
+    max-width: 86rem;
     width: 100%;
 }
 
@@ -521,8 +561,8 @@ textarea {
 
 .post-buttons {
     display: flex;
-    gap: 2.1rem;
-    margin-top: 2.6rem;
+    gap: 1.6rem;
+    margin-top: 2.1rem;
     margin-bottom: 1.6rem;
 }
 
@@ -534,17 +574,18 @@ textarea {
     display: flex;
     -webkit-align-items: center;
     align-items: center;
+    justify-content: center;
     padding: 0;
-    color: var(--else-text-color-33);
+    color: var(--else-text-color-50);
     font-weight: 620;
-    gap: 0.625rem;
+    gap: 0.39rem;
     max-width: max-content;
     transition: 0.2s;
 }
 
 .like-button.unliked:hover svg,
 .comment-button:hover svg {
-    fill: var(--else-text-color-33);
+    opacity: 80%;
 }
 
 .like-button.liked:hover {
@@ -585,10 +626,11 @@ textarea {
 
 .like-button svg,
 .comment-button svg {
-    width: 28px;
-    height: 24px;
-    stroke: var(--else-text-color-33);
+    width: 24px;
+    height: 19px;
+    stroke: var(--else-text-color-50);
     fill: transparent;
+    stroke-width: 2px;
     transition: 0.2s;
 }
 

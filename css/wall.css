@@ -44,7 +44,7 @@
     --shadow-small: 0 0 12px #02020205;
     --shadow-popup: 0 0 9px #02020211;
     --font-size-1: 1.3rem;
-    --font-size-2: 2rem;
+    --font-size-2: 1.6rem;
     --font-size-3: 3.2rem;
 
     font-size: 62.5%;
@@ -67,7 +67,7 @@
     background-color: var(--block-color);
     box-shadow: var(--shadow-small);
     border-radius: 2rem;
-    /* padding: 2.6rem; */
+    padding: 1.6rem 2.6rem;
     display: flex;
     flex-direction: column;
     position: relative;
@@ -165,29 +165,16 @@
     line-height: 125%;
 }
 
-.user-post>p {
-    padding: 0 2.6rem;
-}
-
 .user-post p a {
     color: var(--main-accent-color);
     line-height: 125%;
     font-size: var(--font-size-2);
 }
 
-.user-post>div {
-    padding: 0 2.6rem;
-}
-
 .user-post>div:first-child {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    padding-top: 1.6rem;
-}
-
-.user-post>div:last-child {
-    padding-bottom: 1.6rem;
 }
 
 .wall__new-post form,
