@@ -38,7 +38,7 @@
     --error-accent-color: #FF220C;
     --block-accent-color-110: #E6E6E6;
     --block-accent-color-06: #02020206;
-    --block-accent-color-210: #00663310;
+    --block-accent-color-210: #EFF5F2;
     --like-button-accent-color: #FF220C10;
     --shadow-big: 0 0 15px #02020207;
     --shadow-small: 0 0 12px #02020205;
@@ -372,7 +372,7 @@
 .wall__user-info {
     display: flex;
     align-items: center;
-    gap: 1.6rem;
+    gap: 1rem;
 }
 
 .wall__user-info img {
@@ -561,124 +561,57 @@
 .wall-filter-div {
     position: relative;
     width: 100%;
-    display: block;
-    min-width: 13.935rem;
+    display: flex;
+    flex-direction: column;
+    min-width: 14rem;
+    padding: 1.6rem 2.1rem;
 }
 
 .wall-filter {
-    background-color: var(--block-color);
-    padding: 2.1rem 2.6rem;
+    background-color: var(--block-accent-color-210);
     cursor: pointer;
     position: relative;
     display: flex;
-    justify-content: space-between;
+    gap: 1rem;
     align-items: center;
     width: 100%;
     transition: 0.2s;
     z-index: 9;
-    border-radius: 2rem;
+    border-radius: 1rem;
     color: var(--main-accent-color);
 }
 
-.wall-filter div {
-    font-size: var(--font-size-1);
+.wall-filter__choice {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
-    transition: 0.2s;
-}
-
-.wall-filter svg {
-    fill: var(--main-accent-color);
-    min-height: 10px;
-    max-height: 10px;
-    transition: 0.2s;
-}
-
-#active.show {
-    padding-bottom: calc(12.9rem - 6.2rem);
-}
-
-.wall-filter.show {
-    box-shadow: var(--shadow-popup);
-}
-
-.wall-filter.show div {
-    gap: 0.7rem;
-}
-
-.wall-filter.show svg {
-    transform: rotate(90deg);
-}
-
-.wall-filter-popup {
-    font-size: var(--font-size-1);
-    border-radius: 1.73rem;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 100%;
-    visibility: hidden;
-    z-index: 8;
+    gap: 0.39rem;
     background-color: var(--block-color);
+    min-height: 4rem;
+    border-radius: 2rem;
     overflow: hidden;
-    animation: hidePopupRequest 0.2s;
-}
-
-.wall-filter-popup.show {
-    animation: showPopupRequest 0.2s;
-    visibility: visible;
-}
-
-@keyframes showPopupRequest {
-    from {
-        opacity: 0;
-        transform: translate(0%, -100%);
-    }
-
-    to {
-        opacity: 1;
-        transform: translate(0, 0);
-    }
-}
-
-@keyframes hidePopupRequest {
-    from {
-        transform: translate(0, 0);
-        opacity: 1;
-    }
-
-    to {
-        transform: translate(0%, -100%);
-        opacity: 0;
-    }
+    margin-top: 1.6rem;
+    padding: 0.39rem;
 }
 
 .wall-filter-popup-li {
-    display: block;
+    display: flex;
     width: 100%;
-    padding: 1rem 2.6rem;
     text-transform: none;
-    color: var(--main-text-color);
-    background-color: var(--block-color);
+    display: -webkit-flex;
+    display: flex;
+    -webkit-align-items: center;
+    align-items: center;
+    justify-content: center;
+    color: var(--else-text-color-50);
     cursor: pointer;
     transition: 0.2s;
+    border-radius: 2rem;
+    min-height: calc(4rem - 0.39rem*2);
+    padding: 0 1.6rem;
 }
 
 .wall-filter-popup-li:hover {
     background-color: var(--block-accent-color-06);
-}
-
-
-.wall-filter-popup-li:first-child {
-    padding-top: 7.2rem;
-}
-
-.wall-filter-popup-li:last-child {
-    padding-bottom: 1rem;
 }
 
 .wall-filter-popup-li.no-friends {

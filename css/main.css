@@ -78,7 +78,7 @@
     --error-accent-color: #FF220C;
     --block-accent-color-110: #E6E6E6;
     --block-accent-color-06: #02020206;
-    --block-accent-color-210: #00663310;
+    --block-accent-color-210: #EFF5F2;
     --like-button-accent-color: #FF220C10;
     --like-button-hover-color: #FF220C14;
     --shadow-big: 0 0 15px #02020207;
@@ -352,14 +352,15 @@ textarea {
     border: 1px solid var(--else-text-color-50);
 }
 
-.auth__form input:valid, .reg__form #reg__email:valid {
+.auth__form input:valid,
+.reg__form #reg__email:valid {
     border: 1px solid var(--main-accent-color);
     color: var(--main-accent-color);
 }
 
 .reg__form #reg__email:invalid {
     border: 1px solid var(--else-text-color-50);
-    color: var(--main-text-color);   
+    color: var(--main-text-color);
 }
 
 .auth__form input::placeholder,
@@ -447,7 +448,8 @@ textarea {
     color: var(--error-accent-color);
 }
 
-.reg__form input.off, #reg__lable_email #reg__email.off {
+.reg__form input.off,
+#reg__lable_email #reg__email.off {
     color: var(--error-accent-color);
     border: 1px solid var(--error-accent-color);
 }
@@ -490,19 +492,25 @@ textarea {
 .first-part {
     width: 100%;
     max-width: 25rem;
-    margin-right: 4.1rem;
+    margin-right: 2.6rem;
     flex-shrink: 2;
+    height: calc(100vh - 2.6rem*2 - 7.2rem);
+    position: sticky;
+    top: calc(2.6rem + 7.2rem);
 }
 
 .first-part ul {
     list-style: none;
-    padding: 0;
     margin: 0;
     display: flex;
     flex-direction: column;
     gap: 1rem;
-    position: sticky;
-    top: calc(2.6rem + 7.2rem);
+    
+    background-color: var(--block-color);
+    box-shadow: var(--shadow-small);
+    border-radius: 2rem;
+    padding: 1rem;
+    height: 100%;
 }
 
 .third-part>div {
@@ -512,29 +520,71 @@ textarea {
 
 .first-part a {
     font-size: var(--font-size-2);
-    display: block;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-align-items: center;
+    align-items: center;
+    gap: 1rem;
     color: var(--else-text-color-50);
-    min-width: 13.935rem;
-    padding: 2.1rem 2.6rem;
+    min-width: 10rem;
+    padding: 1.6rem 2.1rem;
 }
 
 .first-part li {
-    border-radius: 2rem;
+    border-radius: 1rem;
     overflow: hidden;
     transition: 0.2s;
 }
 
+.first-part li svg:first-child {
+    max-height: 19px;
+    max-width: 24px;
+}
+
+.first-part li svg path:first-child {
+    fill: var(--else-text-color-50);
+}
+
+.first-part li svg path:last-child {
+    stroke-width: 1.5px;
+    stroke: var(--else-text-color-50);
+}
+
 .first-part li:hover {
-    background-color: var(--block-color);
+    background-color: var(--block-accent-color-06);
+}
+
+.first-part li:has(#exit) {
+    margin-top: auto;
 }
 
 #exit {
     color: var(--error-accent-color);
 }
 
+.first-part #exit:hover {
+    background-color: var(--like-button-accent-color);
+}
+
+.first-part li #exit svg path {
+    stroke-width: 1.5px;
+    stroke: var(--error-accent-color);
+    fill: transparent;
+}
+
 #active {
-    box-shadow: var(--shadow-small);
-    background-color: var(--block-color);
+    background-color: var(--block-accent-color-210);
+}
+
+#active svg path:first-child {
+    fill: var(--main-accent-color);
+}
+
+
+#active svg path:last-child {
+    stroke-width: 1.5px;
+    stroke: var(--main-accent-color);
+    fill: transparent;
 }
 
 #active a {
@@ -589,7 +639,8 @@ textarea {
 }
 
 .like-button.liked:hover {
-    opacity: 80%;;
+    opacity: 80%;
+    ;
 }
 
 .like-button:active,
@@ -597,7 +648,8 @@ textarea {
     transform: scale(95%);
 }
 
-.like-button span, .comment-button span {
+.like-button span,
+.comment-button span {
     line-height: 1.9rem;
     font-size: var(--font-size-2);
 }
@@ -662,7 +714,8 @@ textarea {
     gap: 1.6rem;
 }
 
-#add-to-friends, #unrequest-from-friends {
+#add-to-friends,
+#unrequest-from-friends {
     margin: 0;
 }
 
@@ -692,15 +745,18 @@ textarea {
     transform: scale(95%);
 }
 
-#you-are-friends:hover, #delete-from-friends:hover {
+#you-are-friends:hover,
+#delete-from-friends:hover {
     opacity: 100%;
 }
 
-#you-are-friends:active, #delete-from-friends:active {
+#you-are-friends:active,
+#delete-from-friends:active {
     transform: scale(100%);
 }
 
-#unrequest-to-friends, #unrequest-from-friends {
+#unrequest-to-friends,
+#unrequest-from-friends {
     padding: 0;
     background-color: transparent;
     color: var(--error-accent-color);
@@ -718,7 +774,8 @@ textarea {
     display: none;
 }
 
-.friend-buttons.hide, .friend-buttons-div.hide {
+.friend-buttons.hide,
+.friend-buttons-div.hide {
     display: none;
 }
 

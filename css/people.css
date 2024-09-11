@@ -38,7 +38,7 @@
     --error-accent-color: #FF220C;
     --block-accent-color-110: #E6E6E6;
     --block-accent-color-06: #02020206;
-    --block-accent-color-210: #00663310;
+    --block-accent-color-210: #EFF5F2;
     --param-color: #533A7B;
     --posts-color: #3891A6;
     --likes-color: #DB5461;
@@ -554,124 +554,57 @@
 .people-filter-div {
     position: relative;
     width: 100%;
-    display: block;
-    min-width: 13.935rem;
+    display: flex;
+    flex-direction: column;
+    min-width: 14rem;
+    padding: 1.6rem 2.1rem;
 }
 
 .people-filter {
-    background-color: var(--block-color);
-    padding: 2.1rem 2.6rem;
+    background-color: var(--block-accent-color-210);
     cursor: pointer;
     position: relative;
     display: flex;
-    justify-content: space-between;
+    gap: 1rem;
     align-items: center;
     width: 100%;
     transition: 0.2s;
     z-index: 9;
-    border-radius: 2rem;
+    border-radius: 1rem;
     color: var(--main-accent-color);
 }
 
-.people-filter div {
-    font-size: var(--font-size-1);
+.people-filter__choice {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
-    transition: 0.2s;
-}
-
-.people-filter svg {
-    fill: var(--main-accent-color);
-    min-height: 10px;
-    max-height: 10px;
-    transition: 0.2s;
-}
-
-#active.show {
-    padding-bottom: calc(12.9rem - 6.2rem);
-}
-
-.people-filter.show {
-    box-shadow: var(--shadow-popup);
-}
-
-.people-filter.show div {
-    gap: 0.7rem;
-}
-
-.people-filter.show svg {
-    transform: rotate(90deg);
-}
-
-.people-filter-popup {
-    font-size: var(--font-size-1);
-    border-radius: 1.73rem;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 100%;
-    visibility: hidden;
-    z-index: 8;
+    gap: 0.39rem;
     background-color: var(--block-color);
+    min-height: 4rem;
+    border-radius: 2rem;
     overflow: hidden;
-    animation: hidePopupFilter 0.2s;
-}
-
-.people-filter-popup.show {
-    animation: showPopupFilter 0.2s;
-    visibility: visible;
-}
-
-@keyframes showPopupFilter {
-    from {
-        opacity: 0;
-        transform: translate(0%, -100%);
-    }
-
-    to {
-        opacity: 1;
-        transform: translate(0, 0);
-    }
-}
-
-@keyframes hidePopupFilter {
-    from {
-        transform: translate(0, 0);
-        opacity: 1;
-    }
-
-    to {
-        transform: translate(0%, -100%);
-        opacity: 0;
-    }
+    margin-top: 1.6rem;
+    padding: 0.39rem;
 }
 
 .people-filter-popup-li {
-    display: block;
+    display: flex;
     width: 100%;
-    padding: 1rem 2.6rem;
     text-transform: none;
-    color: var(--main-text-color);
-    background-color: var(--block-color);
+    display: -webkit-flex;
+    display: flex;
+    -webkit-align-items: center;
+    align-items: center;
+    justify-content: center;
+    color: var(--else-text-color-50);
     cursor: pointer;
     transition: 0.2s;
+    border-radius: 2rem;
+    min-height: calc(4rem - 0.39rem*2);
+    padding: 0 1.6rem;
 }
 
 .people-filter-popup-li:hover {
     background-color: var(--block-accent-color-06);
-}
-
-
-.people-filter-popup-li:first-child {
-    padding-top: 7.2rem;
-}
-
-.people-filter-popup-li:last-child {
-    padding-bottom: 1rem;
 }
 
 .people-filter-popup-li input[type='radio'] {
@@ -841,6 +774,7 @@
     min-height: 24px;
     min-width: 24px;
 }
+
 .user-in-top {
     background-color: var(--block-color);
     box-shadow: var(--shadow-small);
@@ -914,7 +848,7 @@
     .second-and-third-parts .second-part:has(#people-filter-all-mobile:checked) #users-filter-all,
     .second-and-third-parts .second-part:has(#people-filter-top-mobile:checked) #users-filter-top {
         display: block;
-    }    
+    }
 }
 
 @media (max-width: 720px) {
@@ -974,13 +908,13 @@
         max-width: 24px;
         max-height: 24px;
     }
-    
+
     .counter-top {
         max-width: 24px;
         min-width: 24px;
         max-height: 24px;
         min-height: 24px;
-    }   
+    }
 }
 
 @media (max-width: 580px) {
