@@ -7,6 +7,17 @@ require('ratingtrophies.php');
 
 if (isset($_SESSION['user'])) {
     $id = $_SESSION['user']['id'];
+    $result = $connect->query("SELECT * FROM users WHERE id = $id");
+    if ($result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
+            $username = $row["username"];
+            $email = $row["email"];
+            $description = $row["description"];
+            $first_name = $row["first_name"];
+            $second_name = $row["second_name"];
+            $avatar = $row["avatar"];
+        }
+    }
     $result_friend_1 = $connect->query("SELECT user_id_1 FROM friends JOIN users ON friends.user_id_1 = users.id WHERE user_id_2 = $id");
     $result_friend_2 = $connect->query("SELECT user_id_2 FROM friends JOIN users ON friends.user_id_2 = users.id WHERE user_id_1 = $id");
     $friends_id = array();
@@ -18,6 +29,19 @@ if (isset($_SESSION['user'])) {
     if ($result_friend_2->num_rows > 0) {
         while ($row_friend = $result_friend_2->fetch_assoc()) {
             $friends_id[] = $row_friend['user_id_2'];
+        }
+    }
+
+    $sql_top = "SELECT id FROM users ORDER BY blossom_level DESC, blossom_progress DESC";
+    $result_top = $connect->query($sql_top);
+    $top_count = 0;
+    if ($result_top->num_rows > 0) {
+        while ($row = $result_top->fetch_assoc()) {
+            $current_id = $row["id"];
+            $top_count += 1;
+            if ($current_id == $id) {
+                break;
+            }
         }
     }
 }
@@ -62,11 +86,29 @@ if (isset($_SESSION['user'])) {
             <section class="wrapper main-section">
                 <nav class="first-part">
                     <ul>
-                        <li><a href="./profile">
-                                <svg width='28' height='24' viewBox='0 0 28 24' fill='none' xmlns='http://www.w3.org/2000/svg'>
-                                    <path fill-rule='evenodd' clip-rule='evenodd' d='M10.6852 0.137016C10.3343 0 9.88958 0 9.00001 0C8.11043 0 7.66569 0 7.31479 0.137016C6.84701 0.319707 6.47535 0.670122 6.28158 1.11117C6.19313 1.31251 6.1585 1.54665 6.14496 1.88819C6.12506 2.39011 5.85204 2.8547 5.39068 3.10584C4.92933 3.35696 4.36608 3.34759 3.89509 3.11288C3.57459 2.95317 3.34221 2.86436 3.11304 2.83592C2.61103 2.7736 2.10333 2.90186 1.70162 3.19248C1.40034 3.41044 1.17795 3.7736 0.733186 4.49991L0.733167 4.49994L0.733124 4.50001C0.288375 5.2263 0.0659982 5.58944 0.0164284 5.94442C-0.0496573 6.41772 0.08638 6.89639 0.394624 7.27515C0.53531 7.44804 0.733043 7.5933 1.03993 7.7751C1.49108 8.0424 1.78135 8.49771 1.78133 9C1.7813 9.50229 1.49103 9.95751 1.03992 10.2247C0.732995 10.4066 0.535234 10.552 0.394529 10.7248C0.0862847 11.1036 -0.0497527 11.5822 0.0163426 12.0555C0.0659044 12.4105 0.288293 12.7737 0.733071 13.5L0.73355 13.5008C1.17802 14.2266 1.40036 14.5896 1.70152 14.8074C2.10323 15.098 2.61093 15.2263 3.11295 15.164C3.3421 15.1356 3.57447 15.0467 3.89494 14.8871C4.36596 14.6524 4.92925 14.643 5.39064 14.8941C5.85203 15.1453 6.12506 15.6099 6.14496 16.1119C6.15851 16.4534 6.19313 16.6875 6.28158 16.8889C6.39517 17.1474 6.56988 17.3748 6.78926 17.5555C7.30922 16.6913 7.93605 15.8862 8.66116 15.1611C9.51192 14.3104 10.4728 13.5949 11.5102 13.0285C11.1816 12.2513 11 11.3969 11 10.5C11 7.08819 13.6286 4.29036 16.9711 4.02119C16.7064 3.60165 16.5246 3.35618 16.2985 3.19254C15.8968 2.90192 15.389 2.77366 14.887 2.83598C14.6579 2.86442 14.4256 2.95322 14.105 3.11292C13.634 3.34763 13.0707 3.35702 12.6094 3.10586C12.1479 2.85472 11.8749 2.39009 11.8551 1.88815C11.8415 1.54663 11.8069 1.3125 11.7184 1.11117C11.5247 0.670122 11.153 0.319707 10.6852 0.137016ZM14.1455 13.4996C14.109 13.4588 14.0732 13.4173 14.0382 13.3752Z' />
-                                    <path d='M21.25 10.5C21.25 12.5711 19.5711 14.25 17.5 14.25C15.4289 14.25 13.75 12.5711 13.75 10.5C13.75 8.42893 15.4289 6.75 17.5 6.75C19.5711 6.75 21.25 8.42893 21.25 10.5ZM10.6057 17.1057C11.2822 16.4292 12.0479 15.8623 12.8752 15.4166C14.0826 16.5527 15.7103 17.25 17.5 17.25C19.2897 17.25 20.9174 16.5527 22.1248 15.4166C22.9521 15.8623 23.7177 16.4292 24.3943 17.1057C26.0452 18.7566 27.0429 20.9385 27.2211 23.25H17.5L7.77887 23.25C7.95711 20.9385 8.95483 18.7566 10.6057 17.1057Z' stroke-linecap='round' stroke-linejoin='round' />
-                                </svg>Профиль</a></li>
+                        <li><a href="./profile" class="menu-profile">
+                                <?php if ($username == 'rampus') { ?>
+                                    <img src="pics/SuperUserIcon.svg">
+                                <?php } else {
+                                    switch ($top_count) {
+                                        case 1:
+                                            echo "<img src='pics/BlossomFirstIcon.svg'>";
+                                            break;
+                                        case 2:
+                                            echo "<img src='pics/BlossomSecondIcon.svg'>";
+                                            break;
+                                        case 3:
+                                            echo "<img src='pics/BlossomThirdIcon.svg'>";
+                                            break;
+                                    }
+                                } ?>
+                                <img class="menu-avatar" src="uploads/avatar/thin_<?= $avatar ?>">
+                                <div>
+                                    <p><?= $first_name ?></p>
+                                    <p>@<?= $username ?></p>
+                                </div>
+                            </a></li>
+                        <div class="div-line"></div>
                         <li id="active">
                             <div class='wall-filter-div'>
                                 <div class='wall-filter' id='wall-filter'>

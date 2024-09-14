@@ -787,7 +787,8 @@
     margin-top: 2.6rem;
 }
 
-.user__blossom .blossom-description, .user__case .case-description {
+.user__blossom .blossom-description,
+.user__case .case-description {
     font-size: var(--font-size-2);
     color: var(--else-text-color-50);
     font-weight: 400;
