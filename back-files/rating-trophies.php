@@ -1,5 +1,5 @@
 <?php
-require('connect.php');
+require_once('connect.php');
 
 $users_blossom = $connect->query("SELECT id FROM users ORDER BY blossom_level DESC, blossom_progress DESC LIMIT 3");
 if ($users_blossom->num_rows > 0) {

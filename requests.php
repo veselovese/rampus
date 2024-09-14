@@ -1,9 +1,8 @@
 <?php
 session_start();
 
-require('connect.php');
-require('like-or-dislike.php');
-require('ratingtrophies.php');
+require_once('back-files/connect.php');
+require('back-files/rating-trophies.php');
 
 if (isset($_SESSION['user'])) {
     $id = $_SESSION['user']['id'];
@@ -53,7 +52,7 @@ if (isset($_SESSION['user'])) {
     <main>
         <h1 class="title">Заявки в друзья в Rampus (Рампус)</h1>
         <?php if (!isset($_SESSION['user'])) {
-            header("Location: auth?request=people");
+            header("Location: auth?request=friends");
             exit();
         } else { ?>
             <section class="wrapper main-section">

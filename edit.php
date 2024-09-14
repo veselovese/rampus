@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-require('connect.php');
+require_once('back-files/connect.php');
 
 if (isset($_SESSION['user'])) {
     $id = $_SESSION['user']['id'];
@@ -96,7 +96,7 @@ if (isset($_SESSION['user'])) {
                 <div class="second-and-third-parts">
                     <div class="second-part">
                         <div class="profile__user-info">
-                            <form action="./editprofile" method="post" enctype="multipart/form-data" class="edit__form" autocomplete='off'>
+                            <form action="./back-files/edit-profile" method="post" enctype="multipart/form-data" class="edit__form" autocomplete='off'>
                                 <div class="edit__user-avatar">
                                     <img class="avatar" id="current-avatar" src="uploads/avatar/small_<?= $avatar ?>">
                                     <div class="edit__upload-avatar">

@@ -1,5 +1,5 @@
 <?php
-require('connect.php');
+require_once('connect.php');
 
 $user_id_from = $_POST['id_from'];
 $user_id_to = $_POST['id_to'];

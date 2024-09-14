@@ -1,6 +1,6 @@
 <?php
 session_start();
-require('connect.php');
+require_once('connect.php');
 
 $user_id = $_SESSION['user']['id'];
 $comment = $_POST['comment'];
@@ -31,4 +31,5 @@ $user_progress = ($blossom - $user_level) * 100;
 $connect->query("UPDATE users SET blossom_level = $user_level WHERE id = $user_id");
 $connect->query("UPDATE users SET blossom_progress = $user_progress WHERE id = $user_id");
 
-header('Location: ./wall#post-' . $post_id);
+header('Location: ../wall#post-' . $post_id);
+exit();

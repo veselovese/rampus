@@ -1,5 +1,5 @@
 <?php
-require('connect.php');
+require_once('connect.php');
 
 $users = $connect->query("SELECT * FROM users");
 while ($row = $users->fetch_assoc()) {

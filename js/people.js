@@ -3,7 +3,7 @@ $(document).ready(function () {
 
     function searchPeople(query) {
         $.ajax({
-            url: "search-people",
+            url: "back-files/search-people",
             method: "POST",
             data: {
                 'people': query

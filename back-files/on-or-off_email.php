@@ -1,6 +1,5 @@
 <?php
-session_start();
-require('connect.php');
+require_once('connect.php');
 
 if (isset($_POST["email"])) {
     $search_email = $_POST['email'];

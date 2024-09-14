@@ -42,7 +42,7 @@ $(document).ready(function () {
     function searchHashtag(query) {
         const get = $('#get-status').val();
         $.ajax({
-            url: "search-hashtag",
+            url: "back-files/search-hashtag",
             method: "POST",
             data: {
                 'hashtag': query,
@@ -165,39 +165,39 @@ function copyLinkToOtherUser(id, username) {
 }
 
 function requestToFriends(from, to) {
-    $.post('../request-to-friends', { id_from: from, id_to: to });
+    $.post('../back-files/request-to-friends', { id_from: from, id_to: to });
     $('#request-to-friends_' + to).addClass('hide');
     $('#unrequest-to-friends_' + to).removeClass('hide');
 }
 
 function unrequestToFriends(from, to) {
-    $.post('../unrequest-to-friends', { id_from: from, id_to: to });
+    $.post('../back-files/unrequest-to-friends', { id_from: from, id_to: to });
     $('#unrequest-to-friends_' + to).addClass('hide');
     $('#request-to-friends_' + to).removeClass('hide');
 }
 
 function unrequestFromFriends(from, to) {
-    $.post('../unrequest-to-friends', { id_from: from, id_to: to });
+    $.post('../back-files/unrequest-to-friends', { id_from: from, id_to: to });
     $('#answer-to-request_' + from).addClass('hide').removeClass('show');
     $('#request-to-friends_' + from).removeClass('hide');
 }
 
 function unrequestToFriendsRequestPage(from, to) {
-    $.post('./unrequest-to-friends', { id_from: from, id_to: to });
+    $.post('./back-files/unrequest-to-friends', { id_from: from, id_to: to });
     $('#popup_answer-to-request_' + from).removeClass('show');
     $('#answer-to-request_' + from).removeClass('show').addClass('unrequested');
     $('#answer-to-request_' + from).text('Отклонена');
 }
 
 function addToFriendsRequestPage(from, to) {
-    $.post('./add-to-friends', { id_from: from, id_to: to });
+    $.post('./back-files/add-to-friends', { id_from: from, id_to: to });
     $('#popup_answer-to-request_' + from).removeClass('show');
     $('#answer-to-request_' + from).removeClass('show').addClass('unrequested');
     $('#answer-to-request_' + from).text('Принята');
 }
 
 function addToFriends(from, to) {
-    $.post('../add-to-friends', { id_from: from, id_to: to });
+    $.post('../back-files/add-to-friends', { id_from: from, id_to: to });
     $('#popup_answer-to-request_' + from).removeClass('show');
     $('#answer-to-request_' + from).addClass('hide').removeClass('show');
     $('#delete-from-friends_' + from).removeClass('hide');

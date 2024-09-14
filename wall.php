@@ -1,9 +1,9 @@
 <?php
 session_start();
 
-require('connect.php');
-require('like-or-dislike.php');
-require('ratingtrophies.php');
+require_once('back-files/connect.php');
+require('back-files/like-or-dislike.php');
+require('back-files/rating-trophies.php');
 
 if (isset($_SESSION['user'])) {
     $id = $_SESSION['user']['id'];
@@ -140,7 +140,7 @@ if (isset($_SESSION['user'])) {
                 <div class="second-and-third-parts">
                     <div class="second-part">
                         <div class="wall__new-post">
-                            <form action="./add" method="post" autocomplete="off">
+                            <form action="./back-files/add" method="post" autocomplete="off">
                                 <div contenteditable="true" id="textarea-post" role="textbox" onkeyup="textareaPost(event)" onkeydown="textareaPostPlaceholder(event)"></div>
                                 <label for="textarea-post" id="textarea-post_label">О чём расскажете сегодня?</label>
                                 <input type="hidden" required name="post" id="textarea-post_input" value="">
@@ -504,7 +504,7 @@ if (isset($_SESSION['user'])) {
                                             echo "</div>";
                                         }
                                         echo "<div class='current-user'>";
-                                        echo "<form action='./comment' method='post' autocomplete='off'>
+                                        echo "<form action='./back-files/comment' method='post' autocomplete='off'>
                                         <div contenteditable='true' class='textarea-comment' id='textarea-comment_$i' role='textbox' onkeyup='textareaComment(event, $i)' onkeydown='textareaCommentPlaceholder(event, $i)'></div>
                                         <label for='textarea-comment' class='textarea-comment_label' id='textarea-comment_label_$i'>Ответить..</label>
                                         <input type='hidden' required name='comment' class='textarea-comment_input' id='textarea-comment_input_$i' value=''>
@@ -838,7 +838,7 @@ if (isset($_SESSION['user'])) {
                                                 echo "</div>";
                                             }
                                             echo "<div class='current-user'>";
-                                            echo "<form action='./comment' method='post' autocomplete='off'>
+                                            echo "<form action='./back-files/comment' method='post' autocomplete='off'>
                                         <div contenteditable='true' class='textarea-comment' id='textarea-comment_$i' role='textbox' onkeyup='textareaComment(event, $i)' onkeydown='textareaCommentPlaceholder(event, $i)'></div>
                                         <label for='textarea-comment' class='textarea-comment_label' id='textarea-comment_label_$i'>Ответить..</label>
                                         <input type='hidden' required name='comment' class='textarea-comment_input' id='textarea-comment_input_$i' value=''>

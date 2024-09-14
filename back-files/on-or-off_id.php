@@ -1,6 +1,6 @@
 <?php
 session_start();
-require('connect.php');
+require_once('connect.php');
 
 if (isset($_POST["id"])) {
     $search_id = $_POST['id'];

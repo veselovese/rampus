@@ -1,6 +1,6 @@
 <?php
 session_start();
-require('connect.php');
+require_once('connect.php');
 $current_user_id = $_SESSION['user']['id'];
 
 if (isset($_POST["people"])) {

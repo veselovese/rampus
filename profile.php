@@ -1,9 +1,9 @@
 <?php
 session_start();
 
-require('connect.php');
-require('like-or-dislike.php');
-require('ratingtrophies.php');
+require_once('back-files/connect.php');
+require('back-files/like-or-dislike.php');
+require('back-files/rating-trophies.php');
 
 if (isset($_SESSION['user'])) {
     $id = $_SESSION['user']['id'];
@@ -336,7 +336,7 @@ if (isset($_SESSION['user'])) {
                                 </div>
                             </div>
                             <div class="profile__new-post">
-                                <form action="./add" method="post" autocomplete="off">
+                                <form action="./back-files/add" method="post" autocomplete="off">
                                     <div contenteditable="true" id="textarea-post" role="textbox" onkeyup="textareaPost(event)" onkeydown="textareaPostPlaceholder(event)"></div>
                                     <label for="textarea-post" id="textarea-post_label">Что-то ещё не рассказали?</label>
                                     <input type="hidden" required name="post" id="textarea-post_input" value="">

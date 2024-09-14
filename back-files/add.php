@@ -1,6 +1,6 @@
 <?php
 session_start();
-require('connect.php');
+require_once('connect.php');
 
 $user_id = $_SESSION['user']['id'];
 $text_post = $_POST['post'];
@@ -51,8 +51,10 @@ if (($post_search != '') && ($post_search == ltrim($hashtags[0], '#'))) {
     $post_search = '';
 }
 
-if ($post_source == 'source-profile') {
-    header('Location: ./profile' . '#post-' . $current_id);
+if ($post_source == 'source-profile') { 
+    header('Location: ../profile' . '#post-' . $current_id);
+    exit();
 } else if ($post_source == 'source-wall') {
-    header('Location: ./wall' . $post_search . '#post-' . $current_id);
+    header('Location: ../wall' . $post_search . '#post-' . $current_id);
+    exit();
 }

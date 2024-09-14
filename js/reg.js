@@ -14,7 +14,7 @@ $(document).ready(function () {
 
     function onOrOffId(query) {
         $.ajax({
-            url: "on-or-off_id",
+            url: "back-files/on-or-off_id",
             method: "POST",
             data: {
                 'id': query,
@@ -57,7 +57,7 @@ $(document).ready(function () {
 
     function onOrOffEmail(query) {
         $.ajax({
-            url: "on-or-off_email",
+            url: "back-files/on-or-off_email",
             method: "POST",
             data: {
                 'email': query,

@@ -38,7 +38,7 @@ session_start();
     <?php require('header.php'); ?>
     <main>
         <section class="wrapper reg__section">
-            <form method="POST" class="reg__form" action="./signup" autocomplete="off">
+            <form method="POST" class="reg__form" action="./back-files/sign-up" autocomplete="off">
                 <legend>Регистрация Rampus</legend>
                 <div>
                     <div class="reg__input-div">

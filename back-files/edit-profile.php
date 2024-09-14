@@ -1,6 +1,6 @@
 <?php
 session_start();
-require('connect.php');
+require_once('connect.php');
 
 $userid = $_SESSION['user']['id'];
 $avatar = $_FILES['avatar'];
@@ -12,7 +12,7 @@ if (isset($_POST['username'])) {
 }
 $type = $avatar['type'];
 $name = md5(microtime()) . '.' . substr($type, strlen("image/"));
-$dir = 'uploads/avatar/';
+$dir = '../uploads/avatar/';
 $uploadfile = $dir . $name;
 
 function avatarSecurity($avatar)
@@ -68,4 +68,5 @@ if (isset($_POST['username'])) {
     $result = $connect->query($sql);
 }
 
-header('Location: ./profile');
+header('Location: ../profile');
+exit();

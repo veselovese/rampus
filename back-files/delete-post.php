@@ -1,6 +1,6 @@
 <?php
 session_start();
-require('connect.php');
+require_once('connect.php');
 
 $user_id = $_SESSION['user']['id'];
 $post_id = $_GET["post"];

@@ -44,7 +44,7 @@ session_start();
             <?php if (isset($_GET['request'])) {
                 $request = '?request=' . $_GET['request'];
             } ?>
-            <form method="POST" class="auth__form" action="./signin<?php echo $request ?>">
+            <form method="POST" class="auth__form" action="./back-files/sign-in<?php echo $request ?>">
                 <div>
                     <legend>Вход Rampus</legend>
                     <label>ID или почта<input type="text" required placeholder="rampus" name="email_or_username"></label>

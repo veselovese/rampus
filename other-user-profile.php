@@ -1,9 +1,9 @@
 <?php
 session_start();
 
-require('connect.php');
-require('like-or-dislike.php');
-require('ratingtrophies.php');
+require_once('back-files/connect.php');
+require('back-files/like-or-dislike.php');
+require('back-files/rating-trophies.php');
 
 $username = $_GET['username'];
 

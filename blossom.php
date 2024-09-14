@@ -1,8 +1,7 @@
 <?php
 session_start();
 
-require('connect.php');
-require('like-or-dislike.php');
+require_once('back-files/connect.php');
 
 if (isset($_SESSION['user'])) {
     $id = $_SESSION['user']['id'];
@@ -100,7 +99,7 @@ if (isset($_SESSION['user'])) {
     <main>
         <h1 class="title">Уровень цветения профиля пользователя в Rampus (Рампус)</h1>
         <?php if (!isset($_SESSION['user'])) {
-            header("Location: auth?request=people");
+            header("Location: auth");
             exit();
         } else { ?>
             <section class="wrapper main-section">

@@ -1,8 +1,8 @@
 <?php
 session_start();
 
-require('connect.php');
-require('like-or-dislike.php');
+require_once('back-files/connect.php');
+require('back-files/like-or-dislike.php');
 
 
 $other_username = $_GET['username'];

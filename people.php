@@ -1,9 +1,8 @@
 <?php
 session_start();
 
-require('connect.php');
-require('like-or-dislike.php');
-require('ratingtrophies.php');
+require_once('back-files/connect.php');
+require('back-files/rating-trophies.php');
 
 if (isset($_SESSION['user'])) {
     $id = $_SESSION['user']['id'];

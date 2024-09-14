@@ -16,6 +16,5 @@
 </html>
 
 <?php
-require('ratingtrophies.php');
 header("Location: auth");
 exit();
