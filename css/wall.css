@@ -44,7 +44,7 @@
     --shadow-small: 0 0 12px #02020205;
     --shadow-popup: 0 0 9px #02020211;
     --font-size-1: 1.3rem;
-    --font-size-2: 1.6rem;
+    --font-size-2: 1.8rem;
     --font-size-3: 3.2rem;
 
     font-size: 62.5%;
@@ -183,7 +183,6 @@
     align-items: flex-start;
     gap: 1.6rem;
     width: 100%;
-    max-width: 97%;
     position: relative;
 }
 
@@ -192,16 +191,23 @@
     background-color: transparent;
     border: none;
     padding: 0;
-    padding-top: 0.75rem;
     display: flex;
+    position: absolute;
+    right: 1.6rem;
+    top: 0;
+    bottom: 0;
     margin: 0;
-    opacity: 50%;
+    opacity: 0;
+    transform: scale(50%);
     pointer-events: none;
+    transition: 0.2s;
 }
 
 .wall__new-post button.active,
 .wall__comments button.active {
-    opacity: 100%;
+    transition: 0.2s 0.2s;
+    transform: scale(100%);
+    opacity: 1;
     pointer-events: all;
 }
 
@@ -221,6 +227,12 @@
     scrollbar-width: none;
     overflow-y: auto;
     font-size: var(--font-size-1);
+    transition: 0.2s 0.2s;
+}
+
+.wall__new-post:has(button.active) #textarea-post {
+    margin-right: calc(25px + 1.6rem + 1rem);
+    transition: 0.2s;
 }
 
 #textarea-post::-webkit-scrollbar,
@@ -468,7 +480,8 @@
     gap: 0.5rem;
 }
 
-.user-post .first-and-second-names.rampus img, .user-post .first-and-second-names.user-from-top img {
+.user-post .first-and-second-names.rampus img,
+.user-post .first-and-second-names.user-from-top img {
     max-width: 16px;
     max-height: 16px;
     min-height: 16px;
@@ -895,7 +908,8 @@
         align-items: flex-start;
     } */
 
-    .user-post .first-and-second-names.rampus img, .user-post .first-and-second-names.user-from-top img {
+    .user-post .first-and-second-names.rampus img,
+    .user-post .first-and-second-names.user-from-top img {
         max-width: 14px;
         max-height: 14px;
         min-height: 14px;

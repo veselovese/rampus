@@ -204,7 +204,7 @@ function addToFriends(from, to) {
 }
 
 function deleteFromFriends(from, to) {
-    $.post('../delete-from-friends', { id_from: from, id_to: to });
+    $.post('../back-files/delete-from-friends', { id_from: from, id_to: to });
     $('#popup_delete-from-friends' + from).removeClass('show');
     $('#delete-from-friends_' + from).removeClass('show').addClass('hide');
     $('#request-to-friends_' + from).removeClass('hide');

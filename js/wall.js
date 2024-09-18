@@ -33,18 +33,20 @@ function seeAllComments(i) {
 function textareaPost(e) {
     const obj = e.target;
     const div = document.getElementById(obj.id + '_input');
-    if (document.getElementById('textarea-post').textContent != '') {
+    if ($('#textarea-post').text().trim(' ') != '') {
         $('#textarea-post_sumbit').addClass('active');
         $('#textarea-post_sumbit').removeAttr('disabled');
     } else {
         $('#textarea-post_sumbit').removeClass('active');
-        $('#textarea-post_sumbit').Attr('disabled');
+        $('#textarea-post_sumbit').attr('disabled');
     }
     div.setAttribute('value', obj.textContent);
 }
 
 function textareaPostPlaceholder(e) {
-    document.getElementById('textarea-post_label').style.display = 'none';
+    if (e.key != ' ') {
+        document.getElementById('textarea-post_label').style.display = 'none';
+    }
     if ((document.getElementById('textarea-post').textContent.length < 2) && (e.key == "Backspace")) {
         document.getElementById('textarea-post_label').style.display = 'block';
     }
@@ -75,22 +77,6 @@ function showPopupWallFilter() {
     document.getElementById('wall-filter').classList.toggle('show');
     document.getElementById('active').classList.toggle('show');
 }
-
-$(document).click(function (e) {
-    if ((!$('.wall-filter-div').is(e.target)) && ($('.wall-filter-div').has(e.target).length === 0)) {
-        document.getElementById('popup_wall-filter').classList.remove('show');
-        document.getElementById('wall-filter').classList.remove('show');
-        document.getElementById('active').classList.remove('show');
-    }
-})
-
-$('#popup_wall-filter').on('click', () => {
-    if ($('#wall-filter-all').is(':checked')) {
-        $('#wall-filter div span').text('все');
-    } else if ($('#wall-filter-friends').is(':checked')) {
-        $('#wall-filter div span').text('друзья');
-    }
-})
 
 function showPopupWallFilterMobile() {
     document.getElementById('wall-filter-mobile').classList.toggle('show');
