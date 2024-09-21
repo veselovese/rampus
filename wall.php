@@ -213,52 +213,35 @@ if (isset($_SESSION['user'])) {
                                         echo "<div class='wall__user-info'>";
                                         echo "<img class='avatar' src='uploads/avatar/thin_" . $avatar . "'>";
                                         echo "<div>";
-                                        if ($user_id == $_SESSION['user']['id']) {
-                                            if ($username == 'rampus') {
-                                                echo "<a href='./profile' class='first-and-second-names rampus'>" . $first_name . " " . $second_name . "<img src='pics/SuperUserIcon.svg'></a>";
-                                            } else {
-                                                switch ($top_count) {
-                                                    case 1:
-                                                        echo "<a href='./profile' class='first-and-second-names user-from-top'>" . $first_name . " " . $second_name . "<img src='pics/BlossomFirstIcon.svg'></a>";
-                                                        break;
-                                                    case 2:
-                                                        echo "<a href='./profile' class='first-and-second-names user-from-top'>" . $first_name . " " . $second_name . "<img src='pics/BlossomSecondIcon.svg'></a>";
-                                                        break;
-                                                    case 3:
-                                                        echo "<a href='./profile' class='first-and-second-names user-from-top'>" . $first_name . " " . $second_name . "<img src='pics/BlossomThirdIcon.svg'></a>";
-                                                        break;
-                                                    default:
-                                                        echo "<a href='./profile' class='first-and-second-names'>" . $first_name . " " . $second_name . "</a>";
-                                                }
-                                            }
+                                        if ($username == 'rampus') {
+                                            echo "<a href='./user/$username' class='first-and-second-names rampus'>" . $first_name . " " . $second_name . "</a>";
                                         } else {
-                                            if ($username == 'rampus') {
-                                                echo "<a href='./user/$username' class='first-and-second-names rampus'>" . $first_name . " " . $second_name . "<img src='pics/SuperUserIcon.svg'></a>";
-                                            } else {
-                                                switch ($top_count) {
-                                                    case 1:
-                                                        echo "<a href='./user/$username' class='first-and-second-names user-from-top'>" . $first_name . " " . $second_name . "<img src='pics/BlossomFirstIcon.svg'></a>";
-                                                        break;
-                                                    case 2:
-                                                        echo "<a href='./user/$username' class='first-and-second-names user-from-top'>" . $first_name . " " . $second_name . "<img src='pics/BlossomSecondIcon.svg'></a>";
-                                                        break;
-                                                    case 3:
-                                                        echo "<a href='./user/$username' class='first-and-second-names user-from-top'>" . $first_name . " " . $second_name . "<img src='pics/BlossomThirdIcon.svg'></a>";
-                                                        break;
-                                                    default:
-                                                        echo "<a href='./user/$username' class='first-and-second-names'>" . $first_name . " " . $second_name . "</a>";
-                                                }
-                                            }
+                                            echo "<a href='./user/$username' class='first-and-second-names'>" . $first_name . " " . $second_name . "</a>";
                                         }
                                         echo "<span>" . $post_date . "</span>";
                                         echo "</div>";
+                                        if ($username == 'rampus') {
+                                            echo "<img src='pics/SuperUserIcon.svg'>";
+                                        } else {
+
+                                            switch ($top_count) {
+                                                case 1:
+                                                    echo "<img src='pics/BlossomFirstIcon.svg'>";
+                                                    break;
+                                                case 2:
+                                                    echo "<img src='pics/BlossomSecondIcon.svg'>";
+                                                    break;
+                                                case 3:
+                                                    echo "<img src='pics/BlossomThirdIcon.svg'>";
+                                                    break;
+                                            }
+                                        }
                                         echo "</div>";
                                         echo "<img onclick='showPopup($i)' src='pics/ThreeDotsIcon.svg' class='show-three-dots-popup'>";
                                         echo "<div class='three-dots-popup' id='three-dots-popup_$i'>";
                                         echo "<span class='three-dots-popup-li copy-link' onclick='copyLinkToPost($i)'>Копировать ссылку</span>";
                                         echo "<a class='three-dots-popup-li open-profile' href='./user/$username'>Открыть профиль</a>";
                                         if ($user_id == $_SESSION['user']['id']) {
-                                            // echo "<a class='three-dots-popup-li edit-post' href='./wall'>*************</a>";
                                             echo "<a class='three-dots-popup-li delete-post' href='deletepost?post=$i&source=wall'>Удалить</a>";
                                         }
                                         echo "</div>";
@@ -356,45 +339,13 @@ if (isset($_SESSION['user'])) {
                                                         echo "<div class='user-comment'>";
                                                         echo "<img src='uploads/avatar/thin_" . $avatar . "'>";
                                                         echo "<div>";
-                                                        if ($comment_user_id == $_SESSION['user']['id']) {
-                                                            if ($comment_username == 'rampus') {
-                                                                echo "<a href='./profile' class='first-and-second-names rampus'>" . $first_name . " " . $second_name . "<img src='pics/SuperUserIcon.svg'></a>";
-                                                            } else {
-                                                                switch ($top_count) {
-                                                                    case 1:
-                                                                        echo "<a href='./profile' class='first-and-second-names user-from-top'>" . $first_name . " " . $second_name . "<img src='pics/BlossomFirstIcon.svg'></a>";
-                                                                        break;
-                                                                    case 2:
-                                                                        echo "<a href='./profile' class='first-and-second-names user-from-top'>" . $first_name . " " . $second_name . "<img src='pics/BlossomSecondIcon.svg'></a>";
-                                                                        break;
-                                                                    case 3:
-                                                                        echo "<a href='./profile' class='first-and-second-names user-from-top'>" . $first_name . " " . $second_name . "<img src='pics/BlossomThirdIcon.svg'></a>";
-                                                                        break;
-                                                                    default:
-                                                                        echo "<a href='./profile' class='first-and-second-names'>" . $first_name . " " . $second_name . "</a>";
-                                                                }
-                                                            }
+                                                        if ($comment_username == 'rampus') {
+                                                            echo "<a href='./user/$comment_username' class='first-and-second-names rampus'>" . $first_name . " " . $second_name . "</a>";
                                                         } else {
-                                                            if ($comment_username == 'rampus') {
-                                                                echo "<a href='./user/$comment_username' class='first-and-second-names rampus'>" . $first_name . " " . $second_name . "<img src='pics/SuperUserIcon.svg'></a>";
-                                                            } else {
-                                                                switch ($top_count) {
-                                                                    case 1:
-                                                                        echo "<a href='./user/$comment_username' class='first-and-second-names user-from-top'>" . $first_name . " " . $second_name . "<img src='pics/BlossomFirstIcon.svg'></a>";
-                                                                        break;
-                                                                    case 2:
-                                                                        echo "<a href='./user/$comment_username' class='first-and-second-names user-from-top'>" . $first_name . " " . $second_name . "<img src='pics/BlossomSecondIcon.svg'></a>";
-                                                                        break;
-                                                                    case 3:
-                                                                        echo "<a href='./user/$comment_username' class='first-and-second-names user-from-top'>" . $first_name . " " . $second_name . "<img src='pics/BlossomThirdIcon.svg'></a>";
-                                                                        break;
-                                                                    default:
-                                                                        echo "<a href='./user/$comment_username' class='first-and-second-names'>" . $first_name . " " . $second_name . "</a>";
-                                                                }
-                                                            }
+                                                            echo "<a href='./user/$comment_username' class='first-and-second-names'>" . $first_name . " " . $second_name . "<span class='date'> " . $comment_date . "</span></a>";
                                                         }
                                                         echo "<p class='comment-text main-text'>" . $comment_text . "</p>";
-                                                        echo "<span class='date'>" . $comment_date . "</span>";
+                                                        echo "";
                                                         echo "</div>";
                                                         echo "</div>";
                                                         $comment_count -= 1;
@@ -405,42 +356,10 @@ if (isset($_SESSION['user'])) {
                                                         echo "<div class='user-comment hide comment_user-comment_$i'>";
                                                         echo "<img src='uploads/avatar/thin_" . $avatar . "'>";
                                                         echo "<div>";
-                                                        if ($comment_user_id == $_SESSION['user']['id']) {
-                                                            if ($comment_username == 'rampus') {
-                                                                echo "<a href='./profile' class='first-and-second-names rampus'>" . $first_name . " " . $second_name . "<img src='pics/SuperUserIcon.svg'></a>";
-                                                            } else {
-                                                                switch ($top_count) {
-                                                                    case 1:
-                                                                        echo "<a href='./profile' class='first-and-second-names user-from-top'>" . $first_name . " " . $second_name . "<img src='pics/BlossomFirstIcon.svg'></a>";
-                                                                        break;
-                                                                    case 2:
-                                                                        echo "<a href='./profile' class='first-and-second-names user-from-top'>" . $first_name . " " . $second_name . "<img src='pics/BlossomSecondIcon.svg'></a>";
-                                                                        break;
-                                                                    case 3:
-                                                                        echo "<a href='./profile' class='first-and-second-names user-from-top'>" . $first_name . " " . $second_name . "<img src='pics/BlossomThirdIcon.svg'></a>";
-                                                                        break;
-                                                                    default:
-                                                                        echo "<a href='./profile' class='first-and-second-names'>" . $first_name . " " . $second_name . "</a>";
-                                                                }
-                                                            }
+                                                        if ($comment_username == 'rampus') {
+                                                            echo "<a href='./user/$comment_username' class='first-and-second-names rampus'>" . $first_name . " " . $second_name . "</a>";
                                                         } else {
-                                                            if ($comment_username == 'rampus') {
-                                                                echo "<a href='./user/$comment_username' class='first-and-second-names rampus'>" . $first_name . " " . $second_name . "<img src='pics/SuperUserIcon.svg'></a>";
-                                                            } else {
-                                                                switch ($top_count) {
-                                                                    case 1:
-                                                                        echo "<a href='./user/$comment_username' class='first-and-second-names user-from-top'>" . $first_name . " " . $second_name . "<img src='pics/BlossomFirstIcon.svg'></a>";
-                                                                        break;
-                                                                    case 2:
-                                                                        echo "<a href='./user/$comment_username' class='first-and-second-names user-from-top'>" . $first_name . " " . $second_name . "<img src='pics/BlossomSecondIcon.svg'></a>";
-                                                                        break;
-                                                                    case 3:
-                                                                        echo "<a href='./user/$comment_username' class='first-and-second-names user-from-top'>" . $first_name . " " . $second_name . "<img src='pics/BlossomThirdIcon.svg'></a>";
-                                                                        break;
-                                                                    default:
-                                                                        echo "<a href='./user/$comment_username' class='first-and-second-names'>" . $first_name . " " . $second_name . "</a>";
-                                                                }
-                                                            }
+                                                            echo "<a href='./user/$comment_username' class='first-and-second-names'>" . $first_name . " " . $second_name . "</a>";
                                                         }
                                                         echo "<p class='comment-text main-text'>" . $comment_text . "</p>";
                                                         echo "<span class='date'>" . $comment_date . "</span>";
@@ -454,42 +373,10 @@ if (isset($_SESSION['user'])) {
                                                     echo "<div class='user-comment'>";
                                                     echo "<img src='uploads/avatar/thin_" . $avatar . "'>";
                                                     echo "<div>";
-                                                    if ($comment_user_id == $_SESSION['user']['id']) {
-                                                        if ($comment_username == 'rampus') {
-                                                            echo "<a href='./profile' class='first-and-second-names rampus'>" . $first_name . " " . $second_name . "<img src='pics/SuperUserIcon.svg'></a>";
-                                                        } else {
-                                                            switch ($top_count) {
-                                                                case 1:
-                                                                    echo "<a href='./profile' class='first-and-second-names user-from-top'>" . $first_name . " " . $second_name . "<img src='pics/BlossomFirstIcon.svg'></a>";
-                                                                    break;
-                                                                case 2:
-                                                                    echo "<a href='./profile' class='first-and-second-names user-from-top'>" . $first_name . " " . $second_name . "<img src='pics/BlossomSecondIcon.svg'></a>";
-                                                                    break;
-                                                                case 3:
-                                                                    echo "<a href='./profile' class='first-and-second-names user-from-top'>" . $first_name . " " . $second_name . "<img src='pics/BlossomThirdIcon.svg'></a>";
-                                                                    break;
-                                                                default:
-                                                                    echo "<a href='./profile' class='first-and-second-names'>" . $first_name . " " . $second_name . "</a>";
-                                                            }
-                                                        }
+                                                    if ($comment_username == 'rampus') {
+                                                        echo "<a href='./user/$comment_username' class='first-and-second-names rampus'>" . $first_name . " " . $second_name . "</a>";
                                                     } else {
-                                                        if ($comment_username == 'rampus') {
-                                                            echo "<a href='./user/$comment_username' class='first-and-second-names rampus'>" . $first_name . " " . $second_name . "<img src='pics/SuperUserIcon.svg'></a>";
-                                                        } else {
-                                                            switch ($top_count) {
-                                                                case 1:
-                                                                    echo "<a href='./user/$comment_username' class='first-and-second-names user-from-top'>" . $first_name . " " . $second_name . "<img src='pics/BlossomFirstIcon.svg'></a>";
-                                                                    break;
-                                                                case 2:
-                                                                    echo "<a href='./user/$comment_username' class='first-and-second-names user-from-top'>" . $first_name . " " . $second_name . "<img src='pics/BlossomSecondIcon.svg'></a>";
-                                                                    break;
-                                                                case 3:
-                                                                    echo "<a href='./user/$comment_username' class='first-and-second-names user-from-top'>" . $first_name . " " . $second_name . "<img src='pics/BlossomThirdIcon.svg'></a>";
-                                                                    break;
-                                                                default:
-                                                                    echo "<a href='./user/$comment_username' class='first-and-second-names'>" . $first_name . " " . $second_name . "</a>";
-                                                            }
-                                                        }
+                                                        echo "<a href='./user/$comment_username' class='first-and-second-names'>" . $first_name . " " . $second_name . "</a>";
                                                     }
                                                     echo "<p class='comment-text main-text'>" . $comment_text . "</p>";
                                                     echo "<span class='date'>" . $comment_date . "</span>";

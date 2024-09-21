@@ -11,7 +11,7 @@
     font-family: 'Cygre';
     font-style: normal;
     font-weight: 400;
-    src: url('fonts/Cygre-Regular.woff') format('woff');
+    src: url('fonts/Cygre-Regular.woff2') format('woff2');
 }
 
 @font-face {
@@ -19,48 +19,16 @@
     font-family: 'Cygre';
     font-style: normal;
     font-weight: 600;
+    src: url('fonts/Cygre-SemiBold.woff2') format('woff2');
+}
+
+@font-face {
+    font-display: swap;
+    font-family: 'Cygre';
+    font-style: normal;
+    font-weight: 700;
     src: url('fonts/Cygre-Bold.woff') format('woff');
 }
-
-/* @font-face {
-    font-display: swap;
-    font-family: 'Idealist';
-    font-style: normal;
-    font-weight: 600;
-    src: url('fonts/Idealist.woff2') format('woff2');
-}
-
-@font-face {
-    font-display: swap;
-    font-family: 'Idealist';
-    font-style: normal;
-    font-weight: 400;
-    src: url('fonts/Idealist-Light.woff2') format('woff2');
-} */
-
-/* @font-face {
-    font-display: swap;
-    font-family: 'Lineyka';
-    font-style: normal;
-    font-weight: 400;
-    src: url('fonts/Lineyka.woff2') format('woff2');
-} */
-/* 
-@font-face {
-    font-display: swap;
-    font-family: 'AcherusFeral';
-    font-style: normal;
-    font-weight: 400;
-    src: url('fonts/AcherusFeral-Light.woff2') format('woff2');
-}
-
-@font-face {
-    font-display: swap;
-    font-family: 'AcherusFeral';
-    font-style: normal;
-    font-weight: 600;
-    src: url('fonts/AcherusFeral-Bold.woff2') format('woff2');
-} */
 
 * {
     box-sizing: border-box;
@@ -85,8 +53,9 @@
     --shadow-small: 0 0 12px #02020205;
     --shadow-popup: 0 0 9px #02020211;
     --font-size-1: 1.3rem;
-    --font-size-2: 1.8rem;
-    --font-size-3: 3.2rem;
+    --font-size-2: 1.4rem;
+    --font-size-3: 1.7rem;
+    --font-size-4: 3.2rem;
 
     font-size: 62.5%;
     height: 100%
@@ -110,8 +79,8 @@ body {
     font-family: 'Cygre', sans-serif;
     font-weight: 400;
     background-color: var(--background-color);
-    font-size: var(--font-size-2);
-    letter-spacing: 0.03px;
+    font-size: var(--font-size-3);
+    letter-spacing: 0.15px;
     color: var(--main-text-color);
     line-height: 1;
     margin: 0;
@@ -207,7 +176,6 @@ a {
     text-decoration: none;
     font-size: var(--font-size-1);
     transition: 0.2s;
-    letter-spacing: 0.03px;
     line-height: 1;
     color: var(--else-text-color-50);
 }
@@ -227,11 +195,9 @@ a {
 button {
     font-family: 'Cygre', sans-serif;
     font-weight: 400;
-    font-size: var(--font-size-2);
+    font-size: var(--font-size-3);
     color: var(--main-text-color);
     transition: 0.2s;
-    letter-spacing: 0.03px;
-    /* line-height: 1; */
     cursor: pointer;
 }
 
@@ -241,7 +207,6 @@ input {
     font-size: var(--font-size-1);
     color: var(--main-text-color);
     transition: 0.2s;
-    letter-spacing: 0.03px;
     line-height: 1;
 }
 
@@ -251,7 +216,6 @@ textarea {
     font-size: var(--font-size-1);
     color: var(--main-text-color);
     transition: 0.2s;
-    letter-spacing: 0.03px;
     line-height: 1;
 }
 
@@ -314,7 +278,7 @@ textarea {
 
 .auth__form legend,
 .reg__form legend {
-    font-size: var(--font-size-3);
+    font-size: var(--font-size-4);
     font-weight: 600;
     margin: 0;
     padding: 0;
@@ -373,7 +337,7 @@ textarea {
     background-color: var(--main-accent-color);
     color: var(--block-color);
     border: none;
-    font-size: var(--font-size-2);
+    font-size: var(--font-size-3);
     width: 100%;
     min-height: 4rem;
     border-radius: 2rem;
@@ -519,7 +483,7 @@ textarea {
 }
 
 .first-part a {
-    font-size: var(--font-size-2);
+    font-size: var(--font-size-3);
     display: -webkit-flex;
     display: flex;
     -webkit-align-items: center;
@@ -645,7 +609,7 @@ textarea {
     justify-content: center;
     padding: 0;
     color: var(--else-text-color-50);
-    font-weight: 620;
+    font-weight: 600;
     gap: 0.39rem;
     max-width: max-content;
     transition: 0.2s;
@@ -669,7 +633,7 @@ textarea {
 .like-button span,
 .comment-button span {
     line-height: 1.9rem;
-    font-size: var(--font-size-2);
+    font-size: var(--font-size-3);
 }
 
 .like-button.liked svg {

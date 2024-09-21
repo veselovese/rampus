@@ -1,31 +1,3 @@
-@font-face {
-    font-display: swap;
-    font-family: 'Unbounded';
-    font-style: normal;
-    font-weight: 900;
-    src: url('fonts/Unbounded-Black.woff') format('woff');
-}
-
-@font-face {
-    font-display: swap;
-    font-family: 'Cygre';
-    font-style: normal;
-    font-weight: 400;
-    src: url('fonts/Cygre-Regular.woff') format('woff');
-}
-
-@font-face {
-    font-display: swap;
-    font-family: 'Cygre';
-    font-style: normal;
-    font-weight: 600;
-    src: url('fonts/Cygre-Bold.woff') format('woff');
-}
-
-* {
-    box-sizing: border-box;
-}
-
 :root {
     --background-color: #FBFBFB;
     --block-color: #FFFFFF;
@@ -44,8 +16,9 @@
     --shadow-small: 0 0 12px #02020205;
     --shadow-popup: 0 0 9px #02020211;
     --font-size-1: 1.3rem;
-    --font-size-2: 1.8rem;
-    --font-size-3: 3.2rem;
+    --font-size-2: 1.4rem;
+    --font-size-3: 1.7rem;
+    --font-size-4: 3.2rem;
 
     font-size: 62.5%;
     height: 100%
@@ -163,6 +136,10 @@
 
 .user-post p.main-text {
     line-height: 125%;
+}
+
+.user-post p.comment-text {
+    font-size: var(--font-size-2);
 }
 
 .user-post p a {
@@ -384,10 +361,11 @@
 .wall__user-info {
     display: flex;
     align-items: center;
-    gap: 1rem;
+    gap: 1.6rem;
+    position: relative;
 }
 
-.wall__user-info img {
+.wall__user-info img:first-child {
     min-width: 50px;
     min-height: 50px;
     max-width: 50px;
@@ -397,15 +375,27 @@
     object-fit: cover;
 }
 
+.wall__user-info img:last-child {
+    margin: 0;
+    max-width: 19px;
+    max-height: 19px;
+    min-height: 19px;
+    min-width: 19px;
+    position: absolute;
+    top: 3.3rem;
+    left: 3.4rem;
+    transform: rotate(4deg);
+}
+
 .wall__user-info div {
     display: flex;
     flex-direction: column;
-    gap: 0.4rem;
+    gap: 0.39rem;
 }
 
 .wall__user-info p {
     margin: 0;
-    font-weight: 620;
+    font-weight: 600;
 }
 
 .wall__user-info span {
@@ -443,17 +433,18 @@
 
 .wall__comments .other-users .user-comment {
     display: flex;
-    gap: 1.6rem;
-    margin: 1.6rem 0;
+    align-items: flex-start;
+    gap: 1rem;
+    margin: 1rem 0;
 }
 
 .wall__comments .other-users {
-    margin: 2.6rem 0 4.1rem;
+    margin: 1.6rem 0 2.1rem;
     padding-left: 1.6rem;
 }
 
 .wall__comments .other-users .user-comment:first-child {
-    margin: 2.6rem 0 1.6rem;
+    margin: 1.6rem 0 1rem;
 }
 
 .wall__comments .other-users p {
@@ -462,7 +453,7 @@
 
 .user-post .first-and-second-names {
     font-size: var(--font-size-2);
-    font-weight: 620;
+    font-weight: 600;
     color: var(--main-text-color);
     cursor: pointer;
 }
@@ -493,15 +484,31 @@
 }
 
 .wall__comments .other-users .date {
-    display: inline-block;
     font-size: var(--font-size-1);
     color: var(--else-text-color-50);
-    margin-top: 0.4rem;
     text-transform: lowercase;
+    /* position: absolute; */
+    min-width: max-content;
+    top: 0;
+    left: calc(100% + 0.625rem);
+    transition: 0.2s;
+    opacity: 0;
+}
+
+.wall__comments .other-users .user-comment:hover .date {
+    opacity: 1;
+}
+
+.user-comment div {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    gap: 0.1rem;
+    margin-top: 0.39rem;
 }
 
 .wall__comments .other-users .div-line {
-    margin-left: 6.6rem;
+    margin-left: 5rem;
     width: auto;
 }
 
@@ -551,7 +558,7 @@
 }
 
 .wall__comments .other-users .see-all-comments {
-    margin-top: 2.6rem;
+    margin-top: 2.1rem;
     font-size: var(--font-size-1);
     cursor: pointer;
     color: var(--main-accent-color);

@@ -1,31 +1,3 @@
-@font-face {
-    font-display: swap;
-    font-family: 'Unbounded';
-    font-style: normal;
-    font-weight: 900;
-    src: url('fonts/Unbounded-Black.woff') format('woff');
-}
-
-@font-face {
-    font-display: swap;
-    font-family: 'Cygre';
-    font-style: normal;
-    font-weight: 400;
-    src: url('fonts/Cygre-Regular.woff') format('woff');
-}
-
-@font-face {
-    font-display: swap;
-    font-family: 'Cygre';
-    font-style: normal;
-    font-weight: 600;
-    src: url('fonts/Cygre-Bold.woff') format('woff');
-}
-
-* {
-    box-sizing: border-box;
-}
-
 :root {
     --background-color: #FBFBFB;
     --block-color: #FFFFFF;
@@ -48,8 +20,9 @@
     --shadow-small: 0 0 12px #02020205;
     --shadow-popup: 0 0 9px #02020211;
     --font-size-1: 1.3rem;
-    --font-size-2: 1.8rem;
-    --font-size-3: 3.2rem;
+    --font-size-2: 1.4rem;
+    --font-size-3: 1.7rem;
+    --font-size-4: 3.2rem;
 
     font-size: 62.5%;
     height: 100%
@@ -199,9 +172,9 @@
 }
 
 .current-user-info p:first-child {
-    font-weight: 620;
+    font-weight: 600;
     color: var(--main-text-color);
-    font-size: var(--font-size-2);
+    font-size: var(--font-size-3);
 }
 
 .requests .current-user-info p {
@@ -360,8 +333,8 @@
 }
 
 .friends__users>p:first-child {
-    font-size: var(--font-size-3);
-    font-weight: 620;
+    font-size: var(--font-size-4);
+    font-weight: 600;
     margin-bottom: 2.6rem;
 }
 
@@ -745,7 +718,7 @@
 
 .blossom-status {
     margin-left: auto;
-    font-weight: 620;
+    font-weight: 600;
     background: linear-gradient(-135deg, var(--posts-color), var(--likes-color), var(--comments-color));
     -webkit-background-clip: text;
     background-clip: text;
@@ -760,7 +733,7 @@
 }
 
 .user .blossom-status-mobile span {
-    font-weight: 620;
+    font-weight: 600;
     background: linear-gradient(-135deg, var(--posts-color), var(--likes-color), var(--comments-color));
     -webkit-background-clip: text;
     background-clip: text;
@@ -852,8 +825,8 @@
 
 @media (max-width: 720px) {
     :root {
-        --font-size-2: 1.6rem;
-        --font-size-3: 2.4rem;
+        --font-size-3: 1.6rem;
+        --font-size-4: 2.4rem;
     }
 
     .wrapper {

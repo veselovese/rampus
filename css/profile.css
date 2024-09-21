@@ -1,31 +1,3 @@
-@font-face {
-    font-display: swap;
-    font-family: 'Unbounded';
-    font-style: normal;
-    font-weight: 900;
-    src: url('fonts/Unbounded-Black.woff') format('woff');
-}
-
-@font-face {
-    font-display: swap;
-    font-family: 'Cygre';
-    font-style: normal;
-    font-weight: 400;
-    src: url('fonts/Cygre-Regular.woff') format('woff');
-}
-
-@font-face {
-    font-display: swap;
-    font-family: 'Cygre';
-    font-style: normal;
-    font-weight: 600;
-    src: url('fonts/Cygre-Bold.woff') format('woff');
-}
-
-* {
-    box-sizing: border-box;
-}
-
 :root {
     --background-color: #FBFBFB;
     --block-color: #FFFFFF;
@@ -48,8 +20,9 @@
     --shadow-small: 0 0 12px #02020205;
     --shadow-popup: 0 0 9px #02020211;
     --font-size-1: 1.3rem;
-    --font-size-2: 1.8rem;
-    --font-size-3: 3.2rem;
+    --font-size-2: 1.4rem;
+    --font-size-3: 1.7rem;
+    --font-size-4: 3.2rem;
 
     font-size: 62.5%;
     height: 100%
@@ -74,9 +47,9 @@
 }
 
 .profile__user-info .first-and-second-names {
-    font-weight: 620;
+    font-weight: 600;
     line-height: 1;
-    font-size: var(--font-size-3);
+    font-size: var(--font-size-4);
     position: relative;
 }
 
@@ -150,8 +123,8 @@
     display: flex;
     align-items: flex-start;
     gap: 1.232rem;
-    font-size: var(--font-size-3);
-    font-weight: 620;
+    font-size: var(--font-size-4);
+    font-weight: 600;
     line-height: 1;
     margin-top: 2.6rem;
 }
@@ -269,7 +242,7 @@
 .profile__comments div,
 .profile__edit div {
     display: flex;
-    font-size: var(--font-size-2);
+    font-size: var(--font-size-3);
     gap: 1rem;
     align-items: center;
 }
@@ -362,8 +335,8 @@
     display: flex;
     align-items: center;
     gap: 1.6rem;
-    font-size: var(--font-size-3);
-    font-weight: 620;
+    font-size: var(--font-size-4);
+    font-weight: 600;
     margin-bottom: 2.6rem;
 }
 
@@ -484,7 +457,7 @@
 
 .user-post p a {
     line-height: 125%;
-    font-size: var(--font-size-2);
+    font-size: var(--font-size-3);
     color: var(--main-accent-color);
 }
 
@@ -562,7 +535,7 @@
 .user-friends div.section,
 .user-friends a.requests {
     background-color: var(--block-color);
-    font-size: var(--font-size-2);
+    font-size: var(--font-size-3);
     color: var(--main-text-color);
     padding: 1.6rem 2.6rem;
 }
@@ -691,7 +664,7 @@
 }
 
 .blossom-level .blossom-title {
-    font-size: var(--font-size-2);
+    font-size: var(--font-size-3);
     color: var(--main-text-color);
     display: flex;
     gap: 1rem;
@@ -778,8 +751,8 @@
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
-    font-size: var(--font-size-3);
-    font-weight: 620;
+    font-size: var(--font-size-4);
+    font-weight: 600;
     max-width: max-content;
 }
 
@@ -789,7 +762,7 @@
 
 .user__blossom .blossom-description,
 .user__case .case-description {
-    font-size: var(--font-size-2);
+    font-size: var(--font-size-3);
     color: var(--else-text-color-50);
     font-weight: 400;
     padding: 2.6rem;
@@ -836,8 +809,8 @@
 }
 
 .main-statistic span:first-child {
-    font-size: var(--font-size-3);
-    font-weight: 620;
+    font-size: var(--font-size-4);
+    font-weight: 600;
     background: linear-gradient(-135deg, var(--posts-color), var(--likes-color), var(--comments-color));
     -webkit-background-clip: text;
     background-clip: text;
@@ -907,7 +880,7 @@
     align-items: center;
     gap: 1rem;
     color: var(--main-text-color);
-    font-size: var(--font-size-2);
+    font-size: var(--font-size-3);
 }
 
 .case .case-title svg:last-child {
@@ -1013,7 +986,7 @@
 }
 
 .current-user-case .trophy p:nth-child(2) {
-    font-weight: 620;
+    font-weight: 600;
     margin-top: 1.6rem;
 }
 
@@ -1079,8 +1052,8 @@
 
 @media (max-width: 720px) {
     :root {
-        --font-size-2: 1.6rem;
-        --font-size-3: 2.4rem;
+        --font-size-3: 1.6rem;
+        --font-size-4: 2.4rem;
     }
 
     .wrapper {
@@ -1182,6 +1155,6 @@
 
     .user-menu-and-third-past-mobile .third-part-mobile .profile__posts p,
     .user-menu-and-third-past-mobile .third-part-mobile .profile__likes p {
-        font-size: var(--font-size-2);
+        font-size: var(--font-size-3);
     }
 }
