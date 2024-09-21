@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    $('.unliked').on('click', function () {
+    $('.wall__user-posts').on('click', '.unliked', function () {
         const postId = $(this).attr('id');
         $post = $(this);
         $.ajax({
@@ -18,7 +18,7 @@ $(document).ready(function () {
         })
     })
 
-    $('.liked').on('click', function () {
+    $('.wall__user-posts').on('click', '.liked', function () {
         const postId = $(this).attr('id');
         $post = $(this);
         $.ajax({

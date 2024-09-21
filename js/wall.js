@@ -1,3 +1,27 @@
+$(document).ready(function () {
+    renderPosts('all');
+
+    function renderPosts(query) {
+        $.ajax({
+            url: "back-files/render-posts",
+            method: "POST",
+            data: {
+                'filter': query
+            },
+            success: function (data) {
+                $('#success-render-posts').html(data);
+            }
+        });
+    }
+
+    $('#wall-filter-friends').click(() => {
+        renderPosts('friends');
+    })
+    $('#wall-filter-all').click(() => {
+        renderPosts('all');
+    })
+})
+
 $('#textarea-post').keypress(function (e) {
     if (e.which === 13 && !e.shiftKey) {
         e.preventDefault();

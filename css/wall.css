@@ -26,10 +26,6 @@
 
 .wall__user-posts {
     margin-top: 2.6rem;
-    display: none;
-}
-
-.wall__user-posts>div:first-child {
     display: flex;
     flex-direction: column-reverse;
     gap: 1.6rem;
@@ -173,6 +169,7 @@
     right: 1.6rem;
     top: 0;
     bottom: 0;
+    align-items: center;
     margin: 0;
     opacity: 0;
     transform: scale(50%);
@@ -484,13 +481,11 @@
 }
 
 .wall__comments .other-users .date {
+    font-weight: 400;
     font-size: var(--font-size-1);
     color: var(--else-text-color-50);
     text-transform: lowercase;
-    /* position: absolute; */
     min-width: max-content;
-    top: 0;
-    left: calc(100% + 0.625rem);
     transition: 0.2s;
     opacity: 0;
 }
