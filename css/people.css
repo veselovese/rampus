@@ -339,7 +339,8 @@
 }
 
 .friends__users>p:first-child span {
-    color: var(--main-accent-color);
+    color: var(--else-text-color-50);
+    margin-left: 1rem; 
 }
 
 .friend-buttons-div {

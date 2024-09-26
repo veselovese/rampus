@@ -6,7 +6,7 @@
     src: url('fonts/Unbounded-Black.woff') format('woff');
 }
 
-@font-face {
+/* @font-face {
     font-display: swap;
     font-family: 'Cygre';
     font-style: normal;
@@ -28,6 +28,22 @@
     font-style: normal;
     font-weight: 700;
     src: url('fonts/Cygre-Bold.woff') format('woff');
+} */
+
+@font-face {
+    font-display: swap;
+    font-family: 'Berlin';
+    font-style: normal;
+    font-weight: 400;
+    src: url('fonts/BerlinTypeWeb-Regular.woff2') format('woff2');
+}
+
+@font-face {
+    font-display: swap;
+    font-family: 'Berlin';
+    font-style: normal;
+    font-weight: 600;
+    src: url('fonts/BerlinTypeWeb-Bold.woff2') format('woff2');
 }
 
 * {
@@ -76,7 +92,7 @@ html {
 }
 
 body {
-    font-family: 'Cygre', sans-serif;
+    font-family: 'Berlin', sans-serif;
     font-weight: 400;
     background-color: var(--background-color);
     font-size: var(--font-size-3);
@@ -193,7 +209,7 @@ a {
 }
 
 button {
-    font-family: 'Cygre', sans-serif;
+    font-family: 'Berlin', sans-serif;
     font-weight: 400;
     font-size: var(--font-size-3);
     color: var(--main-text-color);
@@ -202,7 +218,7 @@ button {
 }
 
 input {
-    font-family: 'Cygre', sans-serif;
+    font-family: 'Berlin', sans-serif;
     font-weight: 400;
     font-size: var(--font-size-1);
     color: var(--main-text-color);
@@ -211,7 +227,7 @@ input {
 }
 
 textarea {
-    font-family: 'Cygre', sans-serif;
+    font-family: 'Berlin', sans-serif;
     font-weight: 400;
     font-size: var(--font-size-1);
     color: var(--main-text-color);
@@ -220,7 +236,7 @@ textarea {
 }
 
 ::placeholder {
-    font-family: 'Cygre';
+    font-family: 'Berlin';
     font-size: var(--font-size-1);
     color: var(--else-text-color-50);
     line-height: var(--font-size-1);
@@ -802,6 +818,24 @@ textarea {
 .friend-buttons-div.hide {
     display: none;
 }
+
+.notification-in-menu {
+    margin-left: auto;
+    font-size: var(--font-size-1);
+    color: var(--block-color);
+    background-color: var(--else-text-color-50);
+    border-radius: 50%;
+    height: 1.9rem;
+    min-width: 1.9rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#active .notification-in-menu {
+    background-color: var(--main-accent-color);
+}
+
 
 @keyframes scrollPost {
     from {
