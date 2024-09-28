@@ -97,10 +97,10 @@ if (isset($_SESSION['user'])) {
                                     Стена
                                 </div>
                                 <div class="wall-filter__choice">
-                                    <label class="wall-filter-popup-li">ВСЕ<input checked name="wall-filter" id="wall-filter-all" type="radio" value=""></label>
+                                    <label class="wall-filter-popup-li">Все<input checked name="wall-filter" id="wall-filter-all" type="radio" value=""></label>
                                     <label class="wall-filter-popup-li <?php if (($result_friend_1->num_rows + $result_friend_2->num_rows) == 0) {
                                                                             echo "no-friends";
-                                                                        } ?>">ДРУЗЬЯ<input name="wall-filter" id="wall-filter-friends" type="radio" value=""></label>
+                                                                        } ?>">Друзья<input name="wall-filter" id="wall-filter-friends" type="radio" value=""></label>
                                 </div>
                             </div>
                         </li>

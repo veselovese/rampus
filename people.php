@@ -104,8 +104,8 @@ $result_top = $connect->query($sql_top);
                                     Люди
                                 </div>
                                 <div class='people-filter__choice'>
-                                    <label class="people-filter-popup-li">РЕЙТИНГ<input checked name="people-filter" id="people-filter-top" type="radio" value=""></label>
-                                    <label class="people-filter-popup-li">ВСЕ<input name="people-filter" id="people-filter-all" type="radio" value=""></label>
+                                    <label class="people-filter-popup-li">Рейтинг<input checked name="people-filter" id="people-filter-top" type="radio" value=""></label>
+                                    <label class="people-filter-popup-li">Все<input name="people-filter" id="people-filter-all" type="radio" value=""></label>
                                 </div>
                             </div>
                         </li>
