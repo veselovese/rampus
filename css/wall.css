@@ -496,8 +496,18 @@
     opacity: 0;
 }
 
-.wall__comments .other-users .user-comment:hover .date {
+.wall__comments .other-users .user-comment:hover .date, .wall__comments .other-users .user-comment:hover .delete-comment {
     opacity: 1;
+}
+
+.wall__comments .other-users .delete-comment {
+    opacity: 0;
+    margin-left: auto;
+    transition: 0.2s;
+}
+
+.wall__comments .other-users .delete-comment:hover {
+    color: var(--error-accent-color);
 }
 
 .user-comment .comment-div {
@@ -506,6 +516,7 @@
     position: relative;
     gap: 0.1rem;
     margin-top: 0.39rem;
+    width: 100%;
 }
 
 .user-comment .comment-div div {

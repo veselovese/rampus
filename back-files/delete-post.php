@@ -55,7 +55,7 @@ $connect->query("DELETE FROM comments WHERE post_id = $post_id AND user_id = $us
 $connect->query("DELETE FROM likes_on_posts WHERE post_id = $post_id AND user_id = $user_id");
 
 if ($source == 'profile') {
-    header('Location: ./profile');
+    header('Location: ../profile');
 } else if ($source == 'wall') {
-    header('Location: ./wall');
+    header('Location: ../wall');
 }

@@ -66,7 +66,7 @@ if ($result_post->num_rows > 0) {
         echo "<span class='three-dots-popup-li copy-link' onclick='copyLinkToPost($i)'>Копировать ссылку</span>";
         echo "<a class='three-dots-popup-li open-profile' href='./user/$post_username'>Открыть профиль</a>";
         if ($post_user_id == $current_user_id) {
-            echo "<a class='three-dots-popup-li delete-post' href='deletepost?post=$i&source=wall'>Удалить</a>";
+            echo "<a class='three-dots-popup-li delete-post' href='back-files/delete-post?post=$i&source=wall'>Удалить</a>";
         }
         echo "</div>";
         echo "</div>";
@@ -77,7 +77,7 @@ if ($result_post->num_rows > 0) {
             echo "<p class='main-text'>" . $post_text . "</p>";
         }
         echo "<div class='post-buttons'>";
-        $sql_comment = "SELECT comments.text AS comment_text, users.first_name AS first_name, users.second_name AS second_name, users.avatar AS avatar, DATE_FORMAT(comments.comment_date, '%e %M в %k:%i') AS comment_date, users.id AS comment_user_id, users.username AS comment_username
+        $sql_comment = "SELECT comments.text AS comment_text, users.first_name AS first_name, users.second_name AS second_name, users.avatar AS avatar, DATE_FORMAT(comments.comment_date, '%e %M в %k:%i') AS comment_date, users.id AS comment_user_id, users.username AS comment_username, comments.id AS comment_id
                                         FROM comments
                                         JOIN users ON comments.user_id = users.id
                                         JOIN posts ON comments.post_id = posts.id
@@ -135,6 +135,7 @@ if ($result_post->num_rows > 0) {
             echo "<div class='other-users'>";
             $comment_count = 0;
             while ($row_comment = $result_comment->fetch_assoc()) {
+                $comment_id = $row_comment['comment_id'];
                 $comment_user_id = $row_comment['comment_user_id'];
                 $comment_username = $row_comment['comment_username'];
                 $comment_first_name = $row_comment['first_name'];
@@ -150,9 +151,17 @@ if ($result_post->num_rows > 0) {
                     echo "<img src='uploads/avatar/thin_" . $comment_avatar . "'>";
                     echo "<div class='comment-div'>";
                     if ($comment_username == 'rampus') {
-                        echo "<div><a href='./user/$comment_username' class='first-and-second-names rampus'>" . $comment_first_name . " " . $comment_second_name . "</a><span class='date'>" . $comment_date . "</span></div>";
+                        echo "<div><a href='./user/$comment_username' class='first-and-second-names rampus'>" . $comment_first_name . " " . $comment_second_name . "</a><span class='date'>" . $comment_date . "</span>";
+                        if ($comment_user_id == $current_user_id) {
+                            echo "<a class='delete-comment' href='back-files/delete-comment?comment=$comment_id'>удалить</a>";
+                        }
+                        echo "</div>";
                     } else {
-                        echo "<div><a href='./user/$comment_username' class='first-and-second-names'>" . $comment_first_name . " " . $comment_second_name . "</a><span class='date'>" . $comment_date . "</span></div>";
+                        echo "<div><a href='./user/$comment_username' class='first-and-second-names'>" . $comment_first_name . " " . $comment_second_name . "</a><span class='date'>" . $comment_date . "</span>";
+                        if ($comment_user_id == $current_user_id) {
+                            echo "<a class='delete-comment' href='back-files/delete-comment?comment=$comment_id'>удалить</a>";
+                        }
+                        echo "</div>";
                     }
                     echo "<p class='comment-text main-text'>" . $comment_text . "</p>";
                     echo "</div>";
@@ -165,12 +174,19 @@ if ($result_post->num_rows > 0) {
                     echo "<img src='uploads/avatar/thin_" . $comment_avatar . "'>";
                     echo "<div class='comment-div'>";
                     if ($comment_username == 'rampus') {
-                        echo "<div><a href='./user/$comment_username' class='first-and-second-names rampus'>" . $comment_first_name . " " . $comment_second_name . "</a><span class='date'>" . $comment_date . "</span></div>";
+                        echo "<div><a href='./user/$comment_username' class='first-and-second-names rampus'>" . $comment_first_name . " " . $comment_second_name . "</a><span class='date'>" . $comment_date . "</span>";
+                        if ($comment_user_id == $current_user_id) {
+                            echo "<a class='delete-comment' href='back-files/delete-comment?comment=$comment_id'>удалить</a>";
+                        }
+                        echo "</div>";
                     } else {
-                        echo "<div><a href='./user/$comment_username' class='first-and-second-names'>" . $comment_first_name . " " . $comment_second_name . "</a><span class='date'>" . $comment_date . "</span></div>";
+                        echo "<div><a href='./user/$comment_username' class='first-and-second-names'>" . $comment_first_name . " " . $comment_second_name . "</a><span class='date'>" . $comment_date . "</span>";
+                        if ($comment_user_id == $current_user_id) {
+                            echo "<a class='delete-comment' href='back-files/delete-comment?comment=$comment_id'>удалить</a>";
+                        }
+                        echo "</div>";
                     }
                     echo "<p class='comment-text main-text'>" . $comment_text . "</p>";
-                    echo "";
                     echo "</div>";
                     echo "</div>";
                 }
