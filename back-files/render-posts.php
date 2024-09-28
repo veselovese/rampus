@@ -6,7 +6,7 @@ require_once('connect.php');
 require('find-user-position-in-top.php');
 require('get-user-friends-id.php');
 
-$user_friends_id = implode(',',getUserFriendsId($current_user_id, $connect));
+$user_friends_id = implode(',', getUserFriendsId($current_user_id, $connect));
 
 $filter = $_POST['filter'] === 'friends' ? "AND posts.user_id IN ($user_friends_id)" : "";
 
@@ -59,7 +59,9 @@ if ($result_post->num_rows > 0) {
             }
         }
         echo "</div>";
-        echo "<img onclick='showPopup($i)' src='pics/ThreeDotsIcon.svg' class='show-three-dots-popup'>";
+        echo "<div class='div-show-three-dots-popup' onclick='showPopup($i)' id='div-show-three-dots-popup_$i'>";
+        echo "<img src='pics/ThreeDotsIcon.svg' class='show-three-dots-popup'>";
+        echo "</div>";
         echo "<div class='three-dots-popup' id='three-dots-popup_$i'>";
         echo "<span class='three-dots-popup-li copy-link' onclick='copyLinkToPost($i)'>Копировать ссылку</span>";
         echo "<a class='three-dots-popup-li open-profile' href='./user/$post_username'>Открыть профиль</a>";
@@ -131,71 +133,51 @@ if ($result_post->num_rows > 0) {
         echo "<div class='wall__comments'>";
         if ($rows_num_comment > 0) {
             echo "<div class='other-users'>";
-            $comment_count = 2;
-            $comment_count_current = $result_comment->num_rows;
+            $comment_count = 0;
             while ($row_comment = $result_comment->fetch_assoc()) {
                 $comment_user_id = $row_comment['comment_user_id'];
                 $comment_username = $row_comment['comment_username'];
-                $first_name = $row_comment['first_name'];
-                $second_name = $row_comment['second_name'];
-                $avatar = $row_comment['avatar'];
+                $comment_first_name = $row_comment['first_name'];
+                $comment_second_name = $row_comment['second_name'];
+                $comment_avatar = $row_comment['avatar'];
                 $comment_text = preg_replace('/\xc2\xa0/', ' ', $row_comment['comment_text']);
                 $comment_date = $row_comment['comment_date'];
-                if ($comment_count_current > 2) {
-                    if ($comment_count > 0) {
-                        if ($rows_num_comment < $result_comment->num_rows) {
-                            echo "<div class='div-line'></div>";
-                        }
-                        echo "<div class='user-comment'>";
-                        echo "<img src='uploads/avatar/thin_" . $avatar . "'>";
-                        echo "<div>";
-                        if ($comment_username == 'rampus') {
-                            echo "<a href='./user/$comment_username' class='first-and-second-names rampus'>" . $first_name . " " . $second_name . "</a>";
-                        } else {
-                            echo "<a href='./user/$comment_username' class='first-and-second-names'>" . $first_name . " " . $second_name . "<span class='date'> " . $comment_date . "</span></a>";
-                        }
-                        echo "<p class='comment-text main-text'>" . $comment_text . "</p>";
-                        echo "";
-                        echo "</div>";
-                        echo "</div>";
-                        $comment_count -= 1;
-                    } else {
-                        if ($rows_num_comment < $result_comment->num_rows) {
-                            echo "<div class='div-line hide comment_div-line_$i'></div>";
-                        }
-                        echo "<div class='user-comment hide comment_user-comment_$i'>";
-                        echo "<img src='uploads/avatar/thin_" . $avatar . "'>";
-                        echo "<div>";
-                        if ($comment_username == 'rampus') {
-                            echo "<a href='./user/$comment_username' class='first-and-second-names rampus'>" . $first_name . " " . $second_name . "</a>";
-                        } else {
-                            echo "<a href='./user/$comment_username' class='first-and-second-names'>" . $first_name . " " . $second_name . "</a>";
-                        }
-                        echo "<p class='comment-text main-text'>" . $comment_text . "</p>";
-                        echo "<span class='date'>" . $comment_date . "</span>";
-                        echo "</div>";
-                        echo "</div>";
-                    }
-                } else {
+                if ($comment_count < 2) {
                     if ($rows_num_comment < $result_comment->num_rows) {
                         echo "<div class='div-line'></div>";
                     }
                     echo "<div class='user-comment'>";
-                    echo "<img src='uploads/avatar/thin_" . $avatar . "'>";
-                    echo "<div>";
+                    echo "<img src='uploads/avatar/thin_" . $comment_avatar . "'>";
+                    echo "<div class='comment-div'>";
                     if ($comment_username == 'rampus') {
-                        echo "<a href='./user/$comment_username' class='first-and-second-names rampus'>" . $first_name . " " . $second_name . "</a>";
+                        echo "<div><a href='./user/$comment_username' class='first-and-second-names rampus'>" . $comment_first_name . " " . $comment_second_name . "</a><span class='date'>" . $comment_date . "</span></div>";
                     } else {
-                        echo "<a href='./user/$comment_username' class='first-and-second-names'>" . $first_name . " " . $second_name . "</a>";
+                        echo "<div><a href='./user/$comment_username' class='first-and-second-names'>" . $comment_first_name . " " . $comment_second_name . "</a><span class='date'>" . $comment_date . "</span></div>";
                     }
                     echo "<p class='comment-text main-text'>" . $comment_text . "</p>";
-                    echo "<span class='date'>" . $comment_date . "</span>";
+                    echo "</div>";
+                    echo "</div>";
+                } else {
+                    if ($rows_num_comment < $result_comment->num_rows) {
+                        echo "<div class='div-line hide comment_div-line_$i'></div>";
+                    }
+                    echo "<div class='user-comment hide comment_user-comment_$i'>";
+                    echo "<img src='uploads/avatar/thin_" . $comment_avatar . "'>";
+                    echo "<div class='comment-div'>";
+                    if ($comment_username == 'rampus') {
+                        echo "<div><a href='./user/$comment_username' class='first-and-second-names rampus'>" . $comment_first_name . " " . $comment_second_name . "</a><span class='date'>" . $comment_date . "</span></div>";
+                    } else {
+                        echo "<div><a href='./user/$comment_username' class='first-and-second-names'>" . $comment_first_name . " " . $comment_second_name . "</a><span class='date'>" . $comment_date . "</span></div>";
+                    }
+                    echo "<p class='comment-text main-text'>" . $comment_text . "</p>";
+                    echo "";
                     echo "</div>";
                     echo "</div>";
                 }
-                $rows_num_comment -= 1;
+                $comment_count++;
+                $rows_num_comment--;
             }
-            if ($comment_count_current > 2) {
+            if ($result_comment->num_rows > 2) {
                 echo "<p class='see-all-comments' onclick='seeAllComments($i)' id='see-all-comments_$i'>Показать все комментарии</p>";
             }
             echo "</div>";

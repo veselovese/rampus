@@ -30,7 +30,7 @@
     src: url('fonts/Cygre-Bold.woff') format('woff');
 } */
 
-@font-face {
+/* @font-face {
     font-display: swap;
     font-family: 'Berlin';
     font-style: normal;
@@ -44,6 +44,30 @@
     font-style: normal;
     font-weight: 600;
     src: url('fonts/BerlinTypeWeb-Bold.woff2') format('woff2');
+} */
+
+@font-face {
+    font-display: swap;
+    font-family: 'TTInterface';
+    font-style: normal;
+    font-weight: 400;
+    src: url('fonts/TTInterphasesProTrial-Regular.woff2') format('woff2');
+}
+
+@font-face {
+    font-display: swap;
+    font-family: 'TTInterface';
+    font-style: normal;
+    font-weight: 600;
+    src: url('fonts/TTInterphasesProTrial-Medium.woff2') format('woff2');
+}
+
+@font-face {
+    font-display: swap;
+    font-family: 'TTInterface';
+    font-style: normal;
+    font-weight: 700;
+    src: url('fonts/TTInterphasesProTrial-DemiBold.woff2') format('woff2');
 }
 
 * {
@@ -92,11 +116,11 @@ html {
 }
 
 body {
-    font-family: 'Berlin', sans-serif;
+    font-family: 'TTInterface', sans-serif;
     font-weight: 400;
     background-color: var(--background-color);
     font-size: var(--font-size-3);
-    letter-spacing: 0.15px;
+    letter-spacing: 0.39px;
     color: var(--main-text-color);
     line-height: 1;
     margin: 0;
@@ -209,7 +233,7 @@ a {
 }
 
 button {
-    font-family: 'Berlin', sans-serif;
+    font-family: 'TTInterface', sans-serif;
     font-weight: 400;
     font-size: var(--font-size-3);
     color: var(--main-text-color);
@@ -218,7 +242,7 @@ button {
 }
 
 input {
-    font-family: 'Berlin', sans-serif;
+    font-family: 'TTInterface', sans-serif;
     font-weight: 400;
     font-size: var(--font-size-1);
     color: var(--main-text-color);
@@ -227,7 +251,7 @@ input {
 }
 
 textarea {
-    font-family: 'Berlin', sans-serif;
+    font-family: 'TTInterface', sans-serif;
     font-weight: 400;
     font-size: var(--font-size-1);
     color: var(--main-text-color);
@@ -236,7 +260,7 @@ textarea {
 }
 
 ::placeholder {
-    font-family: 'Berlin';
+    font-family: 'TTInterface';
     font-size: var(--font-size-1);
     color: var(--else-text-color-50);
     line-height: var(--font-size-1);
@@ -649,7 +673,8 @@ textarea {
 .like-button span,
 .comment-button span {
     line-height: 1.9rem;
-    font-size: var(--font-size-3);
+    font-size: var(--font-size-2);
+    font-weight: 600;
 }
 
 .like-button.liked svg {
@@ -668,6 +693,7 @@ textarea {
 
 .menu-profile div p:first-child {
     color: var(--main-text-color);
+    font-weight: 600;
 }
 
 #active .menu-profile div p:first-child {
@@ -836,6 +862,30 @@ textarea {
     background-color: var(--main-accent-color);
 }
 
+.show-three-dots-popup {
+    max-width: 19px;
+    max-height: 6px;
+    min-width: 19px;
+    min-height: 6px;
+    pointer-events: none;
+}
+
+.div-show-three-dots-popup {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-width: 28px;
+    max-height: 28px;
+    min-width: 28px;
+    min-height: 28px;
+    border-radius: 1rem;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.div-show-three-dots-popup:hover {
+    background-color: var(--block-accent-color-06);
+}
 
 @keyframes scrollPost {
     from {

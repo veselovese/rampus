@@ -100,7 +100,8 @@ function copyLinkToPost(i) {
 }
 
 function showPopup(i) {
-    document.getElementById('three-dots-popup_' + i).classList.toggle('show');
+    $('#three-dots-popup_' + i).toggleClass('show');
+    $('#div-show-three-dots-popup_' + i).toggleClass('show');
 }
 
 function showPopupAnswerToUser(i) {
@@ -118,20 +119,10 @@ function showPopupUnrequestToUser(i) {
     $('#unrequest-to-friends_' + i).toggleClass('show');
 }
 
-const showPopupButton = $('.show-three-dots-popup');
-const popupDiv = $('.three-dots-popup');
-
-$(document).click(function (e) {
-    let flag = 0;
-    showPopupButton.each(function () {
-        if (($(this).is(e.target)) && ($(this).has(e.target).length === 0)) {
-            flag = 1;
-        }
-    })
-    if (flag === 0) {
-        popupDiv.each(function () {
-            $(this).removeClass('show');
-        })
+$(document).on('click', function (e) {
+    if (!(e.target.classList[0] === 'div-show-three-dots-popup')) {
+        $(this).find('.three-dots-popup').removeClass('show')
+        $(this).find('.div-show-three-dots-popup').removeClass('show')
     }
 })
 

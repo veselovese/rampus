@@ -575,6 +575,8 @@
     border-radius: 2rem;
     min-height: calc(4rem - 0.39rem*2);
     padding: 0 1.6rem;
+    font-size: var(--font-size-1);
+    font-weight: 600;
 }
 
 .people-filter-popup-li:hover {

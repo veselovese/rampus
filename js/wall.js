@@ -31,11 +31,11 @@ $('#textarea-post').keypress(function (e) {
     }
 });
 
-$('.textarea-comment').keypress(function (e) {
+$('.wall__user-posts').keypress('.textarea-comment', function (e) {
     if (e.which === 13 && !e.shiftKey) {
         e.preventDefault();
         if ($('.textarea-comment').text().trim(' ') != '') {
-            $(this).closest('form').submit();
+            $(`#${e.target.id}`).closest('form').submit();
         }
     }
 });
@@ -86,12 +86,12 @@ function textareaCommentPlaceholder(e, i) {
 function textareaComment(e, i) {
     const obj = e.target;
     const div = document.getElementById('textarea-comment_input_' + i);
-    if (document.getElementById('textarea-comment_' + i).textContent != '') {
+    if ($('#textarea-comment_' + i).text().trim(' ') != '') {
         $('#textarea-comment_submit_' + i).addClass('active');
         $('#textarea-comment_submit_' + i).removeAttr('disabled');
     } else {
         $('#textarea-comment_submit_' + i).removeClass('active');
-        $('#textarea-comment_submit_' + i).Attr('disabled');
+        $('#textarea-comment_submit_' + i).attr('disabled');
     }
     div.setAttribute('value', obj.textContent);
 }

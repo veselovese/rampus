@@ -40,32 +40,24 @@
     display: flex;
     flex-direction: column;
     position: relative;
-}
-
-.user-post img {
-    max-width: 24px;
-    max-height: 6px;
-    min-width: 24px;
-    min-height: 6px;
-    margin-top: 0.9rem;
-    cursor: pointer;
+    cursor: default;
 }
 
 .user-post .three-dots-popup {
     font-size: var(--font-size-1);
-    border-radius: 2rem;
+    border-radius: 1rem;
     margin: 0;
     display: flex;
     flex-direction: column;
     position: absolute;
-    top: 5.2rem;
-    right: 2.6rem;
+    top: 1.6rem;
+    right: calc(2.6rem + 28px + 0.625rem);
     visibility: hidden;
     animation: hidePopup 0.2s;
     box-shadow: var(--shadow-popup);
     z-index: 1;
-    border-radius: 2rem;
     overflow: hidden;
+    padding: 0.625rem;
 }
 
 .user-post .three-dots-popup.show {
@@ -100,20 +92,21 @@
 .user-post .three-dots-popup .three-dots-popup-li {
     display: block;
     width: 100%;
-    padding: 1rem 2.6rem;
+    padding: 1rem 1.6rem;
+    border-radius: calc(1rem - 0.625rem);
     color: var(--main-text-color);
     text-transform: none;
     background-color: var(--block-color);
     cursor: pointer;
 }
 
-.user-post .three-dots-popup .three-dots-popup-li:first-child {
+/* .user-post .three-dots-popup .three-dots-popup-li:first-child {
     padding-top: 1.6rem;
 }
 
 .user-post .three-dots-popup .three-dots-popup-li:last-child {
     padding-bottom: 1.6rem;
-}
+} */
 
 .user-post .three-dots-popup .three-dots-popup-li.delete-post {
     color: var(--error-accent-color);
@@ -121,6 +114,10 @@
 
 .user-post .three-dots-popup .three-dots-popup-li:hover {
     background-color: var(--background-color);
+}
+
+.user-post .three-dots-popup .three-dots-popup-li.delete-post:hover {
+    background-color: var(--like-button-accent-color);
 }
 
 .user-post p {
@@ -177,6 +174,10 @@
     transition: 0.2s;
 }
 
+.wall__comments button {
+    right: 0;
+}
+
 .wall__new-post button.active,
 .wall__comments button.active {
     transition: 0.2s 0.2s;
@@ -206,6 +207,11 @@
 
 .wall__new-post:has(button.active) #textarea-post {
     margin-right: calc(25px + 1.6rem + 1rem);
+    transition: 0.2s;
+}
+
+.wall__comments:has(button.active) .textarea-comment {
+    margin-right: calc(25px + 1rem);
     transition: 0.2s;
 }
 
@@ -494,12 +500,18 @@
     opacity: 1;
 }
 
-.user-comment div {
+.user-comment .comment-div {
     display: flex;
     flex-direction: column;
     position: relative;
     gap: 0.1rem;
     margin-top: 0.39rem;
+}
+
+.user-comment .comment-div div {
+    display: flex;
+    align-items: center;
+    gap: 0.625rem;
 }
 
 .wall__comments .other-users .div-line {
@@ -623,6 +635,8 @@
     border-radius: 2rem;
     min-height: calc(4rem - 0.39rem*2);
     padding: 0 1.6rem;
+    font-size: var(--font-size-1);
+    font-weight: 600;
 }
 
 .wall-filter-popup-li:hover {
