@@ -4,7 +4,7 @@
     --main-text-color: #020202;
     --else-text-color-50: #ACACAC;
     --else-text-color-33: #CCCCCC;
-    --main-accent-color: #006633;
+    --main-accent-color: #31A05E;
     --else-accent-color-1: #E3DFFF;
     --else-accent-color-2: #F7D488;
     --error-accent-color: #FF220C;
@@ -19,10 +19,6 @@
     --shadow-big: 0 0 15px #02020207;
     --shadow-small: 0 0 12px #02020205;
     --shadow-popup: 0 0 9px #02020211;
-    --font-size-1: 1.3rem;
-    --font-size-2: 1.4rem;
-    --font-size-3: 1.7rem;
-    --font-size-4: 3.2rem;
 
     font-size: 62.5%;
     height: 100%
@@ -539,7 +535,7 @@
     cursor: pointer;
     position: relative;
     display: flex;
-    gap: 1rem;
+    gap: 1.6rem;
     align-items: center;
     width: 100%;
     transition: 0.2s;
@@ -576,7 +572,6 @@
     min-height: calc(4rem - 0.39rem*2);
     padding: 0 1.6rem;
     font-size: var(--font-size-1);
-    font-weight: 600;
 }
 
 .people-filter-popup-li:hover {

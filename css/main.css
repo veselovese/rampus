@@ -6,7 +6,7 @@
     src: url('fonts/Unbounded-Black.woff') format('woff');
 }
 
-/* @font-face {
+@font-face {
     font-display: swap;
     font-family: 'Cygre';
     font-style: normal;
@@ -28,25 +28,9 @@
     font-style: normal;
     font-weight: 700;
     src: url('fonts/Cygre-Bold.woff') format('woff');
-} */
-
-/* @font-face {
-    font-display: swap;
-    font-family: 'Berlin';
-    font-style: normal;
-    font-weight: 400;
-    src: url('fonts/BerlinTypeWeb-Regular.woff2') format('woff2');
 }
 
-@font-face {
-    font-display: swap;
-    font-family: 'Berlin';
-    font-style: normal;
-    font-weight: 600;
-    src: url('fonts/BerlinTypeWeb-Bold.woff2') format('woff2');
-} */
-
-@font-face {
+/* @font-face {
     font-display: swap;
     font-family: 'TTInterface';
     font-style: normal;
@@ -68,7 +52,7 @@
     font-style: normal;
     font-weight: 700;
     src: url('fonts/TTInterphasesProTrial-DemiBold.woff2') format('woff2');
-}
+} */
 
 * {
     box-sizing: border-box;
@@ -80,13 +64,13 @@
     --main-text-color: #020202;
     --else-text-color-50: #ACACAC;
     --else-text-color-33: #CCCCCC;
-    --main-accent-color: #006633;
+    --main-accent-color: #31A05E;
     --else-accent-color-1: #E3DFFF;
     --else-accent-color-2: #F7D488;
     --error-accent-color: #FF220C;
     --block-accent-color-110: #E6E6E6;
     --block-accent-color-06: #02020206;
-    --block-accent-color-210: #EFF5F2;
+    --block-accent-color-210: #31A05E10;
     --like-button-accent-color: #FF220C10;
     --like-button-hover-color: #FF220C14;
     --shadow-big: 0 0 15px #02020207;
@@ -94,7 +78,7 @@
     --shadow-popup: 0 0 9px #02020211;
     --font-size-1: 1.3rem;
     --font-size-2: 1.4rem;
-    --font-size-3: 1.7rem;
+    --font-size-3: 1.8rem;
     --font-size-4: 3.2rem;
 
     font-size: 62.5%;
@@ -116,7 +100,7 @@ html {
 }
 
 body {
-    font-family: 'TTInterface', sans-serif;
+    font-family: 'Cygre', sans-serif;
     font-weight: 400;
     background-color: var(--background-color);
     font-size: var(--font-size-3);
@@ -233,7 +217,7 @@ a {
 }
 
 button {
-    font-family: 'TTInterface', sans-serif;
+    font-family: 'Cygre', sans-serif;
     font-weight: 400;
     font-size: var(--font-size-3);
     color: var(--main-text-color);
@@ -242,7 +226,7 @@ button {
 }
 
 input {
-    font-family: 'TTInterface', sans-serif;
+    font-family: 'Cygre', sans-serif;
     font-weight: 400;
     font-size: var(--font-size-1);
     color: var(--main-text-color);
@@ -251,7 +235,7 @@ input {
 }
 
 textarea {
-    font-family: 'TTInterface', sans-serif;
+    font-family: 'Cygre', sans-serif;
     font-weight: 400;
     font-size: var(--font-size-1);
     color: var(--main-text-color);
@@ -260,7 +244,7 @@ textarea {
 }
 
 ::placeholder {
-    font-family: 'TTInterface';
+    font-family: 'Cygre';
     font-size: var(--font-size-1);
     color: var(--else-text-color-50);
     line-height: var(--font-size-1);
@@ -509,12 +493,12 @@ textarea {
     display: flex;
     flex-direction: column;
     gap: 1rem;
-
     background-color: var(--block-color);
     box-shadow: var(--shadow-small);
     border-radius: 2rem;
     padding: 1rem;
     height: 100%;
+    min-height: 50rem;
 }
 
 .third-part>div {
@@ -528,7 +512,7 @@ textarea {
     display: flex;
     -webkit-align-items: center;
     align-items: center;
-    gap: 1rem;
+    gap: 1.6rem;
     color: var(--else-text-color-50);
     min-width: 10rem;
     padding: 1.6rem 2.1rem;
@@ -545,13 +529,8 @@ textarea {
     max-width: 24px;
 }
 
-.first-part li svg path:first-child {
+.first-part li svg path {
     fill: var(--else-text-color-50);
-}
-
-.first-part li svg path:last-child {
-    stroke-width: 1.5px;
-    stroke: var(--else-text-color-50);
 }
 
 .first-part li svg.pointer {
@@ -596,17 +575,11 @@ textarea {
 
 #active {
     background-color: var(--block-accent-color-210);
+    box-shadow: var(--shadow-small);
 }
 
-#active svg path:first-child {
+#active svg path {
     fill: var(--main-accent-color);
-}
-
-
-#active svg path:last-child {
-    stroke-width: 1.5px;
-    stroke: var(--main-accent-color);
-    fill: transparent;
 }
 
 #active a {
@@ -674,7 +647,7 @@ textarea {
 .comment-button span {
     line-height: 1.9rem;
     font-size: var(--font-size-2);
-    font-weight: 600;
+    font-weight: 700;
 }
 
 .like-button.liked svg {
@@ -685,6 +658,10 @@ textarea {
     position: relative;
 }
 
+/* .first-part li:has(.menu-profile) {
+    margin-bottom: 3.1rem;
+} */
+
 .menu-profile div {
     display: flex;
     gap: 0.39rem;
@@ -694,14 +671,14 @@ textarea {
 .menu-profile div p:first-child {
     color: var(--main-text-color);
     font-weight: 600;
-}
-
-#active .menu-profile div p:first-child {
-    color: var(--main-accent-color);
+    text-overflow: ellipsis;
+    width: calc(23rem - 50px - 1.6rem*3); 
+    white-space: nowrap; 
+    overflow:hidden;
 }
 
 .menu-profile div p:last-child {
-    color: var(--else-text-color-50);
+    color: var(--main-accent-color);
     font-size: var(--font-size-1);
 }
 
@@ -714,7 +691,7 @@ textarea {
     border-radius: 50%;
 }
 
-.menu-profile img:first-child {
+.menu-profile .menu-status {
     min-height: 24px;
     min-width: 24px;
     max-width: 24px;
@@ -847,19 +824,15 @@ textarea {
 
 .notification-in-menu {
     margin-left: auto;
-    font-size: var(--font-size-1);
-    color: var(--block-color);
-    background-color: var(--else-text-color-50);
-    border-radius: 50%;
-    height: 1.9rem;
-    min-width: 1.9rem;
+    font-size: var(--font-size-2);
+    color: var(--else-text-color-50);
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
 #active .notification-in-menu {
-    background-color: var(--main-accent-color);
+    color: var(--main-accent-color);
 }
 
 .show-three-dots-popup {
@@ -885,6 +858,13 @@ textarea {
 
 .div-show-three-dots-popup:hover {
     background-color: var(--block-accent-color-06);
+}
+
+.menu-title {
+    font-size: var(--font-size-3);
+    padding-left: 2.1rem;
+    margin: 1.6rem 0 0.6rem;
+    font-weight: 600;
 }
 
 @keyframes scrollPost {
