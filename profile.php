@@ -73,6 +73,8 @@ if (isset($_SESSION['user'])) {
     $sql_trophies = "SELECT * FROM trophies WHERE user_id = $id";
     $result_trophies = $connect->query($sql_trophies);
     $result_trophies_m = $connect->query($sql_trophies);
+
+    $unchecked_posts = $_SESSION['user']['unchecked_posts'];
 }
 
 ?>
@@ -116,7 +118,7 @@ if (isset($_SESSION['user'])) {
             <section class="wrapper main-section">
                 <nav class="first-part">
                     <ul>
-                        <li id="active"><a href="./profile" class="menu-profile">
+                        <li><a href="./profile" class="menu-profile">
                                 <?php if ($username == 'rampus') { ?>
                                     <img class='menu-status' src="pics/SuperUserIcon.svg">
                                 <?php } else {
@@ -143,7 +145,11 @@ if (isset($_SESSION['user'])) {
                                     <path fill-rule='evenodd' clip-rule='evenodd' d='M20.9219 4C20.4586 1.71776 18.4408 0 16.0219 0H4.99997C2.23855 0 -2.28882e-05 2.23858 -2.28882e-05 5V18H5V11C5 7.13401 8.13401 4 12 4H20.9219Z' />
                                     <path d='M12 7H23C25.2091 7 27 8.79086 27 11V23H12C9.79086 23 8 21.2091 8 19V11C8 8.79086 9.79086 7 12 7Z' stroke-linecap='round' stroke-linejoin='round' />
                                 </svg>
-                                Стена</a></li>
+                                Стена
+                                <?php if ($unchecked_posts > 0) { ?>
+                                    <span class="notification-in-menu"><?= $unchecked_posts ?></span>
+                                <?php } ?>
+                            </a></li>
                         <li><a href="./people"><svg width='28' height='24' viewBox='0 0 28 24' fill='none' xmlns='http://www.w3.org/2000/svg'>
                                     <path d='M15 4.49829C12.651 5.47785 11 7.79617 11 10.5001C11 11.397 11.1816 12.2514 11.5102 13.0287C10.4728 13.595 9.51192 14.3105 8.66116 15.1613C7.81316 16.0093 7.09958 16.9666 6.53414 18.0001L0 18C0 15.2153 1.10625 12.5446 3.07538 10.5754C4.33742 9.31339 5.88765 8.4058 7.5714 7.91672C6.60943 7.09142 6 5.86688 6 4.5C6 2.01472 8.01472 0 10.5 0C12.9847 0 14.9991 2.01379 15 4.49829Z' />
                                     <path d='M21.25 10.5001C21.25 12.5712 19.5711 14.2501 17.5 14.2501C15.4289 14.2501 13.75 12.5712 13.75 10.5001C13.75 8.42905 15.4289 6.75012 17.5 6.75012C19.5711 6.75012 21.25 8.42905 21.25 10.5001ZM10.6057 17.1058C11.2822 16.4293 12.0479 15.8625 12.8752 15.4168C14.0826 16.5528 15.7103 17.2501 17.5 17.2501C19.2897 17.2501 20.9174 16.5528 22.1248 15.4168C22.9521 15.8625 23.7177 16.4293 24.3943 17.1058C26.0452 18.7567 27.0429 20.9386 27.2211 23.2501H17.5L7.77887 23.2501C7.95711 20.9386 8.95483 18.7567 10.6057 17.1058Z' stroke-linecap='round' stroke-linejoin='round' />
@@ -177,40 +183,24 @@ if (isset($_SESSION['user'])) {
                 <div class="second-and-third-parts">
                     <div class="second-part">
                         <div class="profile__user-info">
-                            <img class="avatar" src="uploads/avatar/small_<?= $avatar ?>">
-                            <img class="three-dots show-three-dots-popup" onclick='showPopupUserInfo()' src='pics/ThreeDotsIcon.svg'>
-                            <div class='three-dots-popup' id='three-dots-popup_user-info'>
-                                <span class='three-dots-popup-li copy-link' onclick='copyLinkToUser("<?= $username ?>")'>Копировать ссылку</span>
-                                <a class='three-dots-popup-li edit-profile' href='edit'>Редактировать</a>
-                                <a class='three-dots-popup-li exit-profile' href='exit'>Выйти</a>
-                            </div>
-                            <div>
-                                <?php if ($username == 'rampus') { ?>
-                                    <p class="first-and-second-names rampus"><?= $first_name . " " . $second_name ?> <img src="pics/SuperUserIcon.svg"></p>
-                                <?php } else {
-                                    switch ($top_count) {
-                                        case 1:
-                                            echo "<p class='first-and-second-names user-from-top'>" . $first_name . " " . $second_name . "<img src='pics/BlossomFirstIcon.svg'></p>";
-                                            // echo "<span сlass='top-info'>Первый в рейтинге</span>";
-                                            break;
-                                        case 2:
-                                            echo "<p class='first-and-second-names user-from-top'>" . $first_name . " " . $second_name . "<img src='pics/BlossomSecondIcon.svg'></p>";
-                                            // echo "<span сlass='top-info'>Второй в рейтинге</span>";
-                                            break;
-                                        case 3:
-                                            echo "<p class='first-and-second-names user-from-top'>" . $first_name . " " . $second_name . "<img src='pics/BlossomThirdIcon.svg'></p>";
-                                            // echo "<span сlass='top-info'>Третий в рейтинге</span>";
-                                            break;
-                                        default:
-                                            echo "<p class='first-and-second-names'>" . $first_name . " " . $second_name . "</p>";
-                                    }
-                                } ?>
-                                <p class="username">@<?= $username ?></p>
-                                <?php if ($description != '') { ?>
-                                    <p class="description"><?= $description ?></p>
-                                <?php } else { ?>
-                                    <a class="description" href="./edit">Добавить описание</a>
-                                <?php } ?>
+                            <div class="profile-back"></div>
+                            <div class="profile-userinfo">
+                                <img class="avatar" src="uploads/avatar/small_<?= $avatar ?>">
+                                <img class="three-dots show-three-dots-popup" onclick='showPopupUserInfo()' src='pics/ThreeDotsIcon.svg'>
+                                <div class='three-dots-popup' id='three-dots-popup_user-info'>
+                                    <span class='three-dots-popup-li copy-link' onclick='copyLinkToUser("<?= $username ?>")'>Копировать ссылку</span>
+                                    <a class='three-dots-popup-li edit-profile' href='edit'>Редактировать</a>
+                                    <a class='three-dots-popup-li exit-profile' href='exit'>Выйти</a>
+                                </div>
+                                <div class="textinfo">
+                                    <p class='first-and-second-names'><?= $first_name . " " . $second_name ?></p>
+                                    <p class="username">@<?= $username ?></p>
+                                    <?php if ($description != '') { ?>
+                                        <p class="description"><?= $description ?></p>
+                                    <?php } else { ?>
+                                        <a class="description" href="./edit">Добавить описание</a>
+                                    <?php } ?>
+                                </div>
                             </div>
                         </div>
                         <a href="./blossom" class="blossom-level mobile">

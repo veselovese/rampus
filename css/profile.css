@@ -26,13 +26,25 @@
 
 .profile__user-info {
     display: flex;
+    flex-direction: column;
     border-radius: 2rem;
-    background-color: var(--block-color);
+    overflow: hidden;
     box-shadow: var(--shadow-small);
-    padding: 4.1rem;
+}
+
+.profile-back {
+    background-color: var(--main-accent-color);
+    height: 20rem;
+    width: 100%;
+}
+
+.profile-userinfo {
+    position: relative;
+    display: flex;
+    padding: 2.6rem 4.1rem;
     gap: 4.1rem;
     align-items: center;
-    position: relative;
+    background-color: var(--block-color);
 }
 
 .profile__user-info .avatar {
@@ -40,6 +52,13 @@
     height: 25rem;
     border-radius: 12.5rem;
     object-fit: cover;
+    position: absolute;
+    top: -100px;
+    border: 5px solid var(--block-color);
+}
+
+.profile__user-info .textinfo {
+    margin-left: calc(250px + 1.6rem);
 }
 
 .profile__user-info .first-and-second-names {
@@ -92,7 +111,7 @@
 .profile__user-info .username {
     color: var(--main-accent-color);
     line-height: 1;
-    margin-top: 1.6rem;
+    margin-top: 1rem;
 }
 
 .profile__user-info .description {

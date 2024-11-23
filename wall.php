@@ -22,6 +22,8 @@ if (isset($_SESSION['user'])) {
         }
     }
     $user_in_top = findUserPositionInTop($user_id, $connect);
+
+    $_SESSION['user']['unchecked_posts'] = 0;
 }
 ?>
 
