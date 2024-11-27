@@ -139,26 +139,33 @@ if (isset($_SESSION['user'])) {
                                             $first_name = $row_request['first_name'];
                                             $second_name = $row_request['second_name'];
                                             echo "<div class='request-from-user' onclick='openOtherUserProfile(event, `$username`)'>";
-                                            echo "<div class='only-user-info'>";        
+                                            echo "<div class='only-user-info'>";
                                             echo "<img src='uploads/avatar/thin_$avatar'>";
                                             echo "<div class='user-info'>";
                                             echo "<p>$first_name</p>";
                                             echo "<p>@$username</p>";
-                                            echo "</div>";        
-                                            echo "</div>";        
+                                            echo "</div>";
+                                            echo "</div>";
                                             echo "<div class='answer-to-requests' id='popup_answer-to-request_$other_id'>";
-                                            echo "<span class='answer-to-requests-li unrequest' id='unrequest-from-friends_$other_id' onclick='unrequestToFriendsRequestPage($other_id, $id)'>Отклонить</span>";
-                                            echo "<span class='answer-to-requests-li' id='add-to-friends_$other_id' onclick='addToFriendsRequestPage($other_id, $id)'>Принять</span>";
+                                            echo "<span class='answer-to-requests-li request' id='add-to-friends_$other_id' onclick='addToFriendsRequestPage($other_id, $id)'><svg width='17' height='12' viewBox='0 0 17 12' fill='none' xmlns='http://www.w3.org/2000/svg'>
+<path d='M1 6.45458L5.62964 11L15.8148 1' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/>
+</svg>
+Принять</span>";
+                                            echo "<span class='answer-to-requests-li unrequest' id='unrequest-from-friends_$other_id' onclick='unrequestToFriendsRequestPage($other_id, $id)'><svg width='10' height='10' viewBox='0 0 10 10' fill='none' xmlns='http://www.w3.org/2000/svg'>
+<path d='M0.191016 8.88671C-0.0636719 9.14141 -0.0636719 9.55428 0.191016 9.80898C0.445703 10.0637 0.858643 10.0637 1.11333 9.80898L0.191016 8.88671ZM5.46114 5.46114C5.71584 5.20644 5.71584 4.79357 5.46114 4.53888C5.20644 4.28418 4.79357 4.28418 4.53888 4.53888L5.46114 5.46114ZM4.53888 4.53888C4.28418 4.79357 4.28418 5.20644 4.53888 5.46114C4.79357 5.71584 5.20644 5.71584 5.46114 5.46114L4.53888 4.53888ZM9.80898 1.11333C10.0637 0.858644 10.0637 0.445703 9.80898 0.191016C9.55428 -0.0636719 9.14141 -0.0636719 8.88671 0.191016L9.80898 1.11333ZM5.46114 4.53888C5.20644 4.28418 4.79357 4.28418 4.53888 4.53888C4.28418 4.79357 4.28418 5.20644 4.53888 5.46114L5.46114 4.53888ZM8.88671 9.80898C9.14141 10.0637 9.55428 10.0637 9.80898 9.80898C10.0637 9.55428 10.0637 9.14141 9.80898 8.88671L8.88671 9.80898ZM4.53888 5.46114C4.79357 5.71584 5.20644 5.71584 5.46114 5.46114C5.71584 5.20644 5.71584 4.79357 5.46114 4.53888L4.53888 5.46114ZM1.11333 0.191016C0.858643 -0.0636719 0.445703 -0.0636719 0.191016 0.191016C-0.0636719 0.445703 -0.0636719 0.858644 0.191016 1.11333L1.11333 0.191016ZM1.11333 9.80898L5.46114 5.46114L4.53888 4.53888L0.191016 8.88671L1.11333 9.80898ZM5.46114 5.46114L9.80898 1.11333L8.88671 0.191016L4.53888 4.53888L5.46114 5.46114ZM4.53888 5.46114L8.88671 9.80898L9.80898 8.88671L5.46114 4.53888L4.53888 5.46114ZM5.46114 4.53888L1.11333 0.191016L0.191016 1.11333L4.53888 5.46114L5.46114 4.53888Z' />
+</svg>
+</span>";
+                                            // echo "<span class='answer-to-requests-li unrequest' id='unrequest-from-friends_$other_id' onclick='unrequestToFriendsRequestPage($other_id, $id)'>Отклонить</span>";
                                             echo "</div>";
                                             echo "</div>";
                                         } ?>
                                     </div>
 
                                 </div>
-                                <?php } ?>
-                                <p class="friends-title">Ваши друзья</p>
-                                <?php if (($result_friend_1->num_rows > 0) || ($result_friend_2->num_rows > 0)) {
-                                    echo "<ul>";
+                            <?php } ?>
+                            <p class="friends-title">Ваши друзья</p>
+                            <?php if (($result_friend_1->num_rows > 0) || ($result_friend_2->num_rows > 0)) {
+                                echo "<ul>";
                                 if ($result_friend_1->num_rows > 0) {
                                     while ($row_friend_1 = $result_friend_1->fetch_assoc()) {
                                         $friends_counter -= 1;
