@@ -22,7 +22,7 @@ if (isset($_SESSION['user'])) {
     $user_in_top = findUserPositionInTop($user_id, $connect);
     $friends_counter = $result_friend_1->num_rows + $result_friend_2->num_rows;
 
-    $unchecked_posts = $_SESSION['user']['unchecked_posts'];
+    $unread_posts = $_SESSION['user']['unread_posts'];
 }
 ?>
 
@@ -93,8 +93,8 @@ if (isset($_SESSION['user'])) {
                                     <path d='M12 7H23C25.2091 7 27 8.79086 27 11V23H12C9.79086 23 8 21.2091 8 19V11C8 8.79086 9.79086 7 12 7Z' stroke-linecap='round' stroke-linejoin='round' />
                                 </svg>
                                 Стена
-                                <?php if ($unchecked_posts > 0) { ?>
-                                    <span class="notification-in-menu"><?= $unchecked_posts ?></span>
+                                <?php if ($unread_posts > 0) { ?>
+                                    <span class="notification-in-menu"><?= $unread_posts ?></span>
                                 <?php } ?>
                             </a></li>
                         <li><a href="./people"><svg width='28' height='24' viewBox='0 0 28 24' fill='none' xmlns='http://www.w3.org/2000/svg'>
@@ -127,8 +127,38 @@ if (isset($_SESSION['user'])) {
                     <div class="second-part">
                         <div class="friends__users">
                             <p>Друзья<span><?= $friends_counter ?></span></p>
-                            <?php if (($result_friend_1->num_rows > 0) || ($result_friend_2->num_rows > 0)) {
-                                echo "<ul>";
+                            <?php if ($result_request_to->num_rows > 0) { ?>
+                                <div class="request_to">
+                                    <p class="friends-title">Заявки в друзья</p>
+                                    <div class="users-requests">
+                                        <?php
+                                        while ($row_request = $result_request_to->fetch_assoc()) {
+                                            $other_id = $row_request['id'];
+                                            $username = $row_request['username'];
+                                            $avatar = $row_request['avatar'];
+                                            $first_name = $row_request['first_name'];
+                                            $second_name = $row_request['second_name'];
+                                            echo "<div class='request-from-user' onclick='openOtherUserProfile(event, `$username`)'>";
+                                            echo "<div class='only-user-info'>";        
+                                            echo "<img src='uploads/avatar/thin_$avatar'>";
+                                            echo "<div class='user-info'>";
+                                            echo "<p>$first_name</p>";
+                                            echo "<p>@$username</p>";
+                                            echo "</div>";        
+                                            echo "</div>";        
+                                            echo "<div class='answer-to-requests' id='popup_answer-to-request_$other_id'>";
+                                            echo "<span class='answer-to-requests-li unrequest' id='unrequest-from-friends_$other_id' onclick='unrequestToFriendsRequestPage($other_id, $id)'>Отклонить</span>";
+                                            echo "<span class='answer-to-requests-li' id='add-to-friends_$other_id' onclick='addToFriendsRequestPage($other_id, $id)'>Принять</span>";
+                                            echo "</div>";
+                                            echo "</div>";
+                                        } ?>
+                                    </div>
+
+                                </div>
+                                <?php } ?>
+                                <p class="friends-title">Ваши друзья</p>
+                                <?php if (($result_friend_1->num_rows > 0) || ($result_friend_2->num_rows > 0)) {
+                                    echo "<ul>";
                                 if ($result_friend_1->num_rows > 0) {
                                     while ($row_friend_1 = $result_friend_1->fetch_assoc()) {
                                         $friends_counter -= 1;

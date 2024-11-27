@@ -23,7 +23,8 @@ if (isset($_SESSION['user'])) {
     }
     $user_in_top = findUserPositionInTop($user_id, $connect);
 
-    $_SESSION['user']['unchecked_posts'] = 0;
+    $_SESSION['user']['unread_posts'] = 0;
+    $connect->query("UPDATE users SET unread_posts = 0 WHERE id = $user_id");
 }
 ?>
 

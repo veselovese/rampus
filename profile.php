@@ -74,7 +74,7 @@ if (isset($_SESSION['user'])) {
     $result_trophies = $connect->query($sql_trophies);
     $result_trophies_m = $connect->query($sql_trophies);
 
-    $unchecked_posts = $_SESSION['user']['unchecked_posts'];
+    $unread_posts = $_SESSION['user']['unread_posts'];
 }
 
 ?>
@@ -146,8 +146,8 @@ if (isset($_SESSION['user'])) {
                                     <path d='M12 7H23C25.2091 7 27 8.79086 27 11V23H12C9.79086 23 8 21.2091 8 19V11C8 8.79086 9.79086 7 12 7Z' stroke-linecap='round' stroke-linejoin='round' />
                                 </svg>
                                 Стена
-                                <?php if ($unchecked_posts > 0) { ?>
-                                    <span class="notification-in-menu"><?= $unchecked_posts ?></span>
+                                <?php if ($unread_posts > 0) { ?>
+                                    <span class="notification-in-menu"><?= $unread_posts ?></span>
                                 <?php } ?>
                             </a></li>
                         <li><a href="./people"><svg width='28' height='24' viewBox='0 0 28 24' fill='none' xmlns='http://www.w3.org/2000/svg'>

@@ -20,7 +20,7 @@ if (isset($_SESSION['user'])) {
     }
 
     $user_in_top = findUserPositionInTop($user_id, $connect);
-    $unchecked_posts = $_SESSION['user']['unchecked_posts'];
+    $unread_posts = $_SESSION['user']['unread_posts'];
 }
 
 $sql_top = "SELECT * FROM users ORDER BY blossom_level DESC, blossom_progress DESC";
@@ -96,8 +96,8 @@ $result_top = $connect->query($sql_top);
                                     <path d='M12 7H23C25.2091 7 27 8.79086 27 11V23H12C9.79086 23 8 21.2091 8 19V11C8 8.79086 9.79086 7 12 7Z' stroke-linecap='round' stroke-linejoin='round' />
                                 </svg>
                                 Стена
-                                <?php if ($unchecked_posts > 0) { ?>
-                                    <span class="notification-in-menu"><?= $unchecked_posts ?></span>
+                                <?php if ($unread_posts > 0) { ?>
+                                    <span class="notification-in-menu"><?= $unread_posts ?></span>
                                 <?php } ?>
                             </a></li>
                         <li id="active">

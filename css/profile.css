@@ -34,7 +34,7 @@
 
 .profile-back {
     background-color: var(--main-accent-color);
-    height: 20rem;
+    height: 14.1rem;
     width: 100%;
 }
 
@@ -115,8 +115,9 @@
 }
 
 .profile__user-info .description {
-    margin-top: 2.6rem;
+    margin-top: 1.6rem;
     line-height: 1;
+    color: var(--else-text-color-50);
 }
 
 .profile__user-info a.description {

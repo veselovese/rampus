@@ -12,15 +12,19 @@ if (mysqli_num_rows($check_user_by_email) > 0) {
 
     $user = mysqli_fetch_assoc($check_user_by_email);
     $last_auth_date = $user['last_auth_date'];
-    $unchecked_posts = mysqli_query($connect, "SELECT * FROM `posts` WHERE `post_date` >= '$last_auth_date'")->num_rows;
-    
-    $_SESSION['user'] = [
-        "id" => $user['id'],
-        "unchecked_posts" => $unchecked_posts
-    ];
     $id = $user['id'];
+    $unread_posts_now = mysqli_query($connect, "SELECT * FROM `posts` WHERE `post_date` >= '$last_auth_date'")->num_rows;
+    $unread_posts_db = mysqli_fetch_assoc(mysqli_query($connect, "SELECT `unread_posts` FROM `users` WHERE `id` = $id"));
+    $unread_posts = $unread_posts_now + $unread_posts_db['unread_posts'];
+
+    $_SESSION['user'] = [
+        "id" => $id,
+        "unread_posts" => $unread_posts
+    ];
+
     $connect->query("UPDATE users SET last_auth_date = NOW() WHERE id = $id");
-    
+    $connect->query("UPDATE users SET unread_posts = $unread_posts WHERE id = $id");
+
     if ($request == 'wall') {
         header('Location: ../wall');
         exit();
@@ -29,18 +33,22 @@ if (mysqli_num_rows($check_user_by_email) > 0) {
         exit();
     }
 } else if (mysqli_num_rows($check_user_by_username) > 0) {
-    
+
     $user = mysqli_fetch_assoc($check_user_by_username);
     $last_auth_date = $user['last_auth_date'];
-    $unchecked_posts = mysqli_query($connect, "SELECT * FROM `posts` WHERE `post_date` >= '$last_auth_date'")->num_rows;
-    
+    $id = $user['id'];
+    $unread_posts_now = mysqli_query($connect, "SELECT * FROM `posts` WHERE `post_date` >= '$last_auth_date'")->num_rows;
+    $unread_posts_db = mysqli_fetch_assoc(mysqli_query($connect, "SELECT `unread_posts` FROM `users` WHERE `id` = $id"));
+    $unread_posts = $unread_posts_now + $unread_posts_db['unread_posts'];
+
     $_SESSION['user'] = [
         "id" => $user['id'],
-        "unchecked_posts" => $unchecked_posts
+        "unread_posts" => $unread_posts
     ];
-    $id = $user['id'];
+
     $connect->query("UPDATE users SET last_auth_date = NOW() WHERE id = $id");
-    
+    $connect->query("UPDATE users SET unread_posts = $unread_posts WHERE id = $id");
+
     if ($request == 'wall') {
         header('Location: ../wall');
         exit();
