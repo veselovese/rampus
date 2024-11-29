@@ -496,18 +496,40 @@
     opacity: 0;
 }
 
-.wall__comments .other-users .user-comment:hover .date, .wall__comments .other-users .user-comment:hover .delete-comment {
+.wall__comments .other-users .user-comment:hover .date,
+.wall__comments .other-users .user-comment:hover .delete-comment {
     opacity: 1;
 }
 
 .wall__comments .other-users .delete-comment {
     opacity: 0;
     margin-left: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-width: 28px;
+    max-height: 28px;
+    min-width: 28px;
+    min-height: 28px;
+    border-radius: 1rem;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.wall__comments .other-users .delete-comment svg {
+    fill: var(--else-text-color-50);
+    margin: 0;
+    width: 10px;
+    height: 10px;
     transition: 0.2s;
 }
 
 .wall__comments .other-users .delete-comment:hover {
-    color: var(--error-accent-color);
+    background-color: var(--like-button-accent-color);
+}
+
+.wall__comments .other-users .delete-comment:hover svg {
+    fill: var(--error-accent-color);
 }
 
 .user-comment .comment-div {
