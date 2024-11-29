@@ -75,6 +75,7 @@ if (isset($_SESSION['user'])) {
     $result_trophies_m = $connect->query($sql_trophies);
 
     $unread_posts = $_SESSION['user']['unread_posts'];
+    $posts_counter = $connect->query("SELECT * FROM posts WHERE user_id = $id")->num_rows;
 }
 
 ?>
@@ -186,20 +187,25 @@ if (isset($_SESSION['user'])) {
                             <div class="profile-back"></div>
                             <div class="profile-userinfo">
                                 <img class="avatar" src="uploads/avatar/small_<?= $avatar ?>">
-                                <img class="three-dots show-three-dots-popup" onclick='showPopupUserInfo()' src='pics/ThreeDotsIcon.svg'>
-                                <div class='three-dots-popup' id='three-dots-popup_user-info'>
-                                    <span class='three-dots-popup-li copy-link' onclick='copyLinkToUser("<?= $username ?>")'>Копировать ссылку</span>
-                                    <a class='three-dots-popup-li edit-profile' href='edit'>Редактировать</a>
-                                    <a class='three-dots-popup-li exit-profile' href='exit'>Выйти</a>
-                                </div>
                                 <div class="textinfo">
                                     <p class='first-and-second-names'><?= $first_name . " " . $second_name ?></p>
-                                    <p class="username">@<?= $username ?></p>
+                                    <div>
+                                        <p class="username" onclick='copyLinkToUserAddReturnMessage("<?= $username ?>")'>@<?= $username ?></p>
+                                        <span id="copy-link-status">Копировать ссылку</span>
+                                    </div>
                                     <?php if ($description != '') { ?>
                                         <p class="description"><?= $description ?></p>
                                     <?php } else { ?>
                                         <a class="description" href="./edit">Добавить описание</a>
                                     <?php } ?>
+                                </div>
+                                <div class='div-show-three-dots-popup in-profile' onclick='showPopupUserInfo(<?= $id ?>)' id='div-show-three-dots-popup_$i'>
+                                    <img src='pics/ThreeDotsIcon.svg' class='show-three-dots-popup'>
+                                </div>
+                                <div class='three-dots-popup' id='three-dots-popup_user-info'>
+                                    <span class='three-dots-popup-li copy-link' onclick='copyLinkToUser("<?= $username ?>")'>Копировать ссылку</span>
+                                    <a class='three-dots-popup-li edit-profile' href='edit'>Редактировать</a>
+                                    <a class='three-dots-popup-li exit-profile' href='exit'>Выйти</a>
                                 </div>
                             </div>
                         </div>
@@ -340,81 +346,10 @@ if (isset($_SESSION['user'])) {
                             </div>
                             <div class="profile__user-posts">
                                 <div>
-                                    <p>Ваши посты</p>
-                                    <img src="pics/SearchIcon.svg">
+                                    <p>Ваши посты<span><?= $posts_counter ?></span></p>
                                 </div>
-                                <div>
-                                    <?php
-                                    $current_user_id = $_SESSION['user']['id'];
-                                    $sql = "SELECT hashtags.name AS hashtag_name, posts.text AS post_text, DATE_FORMAT(posts.post_date, '%d %M в %k:%i') AS post_date, posts.likes AS post_likes, posts.id AS i
-                  FROM posts
-                  LEFT JOIN hashtags ON posts.hashtag_id = hashtags.id
-                  JOIN users ON posts.user_id = users.id
-                  WHERE posts.user_id = $current_user_id";
-                                    $result = $connect->query($sql);
-                                    if ($result->num_rows > 0) {
-                                        while ($row = $result->fetch_assoc()) {
-                                            $hashtag_name = $row["hashtag_name"];
-                                            $post_text = preg_replace('/\xc2\xa0/', ' ', $row["post_text"]);
-                                            $post_date = $row["post_date"];
-                                            $post_likes = $row["post_likes"];
-                                            $i = $row["i"];
-                                            echo "<div class='user-post' id='post-$i'>";
-                                            echo "<img onclick='showPopup($i)' src='pics/ThreeDotsIcon.svg' class='show-three-dots-popup'>";
-                                            echo "<div class='three-dots-popup' id='three-dots-popup_$i'>";
-                                            echo "<a class='three-dots-popup-li open-post' href='./wall#post-$i'>Открыть на стене</a>";
-                                            echo "<span class='three-dots-popup-li copy-link' onclick='copyLinkToPost($i)'>Копировать ссылку</span>";
-                                            // echo "<a class='three-dots-popup-li edit-post' href='./profile'>*************</a>";
-                                            echo "<a class='three-dots-popup-li delete-post' href='deletepost?post=$i&source=profile'>Удалить</a>";
-                                            echo "</div>";
-                                            if ($hashtag_name != 0) {
-                                                echo "<p>" . $post_text . " <a href='./wall?search=$hashtag_name'>#" . $hashtag_name . "</a></p>";
-                                            } else {
-                                                echo "<p>" . $post_text . "</p>";
-                                            }
-                                            echo "<div>";
-                                            echo "<div class='post-buttons'>";
-                                            $sql_comment = "SELECT comments.text AS comment_text
-                                        FROM comments
-                                        JOIN posts ON comments.post_id = posts.id
-                                        WHERE comments.post_id = $i
-                                        ORDER BY UNIX_TIMESTAMP(comments.comment_date) ASC";
-                                            $result_comment = $connect->query($sql_comment);
-                                            $rows_num_comment = $result_comment->num_rows;
-                                            $sql_like = "SELECT * FROM likes_on_posts WHERE post_id = $i AND user_id = " . $_SESSION['user']['id'];
-                                            $result_like = $connect->query($sql_like);
-                                            if ($result_like->num_rows > 0) {
-                                                echo "<button id='$i' class='like-button liked'><svg width='23' height='19' viewBox='0 0 23 19' fill='none' xmlns='http://www.w3.org/2000/svg'>
-                                                <path fill-rule='evenodd' clip-rule='evenodd' d='M15.3643 17.1232L21.0488 11.4387L21.0494 11.4394C21.6548 10.834 22.135 10.1153 22.4626 9.32432C22.7903 8.53335 22.9589 7.6856 22.9589 6.82947C22.9589 5.97334 22.7903 5.12559 22.4626 4.33463C22.135 3.54366 21.6548 2.82498 21.0494 2.2196C20.4441 1.61423 19.7254 1.13402 18.9344 0.806393C18.1434 0.478767 17.2957 0.310142 16.4396 0.310145C15.5834 0.310148 14.7357 0.478778 13.9447 0.806409C13.1541 1.13391 12.4356 1.61388 11.8304 2.21893L11.8289 2.21742L11.8279 2.21836C11.2229 1.61375 10.5048 1.1341 9.71455 0.806772C8.92359 0.479147 8.07584 0.310521 7.2197 0.310524C6.36357 0.310526 5.51582 0.479157 4.72486 0.806787C3.93389 1.13442 3.2152 1.61463 2.60982 2.22001C2.00444 2.82539 1.52423 3.54408 1.1966 4.33504C0.868969 5.12601 0.700339 5.97376 0.700335 6.82989C0.700332 7.68602 0.868959 8.53377 1.19658 9.32474C1.52421 10.1157 2.00442 10.8344 2.60979 11.4398L2.60985 11.4397L8.29331 17.1232C10.2459 19.0758 13.4117 19.0758 15.3643 17.1232Z'/>
-                                            </svg>";
-                                                echo "<span class='like-counter'>" . $post_likes . "</span></button>";
-                                                echo "<button id='$i' class='like-button unliked hide'><svg width='23' height='19' viewBox='0 0 23 19' fill='none' xmlns='http://www.w3.org/2000/svg'>
-                                                <path fill-rule='evenodd' clip-rule='evenodd' d='M15.3643 17.1232L21.0488 11.4387L21.0494 11.4394C21.6548 10.834 22.135 10.1153 22.4626 9.32432C22.7903 8.53335 22.9589 7.6856 22.9589 6.82947C22.9589 5.97334 22.7903 5.12559 22.4626 4.33463C22.135 3.54366 21.6548 2.82498 21.0494 2.2196C20.4441 1.61423 19.7254 1.13402 18.9344 0.806393C18.1434 0.478767 17.2957 0.310142 16.4396 0.310145C15.5834 0.310148 14.7357 0.478778 13.9447 0.806409C13.1541 1.13391 12.4356 1.61388 11.8304 2.21893L11.8289 2.21742L11.8279 2.21836C11.2229 1.61375 10.5048 1.1341 9.71455 0.806772C8.92359 0.479147 8.07584 0.310521 7.2197 0.310524C6.36357 0.310526 5.51582 0.479157 4.72486 0.806787C3.93389 1.13442 3.2152 1.61463 2.60982 2.22001C2.00444 2.82539 1.52423 3.54408 1.1966 4.33504C0.868969 5.12601 0.700339 5.97376 0.700335 6.82989C0.700332 7.68602 0.868959 8.53377 1.19658 9.32474C1.52421 10.1157 2.00442 10.8344 2.60979 11.4398L2.60985 11.4397L8.29331 17.1232C10.2459 19.0758 13.4117 19.0758 15.3643 17.1232Z'/>
-                                            </svg>";
-                                                echo "<span class='like-counter'>" . $post_likes . "</span></button>";
-                                            } else {
-                                                echo "<button id='$i' class='like-button unliked'><svg width='23' height='19' viewBox='0 0 23 19' fill='none' xmlns='http://www.w3.org/2000/svg'>
-                                                <path fill-rule='evenodd' clip-rule='evenodd' d='M15.3643 17.1232L21.0488 11.4387L21.0494 11.4394C21.6548 10.834 22.135 10.1153 22.4626 9.32432C22.7903 8.53335 22.9589 7.6856 22.9589 6.82947C22.9589 5.97334 22.7903 5.12559 22.4626 4.33463C22.135 3.54366 21.6548 2.82498 21.0494 2.2196C20.4441 1.61423 19.7254 1.13402 18.9344 0.806393C18.1434 0.478767 17.2957 0.310142 16.4396 0.310145C15.5834 0.310148 14.7357 0.478778 13.9447 0.806409C13.1541 1.13391 12.4356 1.61388 11.8304 2.21893L11.8289 2.21742L11.8279 2.21836C11.2229 1.61375 10.5048 1.1341 9.71455 0.806772C8.92359 0.479147 8.07584 0.310521 7.2197 0.310524C6.36357 0.310526 5.51582 0.479157 4.72486 0.806787C3.93389 1.13442 3.2152 1.61463 2.60982 2.22001C2.00444 2.82539 1.52423 3.54408 1.1966 4.33504C0.868969 5.12601 0.700339 5.97376 0.700335 6.82989C0.700332 7.68602 0.868959 8.53377 1.19658 9.32474C1.52421 10.1157 2.00442 10.8344 2.60979 11.4398L2.60985 11.4397L8.29331 17.1232C10.2459 19.0758 13.4117 19.0758 15.3643 17.1232Z'/>
-                                            </svg>";
-                                                echo "<span class='like-counter'>" . $post_likes . "</span></button>";
-                                                echo "<button id='$i' class='like-button liked hide'><svg width='23' height='19' viewBox='0 0 23 19' fill='none' xmlns='http://www.w3.org/2000/svg'>
-                                                <path fill-rule='evenodd' clip-rule='evenodd' d='M15.3643 17.1232L21.0488 11.4387L21.0494 11.4394C21.6548 10.834 22.135 10.1153 22.4626 9.32432C22.7903 8.53335 22.9589 7.6856 22.9589 6.82947C22.9589 5.97334 22.7903 5.12559 22.4626 4.33463C22.135 3.54366 21.6548 2.82498 21.0494 2.2196C20.4441 1.61423 19.7254 1.13402 18.9344 0.806393C18.1434 0.478767 17.2957 0.310142 16.4396 0.310145C15.5834 0.310148 14.7357 0.478778 13.9447 0.806409C13.1541 1.13391 12.4356 1.61388 11.8304 2.21893L11.8289 2.21742L11.8279 2.21836C11.2229 1.61375 10.5048 1.1341 9.71455 0.806772C8.92359 0.479147 8.07584 0.310521 7.2197 0.310524C6.36357 0.310526 5.51582 0.479157 4.72486 0.806787C3.93389 1.13442 3.2152 1.61463 2.60982 2.22001C2.00444 2.82539 1.52423 3.54408 1.1966 4.33504C0.868969 5.12601 0.700339 5.97376 0.700335 6.82989C0.700332 7.68602 0.868959 8.53377 1.19658 9.32474C1.52421 10.1157 2.00442 10.8344 2.60979 11.4398L2.60985 11.4397L8.29331 17.1232C10.2459 19.0758 13.4117 19.0758 15.3643 17.1232Z'/>
-                                            </svg>";
-                                                echo "<span class='like-counter'>" . $post_likes . "</span></button>";
-                                            }
-                                            echo "<a href='./wall#post-$i' class='comment-button comment'><svg width='28' height='24' viewBox='0 0 28 24' fill='none' xmlns='http://www.w3.org/2000/svg'>
-                                            <path d='M0 5C0 2.23858 2.23858 0 5 0L23 0C25.7614 0 28 2.23858 28 5L28 24L5 24C2.23858 24 0 21.7614 0 19L0 5Z' />
-                                            </svg>";
-                                            echo "<span class='comment-counter'>" . $rows_num_comment . "</span></a>";
-                                            echo "</div>";
-                                            echo "<span>" . $post_date . "</span>";
-                                            echo "</div>";
-                                            echo "</div>";
-                                        }
-                                    } else {
-                                        echo "<p>Вы ещё не сделали постов</p>";
-                                    }
-                                    ?>
+                                <div id="success-render-posts">
+
                                 </div>
                             </div>
                             <nav class="first-part-mobile">

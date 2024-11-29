@@ -879,7 +879,7 @@
     fill: var(--error-accent-color);
 }
 
-.answer-to-requests-li:hover {
+.answer-to-requests-li.request:hover {
     opacity: 80%;
 }
 

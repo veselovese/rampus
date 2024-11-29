@@ -3,7 +3,7 @@ $(document).ready(function () {
 
     function renderPosts(query) {
         $.ajax({
-            url: "back-files/render-posts",
+            url: "back-files/render-posts_wall",
             method: "POST",
             data: {
                 'filter': query

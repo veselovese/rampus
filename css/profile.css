@@ -28,23 +28,25 @@
     display: flex;
     flex-direction: column;
     border-radius: 2rem;
-    overflow: hidden;
     box-shadow: var(--shadow-small);
 }
 
 .profile-back {
     background-color: var(--main-accent-color);
-    height: 14.1rem;
+    height: 12.6rem;
     width: 100%;
+    border-radius: 2rem 2rem 0 0;
 }
 
 .profile-userinfo {
     position: relative;
     display: flex;
-    padding: 2.6rem 4.1rem;
+    padding: 1.6rem 2.6rem;
     gap: 4.1rem;
     align-items: center;
+    min-height: calc(150px + 1.6rem);
     background-color: var(--block-color);
+    border-radius: 0 0 2rem 2rem;
 }
 
 .profile__user-info .avatar {
@@ -112,6 +114,50 @@
     color: var(--main-accent-color);
     line-height: 1;
     margin-top: 1rem;
+    transition: 0.2s;
+    cursor: pointer;
+}
+
+.profile__user-info .username:hover {
+    text-decoration: underline;
+    opacity: 80%;
+}
+
+.profile-userinfo div:has(.username) {
+    position: relative;
+    max-width: max-content;
+}
+
+.profile-userinfo div:has(.username) span {
+    position: absolute;
+    min-width: max-content;
+    top: calc(18px + 0.625rem);
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: var(--block-color);
+    padding: 1rem 1.6rem;
+    border-radius: 2rem;
+    box-shadow: var(--shadow-popup);
+    cursor: default;
+    pointer-events: none;
+    opacity: 0;
+    transition: 0.2s;
+    font-size: var(--font-size-1);
+    color: var(--else-text-color-50);
+}
+
+.profile-userinfo .username:hover~span {
+    opacity: 1;
+}
+
+.profile-userinfo div:has(.username) span::before {
+    content: "";
+    position: absolute;
+    top: -1rem;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 5px solid transparent;
+    border-bottom: 5px solid var(--block-color);
 }
 
 .profile__user-info .description {
@@ -356,55 +402,65 @@
     margin-bottom: 2.6rem;
 }
 
-.profile__user-posts>div:nth-child(2) {
+.profile__user-posts>div:first-child span {
+    color: var(--else-text-color-50);
+    margin-left: 1rem;
+}
+
+#success-render-posts {
     display: flex;
-    flex-direction: column-reverse;
+    flex-direction: column;
     gap: 1.6rem;
+}
+
+#see-all-posts {
+    background-color: var(--block-accent-color-210);
+    max-width: max-content;
+    color: var(--main-accent-color);
+    padding: 1rem 1.6rem;
+    border-radius: 1rem;
+    font-size: var(--font-size-1);
+    cursor: pointer;
+    margin-left: auto;
+}
+
+#see-all-posts:hover {
+    opacity: 80%;
 }
 
 .profile__user-posts .user-post {
     background-color: var(--block-color);
     box-shadow: var(--shadow-small);
     border-radius: 2rem;
-    padding: 2.6rem;
+    padding: 1.6rem 2.6rem;
     display: flex;
     flex-direction: column;
     position: relative;
 }
 
-.user-post img {
-    max-width: 24px;
-    max-height: 6px;
-    margin-top: 0;
-    align-self: flex-end;
-    cursor: pointer;
+.profile__user-posts .user-post.hide {
+    display: none;
 }
 
-.user-post .three-dots-popup,
-.profile__user-info .three-dots-popup {
+.three-dots-popup {
     font-size: var(--font-size-1);
-    border-radius: 2rem;
+    border-radius: 1rem;
     margin: 0;
     display: flex;
     flex-direction: column;
     position: absolute;
-    top: 4.3rem;
-    right: 2.6rem;
+    top: 1.6rem;
+    right: calc(2.6rem + 28px + 0.625rem);
     visibility: hidden;
     animation: hidePopup 0.2s;
     box-shadow: var(--shadow-popup);
     z-index: 1;
-    background-color: var(--block-color);
     overflow: hidden;
+    padding: 0.625rem;
+    background-color: var(--block-color);
 }
 
-.profile__user-info .three-dots-popup {
-    top: 5.8rem;
-    right: 4.1rem;
-}
-
-.user-post .three-dots-popup.show,
-.profile__user-info .three-dots-popup.show {
+.three-dots-popup.show {
     visibility: visible;
     animation: showPopup 0.2s;
 }
@@ -433,39 +489,31 @@
     }
 }
 
-.user-post .three-dots-popup .three-dots-popup-li,
-.profile__user-info .three-dots-popup .three-dots-popup-li {
+.three-dots-popup-li {
     display: block;
     width: 100%;
-    padding: 1rem 2.6rem;
+    padding: 1rem 1.6rem;
+    border-radius: calc(1rem - 0.625rem);
     color: var(--main-text-color);
     text-transform: none;
     background-color: var(--block-color);
     cursor: pointer;
 }
 
-.user-post .three-dots-popup .three-dots-popup-li:first-child,
-.profile__user-info .three-dots-popup .three-dots-popup-li:first-child {
-    padding-top: 1.6rem;
-}
-
-.user-post .three-dots-popup .three-dots-popup-li:last-child,
-.profile__user-info .three-dots-popup .three-dots-popup-li:last-child {
-    padding-bottom: 1.6rem;
-}
-
-.user-post .three-dots-popup a.delete-post,
-.profile__user-info .three-dots-popup a.exit-profile {
-    color: var(--error-accent-color);
-}
-
-.user-post .three-dots-popup .three-dots-popup-li:hover,
-.profile__user-info .three-dots-popup .three-dots-popup-li:hover {
+.three-dots-popup-li:hover {
     background-color: var(--background-color);
 }
 
+.three-dots-popup-li.exit-profile, .three-dots-popup-li.delete-post {
+    color: var(--error-accent-color);
+}
+
+.three-dots-popup-li.exit-profile:hover, .three-dots-popup-li.delete-post:hover {
+    background-color: var(--like-button-accent-color);
+}
+
 .user-post p {
-    margin: 1.6rem 0 0 0;
+    margin: 0 0 0;
     line-height: 125%;
     word-wrap: break-word;
     word-break: break-word;
@@ -477,14 +525,23 @@
     color: var(--main-accent-color);
 }
 
-.user-post div {
-    margin: 2.6rem 0 0;
+.buttons-and-date {
+    margin: 1.6rem 0 0;
     display: flex;
     align-items: end;
     justify-content: space-between;
+}
+
+.user-post .post-date {
     color: var(--else-text-color-33);
     font-size: var(--font-size-1);
     text-transform: lowercase;
+    transition: 0.2s;
+    opacity: 0;
+}
+
+.user-post:hover .post-date {
+    opacity: 1;
 }
 
 .user-post div.post-buttons {
@@ -941,7 +998,7 @@
 .case-trophies .trophy span {
     position: absolute;
     min-width: max-content;
-    top: calc(24px + 0.5rem);
+    top: calc(24px + 0.625rem);
     left: 50%;
     transform: translateX(-50%);
     background-color: var(--block-color);
@@ -964,6 +1021,7 @@
     transform: translateX(-50%);
     border: 5px solid transparent;
     border-bottom: 5px solid var(--block-color);
+    box-shadow: var(--shadow-popup);
 }
 
 .case-trophies .trophy:hover span {

@@ -1,3 +1,20 @@
+$(document).ready(function () {
+    renderPosts('all');
+
+    function renderPosts(query) {
+        $.ajax({
+            url: "back-files/render-posts_profile",
+            method: "POST",
+            data: {
+                'filter': query
+            },
+            success: function (data) {
+                $('#success-render-posts').html(data);
+            }
+        });
+    }
+})
+
 $('#textarea-post').keypress(function (e) {
     if (e.which === 13 && !e.shiftKey) {
         e.preventDefault();
@@ -34,5 +51,14 @@ function showPopupUserInfo() {
 function openFriendsPage(e) {
     if ((!$('.current-friend').is(e.target)) && ($('.current-friend').has(e.target).length === 0)) {
         window.location = "friends";
+    }
+}
+
+function seeAllPosts() {
+    $('.profile_user-post').toggleClass('hide');
+    if ($('#see-all-posts').text() == 'Показать все посты') {
+        $('#see-all-posts').text('Скрыть посты');
+    } else {
+        $('#see-all-posts').text('Показать все посты');
     }
 }

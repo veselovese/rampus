@@ -672,9 +672,9 @@ textarea {
     color: var(--main-text-color);
     font-weight: 600;
     text-overflow: ellipsis;
-    width: calc(23rem - 50px - 1.6rem*3); 
-    white-space: nowrap; 
-    overflow:hidden;
+    width: calc(23rem - 50px - 1.6rem*3);
+    white-space: nowrap;
+    overflow: hidden;
 }
 
 .menu-profile div p:last-child {
@@ -854,6 +854,11 @@ textarea {
     border-radius: 1rem;
     cursor: pointer;
     transition: 0.2s;
+}
+
+.div-show-three-dots-popup.in-profile {
+    margin-left: auto;
+    align-self: flex-start;
 }
 
 .div-show-three-dots-popup:hover {
