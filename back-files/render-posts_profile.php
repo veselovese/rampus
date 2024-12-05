@@ -87,7 +87,7 @@ if ($result->num_rows > 0) {
             echo "<div class='three-dots-popup' id='three-dots-popup_$i'>";
             echo "<a class='three-dots-popup-li open-post' href='./wall#post-$i'>Открыть на стене</a>";
             echo "<span class='three-dots-popup-li copy-link' onclick='copyLinkToPost($i)'>Копировать ссылку</span>";
-            echo "<a class='three-dots-popup-li delete-post' href='deletepost?post=$i&source=profile'>Удалить</a>";
+            echo "<a class='three-dots-popup-li delete-post' href='back-files/delete-post?post=$i&source=profile'>Удалить</a>";
             echo "</div>";
             echo "</div>";
         } else {
@@ -158,16 +158,16 @@ if ($result->num_rows > 0) {
             echo "<div class='three-dots-popup' id='three-dots-popup_$i'>";
             echo "<a class='three-dots-popup-li open-post' href='./wall#post-$i'>Открыть на стене</a>";
             echo "<span class='three-dots-popup-li copy-link' onclick='copyLinkToPost($i)'>Копировать ссылку</span>";
-            echo "<a class='three-dots-popup-li delete-post' href='deletepost?post=$i&source=profile'>Удалить</a>";
+            echo "<a class='three-dots-popup-li delete-post' href='back-files/delete-post?post=$i&source=profile'>Удалить</a>";
             echo "</div>";
             echo "</div>";
         }
         $posts_counter++;
     }
     if ($posts_counter > 3) {
-        echo "<div onclick='seeAllPosts()' id='see-all-posts'>";
-        echo "<p>Показать все посты</p>";
-        echo "</div>";
+        echo "<button type='button' onclick='seeAllPosts()' id='see-all-posts'>";
+        echo "Показать все посты";
+        echo "</button>";
     }
 } else {
     echo "<p>Вы ещё не сделали постов</p>";

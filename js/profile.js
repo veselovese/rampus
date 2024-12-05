@@ -24,9 +24,28 @@ $('#textarea-post').keypress(function (e) {
     }
 });
 
+$('#create-new-post').on('click', () => {
+    console.log($('#create-new-post-title').text())
+    if($('#create-new-post-title').text() == 'Написать пост') {
+        $('#create-new-post-title').text('Закрыть')
+        $('#create-new-post').addClass('close')
+        $('#yours-posts-div').addClass('creating-new-post')
+        $('#profile__new-post').addClass('creating-new-post-form')
+    } else {
+        $('#create-new-post-title').text('Написать пост')
+        $('#create-new-post').removeClass('close')
+        $('#yours-posts-div').removeClass('creating-new-post')
+        $('#profile__new-post').removeClass('creating-new-post-form')
+    }
+
+
+})
+
 function textareaPostPlaceholder(e) {
-    document.getElementById('textarea-post_label').style.display = 'none';
-    if ((document.getElementById('textarea-post').textContent.length < 2) && (e.key=="Backspace")) {
+    if (e.key != ' ') {
+        document.getElementById('textarea-post_label').style.display = 'none';
+    }
+    if ((document.getElementById('textarea-post').textContent.length < 2) && (e.key == "Backspace")) {
         document.getElementById('textarea-post_label').style.display = 'block';
     }
 }
@@ -34,12 +53,12 @@ function textareaPostPlaceholder(e) {
 function textareaPost(e) {
     const obj = e.target;
     const div = document.getElementById(obj.id + '_input');
-    if (document.getElementById('textarea-post').textContent != '') {
+    if ($('#textarea-post').text().trim(' ') != '') {
         $('#textarea-post_sumbit').addClass('active');
         $('#textarea-post_sumbit').removeAttr('disabled');
     } else {
         $('#textarea-post_sumbit').removeClass('active');
-        $('#textarea-post_sumbit').Attr('disabled');
+        $('#textarea-post_sumbit').attr('disabled');
     }
     div.setAttribute('value', obj.textContent);
 }
