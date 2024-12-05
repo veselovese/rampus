@@ -261,7 +261,7 @@
     display: flex;
     flex-direction: column;
     gap: 2.6rem;
-    margin-top: 6.6rem;
+    /* margin-top: 6.6rem; */
 }
 
 .third-part-in-header div {
@@ -826,11 +826,6 @@
 .wall-filter-popup-li-mobile:has([type='radio']:checked) {
     color: var(--main-accent-color);
     background-color: var(--block-accent-color-210);
-}
-
-.third-part-title {
-    color: var(--else-text-color-50);
-    margin-bottom: 1.6rem;
 }
 
 .no-found {

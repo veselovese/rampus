@@ -21,11 +21,12 @@ if (isset($_SESSION['user'])) {
 
     $user_in_top = findUserPositionInTop($user_id, $connect);
     $unread_posts = $_SESSION['user']['unread_posts'];
+    $user_level = $connect->query("SELECT blossom_level FROM users WHERE id = '$user_id'")->fetch_assoc()['blossom_level'];
 }
 
 $sql_top = "SELECT * FROM users ORDER BY blossom_level DESC, blossom_progress DESC";
 $result_top = $connect->query($sql_top);
-
+$users_counter = $connect->query("SELECT * FROM users")->num_rows;
 ?>
 
 <!DOCTYPE html>
@@ -109,10 +110,6 @@ $result_top = $connect->query($sql_top);
                                     </svg>
                                     Люди
                                 </div>
-                                <!-- <div class='people-filter__choice'>
-                                    <label class="people-filter-popup-li">Рейтинг<input checked name="people-filter" id="people-filter-top" type="radio" value=""></label>
-                                    <label class="people-filter-popup-li">Все<input name="people-filter" id="people-filter-all" type="radio" value=""></label>
-                                </div> -->
                             </div>
                         </li>
                         <li><a href="./friends">
@@ -150,11 +147,11 @@ $result_top = $connect->query($sql_top);
                             </div>
                             <div class='people-filter-popup-mobile' id='popup_people-filter-mobile'>
                                 <label class="people-filter-popup-li-mobile">Рейтинг<input checked name="people-filter-mobile" id="people-filter-top-mobile" type="radio" value=""></label>
-                                <div class='div-line'></div>
                                 <label class="people-filter-popup-li-mobile">Все<input name="people-filter-mobile" id="people-filter-all-mobile" type="radio" value=""></label>
                             </div>
                         </div>
-                        <div class="people people__top-users" id="users-filter-top">
+                        <div class="people__top-users" id="users-filter-top">
+                            <p>Рейтинг</p>
                             <div class="user-in-top mobile">
                                 <img src="pics/CaseIcon.svg">
                                 <span>Вы на <?= $user_in_top ?> месте</span>
@@ -214,6 +211,7 @@ $result_top = $connect->query($sql_top);
                             </div>
                         </div>
                         <div class="people people__users" id="users-filter-all">
+                            <p>Пользователи<span><?= $users_counter ?></span></p>
                             <div>
                                 <input type="text" name="search-people" id="search-people" placeholder="Поиск">
                                 <img id="icon-search-people" src="pics/SearchIcon.svg">
@@ -249,9 +247,26 @@ $result_top = $connect->query($sql_top);
                         </nav>
                     </div>
                     <div class="third-part">
-                        <div class="user-in-top">
-                            <img src="pics/CaseIcon.svg">
-                            <span>Вы на <?= $user_in_top ?> месте</span>
+                        <div>
+                            <div>
+                                <p class="third-part-title">Фильтры</p>
+                                <div class='people-filter__choice'>
+                                    <label class="people-filter-popup-li" id="people-filter-top">Рейтинг<span>По уровню Цветения</span><input checked name="people-filter" type="radio" value=""></label>
+                                    <label class="people-filter-popup-li" id="people-filter-all">Все<span>Поиск пользователей</span><input name="people-filter" type="radio" value=""></label>
+                                </div>
+                            </div>
+                            <div class="user-in-top">
+                                <p class="third-part-title">Ваша позиция</p>
+                                <a href="blossom" class="user-in-top-info">
+                                    <div>
+                                        <span><?= $user_in_top ?> место</span>
+                                        <span>Cейчас на <?= $user_level ?> уровне</span>
+                                    </div>
+                                    <svg class="pointer" width="8" height="13" viewBox="0 0 8 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M6.96771 6.03603L1.12165 0.191904C0.865127 -0.0639698 0.449521 -0.0639698 0.192352 0.191904C-0.0641698 0.447777 -0.0641699 0.863383 0.192352 1.11926L5.57471 6.49968L0.192999 11.8801C-0.0635223 12.136 -0.0635224 12.5516 0.192999 12.8081C0.44952 13.064 0.865774 13.064 1.1223 12.8081L6.96836 6.96403C7.22094 6.7108 7.22094 6.28866 6.96771 6.03603Z" />
+                                    </svg>
+                                </a>
+                            </div>
                         </div>
                     </div>
             </section>

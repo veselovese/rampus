@@ -886,6 +886,11 @@ textarea {
     }
 }
 
+.third-part-title {
+    color: var(--else-text-color-50);
+    margin-bottom: 1.6rem;
+}
+
 @media (max-width: 1080px) {
     .friend-buttons {
         font-size: var(--font-size-1);
