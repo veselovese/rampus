@@ -9,13 +9,14 @@ require('get-user-friends-id.php');
 $user_friends_id = implode(',', getUserFriendsId($current_user_id, $connect));
 
 $filter = $_POST['filter'] === 'friends' ? "AND posts.user_id IN ($user_friends_id)" : "";
+$search = $_POST['search'];
+$search = $search != null ? "AND hashtags.name = '$search'" : '';
 
-// $search_condition = $search !== 'all' ? "AND hashtags.name = '$search'" : '';
 $sql_post = "SELECT posts.hashtag_id AS hashtag_id, posts.text AS post_text, DATE_FORMAT(posts.post_date, '%e %M в %k:%i') AS post_date, posts.likes AS post_likes, posts.user_id AS user_id, users.first_name AS first_name, users.second_name AS second_name, users.avatar AS avatar, posts.id AS i, users.username AS username
                             FROM posts
                             JOIN users ON posts.user_id = users.id
                             LEFT JOIN hashtags ON posts.hashtag_id = hashtags.id
-                            WHERE posts.status = 0 $filter";
+                            WHERE posts.status = 0 $filter $search";
 
 $result_post = $connect->query($sql_post);
 if ($result_post->num_rows > 0) {
@@ -218,4 +219,6 @@ if ($result_post->num_rows > 0) {
         echo "</div>";
         echo "</div>";
     }
+} else {
+    echo "<p class='no-found'>Постов не найдено</p>";
 }

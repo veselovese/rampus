@@ -833,7 +833,7 @@
     margin-bottom: 1.6rem;
 }
 
-.hashtag-no-found {
+.no-found {
     font-size: var(--font-size-1);
     color: var(--error-accent-color);
     background-color: var(--like-button-accent-color);

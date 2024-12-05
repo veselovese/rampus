@@ -1,14 +1,16 @@
 $(document).ready(function () {
     let params = new URLSearchParams(document.location.search);
     let search = params.get('search');
-    renderPosts(search);
+    console.log(search)
+    renderPosts('all', search);
 
-    function renderPosts(query) {
+    function renderPosts(query, search) {
         $.ajax({
             url: "back-files/render-posts_wall",
             method: "POST",
             data: {
-                'filter': query
+                'filter': query,
+                'search': search
             },
             success: function (data) {
                 $('#success-render-posts').html(data);
@@ -17,10 +19,10 @@ $(document).ready(function () {
     }
 
     $('#wall-filter-friends').click(() => {
-        renderPosts('friends');
+        renderPosts('friends', search);
     })
     $('#wall-filter-all').click(() => {
-        renderPosts('all');
+        renderPosts('all', search);
     })
 })
 
