@@ -17,10 +17,10 @@ if ($result_hashtag->num_rows > 0) {
         if (($_POST['get'] == $hashtag_name)) {
             echo "<li id ='checked'><a href='./wall'>#" . $hashtag_name . "</a></li>";
         } else {
-            echo "<li><a href='?search=$hashtag_name'>#" . $hashtag_name . "</a></li>";
+            echo "<li><a href='?search=$hashtag_name' onclick='renderPosts(`$hashtag_name`)'>#" . $hashtag_name . "</a></li>";
         }
     }
 } else {
-    echo "Ничего не найдено";
+    echo "<p class='hashtag-no-found'>Ничего не найдено</p>";
 }
 ?>

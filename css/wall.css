@@ -9,7 +9,7 @@
     --else-accent-color-2: #F7D488;
     --error-accent-color: #FF220C;
     --block-accent-color-110: #E6E6E6;
-    --block-accent-color-06: #02020206;
+    --block-accent-color-06: #F0F0F0;
     --block-accent-color-210: #EFF5F2;
     --like-button-accent-color: #FF220C10;
     --shadow-big: 0 0 15px #02020207;
@@ -277,7 +277,7 @@
     outline: none;
     background-color: transparent;
     border: 1px solid var(--else-text-color-33);
-    padding: 0 2.6rem;
+    padding: 0 2.6rem 0 calc(19px + 1.6rem + 1rem);
     margin: 0;
 }
 
@@ -295,6 +295,7 @@
     display: flex;
     flex-wrap: wrap;
     gap: 1rem;
+    margin-top: 1.6rem;
 }
 
 .third-part-in-header ul {
@@ -317,12 +318,11 @@
     animation: showPopup 0.2s;
 }
 
-.third-part li {
-    background-color: var(--block-color);
-    box-shadow: var(--shadow-small);
-    border-radius: 2rem;
-    padding: 1.35rem 1.6rem;
+.third-part li a {
+    border-radius: 1rem;
+    padding: 1rem 1.6rem;
     display: flex;
+    font-size: var(--font-size-2);
 }
 
 .third-part-in-header li {
@@ -330,14 +330,15 @@
     padding: 1.35rem 1.6rem;
     display: flex;
     background-color: var(--block-accent-color-06);
+    transition: 0.2s;
 }
 
 .third-part-in-header li a {
     color: var(--else-text-color-50);
 }
 
-.third-part-in-header li a:hover {
-    color: var(--else-text-color-33);
+.third-part li a:hover {
+    background-color: var(--block-accent-color-06);
 }
 
 .third-part div>div,
@@ -433,6 +434,7 @@
 .wall__comments .other-users .user-comment {
     display: flex;
     align-items: flex-start;
+    position: relative;
     gap: 1rem;
     margin: 1rem 0;
 }
@@ -514,6 +516,9 @@
     border-radius: 1rem;
     cursor: pointer;
     transition: 0.2s;
+    position: absolute;
+    top: 0;
+    right: 0;
 }
 
 .wall__comments .other-users .delete-comment svg {
@@ -535,7 +540,6 @@
 .user-comment .comment-div {
     display: flex;
     flex-direction: column;
-    position: relative;
     gap: 0.1rem;
     margin-top: 0.39rem;
     width: 100%;
@@ -557,6 +561,8 @@
 }
 
 #checked a {
+    background-color: var(--block-accent-color-210);
+    box-shadow: var(--shadow-small);
     color: var(--main-accent-color);
 }
 
@@ -643,13 +649,8 @@
 .wall-filter__choice {
     display: flex;
     align-items: center;
-    gap: 0.39rem;
-    background-color: var(--block-color);
-    min-height: 4rem;
-    border-radius: 2rem;
-    overflow: hidden;
-    margin-top: 1.6rem;
-    padding: 0.39rem;
+    flex-direction: column;
+    gap: 1rem;
 }
 
 .wall-filter-popup-li {
@@ -658,16 +659,22 @@
     text-transform: none;
     display: -webkit-flex;
     display: flex;
-    -webkit-align-items: center;
-    align-items: center;
+    flex-direction: column;
+    gap: 0.39rem;
     justify-content: center;
     color: var(--else-text-color-50);
     cursor: pointer;
     transition: 0.2s;
-    border-radius: 2rem;
-    min-height: calc(4rem - 0.39rem*2);
-    padding: 0 1.6rem;
+    border-radius: 1rem;
+    padding: 1rem 1.6rem;
+    font-size: var(--font-size-2);
+    font-weight: 600;
+}
+
+.wall-filter-popup-li span {
+    color: var(--else-text-color-50);
     font-size: var(--font-size-1);
+    font-weight: 400;
 }
 
 .wall-filter-popup-li:hover {
@@ -686,6 +693,7 @@
 .wall-filter-popup-li:has([type='radio']:checked) {
     color: var(--main-accent-color);
     background-color: var(--block-accent-color-210);
+    box-shadow: var(--shadow-small);
 }
 
 .first-part:has(#wall-filter-all:checked)+.second-and-third-parts #posts-filter-all,
@@ -818,6 +826,32 @@
 .wall-filter-popup-li-mobile:has([type='radio']:checked) {
     color: var(--main-accent-color);
     background-color: var(--block-accent-color-210);
+}
+
+.third-part-title {
+    color: var(--else-text-color-50);
+    margin-bottom: 1.6rem;
+}
+
+.hashtag-no-found {
+    font-size: var(--font-size-1);
+    color: var(--error-accent-color);
+    background-color: var(--like-button-accent-color);
+    padding: 1rem 1.6rem;
+    width: 100%;
+    text-align: center;
+    border-radius: 1rem;
+    cursor: default;
+}
+
+#icon-search-hashtag {
+    fill: var(--else-text-color-50);
+    position: absolute;
+    left: 1.6rem;
+    top: calc((4rem - 19px)/2);
+    cursor: pointer;
+    max-width: 19px;
+    max-height: 19px;
 }
 
 @media (max-width: 1320px) {

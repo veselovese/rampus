@@ -190,7 +190,10 @@ function copyLinkToUser(i) {
 
 function copyLinkToUserAddReturnMessage(i) {
     navigator.clipboard.writeText('https://rampus.ru/user/' + i);
-    $('#copy-link-status').text('Ссылка скопирована').css('color', 'var(--main-accent-color)');
+    $('#copy-link-status').text('Ссылка скопирована').css('color', 'var(--main-accent-color)').css('background-color', 'var(--block-accent-color-210)');
+    setTimeout(() => {
+        $('#copy-link-status').text('Копировать ссылку').css('color', 'var(--else-text-color-50)').css('background-color', 'var(--block-accent-color-06)');
+    }, 2000);
 }
 
 function copyLinkToOtherUser(id, username) {

@@ -99,12 +99,6 @@ if (isset($_SESSION['user'])) {
                                     </svg>
                                     Стена
                                 </div>
-                                <!-- <div class="wall-filter__choice">
-                                    <label class="wall-filter-popup-li">Все<input checked name="wall-filter" id="wall-filter-all" type="radio" value=""></label>
-                                    <label class="wall-filter-popup-li <?php if (($result_friend_1->num_rows + $result_friend_2->num_rows) == 0) {
-                                                                            echo "no-friends";
-                                                                        } ?>">Друзья<input name="wall-filter" id="wall-filter-friends" type="radio" value=""></label>
-                                </div> -->
                             </div>
                         </li>
                         <li><a href="./people"><svg width='28' height='24' viewBox='0 0 28 24' fill='none' xmlns='http://www.w3.org/2000/svg'>
@@ -195,16 +189,35 @@ if (isset($_SESSION['user'])) {
                     <div class="third-part">
                         <div>
                             <div>
-                                <input type="text" name="search-hashtag" id="search-hashtag" placeholder="Поиск">
-                                <input type="hidden" name="get-status" id="get-status" value=<?php if (isset($_GET['search'])) {
-                                                                                                    echo $_GET['search'];
-                                                                                                } else {
-                                                                                                    echo null;
-                                                                                                } ?>>
-                                <img id="icon-search-hashtag" src="pics/SearchIcon.svg">
+                                <p class="third-part-title">Фильтры</p>
+                                <div class="wall-filter__choice">
+                                    <label class="wall-filter-popup-li">Все<span>Посты всех пользователей</span><input checked name="wall-filter" id="wall-filter-all" type="radio" value=""></label>
+                                    <label class="wall-filter-popup-li <?php if (($result_friend_1->num_rows + $result_friend_2->num_rows) == 0) {
+                                                                            echo "no-friends";
+                                                                        } ?>">Друзья<span>Посты ваших друзей</span><input name="wall-filter" id="wall-filter-friends" type="radio" value=""></label>
+                                </div>
                             </div>
-                            <ul id="success-search-hashtag">
-                            </ul>
+                            <div>
+                                <p class="third-part-title">Поиск по хештегам</p>
+                                <div>
+                                    <svg id="icon-search-hashtag" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M10.2 2.4C5.89217 2.4 2.4 5.89217 2.4 10.2C2.4 14.5078 5.89218 18 10.2 18C14.5078 18 18 14.5078 18 10.2C18 5.89218 14.5078 2.4 10.2 2.4ZM0 10.2C0 4.56669 4.56669 0 10.2 0C15.8333 0 20.4 4.56669 20.4 10.2C20.4 12.5884 19.5791 14.7851 18.204 16.5233L23.6473 21.9502C24.1166 22.4181 24.1177 23.1779 23.6498 23.6473C23.1819 24.1166 22.4221 24.1177 21.9527 23.6498L16.505 18.2184C14.7697 19.5848 12.5801 20.4 10.2 20.4C4.56669 20.4 0 15.8333 0 10.2Z" />
+                                    </svg>
+
+                                    <input type="text" name="search-hashtag" id="search-hashtag" placeholder="вайб2024" value=<?php if (isset($_GET['search'])) {
+                                                                                                                                    echo $_GET['search'];
+                                                                                                                                } else {
+                                                                                                                                    echo null;
+                                                                                                                                } ?>>
+                                    <input type="hidden" name="get-status" id="get-status" value=<?php if (isset($_GET['search'])) {
+                                                                                                        echo $_GET['search'];
+                                                                                                    } else {
+                                                                                                        echo null;
+                                                                                                    } ?>>
+                                </div>
+                                <ul id="success-search-hashtag">
+                                </ul>
+                            </div>
                         </div>
                     </div>
             </section>

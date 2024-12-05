@@ -9,7 +9,7 @@
     --else-accent-color-2: #F7D488;
     --error-accent-color: #FF220C;
     --block-accent-color-110: #E6E6E6;
-    --block-accent-color-06: #02020206;
+    --block-accent-color-06: #F0F0F0;
     --block-accent-color-210: #EFF5F2;
     --like-button-accent-color: #FF220C10;
     --param-color: #533A7B;
@@ -134,9 +134,9 @@
     top: calc(18px + 0.625rem);
     left: 50%;
     transform: translateX(-50%);
-    background-color: var(--block-color);
+    background-color: var(--block-accent-color-06);
     padding: 1rem 1.6rem;
-    border-radius: 2rem;
+    border-radius: calc(1rem);
     box-shadow: var(--shadow-popup);
     cursor: default;
     pointer-events: none;
@@ -157,7 +157,7 @@
     left: 50%;
     transform: translateX(-50%);
     border: 5px solid transparent;
-    border-bottom: 5px solid var(--block-color);
+    border-bottom: 5px solid var(--block-accent-color-06);
 }
 
 .profile__user-info .description {
@@ -415,7 +415,8 @@
 
 #see-all-posts {
     background-color: var(--block-accent-color-210);
-    max-width: max-content;
+    width: 100%;
+    text-align: center;
     color: var(--main-accent-color);
     padding: 1rem 1.6rem;
     border-radius: 1rem;
@@ -504,11 +505,13 @@
     background-color: var(--background-color);
 }
 
-.three-dots-popup-li.exit-profile, .three-dots-popup-li.delete-post {
+.three-dots-popup-li.exit-profile,
+.three-dots-popup-li.delete-post {
     color: var(--error-accent-color);
 }
 
-.three-dots-popup-li.exit-profile:hover, .three-dots-popup-li.delete-post:hover {
+.three-dots-popup-li.exit-profile:hover,
+.three-dots-popup-li.delete-post:hover {
     background-color: var(--like-button-accent-color);
 }
 

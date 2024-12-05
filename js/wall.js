@@ -1,5 +1,7 @@
 $(document).ready(function () {
-    renderPosts('all');
+    let params = new URLSearchParams(document.location.search);
+    let search = params.get('search');
+    renderPosts(search);
 
     function renderPosts(query) {
         $.ajax({
