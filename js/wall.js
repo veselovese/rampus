@@ -1,7 +1,6 @@
 $(document).ready(function () {
     let params = new URLSearchParams(document.location.search);
     let search = params.get('search');
-    console.log(search)
     renderPosts('all', search);
 
     function renderPosts(query, search) {
@@ -129,3 +128,33 @@ $('#popup_wall-filter-mobile').on('click', () => {
         $('#popup_wall-filter-mobile').addClass('friends');
     }
 })
+
+function addImageToPost() {
+    $('#post-image').trigger('click');
+}
+
+const postImage = document.getElementById('post-image');
+postImage.addEventListener('change', (e) => {
+    const file = e.target.files;
+
+    if (file.length > 0) {
+        const [currentFile] = file;
+        const fileType = currentFile.type.startsWith('image');
+        const reader = new FileReader();
+        if (fileType) {
+            reader.onload = () => {
+                $('#textarea-post').addClass('image-uploaded');
+                $('.post-image-delete').css('display', 'flex');
+                document.getElementById('current-post-image').src = reader.result;
+            }
+        }
+        reader.readAsDataURL(currentFile);
+    }
+})
+
+function clearPostImage() {
+    document.getElementById('current-post-image').src = '';
+    $('#post-image').val('');
+    $('#textarea-post').removeClass('image-uploaded');
+    $('.post-image-delete').css('display', 'none');
+}

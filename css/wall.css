@@ -143,13 +143,20 @@
     align-items: flex-start;
 }
 
+.wall__new-post {
+    display: flex;
+}
+
 .wall__new-post form,
 .wall__comments form {
     display: flex;
     align-items: flex-start;
     gap: 1.6rem;
-    width: 100%;
     position: relative;
+    border: 1px solid var(--else-text-color-33);
+    border-radius: 2rem;
+    width: 100%;
+    transition: 0.2s 0.2s;
 }
 
 .wall__new-post button,
@@ -159,7 +166,7 @@
     padding: 0;
     display: flex;
     position: absolute;
-    right: 1.6rem;
+    right: calc(-25px - 1rem);
     top: 0;
     bottom: 0;
     align-items: center;
@@ -168,10 +175,6 @@
     transform: scale(50%);
     pointer-events: none;
     transition: 0.2s;
-}
-
-.wall__comments button {
-    right: 0;
 }
 
 .wall__new-post button.active,
@@ -187,10 +190,8 @@
     width: 100%;
     min-height: 4rem;
     max-height: 30rem;
-    border-radius: 2rem;
     outline: none;
     background-color: transparent;
-    border: 1px solid var(--else-text-color-33);
     padding: 1.25rem 2.6rem;
     margin: 0;
     word-wrap: break-word;
@@ -198,15 +199,18 @@
     scrollbar-width: none;
     overflow-y: auto;
     font-size: var(--font-size-1);
-    transition: 0.2s 0.2s;
 }
 
-.wall__new-post:has(button.active) #textarea-post {
+#textarea-post {
+    padding-left: calc(1.6rem + 18px + 1rem);
+}
+
+.wall__new-post:has(button.active) form {
     margin-right: calc(25px + 1.6rem + 1rem);
     transition: 0.2s;
 }
 
-.wall__comments:has(button.active) .textarea-comment {
+.wall__comments:has(button.active) form {
     margin-right: calc(25px + 1rem);
     transition: 0.2s;
 }
@@ -216,8 +220,8 @@
     width: 0;
 }
 
-#textarea-post:focus,
-.textarea-comment:focus {
+.wall__new-post form:has(#textarea-post:focus),
+.wall__comments form:has(.textarea-comment:focus) {
     border: 1px solid var(--else-text-color-50);
 }
 
@@ -231,6 +235,10 @@
     top: 1.35rem;
     cursor: text;
     pointer-events: none;
+}
+
+#textarea-post_label {
+    left: calc(1.6rem + 18px + 1rem);
 }
 
 #textarea-post_input,
@@ -847,6 +855,106 @@
     cursor: pointer;
     max-width: 19px;
     max-height: 19px;
+}
+
+#post-image {
+    position: absolute;
+    pointer-events: none;
+    cursor: default;
+    opacity: 0;
+}
+
+.post-image-icon {
+    position: absolute;
+    left: calc(1.6rem - 9px/2);
+    top: calc((4rem - 28px) / 2);
+    cursor: pointer;
+    background-color: transparent;
+    border-radius: 1rem;
+    min-width: 28px;
+    min-height: 28px;
+    max-width: 28px;
+    max-height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.2s;
+}
+
+.post-image-icon:hover {
+    background-color: var(--block-accent-color-06);
+}
+
+.post-image-icon svg {
+    max-height: 19px;
+    max-width: 19px;
+    fill: var(--else-text-color-50);
+}
+
+#current-post-image {
+    object-fit: cover;
+    height: 100px;
+    border-radius: calc(2rem - 1.6rem);
+    transition: 0.2s;
+}
+
+#textarea-post.image-uploaded {
+    margin-bottom: calc(1.6rem + 100px + 1rem);
+}
+
+.current-post-image-div {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* top: calc(4rem + 1rem); */
+    bottom: calc(1.6rem);
+    left: 1.6rem;
+}
+
+.post-image-delete {
+    position: absolute;
+    background-color: transparent;
+    border-radius: 1rem;
+    min-width: 28px;
+    min-height: 28px;
+    max-width: 28px;
+    max-height: 28px;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    transition: 0.2s;
+    cursor: pointer;
+}
+
+.current-post-image-div:hover img {
+    opacity: 80%;
+}
+
+.post-image-delete svg {
+    transition: 0.2s;
+}
+
+.current-post-image-div:hover .post-image-delete {
+    background-color: var(--block-accent-color-06);
+}
+
+.current-post-image-div:hover .post-image-delete:hover {
+    background-color: var(--error-accent-color);
+}
+
+.current-post-image-div:hover .post-image-delete svg {
+    fill: var(--else-text-color-50);
+}
+
+.current-post-image-div:hover .post-image-delete:hover svg {
+    fill: var(--block-color);
+}
+
+.image-in-post {
+    border-radius: 1rem;
+    margin-top: 1rem;
+    width: 100%;
 }
 
 @media (max-width: 1320px) {

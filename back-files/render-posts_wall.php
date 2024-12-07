@@ -12,7 +12,7 @@ $filter = $_POST['filter'] === 'friends' ? "AND posts.user_id IN ($user_friends_
 $search = $_POST['search'];
 $search = $search != null ? "AND hashtags.name = '$search'" : '';
 
-$sql_post = "SELECT posts.hashtag_id AS hashtag_id, posts.text AS post_text, DATE_FORMAT(posts.post_date, '%e %M в %k:%i') AS post_date, posts.likes AS post_likes, posts.user_id AS user_id, users.first_name AS first_name, users.second_name AS second_name, users.avatar AS avatar, posts.id AS i, users.username AS username
+$sql_post = "SELECT posts.hashtag_id AS hashtag_id, posts.text AS post_text, DATE_FORMAT(posts.post_date, '%e %M в %k:%i') AS post_date, posts.likes AS post_likes, posts.user_id AS user_id, users.first_name AS first_name, users.second_name AS second_name, users.avatar AS avatar, posts.id AS i, users.username AS username, posts.img AS post_image
                             FROM posts
                             JOIN users ON posts.user_id = users.id
                             LEFT JOIN hashtags ON posts.hashtag_id = hashtags.id
@@ -30,6 +30,7 @@ if ($result_post->num_rows > 0) {
         $post_second_name = $row_post["second_name"];
         $post_username = $row_post["username"];
         $post_avatar = $row_post["avatar"];
+        $post_image = $row_post["post_image"];
         $i = $row_post['i'];
         $user_in_top = findUserPositionInTop($post_user_id, $connect);
         echo "<div class='user-post' id='post-$i'>";
@@ -76,6 +77,9 @@ if ($result_post->num_rows > 0) {
             echo "<p class='main-text'>" . $post_text . " <a href='?search=$hashtag_name'>#" . $hashtag_name . "</a></p>";
         } else {
             echo "<p class='main-text'>" . $post_text . "</p>";
+        }
+        if ($post_image != null) {
+            echo "<img class='image-in-post' src=./uploads/post-image/small_" . $post_image . ">";
         }
         echo "<div class='post-buttons'>";
         $sql_comment = "SELECT comments.text AS comment_text, users.first_name AS first_name, users.second_name AS second_name, users.avatar AS avatar, DATE_FORMAT(comments.comment_date, '%e %M в %k:%i') AS comment_date, users.id AS comment_user_id, users.username AS comment_username, comments.id AS comment_id
