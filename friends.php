@@ -23,6 +23,7 @@ if (isset($_SESSION['user'])) {
     $friends_counter = $result_friend_1->num_rows + $result_friend_2->num_rows;
 
     $unread_posts = $_SESSION['user']['unread_posts'];
+    $result_request_to_counter = $result_request_to->num_rows;
 }
 ?>
 
@@ -107,8 +108,8 @@ if (isset($_SESSION['user'])) {
                                     <path d='M21.25 10.5001C21.25 12.5712 19.5711 14.2501 17.5 14.2501C15.4289 14.2501 13.75 12.5712 13.75 10.5001C13.75 8.42905 15.4289 6.75012 17.5 6.75012C19.5711 6.75012 21.25 8.42905 21.25 10.5001ZM10.6057 17.1058C11.2822 16.4293 12.0479 15.8625 12.8752 15.4168C14.0826 16.5528 15.7103 17.2501 17.5 17.2501C19.2897 17.2501 20.9174 16.5528 22.1248 15.4168C22.9521 15.8625 23.7177 16.4293 24.3943 17.1058C26.0452 18.7567 27.0429 20.9386 27.2211 23.2501H17.5L7.77887 23.2501C7.95711 20.9386 8.95483 18.7567 10.6057 17.1058Z' stroke-linejoin='round' />
                                 </svg>
                                 Друзья
-                                <?php if ($result_request_to->num_rows > 0) { ?>
-                                    <span class="notification-in-menu"><?= $result_request_to->num_rows ?></span>
+                                <?php if ($result_request_to_counter > 0) { ?>
+                                    <span class="notification-in-menu"><?= $result_request_to_counter ?></span>
                                 <?php } ?>
                             </a></li>
                         <p class="menu-title">Возможности</p>
@@ -132,31 +133,53 @@ if (isset($_SESSION['user'])) {
                                     <p class="friends-title">Заявки в друзья</p>
                                     <div class="users-requests">
                                         <?php
+                                        $requests_counter = 0;
                                         while ($row_request = $result_request_to->fetch_assoc()) {
                                             $other_id = $row_request['id'];
                                             $username = $row_request['username'];
                                             $avatar = $row_request['avatar'];
                                             $first_name = $row_request['first_name'];
                                             $second_name = $row_request['second_name'];
-                                            echo "<div class='request-from-user' onclick='openOtherUserProfile(event, `$username`)'>";
-                                            echo "<div class='only-user-info'>";
-                                            echo "<img src='uploads/avatar/thin_$avatar'>";
-                                            echo "<div class='user-info'>";
-                                            echo "<p>$first_name</p>";
-                                            echo "<p>@$username</p>";
-                                            echo "</div>";
-                                            echo "</div>";
-                                            echo "<div class='answer-to-requests' id='popup_answer-to-request_$other_id'>";
-                                            echo "<span class='answer-to-requests-li request' id='add-to-friends_$other_id' onclick='addToFriendsRequestPage($other_id, $id)'><svg width='17' height='12' viewBox='0 0 17 12' fill='none' xmlns='http://www.w3.org/2000/svg'>
+                                            if ($requests_counter < 4) {
+                                                echo "<div class='request-from-user' onclick='openOtherUserProfile(event, `$username`)'>";
+                                                echo "<div class='only-user-info'>";
+                                                echo "<img src='uploads/avatar/thin_$avatar'>";
+                                                echo "<div class='user-info'>";
+                                                echo "<p>$first_name</p>";
+                                                echo "<p>@$username</p>";
+                                                echo "</div>";
+                                                echo "</div>";
+                                                echo "<div class='answer-to-requests' id='popup_answer-to-request_$other_id'>";
+                                                echo "<span class='answer-to-requests-li request' id='add-to-friends_$other_id' onclick='addToFriendsRequestPage($other_id, $id)'><svg width='17' height='12' viewBox='0 0 17 12' fill='none' xmlns='http://www.w3.org/2000/svg'>
 <path d='M1 6.45458L5.62964 11L15.8148 1' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/>
 </svg>
 Принять</span>";
-                                            echo "<span class='answer-to-requests-li unrequest' id='unrequest-from-friends_$other_id' onclick='unrequestToFriendsRequestPage($other_id, $id)'><svg width='10' height='10' viewBox='0 0 10 10' fill='none' xmlns='http://www.w3.org/2000/svg'>
+                                                echo "<span class='answer-to-requests-li unrequest' id='unrequest-from-friends_$other_id' onclick='unrequestToFriendsRequestPage($other_id, $id)'><svg width='10' height='10' viewBox='0 0 10 10' fill='none' xmlns='http://www.w3.org/2000/svg'>
 <path d='M0.191016 8.88671C-0.0636719 9.14141 -0.0636719 9.55428 0.191016 9.80898C0.445703 10.0637 0.858643 10.0637 1.11333 9.80898L0.191016 8.88671ZM5.46114 5.46114C5.71584 5.20644 5.71584 4.79357 5.46114 4.53888C5.20644 4.28418 4.79357 4.28418 4.53888 4.53888L5.46114 5.46114ZM4.53888 4.53888C4.28418 4.79357 4.28418 5.20644 4.53888 5.46114C4.79357 5.71584 5.20644 5.71584 5.46114 5.46114L4.53888 4.53888ZM9.80898 1.11333C10.0637 0.858644 10.0637 0.445703 9.80898 0.191016C9.55428 -0.0636719 9.14141 -0.0636719 8.88671 0.191016L9.80898 1.11333ZM5.46114 4.53888C5.20644 4.28418 4.79357 4.28418 4.53888 4.53888C4.28418 4.79357 4.28418 5.20644 4.53888 5.46114L5.46114 4.53888ZM8.88671 9.80898C9.14141 10.0637 9.55428 10.0637 9.80898 9.80898C10.0637 9.55428 10.0637 9.14141 9.80898 8.88671L8.88671 9.80898ZM4.53888 5.46114C4.79357 5.71584 5.20644 5.71584 5.46114 5.46114C5.71584 5.20644 5.71584 4.79357 5.46114 4.53888L4.53888 5.46114ZM1.11333 0.191016C0.858643 -0.0636719 0.445703 -0.0636719 0.191016 0.191016C-0.0636719 0.445703 -0.0636719 0.858644 0.191016 1.11333L1.11333 0.191016ZM1.11333 9.80898L5.46114 5.46114L4.53888 4.53888L0.191016 8.88671L1.11333 9.80898ZM5.46114 5.46114L9.80898 1.11333L8.88671 0.191016L4.53888 4.53888L5.46114 5.46114ZM4.53888 5.46114L8.88671 9.80898L9.80898 8.88671L5.46114 4.53888L4.53888 5.46114ZM5.46114 4.53888L1.11333 0.191016L0.191016 1.11333L4.53888 5.46114L5.46114 4.53888Z' />
 </svg>
 </span>";
-                                            echo "</div>";
-                                            echo "</div>";
+                                                echo "</div>";
+                                                echo "</div>";
+                                            } else {
+                                                $requests_counter++;
+                                                break;
+                                            }
+                                            $requests_counter++;
+                                        }
+                                        if ($requests_counter > 4) {
+                                            // echo "<a href='./requests' class='see-all-requests'>";
+                                            // echo "<div>";
+                                            // echo "<p>Все завки</p>";
+                                            // echo "<span>Раздел заявок<br>в друзья</span>";
+                                            // echo "</div>";
+                                            // echo "<svg class='pointer' width='8' height='13' viewBox='0 0 8 13' fill='none' xmlns='http://www.w3.org/2000/svg'>
+                                            //         <path d='M6.96771 6.03603L1.12165 0.191904C0.865127 -0.0639698 0.449521 -0.0639698 0.192352 0.191904C-0.0641698 0.447777 -0.0641699 0.863383 0.192352 1.11926L5.57471 6.49968L0.192999 11.8801C-0.0635223 12.136 -0.0635224 12.5516 0.192999 12.8081C0.44952 13.064 0.865774 13.064 1.1223 12.8081L6.96836 6.96403C7.22094 6.7108 7.22094 6.28866 6.96771 6.03603Z' />
+                                            //         </svg>";
+                                            // echo "</a>";
+                                            echo "<a href='./requests' class='see-all-requests-icon-div'>";
+                                            $result_request_to_counter -=4;
+                                            echo "Еще $result_request_to_counter";
+                                            echo "</a>";
                                         } ?>
                                     </div>
 
