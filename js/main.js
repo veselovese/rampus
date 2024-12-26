@@ -246,3 +246,7 @@ function deleteFromFriends(from, to) {
     $('#delete-from-friends_' + from).removeClass('show').addClass('hide');
     $('#request-to-friends_' + from).removeClass('hide');
 }
+
+function editPost(postId) {
+    console.log(postId)
+}

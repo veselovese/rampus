@@ -891,6 +891,35 @@ textarea {
     margin-bottom: 1.6rem;
 }
 
+.image-in-post-div {
+    position: relative;
+    overflow: hidden;
+    border-radius: 1rem;
+    max-height: 54rem;
+    margin-top: 1rem;
+}
+
+.image-in-post {
+    width: 100%;
+    max-height: 54rem;
+    object-fit: contain;
+    border-radius: 1rem;
+    position: absolute;
+    z-index: 49;
+    top: 0;
+    left: 0;
+}
+
+.image-in-post-hide {
+    border-radius: 1rem;
+    width: 100%;
+    object-fit: cover;
+    max-height: 54rem;
+    overflow: hidden;
+    /* filter: blur(20px); */
+    opacity: 20%;
+}
+
 @media (max-width: 1080px) {
     .friend-buttons {
         font-size: var(--font-size-1);

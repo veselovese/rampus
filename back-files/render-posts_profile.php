@@ -4,7 +4,7 @@ $current_user_id = $_SESSION['user']['id'];
 
 require_once('connect.php');
 
-$sql = "SELECT hashtags.name AS hashtag_name, posts.text AS post_text, DATE_FORMAT(posts.post_date, '%d %M в %k:%i') AS post_date, posts.likes AS post_likes, posts.id AS i
+$sql = "SELECT hashtags.name AS hashtag_name, posts.text AS post_text, DATE_FORMAT(posts.post_date, '%d %M в %k:%i') AS post_date, posts.likes AS post_likes, posts.id AS i, posts.img as post_image
                   FROM posts
                   LEFT JOIN hashtags ON posts.hashtag_id = hashtags.id
                   JOIN users ON posts.user_id = users.id
@@ -18,6 +18,7 @@ if ($result->num_rows > 0) {
         $post_text = preg_replace('/\xc2\xa0/', ' ', $row["post_text"]);
         $post_date = $row["post_date"];
         $post_likes = $row["post_likes"];
+        $post_image = $row["post_image"];
         $i = $row["i"];
         if ($posts_counter < 3) {
             echo "<div class='user-post' id='post-$i'>";
@@ -28,6 +29,12 @@ if ($result->num_rows > 0) {
                 echo "<p>" . $post_text . " <a href='./wall?search=$hashtag_name'>#" . $hashtag_name . "</a></p>";
             } else {
                 echo "<p>" . $post_text . "</p>";
+            }
+            if ($post_image != null) {
+                echo "<div class='image-in-post-div'>";
+                echo "<img class='image-in-post-hide' src=./uploads/post-image/small_" . $post_image . ">";
+                echo "<img class='image-in-post' src=./uploads/post-image/small_" . $post_image . ">";
+                echo "</div>";
             }
             echo "<div class='buttons-and-date'>";
             echo "<div class='post-buttons'>";
@@ -99,6 +106,12 @@ if ($result->num_rows > 0) {
                 echo "<p>" . $post_text . " <a href='./wall?search=$hashtag_name'>#" . $hashtag_name . "</a></p>";
             } else {
                 echo "<p>" . $post_text . "</p>";
+            }
+            if ($post_image != null) {
+                echo "<div class='image-in-post-div'>";
+                echo "<img class='image-in-post-hide' src=./uploads/post-image/small_" . $post_image . ">";
+                echo "<img class='image-in-post' src=./uploads/post-image/small_" . $post_image . ">";
+                echo "</div>";
             }
             echo "<div class='buttons-and-date'>";
             echo "<div class='post-buttons'>";

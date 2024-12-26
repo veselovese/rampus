@@ -3,11 +3,10 @@ session_start();
 require_once('connect.php');
 
 $user_id = $_SESSION['user']['id'];
-if (isset($_POST['post'])) $text_post = $_POST['post'];
+if (isset($_POST['edit-post'])) $text_post = $_POST['edit-post'];
 if (isset($_POST['post-source'])) $post_source = $_POST['post-source'];
-if (isset($_POST['post-search'])) $post_search = $_POST['post-search'];
-if (isset($_FILES['post-image']) && $_FILES['post-image']['name'] != '') {
-    $post_image = $_FILES['post-image'];
+if (isset($_FILES['edit-post-image']) && $_FILES['edit-post-image']['name'] != '') {
+    $post_image = $_FILES['edit-post-image'];
     $type = $post_image['type'];
     $name = md5(microtime()) . '.' . substr($type, strlen("image/"));
     $dir = '../uploads/post-image/';
@@ -28,7 +27,7 @@ function postImageSecurity($post_image)
     return true;
 }
 
-if (isset($_FILES['post-image']) && $_FILES['post-image']['name'] != '' && isset($_POST['post'])) {
+if (isset($_FILES['edit-post-image']) && $_FILES['edit-post-image']['name'] != '' && isset($_POST['post'])) {
     if (postImageSecurity($post_image)) {
         preg_match_all('/#\w+/u', $text_post, $matches);
         $hashtags = $matches[0];
@@ -111,7 +110,7 @@ if (isset($_FILES['post-image']) && $_FILES['post-image']['name'] != '' && isset
     }
 }
 
-if ((!isset($_FILES['post-image']) || $_FILES['post-image']['name'] == '') && isset($_POST['post'])) {
+if ((!isset($_FILES['edit-post-image']) || $_FILES['edit-post-image']['name'] == '') && isset($_POST['post'])) {
     preg_match_all('/#\w+/u', $text_post, $matches);
     $hashtags = $matches[0];
     if ($hashtags == null) {

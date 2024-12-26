@@ -532,7 +532,7 @@
     visibility: hidden;
     animation: hidePopup 0.2s;
     box-shadow: var(--shadow-popup);
-    z-index: 1;
+    z-index: 50;
     overflow: hidden;
     padding: 0.625rem;
     background-color: var(--block-color);
@@ -576,10 +576,11 @@
     text-transform: none;
     background-color: var(--block-color);
     cursor: pointer;
+    transition: 0.2s;
 }
 
 .three-dots-popup-li:hover {
-    background-color: var(--background-color);
+    background-color: var(--block-accent-color-06);
 }
 
 .three-dots-popup-li.exit-profile,

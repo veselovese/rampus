@@ -65,6 +65,9 @@ if ($result_post->num_rows > 0) {
         echo "<img src='pics/ThreeDotsIcon.svg' class='show-three-dots-popup'>";
         echo "</div>";
         echo "<div class='three-dots-popup' id='three-dots-popup_$i'>";
+        if ($post_user_id == $current_user_id) {
+            echo "<span class='three-dots-popup-li edit' onclick='editPost($i)'>Редактировать</span>";
+        }
         echo "<span class='three-dots-popup-li copy-link' onclick='copyLinkToPost($i)'>Копировать ссылку</span>";
         echo "<a class='three-dots-popup-li open-profile' href='./user/$post_username'>Открыть профиль</a>";
         if ($post_user_id == $current_user_id) {
@@ -78,8 +81,17 @@ if ($result_post->num_rows > 0) {
         } else {
             echo "<p class='main-text'>" . $post_text . "</p>";
         }
+        echo "<form action='./back-files/edit-post' method='POST' autocomplete='off'>
+                            <input type='text' required name='edit-post' id='edit-post_$i' value='$post_text'>
+                            <input type='hidden' required name='post-source' value='source-wall'>
+                            <input type='file' name='edit-post-image' id='post-image_$i' value='$post_image'>
+                            <button type='submit'>Сохранить</button>
+                        </form>";
         if ($post_image != null) {
+            echo "<div class='image-in-post-div'>";
+            echo "<img class='image-in-post-hide' src=./uploads/post-image/small_" . $post_image . ">";
             echo "<img class='image-in-post' src=./uploads/post-image/small_" . $post_image . ">";
+            echo "</div>";
         }
         echo "<div class='post-buttons'>";
         $sql_comment = "SELECT comments.text AS comment_text, users.first_name AS first_name, users.second_name AS second_name, users.avatar AS avatar, DATE_FORMAT(comments.comment_date, '%e %M в %k:%i') AS comment_date, users.id AS comment_user_id, users.username AS comment_username, comments.id AS comment_id

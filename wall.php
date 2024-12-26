@@ -129,7 +129,7 @@ if (isset($_SESSION['user'])) {
                 <div class="second-and-third-parts">
                     <div class="second-part">
                         <div class="wall__new-post">
-                            <form action="./back-files/add" method="post"  enctype="multipart/form-data" autocomplete="off">
+                            <form action="./back-files/add" method="post" enctype="multipart/form-data" autocomplete="off">
                                 <div contenteditable="true" id="textarea-post" role="textbox" onkeyup="textareaPost(event)" onkeydown="textareaPostPlaceholder(event)"></div>
                                 <label for="textarea-post" id="textarea-post_label">О чём расскажете сегодня?</label>
                                 <input type="hidden" required name="post" id="textarea-post_input" value="">
