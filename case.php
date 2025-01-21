@@ -2,7 +2,6 @@
 session_start();
 
 require_once('back-files/connect.php');
-require('back-files/rating-trophies.php');
 
 if (isset($_SESSION['user'])) {
     $id = $_SESSION['user']['id'];
@@ -15,8 +14,11 @@ if (isset($_SESSION['user'])) {
             $avatar = $row["avatar"];
         }
     }
-    $result_request_to = $connect->query("SELECT * FROM requests JOIN users ON requests.user_id_from = users.id WHERE user_id_to = $id");
+
+    $sql_trophies = "SELECT id, name, description, image, DATE_FORMAT(get_date, '%e %M') AS get_date FROM trophies WHERE user_id_to = $id";
+    $result_trophies = $connect->query($sql_trophies);
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -26,8 +28,8 @@ if (isset($_SESSION['user'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
     <link rel="stylesheet" href="css/main.css?v=200">
-    <link rel="stylesheet" href="css/people.css?v=200">
-    <title>Заявки в друзья пользователя в Rampus (Рампус)</title>
+    <link rel="stylesheet" href="css/profile.css?v=200">
+    <title>Полка с трофеями пользователя в Rampus (Рампус)</title>
     <link rel="apple-touch-icon" sizes="57x57" href="favicons/apple-icon-57x57.png">
     <link rel="apple-touch-icon" sizes="60x60" href="favicons/apple-icon-60x60.png">
     <link rel="apple-touch-icon" sizes="72x72" href="favicons/apple-icon-72x72.png">
@@ -50,9 +52,9 @@ if (isset($_SESSION['user'])) {
 <body>
     <?php require('header.php'); ?>
     <main>
-        <h1 class="title">Заявки в друзья в Rampus (Рампус)</h1>
+        <h1 class="title">Полка с трофеями пользователя в Rampus (Рампус)</h1>
         <?php if (!isset($_SESSION['user'])) {
-            header("Location: auth?request=friends");
+            header("Location: auth?request=people");
             exit();
         } else { ?>
             <section class="wrapper main-section">
@@ -63,45 +65,63 @@ if (isset($_SESSION['user'])) {
                 </nav>
                 <div class="second-and-third-parts">
                     <div class="second-part">
-                        <div class="friends__users">
-                            <p>Заявки в друзья</p>
-                            <?php if ($result_request_to->num_rows > 0) {
-                                echo "<ul>";
-                                $counter = $result_request_to->num_rows;
-                                while ($row_request = $result_request_to->fetch_assoc()) {
-                                    $counter -= 1;
-                                    $other_id = $row_request['id'];
-                                    $username = $row_request['username'];
-                                    $avatar = $row_request['avatar'];
-                                    $first_name = $row_request['first_name'];
-                                    $second_name = $row_request['second_name'];
-                                    echo "<li class='user requests' onclick='openOtherUserProfile(event, `$username`)'>";
-                                    echo "<img src='uploads/avatar/thin_$avatar'>";
-                                    echo "<div class='current-user-info'>";
-                                    echo "<p>@$username</p>";
-                                    echo "</div>";
-                                    echo "<div class='answer-to-request-div'>";
-                                    echo "<div class='answer-to-request show-answer-to-request-popup' id='answer-to-request_$other_id' onclick='showPopupAnswerToUser($other_id)'>";
-                                    echo "Ответить";
-                                    echo "<svg width='8' height='13' viewBox='0 0 8 13' fill='none' xmlns='http://www.w3.org/2000/svg'>
-                                    <path d='M6.96771 6.03603L1.12165 0.191904C0.865127 -0.0639698 0.449521 -0.0639698 0.192352 0.191904C-0.0641698 0.447777 -0.0641699 0.863383 0.192352 1.11926L5.57471 6.49968L0.192999 11.8801C-0.0635223 12.136 -0.0635224 12.5516 0.192999 12.8081C0.44952 13.064 0.865774 13.064 1.1223 12.8081L6.96836 6.96403C7.22094 6.7108 7.22094 6.28866 6.96771 6.03603Z' />
-                                    </svg>";
-                                    echo "</div>";
-                                    echo "<div class='answer-to-requests-popup' id='popup_answer-to-request_$other_id'>";
-                                    echo "<span class='answer-to-requests-popup-li' id='add-to-friends_$other_id' onclick='addToFriendsRequestPage($other_id, $id)'>Принять</span>";
-                                    echo "<div class='div-line'></div>";
-                                    echo "<span class='answer-to-requests-popup-li unrequest' id='unrequest-from-friends_$other_id' onclick='unrequestToFriendsRequestPage($other_id, $id)'>Отклонить</span>";
-                                    echo "</div>";
-                                    echo "</div>";
-                                    echo "</li>";
-                                    if ($counter > 0) {
-                                        echo "<div class='div-line'></div>";
+                        <div class="user__case">
+                            <h2>Полка с трофеями</h2>
+                            <div>
+                                <p class="case-description">Трофеи — это ваши награды за активность. Будьте внимательны, их могут отобрать в любой момент</p>
+                            </div>
+                            <div class="current-user-case">
+                                <?php if ($result_trophies->num_rows > 0) {
+                                    while ($row = $result_trophies->fetch_assoc()) {
+                                        $trophy_id = $row["id"];
+                                        $trophy_name = $row["name"];
+                                        $trophy_description = $row["description"];
+                                        $trophy_image = $row["image"];
+                                        $trophy_date = $row["get_date"];
+                                        echo "<div class='trophy'>";
+                                        echo "<img src='$trophy_image'>";
+                                        echo "<p>$trophy_name</p>";
+                                        if ($trophy_id == 4) {
+                                            if (($trophy_description[-1] == '1') && (!isset($trophy_description[-2]) || $trophy_description[-2] != '1')) {
+                                                echo "<p>" . $trophy_description . " лайк под одним постом — больше ни у кого нет</p>";
+                                            } else if (($trophy_description[-1] == '2' || $trophy_description[-1] == '3' || $trophy_description[-1] == '4') && (!isset($trophy_description[-2]) || $trophy_description[-2] != '1')) {
+                                                echo "<p>" . $trophy_description . " лайка под одним постом — больше ни у кого нет</p>";
+                                            } else {
+                                                echo "<p>" . $trophy_description . " лайков под одним постом — больше ни у кого нет</p>";
+                                            }
+                                        } else if ($trophy_id == 5) {
+                                            if (($trophy_description[-1] == '1') && (!isset($trophy_description[-2]) || $trophy_description[-2] != '1')) {
+                                                echo "<p>Вы нравитесь людям — " . $trophy_description . " комментарий под одним постом</p>";
+                                            } else if (($trophy_description[-1] == '2' || $trophy_description[-1] == '3' || $trophy_description[-1] == '4') && (!isset($trophy_description[-2]) || $trophy_description[-2] != '1')) {
+                                                echo "<p>Вы нравитесь людям — " . $trophy_description . " комментария под одним постом</p>";
+                                            } else {
+                                                echo "<p>Вы нравитесь людям — " . $trophy_description . " комментариев под одним постом</p>";
+                                            }
+                                        } else if ($trophy_id == 6) {
+                                            if (($trophy_description[-1] == '1') && (!isset($trophy_description[-2]) || $trophy_description[-2] != '1')) {
+                                                echo "<p>Сколько же ушло времени, чтобы насписать " . $trophy_description . " пост</p>";
+                                            } else if (($trophy_description[-1] == '2' || $trophy_description[-1] == '3' || $trophy_description[-1] == '4') && (!isset($trophy_description[-2]) || $trophy_description[-2] != '1')) {
+                                                echo "<p>Сколько же ушло времени, чтобы насписать " . $trophy_description . " поста</p>";
+                                            } else {
+                                                echo "<p>Сколько же ушло времени, чтобы насписать " . $trophy_description . " постов</p>";
+                                            }
+                                        } else if ($trophy_id == 7) {
+                                            if (($trophy_description[-1] == '1') && (!isset($trophy_description[-2]) || $trophy_description[-2] != '1')) {
+                                                echo "<p>Кот Леопольд найден — у него " . $trophy_description . " друг</p>";
+                                            } else if (($trophy_description[-1] == '2' || $trophy_description[-1] == '3' || $trophy_description[-1] == '4') && (!isset($trophy_description[-2]) || $trophy_description[-2] != '1')) {
+                                                echo "<p>Кот Леопольд найден — у него " . $trophy_description . " друга</p>";
+                                            } else {
+                                                echo "<p>Кот Леопольд найден — у него " . $trophy_description . " друзей</p>";
+                                            }
+                                        } else {
+                                            echo "<p>$trophy_description</p>";
+                                        }
+                                        echo "<span>$trophy_date</span>";
+                                        echo "</div>";
                                     }
                                 }
-                                echo "</ul>";
-                            } else { ?>
-                                <p>У тебя ещё нет заявок в друзья</p>
-                            <?php } ?>
+                                ?>
+                            </div>
                         </div>
                         <nav class="first-part-mobile">
                             <ul>

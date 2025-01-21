@@ -559,15 +559,15 @@ textarea {
     margin-top: auto;
 }
 
-#exit {
+#exit, #back {
     color: var(--error-accent-color);
 }
 
-.first-part #exit:hover {
+#exit:hover, #back:hover {
     background-color: var(--like-button-accent-color);
 }
 
-.first-part li #exit svg path {
+#exit svg path, #back svg path {
     stroke-width: 1.5px;
     stroke: var(--error-accent-color);
     fill: transparent;

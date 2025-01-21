@@ -95,7 +95,7 @@ if ($result_top->num_rows > 0) {
     }
 }
 
-$sql_trophies = "SELECT * FROM trophies WHERE user_id = $other_id";
+$sql_trophies = "SELECT * FROM trophies WHERE user_id_to = $other_id";
 $result_trophies = $connect->query($sql_trophies);
 $result_trophies_m = $connect->query($sql_trophies);
 ?>
