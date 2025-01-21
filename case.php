@@ -120,7 +120,7 @@ if (isset($_SESSION['user'])) {
                                         } else {
                                             echo "<p>$trophy_description</p>";
                                         }
-                                        echo "<span>$trophy_date</span>";
+                                        echo "<span>владеете с $trophy_date</span>";
                                         echo "</div>";
                                     }
                                 }
