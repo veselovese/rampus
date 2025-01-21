@@ -15,7 +15,7 @@ if (isset($_SESSION['user'])) {
         }
     }
 
-    $sql_trophies = "SELECT name, description, image, DATE_FORMAT(get_date, '%e %M') AS get_date FROM trophies WHERE user_id = $id";
+    $sql_trophies = "SELECT name, description, image, DATE_FORMAT(get_date, '%e %M') AS get_date FROM trophies WHERE user_id_to = $id";
     $result_trophies = $connect->query($sql_trophies);
 }
 

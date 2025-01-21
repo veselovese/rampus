@@ -8,7 +8,6 @@ function findUserPositionInTop($user_id, $connect) {
             $user_in_top += 1;
             if ($user_id == $current_id) {
                 return $user_in_top;
-                break;
             }
         }
     }

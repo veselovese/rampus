@@ -70,7 +70,7 @@ if (isset($_SESSION['user'])) {
         }
     }
 
-    $sql_trophies = "SELECT * FROM trophies WHERE user_id = $id";
+    $sql_trophies = "SELECT * FROM trophies WHERE user_id_to = $id";
     $result_trophies = $connect->query($sql_trophies);
     $result_trophies_m = $connect->query($sql_trophies);
 
