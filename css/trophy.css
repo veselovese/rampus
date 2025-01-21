@@ -1,0 +1,85 @@
+:root {
+    --background-color: #FBFBFB;
+    --block-color: #FFFFFF;
+    --main-text-color: #020202;
+    --else-text-color-50: #ACACAC;
+    --else-text-color-33: #CCCCCC;
+    --main-accent-color: #31A05E;
+    --else-accent-color-1: #E3DFFF;
+    --else-accent-color-2: #F7D488;
+    --error-accent-color: #FF220C;
+    --block-accent-color-110: #E6E6E6;
+    --block-accent-color-06: #F0F0F0;
+    --block-accent-color-210: #EFF5F2;
+    --like-button-accent-color: #FF220C10;
+    --shadow-big: 0 0 15px #02020207;
+    --shadow-small: 0 0 12px #02020205;
+    --shadow-popup: 0 0 9px #02020211;
+
+    font-size: 62.5%;
+    height: 100%
+}
+
+
+.trophy-list {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-bottom: 2.6rem;
+}
+
+.current-trophy {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--block-color);
+    box-shadow: var(--shadow-small);
+    padding: 1rem 1.6rem;
+    border-radius: 2rem;
+    min-width: calc((100% - 1rem*2)/3);
+}
+
+.current-trophy .icon {
+    max-width: 75px;
+    max-height: 75px;
+    min-height: 75px;
+    min-width: 75px;
+}
+
+.current-trophy .name {
+    font-weight: 600;
+}
+
+.current-trophy .date {
+    font-size: var(--font-size-1);
+    color: var(--else-text-color-50);
+    text-transform: lowercase;
+    margin-top: 0.39rem;
+}
+
+.trophy-info {
+    display: flex;
+    gap: 1.6rem;
+    align-items: center;
+}
+
+.user-trophy-info {
+    margin-top: 0.39rem;
+}
+
+.user-trophy-info img {
+    min-width: 28px;
+    min-height: 28px;
+    max-width: 28px;
+    max-height: 28px;
+    border-radius: 1.4rem;
+    margin: 0;
+    object-fit: cover;
+}
+
+.user-trophy-info a {
+    color: var(--main-text-color);
+    font-size: var(--font-size-2);
+    display: flex;
+    align-items: center;
+    gap: 0.625rem;
+}

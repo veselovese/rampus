@@ -81,12 +81,12 @@ if ($result_post->num_rows > 0) {
         } else {
             echo "<p class='main-text'>" . $post_text . "</p>";
         }
-        echo "<form action='./back-files/edit-post' method='POST' autocomplete='off'>
-                            <input type='text' required name='edit-post' id='edit-post_$i' value='$post_text'>
-                            <input type='hidden' required name='post-source' value='source-wall'>
-                            <input type='file' name='edit-post-image' id='post-image_$i' value='$post_image'>
-                            <button type='submit'>Сохранить</button>
-                        </form>";
+        // echo "<form action='./back-files/edit-post' method='POST' autocomplete='off'>
+        //                     <input type='text' required name='edit-post' id='edit-post_$i' value='$post_text'>
+        //                     <input type='hidden' required name='post-source' value='source-wall'>
+        //                     <input type='file' name='edit-post-image' id='post-image_$i' value='$post_image'>
+        //                     <button type='submit'>Сохранить</button>
+        //                 </form>";
         if ($post_image != null) {
             echo "<div class='image-in-post-div'>";
             echo "<img class='image-in-post-hide' src=./uploads/post-image/small_" . $post_image . ">";

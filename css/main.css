@@ -559,18 +559,28 @@ textarea {
     margin-top: auto;
 }
 
-#exit, #back {
+#exit,
+#back {
     color: var(--error-accent-color);
 }
 
-#exit:hover, #back:hover {
+#exit:hover,
+#back:hover {
     background-color: var(--like-button-accent-color);
 }
 
-#exit svg path, #back svg path {
+#exit svg path {
     stroke-width: 1.5px;
     stroke: var(--error-accent-color);
     fill: transparent;
+}
+
+#back svg path {
+    fill: var(--error-accent-color);
+}
+
+#back svg {
+    transform: rotate(180deg);
 }
 
 #active {
@@ -918,6 +928,17 @@ textarea {
     overflow: hidden;
     /* filter: blur(20px); */
     opacity: 20%;
+}
+
+.main-title {
+    font-size: var(--font-size-4);
+    font-weight: 600;
+    margin-bottom: 2.6rem;
+}
+
+.section-title {
+    color: var(--else-text-color-50);
+    margin-bottom: 1.6rem;
 }
 
 @media (max-width: 1080px) {

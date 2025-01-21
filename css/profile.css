@@ -1113,6 +1113,7 @@
     margin-top: 1.6rem;
     display: flex;
     gap: 1.6rem;
+    /* justify-content: space-between; */
     flex-wrap: wrap;
 }
 
@@ -1126,6 +1127,7 @@
     align-items: center;
     cursor: pointer;
     transition: 0.2s;
+    width: calc((100% - 1.6rem*2)/3)
 }
 
 .current-user-case .trophy:hover {
@@ -1148,6 +1150,7 @@
 .current-user-case .trophy p:nth-child(3) {
     margin-top: 0.625rem;
     font-size: var(--font-size-1);
+    text-align: center;
     text-transform: lowercase;
 }
 
