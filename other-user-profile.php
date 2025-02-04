@@ -2,8 +2,7 @@
 session_start();
 
 require_once('back-files/connect.php');
-require('back-files/like-or-dislike.php');
-require('back-files/rating-trophies.php');
+require('back-files/render-posts_other-profile.php');
 
 $username = $_GET['username'];
 
@@ -11,17 +10,22 @@ if (!isset($_SESSION['user'])) {
     header("Location: ../auth");
     exit();
 } else {
+    require('back-files/like-or-dislike.php');
+    require('back-files/rating-trophies.php');
+    require('back-files/get-user-friends.php');
+
     $id = $_SESSION['user']['id'];
     $result = $connect->query("SELECT * FROM users WHERE id = $id");
     if ($result->num_rows > 0) {
         while ($row = $result->fetch_assoc()) {
-            $other_username = $row["username"];
+            $current_username = $row["username"];
         }
     }
-    if ($username == $other_username) {
+    if ($username == $current_username) {
         header("Location: ../profile");
         exit();
     }
+    $unread_posts = $_SESSION['user']['unread_posts'];
 }
 
 $result = $connect->query("SELECT * FROM users WHERE username = '$username'");
@@ -90,7 +94,10 @@ if ($result_top->num_rows > 0) {
         $current_id = $row["id"];
         $top_count += 1;
         if ($current_id == $other_id) {
-            break;
+            $top_count_other = $top_count;
+        }
+        if ($current_id == $id) {
+            $top_count_current = $top_count;
         }
     }
 }
@@ -98,6 +105,9 @@ if ($result_top->num_rows > 0) {
 $sql_trophies = "SELECT * FROM trophies WHERE user_id_to = $other_id";
 $result_trophies = $connect->query($sql_trophies);
 $result_trophies_m = $connect->query($sql_trophies);
+
+$posts_counter = $connect->query("SELECT * FROM posts WHERE user_id = $other_id")->num_rows;
+
 ?>
 
 <!DOCTYPE html>
@@ -140,136 +150,185 @@ $result_trophies_m = $connect->query($sql_trophies);
             <section class="wrapper main-section">
                 <nav class="first-part">
                     <ul>
-                        <li><a href="../profile">Профиль</a></li>
-                        <li><a href="../wall">Стена</a></li>
-                        <li><a href="../profile">****</a></li>
-                        <li id="active"><a href="../people">Люди</a></li>
-
+                        <li><a href="./profile" class="menu-profile">
+                                <?php if ($current_username == 'rampus') { ?>
+                                    <img class='menu-status' src="../pics/SuperUserIcon.svg">
+                                <?php } else {
+                                    switch ($top_count_current) {
+                                        case 1:
+                                            echo "<img class='menu-status' src='../pics/BlossomFirstIcon.svg'>";
+                                            break;
+                                        case 2:
+                                            echo "<img class='menu-status' src='../pics/BlossomSecondIcon.svg'>";
+                                            break;
+                                        case 3:
+                                            echo "<img class='menu-status' src='../pics/BlossomThirdIcon.svg'>";
+                                            break;
+                                    }
+                                } ?>
+                                <img class="menu-avatar" src="../uploads/avatar/thin_<?= $avatar ?>">
+                                <div>
+                                    <p><?= $first_name ?></p>
+                                    <p>@<?= $current_username ?></p>
+                                </div>
+                            </a></li>
+                        <p class="menu-title">Общение</p>
+                        <li><a href="./wall"><svg width='28' height='24' viewBox='0 0 28 24' fill='none' xmlns='http://www.w3.org/2000/svg'>
+                                    <path fill-rule='evenodd' clip-rule='evenodd' d='M20.9219 4C20.4586 1.71776 18.4408 0 16.0219 0H4.99997C2.23855 0 -2.28882e-05 2.23858 -2.28882e-05 5V18H5V11C5 7.13401 8.13401 4 12 4H20.9219Z' />
+                                    <path d='M12 7H23C25.2091 7 27 8.79086 27 11V23H12C9.79086 23 8 21.2091 8 19V11C8 8.79086 9.79086 7 12 7Z' stroke-linecap='round' stroke-linejoin='round' />
+                                </svg>
+                                Стена
+                                <?php if ($unread_posts > 0) { ?>
+                                    <span class="notification-in-menu"><?= $unread_posts ?></span>
+                                <?php } ?>
+                            </a></li>
+                        <li><a href="./people"><svg width='28' height='24' viewBox='0 0 28 24' fill='none' xmlns='http://www.w3.org/2000/svg'>
+                                    <path d='M15 4.49829C12.651 5.47785 11 7.79617 11 10.5001C11 11.397 11.1816 12.2514 11.5102 13.0287C10.4728 13.595 9.51192 14.3105 8.66116 15.1613C7.81316 16.0093 7.09958 16.9666 6.53414 18.0001L0 18C0 15.2153 1.10625 12.5446 3.07538 10.5754C4.33742 9.31339 5.88765 8.4058 7.5714 7.91672C6.60943 7.09142 6 5.86688 6 4.5C6 2.01472 8.01472 0 10.5 0C12.9847 0 14.9991 2.01379 15 4.49829Z' />
+                                    <path d='M21.25 10.5001C21.25 12.5712 19.5711 14.2501 17.5 14.2501C15.4289 14.2501 13.75 12.5712 13.75 10.5001C13.75 8.42905 15.4289 6.75012 17.5 6.75012C19.5711 6.75012 21.25 8.42905 21.25 10.5001ZM10.6057 17.1058C11.2822 16.4293 12.0479 15.8625 12.8752 15.4168C14.0826 16.5528 15.7103 17.2501 17.5 17.2501C19.2897 17.2501 20.9174 16.5528 22.1248 15.4168C22.9521 15.8625 23.7177 16.4293 24.3943 17.1058C26.0452 18.7567 27.0429 20.9386 27.2211 23.2501H17.5L7.77887 23.2501C7.95711 20.9386 8.95483 18.7567 10.6057 17.1058Z' stroke-linecap='round' stroke-linejoin='round' />
+                                </svg>
+                                Люди</a></li>
+                        <li><a href="./friends"><svg width='28' height='24' viewBox='0 0 28 24' fill='none' xmlns='http://www.w3.org/2000/svg'>
+                                    <path d='M20.8526 4.93034C20.7754 4.57556 20.6682 4.22744 20.5318 3.89002C20.2227 3.12549 19.7696 2.43082 19.1985 1.84567C18.6273 1.26053 17.9493 0.796361 17.203 0.47968C16.4568 0.162998 15.6569 3.10145e-06 14.8492 0C14.0415 -3.0333e-06 13.2417 0.162987 12.4954 0.479662C11.7496 0.796168 11.0719 1.26 10.5009 1.8447L10.4995 1.84326L10.4985 1.84432C9.92762 1.25991 9.25011 0.7963 8.50454 0.479903C7.75829 0.163222 6.95847 0.000225794 6.15074 0.000222625C5.34301 0.000219592 4.54319 0.163209 3.79695 0.479885C3.0507 0.79656 2.37265 1.26072 1.8015 1.84586C1.23035 2.43101 0.777293 3.12567 0.468191 3.8902C0.159089 4.65473 -2.36435e-06 5.47415 0 6.30167C3.3586e-06 7.12919 0.1591 7.94861 0.468208 8.71314C0.777315 9.47767 1.23038 10.1723 1.80153 10.7575L7.45977 16.554C7.82333 16.0637 8.22442 15.598 8.66116 15.1613C9.51192 14.3105 10.4728 13.595 11.5102 13.0287C11.1816 12.2514 11 11.397 11 10.5001C11 6.91027 13.9101 4.00012 17.5 4.00012C18.7265 4.00012 19.8737 4.33985 20.8526 4.93034Z' />
+                                    <path d='M21.25 10.5001C21.25 12.5712 19.5711 14.2501 17.5 14.2501C15.4289 14.2501 13.75 12.5712 13.75 10.5001C13.75 8.42905 15.4289 6.75012 17.5 6.75012C19.5711 6.75012 21.25 8.42905 21.25 10.5001ZM10.6057 17.1058C11.2822 16.4293 12.0479 15.8625 12.8752 15.4168C14.0826 16.5528 15.7103 17.2501 17.5 17.2501C19.2897 17.2501 20.9174 16.5528 22.1248 15.4168C22.9521 15.8625 23.7177 16.4293 24.3943 17.1058C26.0452 18.7567 27.0429 20.9386 27.2211 23.2501H17.5L7.77887 23.2501C7.95711 20.9386 8.95483 18.7567 10.6057 17.1058Z' stroke-linejoin='round' />
+                                </svg>
+                                Друзья
+                                <?php if ($result_request_to->num_rows) { ?>
+                                    <span class="notification-in-menu"><?= $result_request_to->num_rows ?></span>
+                                <?php } ?>
+                            </a></li>
+                        <li><a href="./trophy"><svg width='28' height='24' viewBox='0 0 28 24' fill='none' xmlns='http://www.w3.org/2000/svg'>
+                                    <path d='M20.8526 4.93034C20.7754 4.57556 20.6682 4.22744 20.5318 3.89002C20.2227 3.12549 19.7696 2.43082 19.1985 1.84567C18.6273 1.26053 17.9493 0.796361 17.203 0.47968C16.4568 0.162998 15.6569 3.10145e-06 14.8492 0C14.0415 -3.0333e-06 13.2417 0.162987 12.4954 0.479662C11.7496 0.796168 11.0719 1.26 10.5009 1.8447L10.4995 1.84326L10.4985 1.84432C9.92762 1.25991 9.25011 0.7963 8.50454 0.479903C7.75829 0.163222 6.95847 0.000225794 6.15074 0.000222625C5.34301 0.000219592 4.54319 0.163209 3.79695 0.479885C3.0507 0.79656 2.37265 1.26072 1.8015 1.84586C1.23035 2.43101 0.777293 3.12567 0.468191 3.8902C0.159089 4.65473 -2.36435e-06 5.47415 0 6.30167C3.3586e-06 7.12919 0.1591 7.94861 0.468208 8.71314C0.777315 9.47767 1.23038 10.1723 1.80153 10.7575L7.45977 16.554C7.82333 16.0637 8.22442 15.598 8.66116 15.1613C9.51192 14.3105 10.4728 13.595 11.5102 13.0287C11.1816 12.2514 11 11.397 11 10.5001C11 6.91027 13.9101 4.00012 17.5 4.00012C18.7265 4.00012 19.8737 4.33985 20.8526 4.93034Z' />
+                                    <path d='M21.25 10.5001C21.25 12.5712 19.5711 14.2501 17.5 14.2501C15.4289 14.2501 13.75 12.5712 13.75 10.5001C13.75 8.42905 15.4289 6.75012 17.5 6.75012C19.5711 6.75012 21.25 8.42905 21.25 10.5001ZM10.6057 17.1058C11.2822 16.4293 12.0479 15.8625 12.8752 15.4168C14.0826 16.5528 15.7103 17.2501 17.5 17.2501C19.2897 17.2501 20.9174 16.5528 22.1248 15.4168C22.9521 15.8625 23.7177 16.4293 24.3943 17.1058C26.0452 18.7567 27.0429 20.9386 27.2211 23.2501H17.5L7.77887 23.2501C7.95711 20.9386 8.95483 18.7567 10.6057 17.1058Z' stroke-linejoin='round' />
+                                </svg>
+                                Трофеи
+                            </a></li>
+                        <p class="menu-title">Возможности</p>
+                        <li><a href="./edit">
+                                <svg width='28' height='24' viewBox='0 0 28 24' fill='none' xmlns='http://www.w3.org/2000/svg'>
+                                    <path fill-rule='evenodd' clip-rule='evenodd' d='M10.6852 0.137016C10.3343 0 9.88958 0 9.00001 0C8.11043 0 7.66569 0 7.31479 0.137016C6.84701 0.319707 6.47535 0.670122 6.28158 1.11117C6.19313 1.31251 6.1585 1.54665 6.14496 1.88819C6.12506 2.39011 5.85204 2.8547 5.39068 3.10584C4.92933 3.35696 4.36608 3.34759 3.89509 3.11288C3.57459 2.95317 3.34221 2.86436 3.11304 2.83592C2.61103 2.7736 2.10333 2.90186 1.70162 3.19248C1.40034 3.41044 1.17795 3.7736 0.733186 4.49991L0.733167 4.49994L0.733124 4.50001C0.288375 5.2263 0.0659982 5.58944 0.0164284 5.94442C-0.0496573 6.41772 0.08638 6.89639 0.394624 7.27515C0.53531 7.44804 0.733043 7.5933 1.03993 7.7751C1.49108 8.0424 1.78135 8.49771 1.78133 9C1.7813 9.50229 1.49103 9.95751 1.03992 10.2247C0.732995 10.4066 0.535234 10.552 0.394529 10.7248C0.0862847 11.1036 -0.0497527 11.5822 0.0163426 12.0555C0.0659044 12.4105 0.288293 12.7737 0.733071 13.5L0.73355 13.5008C1.17802 14.2266 1.40036 14.5896 1.70152 14.8074C2.10323 15.098 2.61093 15.2263 3.11295 15.164C3.3421 15.1356 3.57447 15.0467 3.89494 14.8871C4.36596 14.6524 4.92925 14.643 5.39064 14.8941C5.85203 15.1453 6.12506 15.6099 6.14496 16.1119C6.15851 16.4534 6.19313 16.6875 6.28158 16.8889C6.39517 17.1474 6.56988 17.3748 6.78926 17.5555C7.30922 16.6913 7.93605 15.8862 8.66116 15.1611C9.51192 14.3104 10.4728 13.5949 11.5102 13.0285C11.1816 12.2513 11 11.3969 11 10.5C11 7.08819 13.6286 4.29036 16.9711 4.02119C16.7064 3.60165 16.5246 3.35618 16.2985 3.19254C15.8968 2.90192 15.389 2.77366 14.887 2.83598C14.6579 2.86442 14.4256 2.95322 14.105 3.11292C13.634 3.34763 13.0707 3.35702 12.6094 3.10586C12.1479 2.85472 11.8749 2.39009 11.8551 1.88815C11.8415 1.54663 11.8069 1.3125 11.7184 1.11117C11.5247 0.670122 11.153 0.319707 10.6852 0.137016ZM14.1455 13.4996C14.109 13.4588 14.0732 13.4173 14.0382 13.3752Z' />
+                                    <path d='M21.25 10.5C21.25 12.5711 19.5711 14.25 17.5 14.25C15.4289 14.25 13.75 12.5711 13.75 10.5C13.75 8.42893 15.4289 6.75 17.5 6.75C19.5711 6.75 21.25 8.42893 21.25 10.5ZM10.6057 17.1057C11.2822 16.4292 12.0479 15.8623 12.8752 15.4166C14.0826 16.5527 15.7103 17.25 17.5 17.25C19.2897 17.25 20.9174 16.5527 22.1248 15.4166C22.9521 15.8623 23.7177 16.4292 24.3943 17.1057C26.0452 18.7566 27.0429 20.9385 27.2211 23.25H17.5L7.77887 23.25C7.95711 20.9385 8.95483 18.7566 10.6057 17.1057Z' stroke-linecap='round' stroke-linejoin='round' />
+                                </svg>
+                                Настройки
+                                <svg class="pointer" width="8" height="13" viewBox="0 0 8 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M6.96771 6.03603L1.12165 0.191904C0.865127 -0.0639698 0.449521 -0.0639698 0.192352 0.191904C-0.0641698 0.447777 -0.0641699 0.863383 0.192352 1.11926L5.57471 6.49968L0.192999 11.8801C-0.0635223 12.136 -0.0635224 12.5516 0.192999 12.8081C0.44952 13.064 0.865774 13.064 1.1223 12.8081L6.96836 6.96403C7.22094 6.7108 7.22094 6.28866 6.96771 6.03603Z" />
+                                </svg></a></li>
                     </ul>
                 </nav>
                 <div class="second-and-third-parts">
                     <div class="second-part">
                         <div class="profile__user-info">
-                            <img class="avatar" src="../uploads/avatar/small_<?= $other_avatar ?>">
-                            <img class="three-dots show-three-dots-popup" onclick='showPopupUserInfo()' src='../pics/ThreeDotsIcon.svg'>
-                            <div class='three-dots-popup' id='three-dots-popup_user-info'>
-                                <span class='three-dots-popup-li copy-link' onclick='copyLinkToUser("<?= $other_username ?>")'>Копировать ссылку</span>
-                                <?php if ($result_friend->num_rows > 0) { ?>
-                                    <span class='three-dots-popup-li delete-from-friends friend-buttons' id='delete-from-friends' onclick='deleteFromFriends(<?= $id ?>, <?= $other_id ?>)'>Удалить из друзей</span>
-                                <?php } ?>
-                            </div>
-                            <div>
-                                <?php if ($username == 'rampus') { ?>
-                                    <p class="first-and-second-names rampus"><?= $other_first_name . " " . $other_second_name ?> <img src="../pics/SuperUserIcon.svg"></p>
-                                <?php } else {
-                                    switch ($top_count) {
-                                        case 1:
-                                            echo "<p class='first-and-second-names user-from-top'>" . $other_first_name . " " . $other_second_name . "<img src='../pics/BlossomFirstIcon.svg'></p>";
-                                            break;
-                                        case 2:
-                                            echo "<p class='first-and-second-names user-from-top'>" . $other_first_name . " " . $other_second_name . "<img src='../pics/BlossomSecondIcon.svg'></p>";
-                                            break;
-                                        case 3:
-                                            echo "<p class='first-and-second-names user-from-top'>" . $other_first_name . " " . $other_second_name . "<img src='../pics/BlossomThirdIcon.svg'></p>";
-                                            break;
-                                        default:
-                                            echo "<p class='first-and-second-names'>" . $other_first_name . " " . $other_second_name . "</p>";
-                                    }
-                                } ?>
-                                <p class="username">@<?= $other_username ?></p>
-                                <?php if ($other_description != '') { ?>
-                                    <p class="description"><?= $other_description ?></p>
-                                <?php }
-                                if ($result_friend->num_rows > 0) { ?>
-                                    <div class='answer-to-request-div'>
-                                        <div class='answer-to-request show-answer-to-request-popup you-are-friends' id='delete-from-friends_<?= $other_id ?>' onclick='showPopupDeleteUser(<?= $other_id ?>)'>
-                                            Друзья
-                                            <svg width='8' height='13' viewBox='0 0 8 13' fill='none' xmlns='http://www.w3.org/2000/svg'>
-                                                <path d='M6.96771 6.03603L1.12165 0.191904C0.865127 -0.0639698 0.449521 -0.0639698 0.192352 0.191904C-0.0641698 0.447777 -0.0641699 0.863383 0.192352 1.11926L5.57471 6.49968L0.192999 11.8801C-0.0635223 12.136 -0.0635224 12.5516 0.192999 12.8081C0.44952 13.064 0.865774 13.064 1.1223 12.8081L6.96836 6.96403C7.22094 6.7108 7.22094 6.28866 6.96771 6.03603Z' />
-                                            </svg>
-                                        </div>
-                                        <div class='answer-to-requests-popup' id='popup_delete-from-friends_<?= $other_id ?>'>
-                                            <span class='answer-to-requests-popup-li unrequest' id='unrequest-from-friends_<?= $other_id ?>' onclick='deleteFromFriends(<?= $other_id ?>, <?= $id ?>)'>Удалить</span>
-                                        </div>
-                                        <div class='answer-to-request show-answer-to-request-popup hide' id='unrequest-to-friends_<?= $other_id ?>' onclick='showPopupUnrequestToUser(<?= $other_id ?>)'>
-                                            Заявка отправлена
-                                            <svg width='8' height='13' viewBox='0 0 8 13' fill='none' xmlns='http://www.w3.org/2000/svg'>
-                                                <path d='M6.96771 6.03603L1.12165 0.191904C0.865127 -0.0639698 0.449521 -0.0639698 0.192352 0.191904C-0.0641698 0.447777 -0.0641699 0.863383 0.192352 1.11926L5.57471 6.49968L0.192999 11.8801C-0.0635223 12.136 -0.0635224 12.5516 0.192999 12.8081C0.44952 13.064 0.865774 13.064 1.1223 12.8081L6.96836 6.96403C7.22094 6.7108 7.22094 6.28866 6.96771 6.03603Z' />
-                                            </svg>
-                                        </div>
-                                        <div class='answer-to-requests-popup' id='popup_unrequest-to-friends_<?= $other_id ?>'>
-                                            <span class='answer-to-requests-popup-li unrequest' id='unrequest-to-friends_<?= $other_id ?>' onclick='unrequestToFriends(<?= $id ?>, <?= $other_id ?>)'>Отменить</span>
-                                        </div>
-                                        <div class='answer-to-request show-answer-to-request-popup not-friends hide' id='request-to-friends_<?= $other_id ?>' onclick='requestToFriends(<?= $id ?>, <?= $other_id ?>)'>
-                                            Добавить в друзья
-                                        </div>
+                            <div class="profile-back"></div>
+                            <div class="profile-userinfo">
+                                <img class="avatar" src="../uploads/avatar/small_<?= $other_avatar ?>">
+                                <div class="textinfo">
+                                    <p class='first-and-second-names'><?= $other_first_name . " " . $other_second_name ?></p>
+                                    <div>
+                                        <p class="username" onclick='copyLinkToUserAddReturnMessage("<?= $other_username ?>")'>@<?= $other_username ?></p>
+                                        <span id="copy-link-status">Копировать ссылку</span>
                                     </div>
-                                <?php } else if ($result_request_to->num_rows > 0) { ?>
-                                    <div class='answer-to-request-div'>
-                                        <div class='answer-to-request show-answer-to-request-popup' id='answer-to-request_<?= $other_id ?>' onclick='showPopupAnswerToUser(<?= $other_id ?>)'>
-                                            Ответить
-                                            <svg width='8' height='13' viewBox='0 0 8 13' fill='none' xmlns='http://www.w3.org/2000/svg'>
-                                                <path d='M6.96771 6.03603L1.12165 0.191904C0.865127 -0.0639698 0.449521 -0.0639698 0.192352 0.191904C-0.0641698 0.447777 -0.0641699 0.863383 0.192352 1.11926L5.57471 6.49968L0.192999 11.8801C-0.0635223 12.136 -0.0635224 12.5516 0.192999 12.8081C0.44952 13.064 0.865774 13.064 1.1223 12.8081L6.96836 6.96403C7.22094 6.7108 7.22094 6.28866 6.96771 6.03603Z' />
-                                            </svg>
+                                    <?php if ($other_description != '') { ?>
+                                        <p class="description"><?= $other_description ?></p>
+                                    <?php } ?>
+                                    <?php if ($result_friend->num_rows > 0) { ?>
+                                        <div class='answer-to-request-div'>
+                                            <div class='answer-to-request show-answer-to-request-popup you-are-friends' id='delete-from-friends_<?= $other_id ?>' onclick='showPopupDeleteUser(<?= $other_id ?>)'>
+                                                Друзья
+                                                <svg width='8' height='13' viewBox='0 0 8 13' fill='none' xmlns='http://www.w3.org/2000/svg'>
+                                                    <path d='M6.96771 6.03603L1.12165 0.191904C0.865127 -0.0639698 0.449521 -0.0639698 0.192352 0.191904C-0.0641698 0.447777 -0.0641699 0.863383 0.192352 1.11926L5.57471 6.49968L0.192999 11.8801C-0.0635223 12.136 -0.0635224 12.5516 0.192999 12.8081C0.44952 13.064 0.865774 13.064 1.1223 12.8081L6.96836 6.96403C7.22094 6.7108 7.22094 6.28866 6.96771 6.03603Z' />
+                                                </svg>
+                                            </div>
+                                            <div class='answer-to-requests-popup' id='popup_delete-from-friends_<?= $other_id ?>'>
+                                                <span class='answer-to-requests-popup-li unrequest' id='unrequest-from-friends_<?= $other_id ?>' onclick='deleteFromFriends(<?= $other_id ?>, <?= $id ?>)'>Удалить</span>
+                                            </div>
+                                            <div class='answer-to-request show-answer-to-request-popup hide' id='unrequest-to-friends_<?= $other_id ?>' onclick='showPopupUnrequestToUser(<?= $other_id ?>)'>
+                                                Заявка отправлена
+                                                <svg width='8' height='13' viewBox='0 0 8 13' fill='none' xmlns='http://www.w3.org/2000/svg'>
+                                                    <path d='M6.96771 6.03603L1.12165 0.191904C0.865127 -0.0639698 0.449521 -0.0639698 0.192352 0.191904C-0.0641698 0.447777 -0.0641699 0.863383 0.192352 1.11926L5.57471 6.49968L0.192999 11.8801C-0.0635223 12.136 -0.0635224 12.5516 0.192999 12.8081C0.44952 13.064 0.865774 13.064 1.1223 12.8081L6.96836 6.96403C7.22094 6.7108 7.22094 6.28866 6.96771 6.03603Z' />
+                                                </svg>
+                                            </div>
+                                            <div class='answer-to-requests-popup' id='popup_unrequest-to-friends_<?= $other_id ?>'>
+                                                <span class='answer-to-requests-popup-li unrequest' id='unrequest-to-friends_<?= $other_id ?>' onclick='unrequestToFriends(<?= $id ?>, <?= $other_id ?>)'>Отменить</span>
+                                            </div>
+                                            <div class='answer-to-request show-answer-to-request-popup not-friends hide' id='request-to-friends_<?= $other_id ?>' onclick='requestToFriends(<?= $id ?>, <?= $other_id ?>)'>
+                                                Добавить в друзья
+                                            </div>
                                         </div>
-                                        <div class='answer-to-requests-popup' id='popup_answer-to-request_<?= $other_id ?>'>
-                                            <span class='answer-to-requests-popup-li' id='add-to-friends_<?= $other_id ?>' onclick='addToFriends(<?= $other_id ?>, <?= $id ?>)'>Принять</span>
-                                            <div class='div-line'></div>
-                                            <span class='answer-to-requests-popup-li unrequest' id='unrequest-from-friends_<?= $other_id ?>' onclick='unrequestFromFriends(<?= $other_id ?>, <?= $id ?>)'>Отклонить</span>
+                                    <?php } else if ($result_request_to->num_rows > 0) { ?>
+                                        <div class='answer-to-request-div'>
+                                            <div class='answer-to-request show-answer-to-request-popup' id='answer-to-request_<?= $other_id ?>' onclick='showPopupAnswerToUser(<?= $other_id ?>)'>
+                                                Ответить
+                                                <svg width='8' height='13' viewBox='0 0 8 13' fill='none' xmlns='http://www.w3.org/2000/svg'>
+                                                    <path d='M6.96771 6.03603L1.12165 0.191904C0.865127 -0.0639698 0.449521 -0.0639698 0.192352 0.191904C-0.0641698 0.447777 -0.0641699 0.863383 0.192352 1.11926L5.57471 6.49968L0.192999 11.8801C-0.0635223 12.136 -0.0635224 12.5516 0.192999 12.8081C0.44952 13.064 0.865774 13.064 1.1223 12.8081L6.96836 6.96403C7.22094 6.7108 7.22094 6.28866 6.96771 6.03603Z' />
+                                                </svg>
+                                            </div>
+                                            <div class='answer-to-requests-popup' id='popup_answer-to-request_<?= $other_id ?>'>
+                                                <span class='answer-to-requests-popup-li' id='add-to-friends_<?= $other_id ?>' onclick='addToFriends(<?= $other_id ?>, <?= $id ?>)'>Принять</span>
+                                                <div class='div-line'></div>
+                                                <span class='answer-to-requests-popup-li unrequest' id='unrequest-from-friends_<?= $other_id ?>' onclick='unrequestFromFriends(<?= $other_id ?>, <?= $id ?>)'>Отклонить</span>
+                                            </div>
+                                            <div class='answer-to-request show-answer-to-request-popup hide' id='unrequest-to-friends_<?= $other_id ?>' onclick='showPopupUnrequestToUser(<?= $other_id ?>)'>
+                                                Заявка отправлена
+                                                <svg width='8' height='13' viewBox='0 0 8 13' fill='none' xmlns='http://www.w3.org/2000/svg'>
+                                                    <path d='M6.96771 6.03603L1.12165 0.191904C0.865127 -0.0639698 0.449521 -0.0639698 0.192352 0.191904C-0.0641698 0.447777 -0.0641699 0.863383 0.192352 1.11926L5.57471 6.49968L0.192999 11.8801C-0.0635223 12.136 -0.0635224 12.5516 0.192999 12.8081C0.44952 13.064 0.865774 13.064 1.1223 12.8081L6.96836 6.96403C7.22094 6.7108 7.22094 6.28866 6.96771 6.03603Z' />
+                                                </svg>
+                                            </div>
+                                            <div class='answer-to-requests-popup' id='popup_unrequest-to-friends_<?= $other_id ?>'>
+                                                <span class='answer-to-requests-popup-li unrequest' id='unrequest-to-friends_<?= $other_id ?>' onclick='unrequestToFriends(<?= $id ?>, <?= $other_id ?>)'>Отменить</span>
+                                            </div>
+                                            <div class='answer-to-request show-answer-to-request-popup not-friends hide' id='request-to-friends_<?= $other_id ?>' onclick='requestToFriends(<?= $id ?>, <?= $other_id ?>)'>
+                                                Добавить в друзья
+                                            </div>
+                                            <div class='answer-to-request show-answer-to-request-popup you-are-friends hide' id='delete-from-friends_<?= $other_id ?>' onclick='showPopupDeleteUser(<?= $other_id ?>)'>
+                                                Друзья
+                                                <svg width='8' height='13' viewBox='0 0 8 13' fill='none' xmlns='http://www.w3.org/2000/svg'>
+                                                    <path d='M6.96771 6.03603L1.12165 0.191904C0.865127 -0.0639698 0.449521 -0.0639698 0.192352 0.191904C-0.0641698 0.447777 -0.0641699 0.863383 0.192352 1.11926L5.57471 6.49968L0.192999 11.8801C-0.0635223 12.136 -0.0635224 12.5516 0.192999 12.8081C0.44952 13.064 0.865774 13.064 1.1223 12.8081L6.96836 6.96403C7.22094 6.7108 7.22094 6.28866 6.96771 6.03603Z' />
+                                                </svg>
+                                            </div>
+                                            <div class='answer-to-requests-popup' id='popup_delete-from-friends_<?= $other_id ?>'>
+                                                <span class='answer-to-requests-popup-li unrequest' id='unrequest-from-friends_<?= $other_id ?>' onclick='deleteFromFriends(<?= $other_id ?>, <?= $id ?>)'>Удалить</span>
+                                            </div>
                                         </div>
-                                        <div class='answer-to-request show-answer-to-request-popup hide' id='unrequest-to-friends_<?= $other_id ?>' onclick='showPopupUnrequestToUser(<?= $other_id ?>)'>
-                                            Заявка отправлена
-                                            <svg width='8' height='13' viewBox='0 0 8 13' fill='none' xmlns='http://www.w3.org/2000/svg'>
-                                                <path d='M6.96771 6.03603L1.12165 0.191904C0.865127 -0.0639698 0.449521 -0.0639698 0.192352 0.191904C-0.0641698 0.447777 -0.0641699 0.863383 0.192352 1.11926L5.57471 6.49968L0.192999 11.8801C-0.0635223 12.136 -0.0635224 12.5516 0.192999 12.8081C0.44952 13.064 0.865774 13.064 1.1223 12.8081L6.96836 6.96403C7.22094 6.7108 7.22094 6.28866 6.96771 6.03603Z' />
-                                            </svg>
+                                    <?php } else if ($result_request_from->num_rows > 0) { ?>
+                                        <div class='answer-to-request-div'>
+                                            <div class='answer-to-request show-answer-to-request-popup' id='unrequest-to-friends_<?= $other_id ?>' onclick='showPopupUnrequestToUser(<?= $other_id ?>)'>
+                                                Заявка отправлена
+                                                <svg width='8' height='13' viewBox='0 0 8 13' fill='none' xmlns='http://www.w3.org/2000/svg'>
+                                                    <path d='M6.96771 6.03603L1.12165 0.191904C0.865127 -0.0639698 0.449521 -0.0639698 0.192352 0.191904C-0.0641698 0.447777 -0.0641699 0.863383 0.192352 1.11926L5.57471 6.49968L0.192999 11.8801C-0.0635223 12.136 -0.0635224 12.5516 0.192999 12.8081C0.44952 13.064 0.865774 13.064 1.1223 12.8081L6.96836 6.96403C7.22094 6.7108 7.22094 6.28866 6.96771 6.03603Z' />
+                                                </svg>
+                                            </div>
+                                            <div class='answer-to-requests-popup' id='popup_unrequest-to-friends_<?= $other_id ?>'>
+                                                <span class='answer-to-requests-popup-li unrequest' id='unrequest-to-friends_<?= $other_id ?>' onclick='unrequestToFriends(<?= $id ?>, <?= $other_id ?>)'>Отменить</span>
+                                            </div>
+                                            <div class='answer-to-request show-answer-to-request-popup not-friends hide' id='request-to-friends_<?= $other_id ?>' onclick='requestToFriends(<?= $id ?>, <?= $other_id ?>)'>
+                                                Добавить в друзья
+                                            </div>
                                         </div>
-                                        <div class='answer-to-requests-popup' id='popup_unrequest-to-friends_<?= $other_id ?>'>
-                                            <span class='answer-to-requests-popup-li unrequest' id='unrequest-to-friends_<?= $other_id ?>' onclick='unrequestToFriends(<?= $id ?>, <?= $other_id ?>)'>Отменить</span>
+                                    <?php } else { ?>
+                                        <div class='answer-to-request-div'>
+                                            <div class='answer-to-request show-answer-to-request-popup not-friends' id='request-to-friends_<?= $other_id ?>' onclick='requestToFriends(<?= $id ?>, <?= $other_id ?>)'>
+                                                Добавить в друзья
+                                            </div>
+                                            <div class='answer-to-request show-answer-to-request-popup hide' id='unrequest-to-friends_<?= $other_id ?>' onclick='showPopupUnrequestToUser(<?= $other_id ?>)'>
+                                                Заявка отправлена
+                                                <svg width='8' height='13' viewBox='0 0 8 13' fill='none' xmlns='http://www.w3.org/2000/svg'>
+                                                    <path d='M6.96771 6.03603L1.12165 0.191904C0.865127 -0.0639698 0.449521 -0.0639698 0.192352 0.191904C-0.0641698 0.447777 -0.0641699 0.863383 0.192352 1.11926L5.57471 6.49968L0.192999 11.8801C-0.0635223 12.136 -0.0635224 12.5516 0.192999 12.8081C0.44952 13.064 0.865774 13.064 1.1223 12.8081L6.96836 6.96403C7.22094 6.7108 7.22094 6.28866 6.96771 6.03603Z' />
+                                                </svg>
+                                            </div>
+                                            <div class='answer-to-requests-popup' id='popup_unrequest-to-friends_<?= $other_id ?>'>
+                                                <span class='answer-to-requests-popup-li unrequest' id='unrequest-to-friends_<?= $other_id ?>' onclick='unrequestToFriends(<?= $id ?>, <?= $other_id ?>)'>Отменить</span>
+                                            </div>
                                         </div>
-                                        <div class='answer-to-request show-answer-to-request-popup not-friends hide' id='request-to-friends_<?= $other_id ?>' onclick='requestToFriends(<?= $id ?>, <?= $other_id ?>)'>
-                                            Добавить в друзья
-                                        </div>
-                                        <div class='answer-to-request show-answer-to-request-popup you-are-friends hide' id='delete-from-friends_<?= $other_id ?>' onclick='showPopupDeleteUser(<?= $other_id ?>)'>
-                                            Друзья
-                                            <svg width='8' height='13' viewBox='0 0 8 13' fill='none' xmlns='http://www.w3.org/2000/svg'>
-                                                <path d='M6.96771 6.03603L1.12165 0.191904C0.865127 -0.0639698 0.449521 -0.0639698 0.192352 0.191904C-0.0641698 0.447777 -0.0641699 0.863383 0.192352 1.11926L5.57471 6.49968L0.192999 11.8801C-0.0635223 12.136 -0.0635224 12.5516 0.192999 12.8081C0.44952 13.064 0.865774 13.064 1.1223 12.8081L6.96836 6.96403C7.22094 6.7108 7.22094 6.28866 6.96771 6.03603Z' />
-                                            </svg>
-                                        </div>
-                                        <div class='answer-to-requests-popup' id='popup_delete-from-friends_<?= $other_id ?>'>
-                                            <span class='answer-to-requests-popup-li unrequest' id='unrequest-from-friends_<?= $other_id ?>' onclick='deleteFromFriends(<?= $other_id ?>, <?= $id ?>)'>Удалить</span>
-                                        </div>
-                                    </div>
-                                <?php } else if ($result_request_from->num_rows > 0) { ?>
-                                    <div class='answer-to-request-div'>
-                                        <div class='answer-to-request show-answer-to-request-popup' id='unrequest-to-friends_<?= $other_id ?>' onclick='showPopupUnrequestToUser(<?= $other_id ?>)'>
-                                            Заявка отправлена
-                                            <svg width='8' height='13' viewBox='0 0 8 13' fill='none' xmlns='http://www.w3.org/2000/svg'>
-                                                <path d='M6.96771 6.03603L1.12165 0.191904C0.865127 -0.0639698 0.449521 -0.0639698 0.192352 0.191904C-0.0641698 0.447777 -0.0641699 0.863383 0.192352 1.11926L5.57471 6.49968L0.192999 11.8801C-0.0635223 12.136 -0.0635224 12.5516 0.192999 12.8081C0.44952 13.064 0.865774 13.064 1.1223 12.8081L6.96836 6.96403C7.22094 6.7108 7.22094 6.28866 6.96771 6.03603Z' />
-                                            </svg>
-                                        </div>
-                                        <div class='answer-to-requests-popup' id='popup_unrequest-to-friends_<?= $other_id ?>'>
-                                            <span class='answer-to-requests-popup-li unrequest' id='unrequest-to-friends_<?= $other_id ?>' onclick='unrequestToFriends(<?= $id ?>, <?= $other_id ?>)'>Отменить</span>
-                                        </div>
-                                        <div class='answer-to-request show-answer-to-request-popup not-friends hide' id='request-to-friends_<?= $other_id ?>' onclick='requestToFriends(<?= $id ?>, <?= $other_id ?>)'>
-                                            Добавить в друзья
-                                        </div>
-                                    </div>
-                                <?php } else { ?>
-                                    <div class='answer-to-request-div'>
-                                        <div class='answer-to-request show-answer-to-request-popup not-friends' id='request-to-friends_<?= $other_id ?>' onclick='requestToFriends(<?= $id ?>, <?= $other_id ?>)'>
-                                            Добавить в друзья
-                                        </div>
-                                        <div class='answer-to-request show-answer-to-request-popup hide' id='unrequest-to-friends_<?= $other_id ?>' onclick='showPopupUnrequestToUser(<?= $other_id ?>)'>
-                                            Заявка отправлена
-                                            <svg width='8' height='13' viewBox='0 0 8 13' fill='none' xmlns='http://www.w3.org/2000/svg'>
-                                                <path d='M6.96771 6.03603L1.12165 0.191904C0.865127 -0.0639698 0.449521 -0.0639698 0.192352 0.191904C-0.0641698 0.447777 -0.0641699 0.863383 0.192352 1.11926L5.57471 6.49968L0.192999 11.8801C-0.0635223 12.136 -0.0635224 12.5516 0.192999 12.8081C0.44952 13.064 0.865774 13.064 1.1223 12.8081L6.96836 6.96403C7.22094 6.7108 7.22094 6.28866 6.96771 6.03603Z' />
-                                            </svg>
-                                        </div>
-                                        <div class='answer-to-requests-popup' id='popup_unrequest-to-friends_<?= $other_id ?>'>
-                                            <span class='answer-to-requests-popup-li unrequest' id='unrequest-to-friends_<?= $other_id ?>' onclick='unrequestToFriends(<?= $id ?>, <?= $other_id ?>)'>Отменить</span>
-                                        </div>
-                                    </div>
-                                <?php } ?>
+                                    <?php } ?>
+                                </div>
+                                <div class='div-show-three-dots-popup in-profile' onclick='showPopupUserInfo(<?= $id ?>)' id='div-show-three-dots-popup_$i'>
+                                    <img src='../pics/ThreeDotsIcon.svg' class='show-three-dots-popup'>
+                                </div>
+                                <div class='three-dots-popup' id='three-dots-popup_user-info'>
+                                    <span class='three-dots-popup-li copy-link' onclick='copyLinkToUser("<?= $username ?>")'>Копировать ссылку</span>
+                                    <?php if ($result_friend->num_rows > 0) { ?>
+                                        <span class='three-dots-popup-li delete-from-friends friend-buttons' id='delete-from-friends' onclick='deleteFromFriends(<?= $id ?>, <?= $other_id ?>)'>Удалить из друзей</span>
+                                    <?php } ?>
+                                </div>
                             </div>
                         </div>
                         <div class="blossom-level mobile">
@@ -307,7 +366,7 @@ $result_trophies_m = $connect->query($sql_trophies);
                                 }
                                 ?>
                             </div>
-                            </div>
+                        </div>
                         <div class="user-friends">
                             <div class="section" onclick="openOtherFriendsPage(event, '<?= $other_username ?>')">
                                 <div class="friends-info">
@@ -384,78 +443,10 @@ $result_trophies_m = $connect->query($sql_trophies);
                                 </div>
                                 <div class="profile__user-posts">
                                     <div>
-                                        <p>Посты</p>
-                                        <img src="../pics/SearchIcon.svg">
+                                        <p>Посты<span><?= $posts_counter ?></span></p>
                                     </div>
-                                    <div>
-                                        <?php
-                                        $sql = "SELECT hashtags.name AS hashtag_name, posts.text AS post_text, DATE_FORMAT(posts.post_date, '%d %M в %k:%i') AS post_date, posts.likes AS post_likes, posts.id AS i
-                  FROM posts
-                  LEFT JOIN hashtags ON posts.hashtag_id = hashtags.id
-                  JOIN users ON posts.user_id = users.id
-                  WHERE posts.user_id = $other_id";
-                                        $result = $connect->query($sql);
-                                        if ($result->num_rows > 0) {
-                                            while ($row = $result->fetch_assoc()) {
-                                                $hashtag_name = $row["hashtag_name"];
-                                                $post_text = preg_replace('/\xc2\xa0/', ' ', $row["post_text"]);
-                                                $post_date = $row["post_date"];
-                                                $post_likes = $row["post_likes"];
-                                                $i = $row["i"];
-                                                echo "<div class='user-post' id='post-$i'>";
-                                                echo "<img onclick='showPopup($i)' src='../pics/ThreeDotsIcon.svg' class='show-three-dots-popup'>";
-                                                echo "<div class='three-dots-popup' id='three-dots-popup_$i'>";
-                                                echo "<a class='three-dots-popup-li open-post' href='../wall#post-$i'>Открыть на стене</a>";
-                                                echo "<span class='three-dots-popup-li copy-link' onclick='copyLinkToPost($i)'>Копировать ссылку</span>";
-                                                echo "</div>";
-                                                if ($hashtag_name != 0) {
-                                                    echo "<p>" . $post_text . " <a href='../wall?search=$hashtag_name'>#" . $hashtag_name . "</a></p>";
-                                                } else {
-                                                    echo "<p>" . $post_text . "</p>";
-                                                }
-                                                echo "<div>";
-                                                echo "<div class='post-buttons'>";
-                                                $sql_comment = "SELECT comments.text AS comment_text
-                                        FROM comments
-                                        JOIN posts ON comments.post_id = posts.id
-                                        WHERE comments.post_id = $i
-                                        ORDER BY UNIX_TIMESTAMP(comments.comment_date) ASC";
-                                                $result_comment = $connect->query($sql_comment);
-                                                $rows_num_comment = $result_comment->num_rows;
-                                                $sql_like = "SELECT * FROM likes_on_posts WHERE post_id = $i AND user_id = " . $id;
-                                                $result_like = $connect->query($sql_like);
-                                                if ($result_like->num_rows > 0) {
-                                                    echo "<button id='$i' class='like-button liked'><svg width='23' height='19' viewBox='0 0 23 19' fill='none' xmlns='http://www.w3.org/2000/svg'>
-                                                <path fill-rule='evenodd' clip-rule='evenodd' d='M15.3643 17.1232L21.0488 11.4387L21.0494 11.4394C21.6548 10.834 22.135 10.1153 22.4626 9.32432C22.7903 8.53335 22.9589 7.6856 22.9589 6.82947C22.9589 5.97334 22.7903 5.12559 22.4626 4.33463C22.135 3.54366 21.6548 2.82498 21.0494 2.2196C20.4441 1.61423 19.7254 1.13402 18.9344 0.806393C18.1434 0.478767 17.2957 0.310142 16.4396 0.310145C15.5834 0.310148 14.7357 0.478778 13.9447 0.806409C13.1541 1.13391 12.4356 1.61388 11.8304 2.21893L11.8289 2.21742L11.8279 2.21836C11.2229 1.61375 10.5048 1.1341 9.71455 0.806772C8.92359 0.479147 8.07584 0.310521 7.2197 0.310524C6.36357 0.310526 5.51582 0.479157 4.72486 0.806787C3.93389 1.13442 3.2152 1.61463 2.60982 2.22001C2.00444 2.82539 1.52423 3.54408 1.1966 4.33504C0.868969 5.12601 0.700339 5.97376 0.700335 6.82989C0.700332 7.68602 0.868959 8.53377 1.19658 9.32474C1.52421 10.1157 2.00442 10.8344 2.60979 11.4398L2.60985 11.4397L8.29331 17.1232C10.2459 19.0758 13.4117 19.0758 15.3643 17.1232Z'/>
-                                            </svg>";
-                                                    echo "<span class='like-counter'>" . $post_likes . "</span></button>";
-                                                    echo "<button id='$i' class='like-button unliked hide'><svg width='23' height='19' viewBox='0 0 23 19' fill='none' xmlns='http://www.w3.org/2000/svg'>
-                                                <path fill-rule='evenodd' clip-rule='evenodd' d='M15.3643 17.1232L21.0488 11.4387L21.0494 11.4394C21.6548 10.834 22.135 10.1153 22.4626 9.32432C22.7903 8.53335 22.9589 7.6856 22.9589 6.82947C22.9589 5.97334 22.7903 5.12559 22.4626 4.33463C22.135 3.54366 21.6548 2.82498 21.0494 2.2196C20.4441 1.61423 19.7254 1.13402 18.9344 0.806393C18.1434 0.478767 17.2957 0.310142 16.4396 0.310145C15.5834 0.310148 14.7357 0.478778 13.9447 0.806409C13.1541 1.13391 12.4356 1.61388 11.8304 2.21893L11.8289 2.21742L11.8279 2.21836C11.2229 1.61375 10.5048 1.1341 9.71455 0.806772C8.92359 0.479147 8.07584 0.310521 7.2197 0.310524C6.36357 0.310526 5.51582 0.479157 4.72486 0.806787C3.93389 1.13442 3.2152 1.61463 2.60982 2.22001C2.00444 2.82539 1.52423 3.54408 1.1966 4.33504C0.868969 5.12601 0.700339 5.97376 0.700335 6.82989C0.700332 7.68602 0.868959 8.53377 1.19658 9.32474C1.52421 10.1157 2.00442 10.8344 2.60979 11.4398L2.60985 11.4397L8.29331 17.1232C10.2459 19.0758 13.4117 19.0758 15.3643 17.1232Z'/>
-                                            </svg>";
-                                                    echo "<span class='like-counter'>" . $post_likes . "</span></button>";
-                                                } else {
-                                                    echo "<button id='$i' class='like-button unliked'><svg width='23' height='19' viewBox='0 0 23 19' fill='none' xmlns='http://www.w3.org/2000/svg'>
-                                                <path fill-rule='evenodd' clip-rule='evenodd' d='M15.3643 17.1232L21.0488 11.4387L21.0494 11.4394C21.6548 10.834 22.135 10.1153 22.4626 9.32432C22.7903 8.53335 22.9589 7.6856 22.9589 6.82947C22.9589 5.97334 22.7903 5.12559 22.4626 4.33463C22.135 3.54366 21.6548 2.82498 21.0494 2.2196C20.4441 1.61423 19.7254 1.13402 18.9344 0.806393C18.1434 0.478767 17.2957 0.310142 16.4396 0.310145C15.5834 0.310148 14.7357 0.478778 13.9447 0.806409C13.1541 1.13391 12.4356 1.61388 11.8304 2.21893L11.8289 2.21742L11.8279 2.21836C11.2229 1.61375 10.5048 1.1341 9.71455 0.806772C8.92359 0.479147 8.07584 0.310521 7.2197 0.310524C6.36357 0.310526 5.51582 0.479157 4.72486 0.806787C3.93389 1.13442 3.2152 1.61463 2.60982 2.22001C2.00444 2.82539 1.52423 3.54408 1.1966 4.33504C0.868969 5.12601 0.700339 5.97376 0.700335 6.82989C0.700332 7.68602 0.868959 8.53377 1.19658 9.32474C1.52421 10.1157 2.00442 10.8344 2.60979 11.4398L2.60985 11.4397L8.29331 17.1232C10.2459 19.0758 13.4117 19.0758 15.3643 17.1232Z'/>
-                                            </svg>";
-                                                    echo "<span class='like-counter'>" . $post_likes . "</span></button>";
-                                                    echo "<button id='$i' class='like-button liked hide'><svg width='23' height='19' viewBox='0 0 23 19' fill='none' xmlns='http://www.w3.org/2000/svg'>
-                                                <path fill-rule='evenodd' clip-rule='evenodd' d='M15.3643 17.1232L21.0488 11.4387L21.0494 11.4394C21.6548 10.834 22.135 10.1153 22.4626 9.32432C22.7903 8.53335 22.9589 7.6856 22.9589 6.82947C22.9589 5.97334 22.7903 5.12559 22.4626 4.33463C22.135 3.54366 21.6548 2.82498 21.0494 2.2196C20.4441 1.61423 19.7254 1.13402 18.9344 0.806393C18.1434 0.478767 17.2957 0.310142 16.4396 0.310145C15.5834 0.310148 14.7357 0.478778 13.9447 0.806409C13.1541 1.13391 12.4356 1.61388 11.8304 2.21893L11.8289 2.21742L11.8279 2.21836C11.2229 1.61375 10.5048 1.1341 9.71455 0.806772C8.92359 0.479147 8.07584 0.310521 7.2197 0.310524C6.36357 0.310526 5.51582 0.479157 4.72486 0.806787C3.93389 1.13442 3.2152 1.61463 2.60982 2.22001C2.00444 2.82539 1.52423 3.54408 1.1966 4.33504C0.868969 5.12601 0.700339 5.97376 0.700335 6.82989C0.700332 7.68602 0.868959 8.53377 1.19658 9.32474C1.52421 10.1157 2.00442 10.8344 2.60979 11.4398L2.60985 11.4397L8.29331 17.1232C10.2459 19.0758 13.4117 19.0758 15.3643 17.1232Z'/>
-                                            </svg>";
-                                                    echo "<span class='like-counter'>" . $post_likes . "</span></button>";
-                                                }
-                                                echo "<a href='../wall#post-$i' class='comment-button comment'><svg width='28' height='24' viewBox='0 0 28 24' fill='none' xmlns='http://www.w3.org/2000/svg'>
-                                            <path d='M0 5C0 2.23858 2.23858 0 5 0L23 0C25.7614 0 28 2.23858 28 5L28 24L5 24C2.23858 24 0 21.7614 0 19L0 5Z' />
-                                            </svg>";
-                                                echo "<span class='comment-counter'>" . $rows_num_comment . "</span></a>";
-                                                echo "</div>";
-                                                echo "<span>" . $post_date . "</span>";
-                                                echo "</div>";
-                                                echo "</div>";
-                                            }
-                                        } else {
-                                            echo "<p>Пользователь ещё не сделал постов</p>";
-                                        }
-                                        ?>
+                                    <div id="success-render-other-posts">
+                                        <?= renderOtherPosts($other_username, $connect) ?>
                                     </div>
                                 </div>
                                 <nav class="first-part-mobile">
