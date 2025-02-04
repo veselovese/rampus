@@ -36,6 +36,12 @@
     padding: 1rem 1.6rem;
     border-radius: 2rem;
     min-width: calc((100% - 1rem*2)/3);
+    transition: 0.2s;
+    cursor: default;
+}
+
+.current-trophy:hover {
+    transform: scale(105%);
 }
 
 .current-trophy .icon {
@@ -60,6 +66,7 @@
     display: flex;
     gap: 1.6rem;
     align-items: center;
+    transition: 0.2s;
 }
 
 .user-trophy-info {

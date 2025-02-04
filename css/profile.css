@@ -480,7 +480,7 @@
     opacity: 80%;
 }
 
-#success-render-posts {
+#success-render-posts, #success-render-other-posts {
     display: flex;
     flex-direction: column;
     gap: 1.6rem;

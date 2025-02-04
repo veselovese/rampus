@@ -27,7 +27,7 @@ function renderOtherPosts($username, $connect)
             if ($posts_counter < 3) {
                 echo "<div class='user-post' id='post-$i'>";
                 echo "<div class='div-show-three-dots-popup in-profile' onclick='showPopup($i)' id='div-show-three-dots-popup_$i'>";
-                echo "<img src='pics/ThreeDotsIcon.svg' class='show-three-dots-popup'>";
+                echo "<img src='../pics/ThreeDotsIcon.svg' class='show-three-dots-popup'>";
                 echo "</div>";
                 if ($hashtag_name != 0) {
                     echo "<p>" . $post_text . " <a href='./wall?search=$hashtag_name'>#" . $hashtag_name . "</a></p>";
@@ -36,8 +36,8 @@ function renderOtherPosts($username, $connect)
                 }
                 if ($post_image != null) {
                     echo "<div class='image-in-post-div'>";
-                    echo "<img class='image-in-post-hide' src=./uploads/post-image/small_" . $post_image . ">";
-                    echo "<img class='image-in-post' src=./uploads/post-image/small_" . $post_image . ">";
+                    echo "<img class='image-in-post-hide' src=../uploads/post-image/small_" . $post_image . ">";
+                    echo "<img class='image-in-post' src=../uploads/post-image/small_" . $post_image . ">";
                     echo "</div>";
                 }
                 echo "<div class='buttons-and-date'>";
@@ -98,13 +98,12 @@ function renderOtherPosts($username, $connect)
                 echo "<div class='three-dots-popup' id='three-dots-popup_$i'>";
                 echo "<a class='three-dots-popup-li open-post' href='./wall#post-$i'>Открыть на стене</a>";
                 echo "<span class='three-dots-popup-li copy-link' onclick='copyLinkToPost($i)'>Копировать ссылку</span>";
-                echo "<a class='three-dots-popup-li delete-post' href='back-files/delete-post?post=$i&source=profile'>Удалить</a>";
                 echo "</div>";
                 echo "</div>";
             } else {
                 echo "<div class='user-post hide profile_user-post' id='post-$i'>";
                 echo "<div class='div-show-three-dots-popup in-profile' onclick='showPopup($i)' id='div-show-three-dots-popup_$i'>";
-                echo "<img src='pics/ThreeDotsIcon.svg' class='show-three-dots-popup'>";
+                echo "<img src='../pics/ThreeDotsIcon.svg' class='show-three-dots-popup'>";
                 echo "</div>";
                 if ($hashtag_name != 0) {
                     echo "<p>" . $post_text . " <a href='./wall?search=$hashtag_name'>#" . $hashtag_name . "</a></p>";

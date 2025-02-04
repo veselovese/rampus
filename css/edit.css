@@ -181,6 +181,47 @@
     cursor: default;
 }
 
+.edit-filter__choice {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.edit-filter-popup-li input[type="radio"] {
+    display: none;
+}
+
+.edit-filter-popup-li {
+    display: flex;
+    width: 100%;
+    text-transform: none;
+    display: -webkit-flex;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    color: var(--else-text-color-50);
+    cursor: pointer;
+    transition: 0.2s;
+    border-radius: 1rem;
+    padding: 1rem 1.6rem;
+    font-size: var(--font-size-2);
+    gap: 0.39rem;
+    font-weight: 600;
+}
+
+.edit-filter-popup-li:has([type="radio"]:checked) {
+    color: var(--main-accent-color);
+    background-color: var(--block-accent-color-210);
+    box-shadow: var(--shadow-small);
+}
+
+.edit-filter-popup-li span {
+    font-weight: 400;
+    font-size: var(--font-size-1);
+    color: var(--else-text-color-50);
+}
+
 @media(max-width: 1080px) {
     .edit__upload-avatar {
         width: 20rem;
