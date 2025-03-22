@@ -42,9 +42,8 @@
     position: relative;
     display: flex;
     padding: 1.6rem 2.6rem;
-    gap: 4.1rem;
     align-items: center;
-    min-height: calc(150px + 1.6rem);
+    min-height: calc(150px + 2.6rem);
     background-color: var(--block-color);
     border-radius: 0 0 2rem 2rem;
 }
@@ -125,7 +124,6 @@
 
 .profile-userinfo div:has(.username) {
     position: relative;
-    max-width: max-content;
 }
 
 .profile-userinfo div:has(.username) span {
@@ -1184,6 +1182,15 @@
         width: 20rem;
         height: 20rem;
         align-self: flex-start;
+        top: -75px;
+    }
+
+    .profile__user-info .textinfo {
+        margin-left: calc(200px + 1.6rem);
+      }
+
+    .profile-back {
+        height: 10.1rem;
     }
 }
 
@@ -1212,10 +1219,6 @@
     :root {
         --font-size-3: 1.6rem;
         --font-size-4: 2.4rem;
-    }
-
-    .wrapper {
-        max-width: calc(100% - 5rem);
     }
 
     .user-friends div.friends img {
@@ -1249,18 +1252,20 @@
         min-height: 10px;
         max-height: 10px;
     }
+
+    .profile-userinfo {
+        min-height: calc(125px + 2.6rem);
+    }
 }
 
 @media (max-width: 580px) {
     .profile__user-info {
         flex-direction: column;
         align-items: center;
-        padding: 2.6rem;
-        gap: 2.6rem;
     }
 
     .profile__user-info .username {
-        margin-top: 1rem;
+        text-align: center;
     }
 
     .profile__user-info .description,
@@ -1269,11 +1274,7 @@
     }
 
     .user-post p {
-        margin-top: 1.6rem;
-    }
-
-    .user-post div {
-        margin-top: 2.6rem;
+        margin-top: 2.8rem;
     }
 
     .user-post div.post-buttons {
@@ -1285,11 +1286,6 @@
         right: 2.6rem;
     }
 
-    .profile__user-info .three-dots-popup {
-        top: 4.2rem;
-        right: 2.6rem;
-    }
-
     .profile__user-info .avatar {
         align-self: auto;
     }
@@ -1298,11 +1294,22 @@
         display: flex;
         flex-direction: column;
         align-items: center;
+        width: 100%;
     }
 
     .profile__user-info .first-and-second-names,
     .profile__user-info .description {
         text-align: center;
+    }
+
+    .profile__user-info .textinfo {
+        margin-left: 0;
+        margin-top: calc(200px - 75px);
+      }
+
+    .div-show-three-dots-popup.in-profile {
+        position: absolute;
+        right: 2.6rem;
     }
 }
 
@@ -1314,5 +1321,9 @@
     .user-menu-and-third-past-mobile .third-part-mobile .profile__posts p,
     .user-menu-and-third-past-mobile .third-part-mobile .profile__likes p {
         font-size: var(--font-size-3);
+    }
+
+    .profile__user-posts > div:first-child .create-new-post span {
+        display: none;
     }
 }
