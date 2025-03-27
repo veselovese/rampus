@@ -23,6 +23,12 @@ $(document).ready(function () {
     $('#wall-filter-all').click(() => {
         renderPosts('all', search);
     })
+    $('#wall-filter-friends__mobile').click(() => {
+        renderPosts('friends', search);
+    })
+    $('#wall-filter-all__mobile').click(() => {
+        renderPosts('all', search);
+    })
 })
 
 $('#textarea-post').keypress(function (e) {

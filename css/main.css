@@ -994,7 +994,9 @@ textarea {
     .reg__form button {
         margin-top: 2.8rem;
     }
+}
 
+@media (max-width: 820px) {
     header .phone-link span {
         display: none;
     }
@@ -1026,11 +1028,6 @@ textarea {
     .post-buttons {
         margin: 2.6rem 0 1.6rem;
     }
-
-    /* .like-button span, .comment-button span {
-        line-height: 1.7rem;
-        padding-bottom: 0.3rem;
-    } */
 }
 
 @media (max-width: 480px) {
