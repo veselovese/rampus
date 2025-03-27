@@ -62,30 +62,22 @@ function showPopupPeopleFilterMobile() {
     document.getElementById('popup_people-filter-mobile').classList.toggle('show');
 }
 
-$(document).click(function (e) {
-    if ((!$('.people-filter-mobile').is(e.target)) && ($('.people-filter-mobile').has(e.target).length === 0)) {
-        document.getElementById('popup_people-filter-mobile').classList.remove('show');
-        document.getElementById('people-filter-mobile').classList.remove('show');
-        document.getElementById('people-filter-mobile-info').classList.remove('show');
-    }
-})
-
-$('#popup_people-filter-mobile').on('click', () => {
-    if ($('#people-filter-all-mobile').is(':checked')) {
-        $('#people-filter-mobile div span').text('Все');
-        $('#popup_people-filter-mobile').addClass('all');
-    } else if ($('#people-filter-top-mobile').is(':checked')) {
-        $('#people-filter-mobile div span').text('Рейтинг');
-        $('#popup_people-filter-mobile').removeClass('all');
-    }
-})
-
 $('#people-filter-all').on('click', () => {
     $('#users-filter-all').css('display', 'block');
     $('#users-filter-top').css('display', 'none')
 })
 
+$('#people-filter-all__mobile').on('click', () => {
+    $('#users-filter-all').css('display', 'block');
+    $('#users-filter-top').css('display', 'none')
+})
+
 $('#people-filter-top').on('click', () => {
+    $('#users-filter-top').css('display', 'block');
+    $('#users-filter-all').css('display', 'none')
+})
+
+$('#people-filter-top__mobile').on('click', () => {
     $('#users-filter-top').css('display', 'block');
     $('#users-filter-all').css('display', 'none')
 })

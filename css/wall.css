@@ -580,56 +580,6 @@
     color: var(--main-accent-color);
 }
 
-.first-part-mobile {
-    display: none;
-    position: sticky;
-    bottom: 1rem;
-    margin: 2.6rem 0 0;
-}
-
-.first-part-mobile ul {
-    list-style: none;
-    padding: 1rem;
-    margin: 0;
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    justify-content: space-around;
-    background-color: var(--block-color);
-    box-shadow: var(--shadow-small);
-    border-radius: 2rem;
-    min-height: 4rem;
-}
-
-.first-part-mobile li a:hover {
-    background-color: var(--block-accent-color-06);
-}
-
-.first-part-mobile li {
-    border-radius: 1rem;
-    overflow: hidden;
-    width: 100%;
-}
-
-.first-part-mobile li a {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 1rem;
-    padding: 1rem 1.6rem;
-    min-width: 100%;
-    transition: 0.2s;
-}
-
-.first-part-mobile li a svg {
-    fill: var(--else-text-color-33);
-}
-
-.first-part-mobile #active a svg {
-    fill: var(--main-accent-color);
-    opacity: 100%;
-}
-
 .wall__comments .other-users .see-all-comments {
     margin-top: 2.1rem;
     font-size: var(--font-size-1);

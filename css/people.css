@@ -24,43 +24,6 @@
     height: 100%
 }
 
-.first-part-mobile {
-    display: none;
-    position: sticky;
-    bottom: 1rem;
-    margin: 2.6rem 0 0;
-}
-
-.first-part-mobile ul {
-    list-style: none;
-    padding: 1rem;
-    margin: 0;
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    justify-content: space-around;
-    background-color: var(--block-color);
-    box-shadow: var(--shadow-small);
-    border-radius: 2rem;
-    min-height: 4rem;
-}
-
-.first-part-mobile li a {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 1rem;
-}
-
-.first-part-mobile li a svg {
-    fill: var(--else-text-color-33);
-}
-
-.first-part-mobile #active a svg {
-    fill: var(--main-accent-color);
-    opacity: 100%;
-}
-
 .third-part-in-header {
     display: none;
 }
@@ -69,12 +32,16 @@
     position: relative;
 }
 
+.search-people-div {
+    position: relative;
+}
+
 .second-part #icon-search-people {
     max-width: 20px;
     max-height: 20px;
     position: absolute;
     top: 1rem;
-    right: 1.6rem;
+    left: 1.6rem;
     cursor: pointer;
     border-radius: 0;
     margin: 0;
@@ -87,7 +54,7 @@
     outline: none;
     background-color: transparent;
     border: 1px solid var(--else-text-color-33);
-    padding: 0 2.6rem;
+    padding: 0 2.6rem 0 calc(19px + 1.6rem + 1rem);
     margin: 0;
 }
 
@@ -490,13 +457,13 @@
     align-items: center;
     position: relative;
     display: none;
-    border-radius: 2rem;
-    overflow: hidden;
     margin-bottom: 2.6rem;
     cursor: pointer;
-    max-width: max-content;
-    box-shadow: var(--shadow-small);
     transition: 0.2s;
+}
+
+.people-filter-mobile .people-filter__choice {
+    flex-direction: row;
 }
 
 .people-filter-mobile.show {
@@ -646,6 +613,7 @@
 
 .user-in-top-info {
     display: flex;
+    gap: 1.6rem;
     align-items: center;
     padding: 1rem 1.6rem;
     background-color: var(--block-color);
@@ -886,6 +854,18 @@
     .user-in-top.mobile {
         display: flex;
     }
+
+    .people-filter-mobile {
+        display: flex;
+    }
+
+    .people-filter-popup-li {
+        max-width: max-content;
+    }
+
+    .user-in-top {
+        margin: 0 0 0 2.6rem;
+    }
 }
 
 @media (max-width: 920px) {
@@ -910,10 +890,6 @@
 
     .friends__users {
         min-height: calc(100vh - 7.2rem*2 - 2.6rem*2);
-    }
-
-    .people-filter-mobile {
-        display: flex;
     }
 
     .first-part:has(#people-filter-all:checked)+.second-and-third-parts #users-filter-all,
@@ -1014,5 +990,13 @@
 
     .blossom-status-mobile {
         display: flex;
+    }
+
+    .people-filter-popup-li span {
+        display: none;
+    }
+
+    .user-in-top span:last-child {
+        display: none;
     }
 }
