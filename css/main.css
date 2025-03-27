@@ -1053,6 +1053,7 @@ textarea {
 }
 
 @media (max-width: 720px) {
+
     .auth__form legend,
     .reg__form legend {
         margin-bottom: 4.1rem;
@@ -1087,6 +1088,10 @@ textarea {
 
     header {
         padding: 2.1rem 1.6rem;
+    }
+
+    .wrapper {
+        max-width: calc(100% - 3.2rem);
     }
 
     footer {
