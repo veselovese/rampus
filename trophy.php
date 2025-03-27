@@ -15,7 +15,7 @@ if (isset($_SESSION['user'])) {
             $username = $row["username"];
             $first_name = $row["first_name"];
             $second_name = $row["second_name"];
-            $avatar = $row["avatar"];
+            $current_avatar = $row["avatar"];
         }
     }
 
@@ -241,10 +241,11 @@ $all_trophies_2 = $connect->query("SELECT trophies.id AS id, trophies.name AS na
                                 </li>
                                 <li>
                                     <a href="./profile">
-                                        <svg width="28" height="24" viewBox="0 0 28 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <!-- <svg width="28" height="24" viewBox="0 0 28 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                             <path fill-rule="evenodd" clip-rule="evenodd" d="M8.03709 11.3334C6.58858 12.0152 5.25423 12.9468 4.10051 14.1005C1.475 16.726 0 20.287 0 24L14 24H28C28 20.287 26.525 16.726 23.8995 14.1005C22.7458 12.9468 21.4114 12.0152 19.9629 11.3334C18.4981 12.97 16.3693 14 14 14C11.6307 14 9.50195 12.97 8.03709 11.3334Z" />
                                             <circle cx="14" cy="6" r="6" />
-                                        </svg>
+                                        </svg> -->
+                                        <img class="menu-avatar" src="uploads/avatar/thin_<?= $current_avatar ?>">
                                         Профиль
                                     </a>
                                 </li>

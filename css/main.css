@@ -700,6 +700,15 @@ textarea {
     border-radius: 50%;
 }
 
+.first-part-mobile .menu-avatar {
+    min-height: 24px;
+    min-width: 24px;
+    max-width: 24px;
+    max-height: 24px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
 .menu-profile .menu-status {
     min-height: 24px;
     min-width: 24px;
