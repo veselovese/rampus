@@ -117,9 +117,9 @@ $posts_counter = $connect->query("SELECT * FROM posts WHERE user_id = $other_id"
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-    <link rel="stylesheet" href="../css/main.css?v=200">
-    <link rel="stylesheet" href="../css/profile.css?v=200">
-    <link rel="stylesheet" href="../css/people.css?v=200">
+    <link rel="stylesheet" href="../css/main.css?v=250">
+    <link rel="stylesheet" href="../css/profile.css?v=250">
+    <link rel="stylesheet" href="../css/people.css?v=250">
     <title>Профиль другого пользователя в Rampus (Рампус)</title>
     <link rel="apple-touch-icon" sizes="180x180" href="favicons/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="favicons/favicon-32x32.png">
@@ -545,9 +545,9 @@ $posts_counter = $connect->query("SELECT * FROM posts WHERE user_id = $other_id"
 <?php require('footer-2.php');
         } ?>
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-<script src="../js/main.js?v=200"></script>
-<script src="../js/profile.js?v=200"></script>
-<script src="../js/otheruserprofile.js?v=200"></script>
+<script src="../js/main.js?v=250"></script>
+<script src="../js/profile.js?v=250"></script>
+<script src="../js/otheruserprofile.js?v=250"></script>
 </body>
 
 </html>
