@@ -58,6 +58,10 @@
     border: 5px solid var(--block-color);
 }
 
+.profile__user-info .avatar.edit {
+    position: static;
+} 
+
 .profile__user-info .textinfo {
     margin-left: calc(250px + 1.6rem);
 }
@@ -243,6 +247,7 @@
     margin-top: 1.6rem;
     color: var(--main-text-color);
     box-shadow: var(--shadow-small);
+    display: none;
 }
 
 .profile__edit:hover svg {
@@ -1212,6 +1217,10 @@
     .first-part-mobile {
         display: block;
         z-index: 3;
+    }
+
+    .profile__edit {
+        display: flex;
     }
 }
 

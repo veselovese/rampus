@@ -118,7 +118,8 @@
 
 .edit__user-info .user-first-and-second-names {
     display: flex;
-    gap: 2.6rem;
+    flex-direction: column;
+    gap: 1.6rem;
 }
 
 .edit__user-avatar {

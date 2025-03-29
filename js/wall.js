@@ -34,7 +34,7 @@ $(document).ready(function () {
 $('#textarea-post').keypress(function (e) {
     if (e.which === 13 && !e.shiftKey) {
         e.preventDefault();
-        if ($('#textarea-post').text().trim(' ') != '') {
+        if (($('#textarea-post').text().trim(' ') != '') || ($('#post-image').val().length)) {
             $(this).closest('form').submit();
         }
     }
@@ -66,7 +66,7 @@ function seeAllComments(i) {
 function textareaPost(e) {
     const obj = e.target;
     const div = document.getElementById(obj.id + '_input');
-    if ($('#textarea-post').text().trim(' ') != '') {
+    if (($('#textarea-post').text().trim(' ') != '') || ($('#post-image').val().length)) {
         $('#textarea-post_sumbit').addClass('active');
         $('#textarea-post_sumbit').removeAttr('disabled');
     } else {
@@ -134,6 +134,14 @@ postImage.addEventListener('change', (e) => {
                 $('#textarea-post').addClass('image-uploaded');
                 $('.post-image-delete').css('display', 'flex');
                 document.getElementById('current-post-image').src = reader.result;
+                if (($('#textarea-post').text().trim(' ') != '') || ($('#post-image').val().length)) {
+                    $('#textarea-post_sumbit').addClass('active');
+                    $('#textarea-post_sumbit').removeAttr('disabled');
+                } else {
+                    $('#textarea-post_sumbit').removeClass('active');
+                    $('#textarea-post_sumbit').attr('disabled');
+                }
+                $('#textarea-post').trigger('focus');
             }
         }
         reader.readAsDataURL(currentFile);
@@ -145,4 +153,6 @@ function clearPostImage() {
     $('#post-image').val('');
     $('#textarea-post').removeClass('image-uploaded');
     $('.post-image-delete').css('display', 'none');
+    $('#textarea-post_sumbit').removeClass('active');
+    $('#textarea-post_sumbit').attr('disabled');
 }
