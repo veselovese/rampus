@@ -671,11 +671,51 @@
 .friends-title {
     color: var(--else-text-color-50);
     margin-bottom: 1.6rem;
+    font-size: var(--font-size-3);
+    display: block;
+}
+
+.friends-title.link {
+    margin: 0;
+}
+
+.friends-title.link:hover {
+    opacity: 80%;
+}
+
+.request_to-div {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.8rem;
+    align-items: center;
+}
+
+.open-requests-page {
+    font-size: var(--font-size-2);
+    padding: 1rem 1.6rem;
+    border-radius: 1rem;
+    display: flex;
+    gap: 1rem;
+    transition: 0.2s;
+}
+
+.open-requests-page:hover {
+    background-color: var(--block-accent-color-06);
+}
+
+.open-requests-page svg {
+    fill: var(--else-text-color-50);
+    opacity: 1;
+    transition: 0.2s;
+    margin-left: auto;
+    min-height: 11px;
+    max-height: 11px;
 }
 
 .users-requests {
     margin-bottom: 2.6rem;
     display: flex;
+    flex-wrap: wrap;
     gap: 1rem;
     color: var(--main-text-color);
 }
@@ -998,5 +1038,9 @@
 
     .user-in-top span:last-child {
         display: none;
+    }
+
+    .request-from-user {
+        width: 100%;
     }
 }
