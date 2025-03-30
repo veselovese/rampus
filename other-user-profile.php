@@ -505,7 +505,7 @@ $posts_counter = $connect->query("SELECT * FROM posts WHERE user_id = $other_id"
                                                     $trophy_image = $row["image"];
                                                     echo "<div class='trophy'>";
                                                     echo "<img src='../$trophy_image'>";
-                                                    echo "<span>$trophy_description</span>";
+                                                    echo "<span>$trophy_name</span>";
                                                     echo "</div>";
                                                 }
                                             } else {
