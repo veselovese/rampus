@@ -60,7 +60,7 @@
 
 .profile__user-info .avatar.edit {
     position: static;
-} 
+}
 
 .profile__user-info .textinfo {
     margin-left: calc(250px + 1.6rem);
@@ -128,6 +128,7 @@
 
 .profile-userinfo div:has(.username) {
     position: relative;
+    max-width: max-content;
 }
 
 .profile-userinfo div:has(.username) span {
@@ -483,7 +484,8 @@
     opacity: 80%;
 }
 
-#success-render-posts, #success-render-other-posts {
+#success-render-posts,
+#success-render-other-posts {
     display: flex;
     flex-direction: column;
     gap: 1.6rem;
@@ -1162,6 +1164,7 @@
     color: var(--else-text-color-50);
     text-transform: lowercase;
     margin-top: 1rem;
+    text-align: center;
 }
 
 @media (max-width: 1320px) {
@@ -1192,7 +1195,7 @@
 
     .profile__user-info .textinfo {
         margin-left: calc(200px + 1.6rem);
-      }
+    }
 
     .profile-back {
         height: 10.1rem;
@@ -1221,6 +1224,10 @@
 
     .profile__edit {
         display: flex;
+    }
+
+    .current-user-case .trophy {
+        width: calc((100% - 1rem*2)/2);
     }
 }
 
@@ -1314,11 +1321,18 @@
     .profile__user-info .textinfo {
         margin-left: 0;
         margin-top: calc(200px - 75px);
-      }
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
 
     .div-show-three-dots-popup.in-profile {
         position: absolute;
         right: 2.6rem;
+    }
+
+    .profile-userinfo div:has(.username) span {
+        top: calc(16px + 0.625rem + 1rem);
     }
 }
 
@@ -1332,7 +1346,11 @@
         font-size: var(--font-size-3);
     }
 
-    .profile__user-posts > div:first-child .create-new-post span {
+    .profile__user-posts>div:first-child .create-new-post span {
         display: none;
+    }
+
+    .current-user-case .trophy {
+        width: calc((100% - 1rem*0)/1);
     }
 }

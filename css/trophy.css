@@ -122,6 +122,10 @@
         flex-direction: column;
         align-items: center;
     }
+    
+    .user-trophy-info {
+        margin-top: 0.625rem;
+    }
 
     .user-trophy-info a {
         justify-content: center;
@@ -143,5 +147,12 @@
         display: block;
         z-index: 3;
     }
+    
+}
 
+@media (max-width: 720px) {
+    :root {
+        --font-size-3: 1.6rem;
+        --font-size-4: 2.4rem;
+    }
 }

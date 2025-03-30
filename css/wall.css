@@ -168,7 +168,7 @@
     padding: 0;
     display: flex;
     position: absolute;
-    right: calc(-25px - 1rem);
+    right: 0;
     top: 0;
     bottom: 0;
     align-items: center;
@@ -181,6 +181,7 @@
 
 .wall__new-post button.active,
 .wall__comments button.active {
+    right: calc(-25px - 1rem);
     transition: 0.2s 0.2s;
     transform: scale(100%);
     opacity: 1;

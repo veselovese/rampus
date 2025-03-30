@@ -583,17 +583,14 @@ textarea {
     transform: rotate(180deg);
 }
 
-#active {
-    background-color: var(--block-accent-color-210);
-    box-shadow: var(--shadow-small);
-}
-
 #active svg path {
     fill: var(--main-accent-color);
 }
 
 #active a {
     color: var(--main-accent-color);
+    background-color: var(--block-accent-color-210);
+    box-shadow: var(--shadow-small);
 }
 
 .second-and-third-parts {
@@ -975,12 +972,12 @@ textarea {
 }
 
 .first-part-mobile li {
-    border-radius: 1rem;
-    overflow: hidden;
     width: 100%;
+    overflow: hidden;
 }
 
 .first-part-mobile li a {
+    border-radius: 1rem;
     display: flex;
     flex-direction: column;
     align-items: center;

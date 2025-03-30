@@ -121,10 +121,10 @@ $posts_counter = $connect->query("SELECT * FROM posts WHERE user_id = $other_id"
     <link rel="stylesheet" href="../css/profile.css?v=250">
     <link rel="stylesheet" href="../css/people.css?v=250">
     <title>Профиль другого пользователя в Rampus (Рампус)</title>
-    <link rel="apple-touch-icon" sizes="180x180" href="favicons/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="favicons/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="favicons/favicon-16x16.png">
-    <link rel="manifest" href="favicons/site.webmanifest">
+    <link rel="apple-touch-icon" sizes="180x180" href="../favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../favicons/favicon-16x16.png">
+    <link rel="manifest" href="../favicons/site.webmanifest">
 </head>
 
 <body>
@@ -344,7 +344,7 @@ $posts_counter = $connect->query("SELECT * FROM posts WHERE user_id = $other_id"
                                         $trophy_image_m = $row["image"];
                                         echo "<div class='trophy'>";
                                         echo "<img src='../$trophy_image_m'>";
-                                        echo "<span>$trophy_description_m</span>";
+                                        echo "<span>$trophy_name_m</span>";
                                         echo "</div>";
                                     }
                                 } else {
