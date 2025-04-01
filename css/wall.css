@@ -581,6 +581,22 @@
     color: var(--main-accent-color);
 }
 
+#all-hashtags a {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    background-color: var(--block-color);
+    box-shadow: var(--shadow-small);
+}
+
+#all-hashtags a svg {
+    fill: var(--else-text-color-50);
+    transition: 0.2s;
+    margin-left: auto;
+    min-height: 11px;
+    max-height: 11px;
+}
+
 .wall__comments .other-users .see-all-comments {
     margin-top: 2.1rem;
     font-size: var(--font-size-1);
@@ -871,11 +887,15 @@
 
     .wall__comments .other-users .user-comment .date {
         display: none
-    };
+    }
+
+    ;
 
     .wall__comments .other-users .user-comment .date.mobile {
         display: block;
-    };
+    }
+
+    ;
 
     .wall__comments .other-users .user-comment .date,
     .wall__comments .other-users .user-comment .delete-comment {
