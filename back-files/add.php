@@ -1,8 +1,10 @@
 <?php
 session_start();
 require_once('connect.php');
+require('blossoming.php');
 
 $user_id = $_SESSION['user']['id'];
+
 if (isset($_POST['post'])) $text_post = $_POST['post'];
 if (isset($_POST['post-source'])) $post_source = $_POST['post-source'];
 if (isset($_POST['post-search'])) $post_search = $_POST['post-search'];
@@ -51,16 +53,9 @@ if (isset($_FILES['post-image']) && $_FILES['post-image']['name'] != '' && isset
 
             $result = mysqli_query($connect, "INSERT INTO posts (hashtag_id, text, user_id, img) VALUES ($hashtag_id, '$text_without_hashtags', $user_id, '$name');");
             $current_id = $connect->query("SELECT @@IDENTITY AS id")->fetch_assoc()['id'];
-            $blossom_level = $connect->query("SELECT blossom_level FROM users WHERE id = $user_id")->fetch_assoc()['blossom_level'];
-            $blossom_progress = $connect->query("SELECT blossom_progress FROM users WHERE id = $user_id")->fetch_assoc()['blossom_progress'];
-            $blossom = $blossom_level + $blossom_progress / 100;
-            $blossom += 0.1;
+            
+            blossoming($user_id, 'add-post', $connect);
 
-            $user_level = intval($blossom);
-            $user_progress = ($blossom - $user_level) * 100;
-
-            $connect->query("UPDATE users SET blossom_level = $user_level WHERE id = $user_id");
-            $connect->query("UPDATE users SET blossom_progress = $user_progress WHERE id = $user_id");
             if (!$result) {
                 echo "Error: " . mysqli_error($connect);
             } else {
@@ -133,16 +128,9 @@ if ((!isset($_FILES['post-image']) || $_FILES['post-image']['name'] == '') && is
 
         $result = mysqli_query($connect, "INSERT INTO posts (hashtag_id, text, user_id, img) VALUES ($hashtag_id, '$text_without_hashtags', $user_id, '$name');");
         $current_id = $connect->query("SELECT @@IDENTITY AS id")->fetch_assoc()['id'];
-        $blossom_level = $connect->query("SELECT blossom_level FROM users WHERE id = $user_id")->fetch_assoc()['blossom_level'];
-        $blossom_progress = $connect->query("SELECT blossom_progress FROM users WHERE id = $user_id")->fetch_assoc()['blossom_progress'];
-        $blossom = $blossom_level + $blossom_progress / 100;
-        $blossom += 0.1;
+        
+        blossoming($user_id, 'add-post', $connect);
 
-        $user_level = intval($blossom);
-        $user_progress = ($blossom - $user_level) * 100;
-
-        $connect->query("UPDATE users SET blossom_level = $user_level WHERE id = $user_id");
-        $connect->query("UPDATE users SET blossom_progress = $user_progress WHERE id = $user_id");
         if (!$result) {
             echo "Error: " . mysqli_error($connect);
         } else {

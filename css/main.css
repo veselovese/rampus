@@ -598,10 +598,12 @@ textarea {
     width: 100%;
     justify-content: center;
     flex-shrink: 1;
+    min-width: 0;
 }
 
 .second-part {
     width: 100%;
+    min-width: 0;
 }
 
 .third-part {

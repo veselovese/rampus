@@ -50,12 +50,11 @@ if (isset($_SESSION['user'])) {
         }
     }
 
-    $blossom = ($posts_count + $likes_count * 0.3 + $comment_count * 0.4 + $liked_count * 0.2 + $commented_count * 0.3 + ($result_friend_1->num_rows + $result_friend_2->num_rows) * 0.7) / 10;
+    $blossom_level = $connect->query("SELECT blossom_level FROM users WHERE id = $id")->fetch_assoc()['blossom_level'];
+    $blossom_progress = $connect->query("SELECT blossom_progress FROM users WHERE id = $id")->fetch_assoc()['blossom_progress'];
+    $blossom = $blossom_level + $blossom_progress / 100;
     $user_level = intval($blossom);
     $user_progress = round($blossom - $user_level, 2) * 100;
-    $user_level += 1;
-    $connect->query("UPDATE users SET blossom_level = $user_level WHERE id = $id");
-    $connect->query("UPDATE users SET blossom_progress = $user_progress WHERE id = $id");
 
     $sql_top = "SELECT id FROM users ORDER BY blossom_level DESC, blossom_progress DESC";
     $result_top = $connect->query($sql_top);
