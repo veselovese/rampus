@@ -17,14 +17,14 @@ $(document).ready(function () {
                     }, 2000)
                 }
                 if (username !== '') {
-                    $('#auth__notify-label').text('Вы авторизировались под пользователем ')
-                    $('#auth__notify-username').text(username)
+                    $('#auth__notify-label').text('Привет, ')
+                    $('#auth__notify-username').text('@' + username)
                     $('#auth__notify').addClass('success')
                     setTimeout(() => {
                         window.location.href = 'wall.php'
                     }, 1500)
                 } else if (username === '') {
-                    $('#auth__notify-label').text('Неверный ID, почта или пароль')
+                    $('#auth__notify-label').text('Неверный логин, почта или пароль')
                     $('#auth__notify-username').text('')
                     $('#auth__notify').addClass('reject')
                     setTimeout(() => {

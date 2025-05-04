@@ -24,33 +24,41 @@ session_start();
     } ?>
     <?php require('header.php'); ?>
     <main>
-        <section class="wrapper reg__section">
-            <form method="POST" class="reg__form" action="./back-files/sign-up" autocomplete="off">
-                <legend>Регистрация Rampus</legend>
-                <div>
-                    <div class="reg__input-div">
-                        <label>Имя<input type="text" required placeholder="Рампус" name="first_name" id="reg__first_name"></label>
-                        <label>Фамилия<input type="text" required placeholder="Рампусов" name="second_name" id="reg__second_name"></label>
-                        <label id="reg__lable_id">ID (имя пользователя)<input type="text" required placeholder="rampus" name="username" id="reg__id">
-                            <div><span id="reg__id_on-or-off">Такой ID свободен</span></div>
-                        </label>
-                        <a href="./auth" class="desktop">У меня есть аккаунт</a>
+        <section class="wrapper">
+            <div class="reg__center">
+                <div class="reg__section">
+                    <div class="auth__notify" id="auth__notify">
+                        <p><span id="auth__notify-label">Вы авторизировались под пользователем </span><span id="auth__notify-username"></span></p>
                     </div>
-                    <div class="div-line"></div>
-                    <div class="reg__input-div">
-                        <label id="reg__lable_email">Почта<input type="email" required placeholder="rampus@example.com" name="email" id="reg__email">
-                            <div><span id="reg__email_on-or-off">Такая почта свободна</span></div>
-                        </label>
-                        <label id="reg__label_pass-1">Пароль
-                            <input type="password" required placeholder="********" name="password_1" id="reg__password_1" minlength="8">
-                            <div><span id="reg__8-sim">8 символов</span><span id="reg__num">Цифра</span><span id="reg__!?">! или ?</span></div>
-                        </label>
-                        <label id="reg__label_pass-2"><input type="password" required placeholder="Тот же пароль ещё раз" minlength="8" name="password_2" id="reg__password_2"></label>
-                        <button type="submit" class="" id="reg__submit-button">Создать</button>
-                        <a href="./auth" class="mobile reg__link">У меня есть аккаунт</a>
+                    <div>
+                        <img src="pics/RampusLogo.svg">
+                        <!-- <a href="./auth" class="desktop reg__link">У меня есть аккаунт</a> -->
                     </div>
+                    <form method="POST" class="reg__form" action="./back-files/sign-up" autocomplete="off">
+                        <div class="reg__input-div">
+                            <!-- <legend>Регистрация Rampus</legend> -->
+                            <label id="reg__lable_email">Почта<input type="email" required placeholder="rampus@example.com" name="email" id="reg__email" class="auth-and-reg">
+                                <div><span id="reg__email_on-or-off">Такая почта свободна</span></div>
+                            </label>
+                            <label id="reg__lable_id">Логин<input type="text" required placeholder="rampus" name="username" id="reg__id" class="auth-and-reg">
+                                <div><span id="reg__id_on-or-off">Такой ID свободен</span></div>
+                            </label>
+                            <label id="reg__label_pass-1">Пароль
+                                <input type="password" required placeholder="********" name="password_1" id="reg__password_1" minlength="8" class="auth-and-reg">
+                                <div class="password"><span id="reg__8-sim">8 символов</span><span id="reg__num">Цифра</span><span id="reg__!?">! или ?</span></div>
+                            </label>
+                        </div>
+                        <div class="reg__buttons">
+                            <a href="./auth" class="have-account">
+                                <svg width="8" height="13" viewBox="0 0 8 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M6.96771 6.03603L1.12165 0.191904C0.865127 -0.0639698 0.449521 -0.0639698 0.192352 0.191904C-0.0641698 0.447777 -0.0641699 0.863383 0.192352 1.11926L5.57471 6.49968L0.192999 11.8801C-0.0635223 12.136 -0.0635224 12.5516 0.192999 12.8081C0.44952 13.064 0.865774 13.064 1.1223 12.8081L6.96836 6.96403C7.22094 6.7108 7.22094 6.28866 6.96771 6.03603Z" />
+                                </svg>
+                            </a>
+                            <button type="submit" class="" id="reg__submit-button">Создать</button>
+                        </div>
+                    </form>
                 </div>
-            </form>
+            </div>
         </section>
     </main>
     <?php require('footer.php'); ?>
