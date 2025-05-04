@@ -260,10 +260,43 @@ textarea {
     border-radius: 2rem;
     padding: 4.1rem;
     display: flex;
-    margin-top: 2.6rem;
+    margin: 0 auto;
+    margin-top: 1.6rem;
     margin-bottom: 2.6rem;
     align-items: center;
     gap: 4.1rem;
+}
+
+.auth__notify {
+    font-size: var(--font-size-2);
+    padding: 1.6rem 2.1rem;
+    box-shadow: var(--shadow-small);
+    border-radius: 1rem;
+    margin: 0 auto;
+    margin-top: 1.6rem;
+    max-width: max-content;
+    scale: 90%;
+    opacity: 0;
+    transition: 0.2s;
+    text-align: center;
+}
+
+.auth__notify.success {
+    scale: 100%;
+    opacity: 100%;
+    background-color: var(--block-accent-color-210);
+    color: var(--main-accent-color);
+}
+
+.auth__notify.reject {
+    scale: 100%;
+    opacity: 100%;
+    background-color: var(--like-button-accent-color);
+    color: var(--error-accent-color);
+}
+
+.auth__notify #auth__notify-username {
+    font-weight: 600;
 }
 
 .div-line {

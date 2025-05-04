@@ -24,30 +24,37 @@ session_start();
     } ?>
     <?php require('header.php'); ?>
     <main>
-        <section class="wrapper auth__section">
-            <img src="pics/RampusLogo.svg">
-            <div class="div-line"></div>
-            <?php $request = '' ?>
-            <?php if (isset($_GET['request'])) {
-                $request = '?request=' . $_GET['request'];
-            } ?>
-            <form method="POST" class="auth__form" action="./back-files/sign-in<?php echo $request ?>">
-                <div>
-                    <legend>Вход Rampus</legend>
-                    <label>ID или почта<input type="text" required placeholder="rampus" name="email_or_username"></label>
-                    <label>Пароль<input type="password" required placeholder="********" minlength="8" name="password"></label>
-                </div>
-                <div>
-                    <button type="submit" class="">Войти</button>
-                    <div class="auth__links">
-                        <a href="./">Не помню пароль</a>
-                        <a href="./reg">Создать аккаунт</a>
+        <section class="wrapper">
+            <div class="auth__notify" id="auth__notify">
+                <p><span id="auth__notify-label">Вы авторизировались под пользователем </span><span id="auth__notify-username"></span></p>
+            </div>
+            <div class="auth__section">
+                <img src="pics/RampusLogo.svg">
+                <div class="div-line"></div>
+                <?php $request = '' ?>
+                <?php if (isset($_GET['request'])) {
+                    $request = '?request=' . $_GET['request'];
+                } ?>
+                <form method="" class="auth__form" action="">
+                    <div>
+                        <legend>Вход Rampus</legend>
+                        <label>ID или почта<input type="text" required placeholder="rampus" name="email_or_username" id="email_or_username"></label>
+                        <label>Пароль<input type="password" required placeholder="********" minlength="8" name="password" id="password"></label>
                     </div>
-                </div>
-            </form>
+                    <div>
+                        <button type="button" class="" id="auth-button">Войти</button>
+                        <div class="auth__links">
+                            <a href="./">Не помню пароль</a>
+                            <a href="./reg">Создать аккаунт</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
         </section>
     </main>
     <?php require('footer.php'); ?>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="js/auth.js?v=250"></script>
 </body>
 
 </html>
