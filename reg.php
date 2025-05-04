@@ -27,23 +27,23 @@ session_start();
         <section class="wrapper">
             <div class="reg__center">
                 <div class="reg__section">
-                    <div class="auth__notify" id="auth__notify">
-                        <p><span id="auth__notify-label">Вы авторизировались под пользователем </span><span id="auth__notify-username"></span></p>
+                    <div class="auth__notify" id="reg__notify">
+                        <p><span id="reg__notify-label">Вы авторизировались под пользователем </span><span id="reg__notify-username"></span></p>
                     </div>
                     <div>
                         <img src="pics/RampusLogo.svg">
                     </div>
-                    <form method="POST" class="reg__form" action="./back-files/sign-up" autocomplete="off">
+                    <form method="" class="reg__form" action="" autocomplete="off">
                         <legend class="title">Регистрация Rampus</legend>
                         <div class="reg__input-div">
                             <label id="reg__lable_email">Почта<input type="email" required placeholder="rampus@example.com" name="email" id="reg__email" class="auth-and-reg">
                                 <div><span id="reg__email_on-or-off">Такая почта свободна</span></div>
                             </label>
-                            <label id="reg__lable_id">Логин<input type="text" required placeholder="rampus" name="username" id="reg__id" class="auth-and-reg">
+                            <label id="reg__lable_id">Логин<input type="text" required placeholder="rampus" name="username" id="reg__username" class="auth-and-reg">
                                 <div><span id="reg__id_on-or-off">Такой ID свободен</span></div>
                             </label>
                             <label id="reg__label_pass-1">Пароль
-                                <input type="password" required placeholder="********" name="password_1" id="reg__password_1" minlength="8" class="auth-and-reg">
+                                <input type="password" required placeholder="********" name="password" id="reg__password" minlength="8" class="auth-and-reg">
                                 <div class="password"><span id="reg__8-sim">8 символов</span><span id="reg__num">Цифра</span><span id="reg__!?">! или ?</span></div>
                             </label>
                         </div>
@@ -54,7 +54,7 @@ session_start();
                                 </svg>
                             </a>
                             <span>У меня есть аккаунт</span>
-                            <button type="submit" class="" id="reg__submit-button">Создать</button>
+                            <button type="button" class="" id="reg-button">Создать</button>
                         </div>
                     </form>
                 </div>

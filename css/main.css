@@ -416,7 +416,8 @@ input.auth-and-reg::placeholder {
     opacity: 87%;
 }
 
-.auth__form button:active {
+.auth__form button:active,
+.reg__form button:active {
     transform: scale(95%);
 }
 

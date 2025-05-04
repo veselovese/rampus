@@ -19,8 +19,7 @@ $(document).ready(function () {
                     setTimeout(() => {
                         $('#auth__notify').removeClass('reject')
                     }, 2000)
-                }
-                if (username !== '') {
+                } else if (username !== '') {
                     $('#auth__notify-label').text('Привет, ')
                     $('#auth__notify-username').text('@' + username)
                     $('#auth__notify').addClass('success')
