@@ -35,8 +35,8 @@ session_start();
                         <!-- <a href="./auth" class="desktop reg__link">У меня есть аккаунт</a> -->
                     </div>
                     <form method="POST" class="reg__form" action="./back-files/sign-up" autocomplete="off">
+                        <legend class="title">Регистрация Rampus</legend>
                         <div class="reg__input-div">
-                            <!-- <legend>Регистрация Rampus</legend> -->
                             <label id="reg__lable_email">Почта<input type="email" required placeholder="rampus@example.com" name="email" id="reg__email" class="auth-and-reg">
                                 <div><span id="reg__email_on-or-off">Такая почта свободна</span></div>
                             </label>

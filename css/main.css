@@ -416,6 +416,10 @@ input.auth-and-reg::placeholder {
     opacity: 87%;
 }
 
+.auth__form button:active {
+    transform: scale(95%);
+}
+
 .auth__buttons,
 .reg__buttons {
     display: flex;
@@ -494,12 +498,14 @@ input.auth-and-reg::placeholder {
 }
 
 .reg__form input.off,
-#reg__lable_email #reg__email.off {
+#reg__lable_email #reg__email.off,
+.auth__form input.off {
     color: var(--error-accent-color);
     border: 1px solid var(--error-accent-color);
 }
 
-.reg__form input.on {
+.reg__form input.on,
+.auth__form input.on {
     color: var(--main-accent-color);
     border: 1px solid var(--main-accent-color);
 }
