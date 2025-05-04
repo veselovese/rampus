@@ -66,7 +66,6 @@ $(document).ready(function () {
     })
 })
 
-
 function authFormValid() {
     emailOrUsernameInput.addEventListener('input', () => {
         if (emailOrUsernameInput.value != '') {

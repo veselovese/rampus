@@ -70,9 +70,9 @@
     --error-accent-color: #FF220C;
     --block-accent-color-110: #E6E6E6;
     --block-accent-color-06: #F0F0F0;
-    --block-accent-color-210: #31A05E10;
-    --like-button-accent-color: #FF220C10;
-    --like-button-hover-color: #FF220C14;
+    --block-accent-color-210: #EBF6EF;
+    --like-button-accent-color: #FFE9E7;
+    --like-button-hover-color: #FFE0DD;
     --shadow-big: 0 0 15px #02020207;
     --shadow-small: 0 0 12px #02020205;
     --shadow-popup: 0 0 9px #02020211;
@@ -424,6 +424,7 @@ input.auth-and-reg::placeholder {
 .reg__buttons {
     display: flex;
     gap: 0.8rem;
+    position: relative;
 }
 
 .auth__buttons .create-account,
@@ -439,15 +440,81 @@ input.auth-and-reg::placeholder {
     align-items: center;
 }
 
+.auth__buttons span,
+.reg__buttons span {
+    position: absolute;
+    min-width: max-content;
+    top: 0;
+    left: calc(100% + 0.4rem + 0.8rem);
+    background-color: var(--block-accent-color-210);
+    height: 4rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 1.6rem;
+    border-radius: 1rem;
+    box-shadow: var(--shadow-small);
+    cursor: default;
+    pointer-events: none;
+    opacity: 0;
+    transition: 0.2s;
+    font-size: var(--font-size-1);
+    color: var(--main-accent-color);
+}
+
+.reg__buttons span {
+    left: auto;
+    right: calc(100% + 0.4rem + 0.8rem);
+}
+
+.auth__buttons span::before {
+    content: '';
+    display: block;
+    width: 0;
+    height: 0;
+    position: absolute;
+    border-top: 8px solid transparent;
+    border-bottom: 8px solid transparent;
+    border-right: 8px solid var(--block-accent-color-210);
+    left: -8px;
+    top: calc((4rem - 16px) / 2);
+}
+
+.reg__buttons span::before {
+    content: '';
+    display: block;
+    width: 0;
+    height: 0;
+    position: absolute;
+    border-top: 8px solid transparent;
+    border-bottom: 8px solid transparent;
+    border-left: 8px solid var(--block-accent-color-210);
+    right: -8px;
+    top: calc((4rem - 16px) / 2);
+}
+
+.auth__buttons .create-account:hover~span,
+.reg__buttons .have-account:hover~span {
+    opacity: 1;
+}
+
 .auth__buttons .create-account svg,
 .reg__buttons .have-account svg {
     fill: var(--main-accent-color);
     height: 13px;
     width: 13px;
+    transition: 0.2s;
+}
+
+.auth__buttons .create-account:hover svg {
+    transform: rotate(15deg);
 }
 
 .reg__buttons .have-account svg {
     transform: rotate(180deg);
+}
+.reg__buttons .have-account:hover svg {
+    transform: rotate(180deg) translateX(4px);
 }
 
 .auth__links,
