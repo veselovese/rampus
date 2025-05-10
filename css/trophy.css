@@ -12,6 +12,13 @@
     --block-accent-color-06: #F0F0F0;
     --block-accent-color-210: #EFF5F2;
     --like-button-accent-color: #FFE9E7;
+    --param-color: #533A7B;
+    --posts-color: #4BA3C3;
+    --back-posts-color: #DBEDF3;
+    --likes-color: #FA198B;
+    --back-likes-color: #FED1E8;
+    --comments-color: #FFBA49;
+    --back-comments-color: #FFF1DB;
     --shadow-big: 0 0 15px #02020207;
     --shadow-small: 0 0 12px #02020205;
     --shadow-popup: 0 0 9px #02020211;
@@ -20,6 +27,18 @@
     height: 100%
 }
 
+.rating-trophies-div {
+    background: linear-gradient(-135deg, var(--posts-color), var(--likes-color), var(--comments-color));
+    border-radius: 2rem;
+    padding: 0.625rem;
+    margin-bottom: 2.6rem;
+}
+
+.rating-trophies-div .section-title {
+    color: var(--block-color);
+    text-align: center;
+    font-weight: 600;
+}
 
 .trophy-list {
     display: flex;
@@ -28,21 +47,30 @@
     margin-bottom: 2.6rem;
 }
 
+.rating-trophies-div .trophy-list {
+    margin-bottom: 0;
+    gap: 0.625rem;
+}
+
 .current-trophy {
     display: flex;
     flex-direction: column;
     background-color: var(--block-color);
     box-shadow: var(--shadow-small);
     padding: 1rem 1.6rem;
-    border-radius: 2rem;
+    border-radius: calc(2rem - 0.625rem);
     min-width: min-content;
     width: calc((100% - 1rem*2)/3);
     transition: 0.2s;
     cursor: default;
 }
 
+.rating-trophies-div .current-trophy {
+    width: calc((100% - 0.625rem*2)/3);
+}
+
 .current-trophy:hover {
-    transform: scale(105%);
+    transform: scale(98%);
 }
 
 .current-trophy .icon {
@@ -50,17 +78,21 @@
     max-height: 75px;
     min-height: 75px;
     min-width: 75px;
+    transition: 0.2s ease-out;
 }
 
 .current-trophy .name {
     font-weight: 600;
 }
 
+.current-trophy .desc {
+    font-size: var(--font-size-2);
+}
+
 .current-trophy .date {
     font-size: var(--font-size-1);
     color: var(--else-text-color-50);
     text-transform: lowercase;
-    margin-top: 0.39rem;
 }
 
 .trophy-info {
@@ -70,16 +102,32 @@
     transition: 0.2s;
 }
 
+.current-trophy-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.625rem;
+}
+
 .user-trophy-info {
     margin-top: 0.39rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-top: auto;
+}
+
+.more-user-trophy-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.39rem;
 }
 
 .user-trophy-info img {
-    min-width: 28px;
-    min-height: 28px;
-    max-width: 28px;
-    max-height: 28px;
-    border-radius: 1.4rem;
+    min-width: 40px;
+    min-height: 40px;
+    max-width: 40px;
+    max-height: 40px;
+    border-radius: 2rem;
     margin: 0;
     object-fit: cover;
 }
@@ -87,9 +135,65 @@
 .user-trophy-info a {
     color: var(--main-text-color);
     font-size: var(--font-size-2);
+}
+
+.user-statistic {
+    display: flex;
+    gap: 0.39rem;
+    flex-wrap: wrap;
+    margin: 1rem 0 1.6rem;
+    align-items: center;
+    font-size: var(--font-size-1);
+    color: var(--else-text-color-50);
+}
+
+.current-static {
+    padding: 0.625em 1rem;
+    font-size: var(--font-size-1);
+    border-radius: 1rem;
     display: flex;
     align-items: center;
-    gap: 0.625rem;
+    justify-content: center;
+    gap: 0.39rem;
+}
+
+.current-static img {
+    min-width: 16px;
+    min-height: 16px;
+    max-width: 16px;
+    max-height: 16px;
+}
+
+.current-static.blossom-level {
+    /* border: 1px solid var(--comments-color); */
+    font-weight: 600;
+    padding: 0.625rem 0;
+    background: linear-gradient(-135deg, var(--posts-color), var(--likes-color), var(--comments-color));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    transition: 0.2s;
+}
+
+.current-static.blossom-level:hover {
+    text-decoration: underline;
+    text-decoration-color: var(--else-text-color-50);
+    text-decoration-thickness: 0.1rem;
+}
+
+.current-static.post {
+    background-color: var(--back-posts-color);
+    color: var(--posts-color);
+}
+
+.current-static.like {
+    background-color: var(--back-likes-color);
+    color: var(--likes-color);
+}
+
+.current-static.comment {
+    background-color: var(--back-comments-color);
+    color: var(--comments-color);
 }
 
 .br-mobile {
@@ -122,7 +226,7 @@
         flex-direction: column;
         align-items: center;
     }
-    
+
     .user-trophy-info {
         margin-top: 0.625rem;
     }
@@ -147,7 +251,7 @@
         display: block;
         z-index: 3;
     }
-    
+
 }
 
 @media (max-width: 720px) {
