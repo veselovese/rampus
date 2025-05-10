@@ -7,6 +7,10 @@ const passwordUniqSim = document.getElementById('reg__!?');
 const regSubmitButton = document.getElementById('reg_submit-button');
 
 $(document).ready(function () {
+    let emailValidFlag = false;
+    let idValidFlag = false;
+    let passwordValidFlag = false;
+
     onOrOffId();
 
     function onOrOffId(query) {
@@ -20,22 +24,27 @@ $(document).ready(function () {
                 if (flag == '') {
                     $('#reg__id_on-or-off').removeClass('show');
                     $('#reg__username').removeClass('off').removeClass('on');
+                    idValidFlag = false;
                 } else if (flag == 0) {
                     $('#reg__id_on-or-off').text('Ура, такой ID свободен');
                     $('#reg__id_on-or-off').removeClass('off').addClass('show');
                     $('#reg__username').removeClass('off').addClass('on');
+                    idValidFlag = true;
                 } else if (flag == 'have') {
                     $('#reg__id_on-or-off').text('О нет, такой ID занят');
                     $('#reg__id_on-or-off').addClass('off').addClass('show');
                     $('#reg__username').removeClass('on').addClass('off');
+                    idValidFlag = false;
                 } else if (flag == 'rus') {
                     $('#reg__id_on-or-off').text('Английские буквы, цифры и _');
                     $('#reg__id_on-or-off').addClass('off').addClass('show');
                     $('#reg__username').removeClass('on').addClass('off');
+                    idValidFlag = false;
                 } else if (flag == 'length') {
                     $('#reg__id_on-or-off').text('Максимум 16 символов');
                     $('#reg__id_on-or-off').addClass('off').addClass('show');
                     $('#reg__username').removeClass('on').addClass('off');
+                    idValidFlag = false;
                 }
             }
         });
@@ -63,14 +72,17 @@ $(document).ready(function () {
                 if (flag == '') {
                     $('#reg__email_on-or-off').removeClass('show');
                     $('#reg__email').removeClass('off').removeClass('on');
+                    emailValidFlag = false;
                 } else if (flag == 0) {
                     $('#reg__email_on-or-off').text('Ага, такая почта свободна');
                     $('#reg__email_on-or-off').removeClass('off').addClass('show');
                     $('#reg__email').removeClass('off').addClass('on');
+                    emailValidFlag = true;
                 } else if (flag == 1) {
                     $('#reg__email_on-or-off').text('Эх, такая почта занята');
                     $('#reg__email_on-or-off').addClass('off').addClass('show');
                     $('#reg__email').removeClass('on').addClass('off');
+                    emailValidFlag = false;
                 }
             }
         });
@@ -84,6 +96,50 @@ $(document).ready(function () {
             onOrOffEmail();
         }
     })
+
+    regFormValid();
+
+    function regFormValid() {
+        passwordInput.addEventListener('input', () => {
+            if (passwordInput.value == '') {
+                passwordInput.classList.remove('off')
+                passwordInput.classList.remove('on')
+                passwordValidFlag = false;
+            }
+
+            if (passwordInput.value.length > 7) {
+                password8Sim.classList.add('done');
+            } else {
+                passwordInput.classList.remove('off')
+                passwordInput.classList.remove('on')
+                password8Sim.classList.remove('done');
+                passwordValidFlag = false;
+            }
+            
+            if (/[0-9]/.test(passwordInput.value)) {
+                passwordNum.classList.add('done');
+            } else {
+                passwordInput.classList.remove('off')
+                passwordInput.classList.remove('on')
+                passwordNum.classList.remove('done');
+                passwordValidFlag = false;
+            }
+            
+            if (/[!?]/.test(passwordInput.value)) {
+                passwordUniqSim.classList.add('done');
+            } else {
+                passwordInput.classList.remove('off')
+                passwordInput.classList.remove('on')
+                passwordUniqSim.classList.remove('done');
+                passwordValidFlag = false;
+            }
+    
+            if ((passwordUniqSim.classList.contains('done')) && (passwordNum.classList.contains('done')) && (password8Sim.classList.contains('done'))) {
+                passwordInput.classList.add('on');
+                passwordValidFlag = true;
+            }
+        })
+    }
 
     function signUp(email, username, password) {
         $.ajax({
@@ -121,8 +177,8 @@ $(document).ready(function () {
                     $('#reg__notify-username').text('')
                     $('#reg__notify').addClass('success')
                     setTimeout(() => {
-                        window.location.href = 'auth.php'
-                    }, 1500)
+                        window.location.href = 'auth.php?reg=' + username
+                    }, 2000)
                 }
             },
         });
@@ -156,15 +212,35 @@ $(document).ready(function () {
             setTimeout(() => {
                 $('#reg__notify').removeClass('reject')
             }, 2000)
-        } else if ((onOrOffId(username.val()) == 0) && (onOrOffEmail(email.val()) == 0)) {
-            console.log('dsfsd')
+        } else if (emailValidFlag == false || !emailInput.validity.valid) {
+            $('#reg__notify-label').text('Некорректная почта')
+            $('#reg__notify-username').text('')
+            $('#reg__notify').addClass('reject')
+            email.addClass('off')
+                email.focus()
+            setTimeout(() => {
+                $('#reg__notify').removeClass('reject')
+            }, 2000)
+        } else if (idValidFlag == false) {
+            $('#reg__notify-label').text('Некорректный логин')
+            $('#reg__notify-username').text('')
+            $('#reg__notify').addClass('reject')
+            username.addClass('off')
+            username.focus()
+            setTimeout(() => {
+                $('#reg__notify').removeClass('reject')
+            }, 2000)
+        } else if (passwordValidFlag == false) {
+            $('#reg__notify-label').text('Некорректный пароль')
+            $('#reg__notify-username').text('')
+            $('#reg__notify').addClass('reject')
+            password.addClass('off')
+            password.focus()
+            setTimeout(() => {
+                $('#reg__notify').removeClass('reject')
+            }, 2000)
+        } else if (idValidFlag == true && emailValidFlag == true && emailInput.validity.valid && passwordValidFlag == true) {
             signUp(email.val(), username.val(), password.val());
-        } else {
-            console.log(username.val())
-            console.log(usernameFlag)
-            console.log(onOrOffId(username.val()))
-            console.log(email.val())
-            console.log(onOrOffEmail(email.val()))
         }
     })
 })
@@ -204,6 +280,3 @@ function regFormValid() {
         }
     })
 }
-
-regFormValid();
-

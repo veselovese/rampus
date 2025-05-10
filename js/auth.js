@@ -2,6 +2,14 @@ const emailOrUsernameInput = document.getElementById('email_or_username');
 const passwordInput = document.getElementById('password');
 const authButton = document.getElementById('auth-button');
 
+function removeInfoNotify() {
+    setTimeout(() => {
+        $('#auth__notify-info').removeClass('info')
+    }, 2000)
+}
+
+removeInfoNotify();
+
 $(document).ready(function () {
     function signIn(eOrP, password, request) {
         $.ajax({
@@ -20,7 +28,7 @@ $(document).ready(function () {
                         $('#auth__notify').removeClass('reject')
                     }, 2000)
                 } else if (username !== '') {
-                    $('#auth__notify-label').text('Привет, ')
+                    $('#auth__notify-label').text('Опа, это же ')
                     $('#auth__notify-username').text('@' + username)
                     $('#auth__notify').addClass('success')
                     setTimeout(() => {

@@ -27,8 +27,13 @@ session_start();
         <section class="wrapper">
             <div class="auth__center">
                 <div class="auth__section">
+                    <?php if (isset($_GET['reg'])) { ?>
+                        <div class="auth__notify info" id="auth__notify-info">
+                            <p><span class="auth__notify-label" id="auth__notify-label-extra">Отлично, теперь зайдите в аккаунт <span class="auth__notify-username" id="auth__notify-username-extra">@<?= $_GET['reg']; ?></span></span></p>
+                        </div>
+                    <?php } ?>
                     <div class="auth__notify" id="auth__notify">
-                        <p><span id="auth__notify-label">Привет, </span><span id="auth__notify-username"></span></p>
+                        <p><span id="auth__notify-label" class="auth__notify-label">Привет, </span><span id="auth__notify-username" class="auth__notify-username"></span></p>
                     </div>
                     <img src="pics/RampusLogo.svg">
                     <?php $request = '' ?>
@@ -38,7 +43,7 @@ session_start();
                     <form method="" class="auth__form" action="">
                         <legend class="title">Вход Rampus</legend>
                         <div>
-                            <label>Логин или почта<input type="text" required placeholder="rampus" name="email_or_username" id="email_or_username" class="auth-and-reg"></label>
+                            <label>Логин или почта<input type="text" required placeholder="rampus" name="email_or_username" id="email_or_username" class="auth-and-reg" value="<?php if (isset($_GET['reg'])) { echo $_GET['reg']; } ?>"></label>
                             <label>Пароль<input type="password" required placeholder="********" minlength="8" name="password" id="password" class="auth-and-reg"></label>
                         </div>
                         <div class="auth__buttons">

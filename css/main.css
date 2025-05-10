@@ -307,7 +307,14 @@ textarea {
     color: var(--error-accent-color);
 }
 
-.auth__notify #auth__notify-username {
+.auth__notify.info {
+    scale: 100%;
+    opacity: 100%;
+    background-color: var(--block-color);
+    color: var(--main-text-color);
+}
+
+.auth__notify .auth__notify-username {
     font-weight: 600;
 }
 
