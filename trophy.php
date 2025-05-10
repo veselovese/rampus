@@ -127,7 +127,7 @@ $all_trophies_2 = $connect->query("SELECT trophies.id AS id, trophies.name AS na
                     <div class="second-part">
                         <div class="">
                             <p class="main-title">Трофеи</p>
-                            <p class='section-title'>Рейтинг пользователей</p>
+                            <p class='section-title rating'>Рейтинг пользователей</p>
                             <div class='rating-trophies-div'>
                                 <div class='trophy-list'>
                                     <?php

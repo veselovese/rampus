@@ -34,10 +34,12 @@
     margin-bottom: 2.6rem;
 }
 
-.rating-trophies-div .section-title {
-    color: var(--block-color);
-    text-align: center;
-    font-weight: 600;
+.section-title.rating {
+    background: linear-gradient(-135deg, var(--posts-color), var(--likes-color), var(--comments-color));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    max-width: max-content;
 }
 
 .trophy-list {
@@ -67,10 +69,6 @@
 
 .rating-trophies-div .current-trophy {
     width: calc((100% - 0.625rem*2)/3);
-}
-
-.current-trophy:hover {
-    transform: scale(98%);
 }
 
 .current-trophy .icon {
@@ -135,6 +133,10 @@
 .user-trophy-info a {
     color: var(--main-text-color);
     font-size: var(--font-size-2);
+}
+
+.user-trophy-info a:hover {
+    opacity: 80%;
 }
 
 .user-statistic {
