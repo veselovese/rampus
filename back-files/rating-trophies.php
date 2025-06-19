@@ -28,7 +28,7 @@ if ($popular_likes->num_rows > 0) {
         $user_id_to_check = $connect->query("SELECT user_id_to FROM trophies WHERE id = 4")->fetch_assoc()['user_id_to'];
         $user_id_from_check = $connect->query("SELECT user_id_from FROM trophies WHERE id = 4")->fetch_assoc()['user_id_from'];
         $user_id_from = $user_id_to_check != $user_id_to ? $user_id_to_check : $user_id_from_check;
-        $connect->query("UPDATE trophies SET user_id_to = $user_id_to, user_id_from = $user_id_from, link = $post_id, description = $post_likes, get_date = NOW() WHERE id = 4");
+        $connect->query("UPDATE trophies SET user_id_to = $user_id_to, user_id_from = $user_id_from, link = $post_id, stat_number = $post_likes, get_date = NOW() WHERE id = 4");
     }
 }
 
@@ -50,7 +50,7 @@ if ($posts->num_rows > 0) {
         $user_id_to_check = $connect->query("SELECT user_id_to FROM trophies WHERE id = 5")->fetch_assoc()['user_id_to'];
         $user_id_from_check = $connect->query("SELECT user_id_from FROM trophies WHERE id = 5")->fetch_assoc()['user_id_from'];
         $user_id_from = $user_id_to_check != $user_id_to ? $user_id_to_check : $user_id_from_check;
-        $connect->query("UPDATE trophies SET user_id_to = $user_id_to, user_id_from = $user_id_from, link = $post_id, description = $max_comments, get_date = NOW() WHERE id = 5");
+        $connect->query("UPDATE trophies SET user_id_to = $user_id_to, user_id_from = $user_id_from, link = $post_id, stat_number = $max_comments, get_date = NOW() WHERE id = 5");
     }
 }
 
@@ -72,7 +72,7 @@ if ($users->num_rows > 0) {
         $user_id_to_check = $connect->query("SELECT user_id_to FROM trophies WHERE id = 6")->fetch_assoc()['user_id_to'];
         $user_id_from_check = $connect->query("SELECT user_id_from FROM trophies WHERE id = 6")->fetch_assoc()['user_id_from'];
         $user_id_from = $user_id_to_check != $user_id_to ? $user_id_to_check : $user_id_from_check;
-        $connect->query("UPDATE trophies SET user_id_to = $user_id_to, user_id_from = $user_id_from, description = $max_posts, get_date = NOW() WHERE id = 6");
+        $connect->query("UPDATE trophies SET user_id_to = $user_id_to, user_id_from = $user_id_from, stat_number = $max_posts, get_date = NOW() WHERE id = 6");
     }
 }
 
@@ -94,6 +94,6 @@ if ($users->num_rows > 0) {
         $user_id_to_check = $connect->query("SELECT user_id_to FROM trophies WHERE id = 7")->fetch_assoc()['user_id_to'];
         $user_id_from_check = $connect->query("SELECT user_id_from FROM trophies WHERE id = 7")->fetch_assoc()['user_id_from'];
         $user_id_from = $user_id_to_check != $user_id_to ? $user_id_to_check : $user_id_from_check;
-        $connect->query("UPDATE trophies SET user_id_to = $user_id_to, user_id_from = $user_id_from, description = $max_friends, get_date = NOW() WHERE id = 7");
+        $connect->query("UPDATE trophies SET user_id_to = $user_id_to, user_id_from = $user_id_from, stat_number = $max_friends, get_date = NOW() WHERE id = 7");
     }
 }

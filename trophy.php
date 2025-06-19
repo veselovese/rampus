@@ -7,6 +7,7 @@ if (isset($_SESSION['user'])) {
     require('back-files/rating-trophies.php');
     require('back-files/find-user-position-in-top.php');
     require('back-files/get-user-friends.php');
+    require('back-files/get-trophy-list.php');
 
     $user_id = $_SESSION['user']['id'];
     $result = $connect->query("SELECT * FROM users WHERE id = $user_id");
@@ -24,15 +25,6 @@ if (isset($_SESSION['user'])) {
     $unread_posts = $_SESSION['user']['unread_posts'];
     $result_request_to_counter = $result_request_to->num_rows;
 }
-
-$all_trophies_1 = $connect->query("SELECT trophies.id AS id, trophies.name AS name, trophies.image as image, DATE_FORMAT(trophies.get_date, '%e %M') AS get_date,
-                                        users.first_name as first_name, users.avatar as avatar, users.username as username, trophies.description, users.second_name, users.id AS user_id, users.blossom_level
-                                        FROM trophies
-                                        JOIN users ON trophies.user_id_to = users.id");
-$all_trophies_2 = $connect->query("SELECT trophies.id AS id, trophies.name AS name, trophies.image as image, DATE_FORMAT(trophies.get_date, '%e %M') AS get_date,
-                                        users.first_name as first_name, users.avatar as avatar, users.username as username, trophies.description, users.second_name, users.id AS user_id, users.blossom_level
-                                        FROM trophies
-                                        JOIN users ON trophies.user_id_to = users.id");
 ?>
 
 <!DOCTYPE html>
@@ -131,8 +123,9 @@ $all_trophies_2 = $connect->query("SELECT trophies.id AS id, trophies.name AS na
                             <div class='rating-trophies-div'>
                                 <div class='trophy-list'>
                                     <?php
-                                    if ($all_trophies_1->num_rows > 0) {
-                                        while ($row = $all_trophies_1->fetch_assoc()) {
+                                    $list = getTrophyList();
+                                    if ($list->num_rows > 0) {
+                                        while ($row = $list->fetch_assoc()) {
                                             $trophy_id = $row['id'];
                                             $trophy_name = $row['name'];
                                             $trophy_desc = $row['description'];
@@ -212,28 +205,42 @@ $all_trophies_2 = $connect->query("SELECT trophies.id AS id, trophies.name AS na
                                 <p class='section-title'>Основные показатели</p>
                                 <div class='trophy-list'>
                                     <?php
-                                    if ($all_trophies_2->num_rows > 0) {
-                                        while ($row = $all_trophies_2->fetch_assoc()) {
+                                    $list = getTrophyList();
+                                    if ($list->num_rows > 0) {
+                                        while ($row = $list->fetch_assoc()) {
                                             $trophy_id = $row['id'];
                                             $trophy_name = $row['name'];
+                                            $trophy_desc = $row['description'];
+                                            $trophy_stat = $row['stat_number'];
                                             $trophy_image = $row['image'];
                                             $trophy_date = $row['get_date'];
-                                            $user_name = $row['first_name'];
+                                            $user_first_name = $row['first_name'];
+                                            $user_second_name = $row['second_name'];
+                                            $user_id = $row['user_id'];
                                             $user_username = $row['username'];
                                             $user_avatar = $row['avatar'];
                                             if ($trophy_id > 3) {
                                                 echo "<div class='current-trophy'>
                                                 <div class='trophy-info'>
                                                 <img class='icon' src='$trophy_image'>
-                                                <div>
+                                                <div class='current-trophy-info'>
                                                 <p class='name'>$trophy_name</p>
+                                                <p class='desc'>$trophy_desc</p>
+                                                </div>
+                                                </div>
+                                                <div class='user-statistic'>
+                                                <span class='current-static'>$trophy_stat</span>
+                                                </div>
                                                 <div class='user-trophy-info'>
                                                     <a href='./user/$user_username'>
                                                     <img src='uploads/avatar/small_$user_avatar'>
-                                                    $user_name</a>
-                                                    <p class='date'>владеет <br class='br-mobile'>с $trophy_date</p>
-                                                </div>
-                                                </div>
+                                                    </a>
+                                                    <div class='more-user-trophy-info'>
+                                                    <a href='./user/$user_username'>
+                                                    $user_first_name $user_second_name
+                                                    </a>
+                                                    <span class='date'>владеет <br class='br-mobile'>с $trophy_date</span>
+                                                    </div>
                                                 </div>
                                                 </div>";
                                             } ?>

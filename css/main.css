@@ -746,6 +746,7 @@ input.auth-and-reg::placeholder {
 .second-part {
     width: 100%;
     min-width: 0;
+    position: relative;
 }
 
 .third-part {
