@@ -129,7 +129,7 @@ if (isset($_SESSION['user'])) {
                         <div class="wall__user-posts" id="success-render-posts">
                         </div>
                         <div class="wall__new-post">
-                            <p>Публикуем посты теперь отсюда</p>
+                            <p>О чём расскажете сегодня?</p>
                             <form action="./back-files/add" method="post" enctype="multipart/form-data" autocomplete="off">
                                 <div class="current-post-image-div">
                                     <img class="post-image" id="current-post-image" src="">
@@ -140,7 +140,7 @@ if (isset($_SESSION['user'])) {
                                     </div>
                                 </div>
                                 <div contenteditable="true" id="textarea-post" role="textbox" onkeyup="textareaPost(event)" onkeydown="textareaPostPlaceholder(event)"></div>
-                                <label for="textarea-post" id="textarea-post_label">О чём расскажете сегодня?</label>
+                                <label for="textarea-post" id="textarea-post_label">Планирую отпуск на Аляске..</label>
                                 <input type="hidden" required name="post" id="textarea-post_input" value="">
                                 <input type="hidden" required name="post-source" value="source-wall">
                                 <input type="hidden" required name="post-search" value="<?php if (isset($_GET['search'])) {

@@ -12,7 +12,7 @@ if (isset($_POST["username"])) {
         }
     }
     $sql_messages = "SELECT *
-    FROM messages WHERE (user_id_from = $current_user_id AND user_id_to = $other_user_id) OR (user_id_to = $current_user_id AND user_id_from = $other_user_id) ORDER BY send_date";
+    FROM messages WHERE (user_id_from = $current_user_id AND user_id_to = $other_user_id) OR (user_id_to = $current_user_id AND user_id_from = $other_user_id) ORDER BY send_date DESC";
 }
 $result_messages = $connect->query($sql_messages);
 if ($result_messages->num_rows > 0) {
@@ -22,13 +22,11 @@ if ($result_messages->num_rows > 0) {
         $message = $row_messages['message'];
         $send_date = $row_messages['send_date'];
         if ($id_from == $current_user_id) {
-            echo "<div class='my-message'>";
-            echo "<div class='current-user-info'>";
+            echo "<div class='message your-message'>";
             echo "<p>$message</p>";
             echo "</div>";
         } else if ($id_from == $other_user_id) {
-            echo "<div class='your-message'>";
-            echo "<div class='current-user-info'>";
+            echo "<div class='message other-message'>";
             echo "<p>$message</p>";
             echo "</div>";
         }
