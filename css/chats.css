@@ -1,0 +1,48 @@
+:root {
+    --background-color: #FBFBFB;
+    --block-color: #FFFFFF;
+    --main-text-color: #020202;
+    --else-text-color-50: #ACACAC;
+    --else-text-color-33: #CCCCCC;
+    --main-accent-color: #31A05E;
+    --else-accent-color-1: #E3DFFF;
+    --else-accent-color-2: #F7D488;
+    --error-accent-color: #FF220C;
+    --block-accent-color-110: #E6E6E6;
+    --block-accent-color-06: #F0F0F0;
+    --block-accent-color-210: #EFF5F2;
+    --param-color: #533A7B;
+    --posts-color: #3891A6;
+    --likes-color: #DB5461;
+    --comments-color: #D5A021;
+    --like-button-accent-color: #FFE9E7;
+    --shadow-big: 0 0 15px #02020207;
+    --shadow-small: 0 0 12px #02020205;
+    --shadow-popup: 0 0 9px #02020211;
+
+    font-size: 62.5%;
+    height: 100%
+}
+
+.all-chats > p:first-child {
+  font-size: var(--font-size-4);
+  font-weight: 600;
+  margin-bottom: 2.6rem;
+}
+
+.all-chats > p:first-child span {
+  color: var(--else-text-color-50);
+  margin-left: 1rem;
+}
+
+.search-chats-div {
+  position: relative;
+}
+
+.all-chats ul {
+  margin: 0;
+    margin-top: 0px;
+  padding: 0;
+  list-style: none;
+  margin-top: 1.6rem;
+}
