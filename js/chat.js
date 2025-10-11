@@ -11,6 +11,9 @@ setInterval(() => {
             },
             success: function (data) {
                 $('#success-load-chat').html(data);
+                $('#success-load-chat').removeClass('loading');
+                $('#chat-loading').removeClass('loading');
+
             }
         });
     }

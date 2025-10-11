@@ -56,13 +56,53 @@
 
 #success-load-chat {
     display: flex;
-    gap: 1.1rem;
+    gap: 0.625rem;
     flex-direction: column-reverse;
     height: calc(100% - 8.2rem - 10.4rem);
     scroll-behavior: smooth;
     overflow-y: scroll;
     scrollbar-width: none;
     padding: 1.6rem 2.1rem;
+}
+
+#success-load-chat.loading {
+    align-items: center;
+    justify-content: center;
+}
+
+#chat-loading {
+    position: absolute;
+    top: calc(50% - 34px);
+    left: calc(50% - 34px);
+    scale: 0;
+    fill: var(--main-accent-color);
+    min-width: 3.4rem;
+    max-width: 3.4rem;
+    min-height: 3.4rem;
+    max-height: 3.4rem;
+    transition: 0.2s;
+    animation: loading-chat 2s infinite ease-in-out;
+}
+
+#chat-loading.loading {
+    scale: 100%;
+}
+
+@keyframes loading-chat {
+    from {
+        transform: rotate(0);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.no-dialog {
+    margin-top: auto;
+    margin-bottom: auto;
+    align-self: center;
+    color: var(--else-text-color-50);
 }
 
 .user-info {
@@ -83,6 +123,20 @@
     -webkit-align-items: center;
     align-items: center;
     gap: 0.625rem;
+    cursor: pointer;
+    background-color: transparent;
+    border-radius: 1rem;
+    padding-right: 1.1rem;
+    padding-left: 1.1rem;
+    min-width: 2.8rem;
+    min-height: 3.4rem;
+    max-height: 3.4rem;
+    display: flex;
+    transition: 0.2s;
+}
+
+.chat__user-back:hover {
+    background-color: var(--like-button-accent-color);
 }
 
 .chat__user-back svg {
@@ -102,10 +156,32 @@
 }
 
 .message {
-    width: 100%;
+    width: 80%;
     max-width: fit-content;
     padding: 1.1rem 1.6rem;
     font-size: var(--font-size-2);
+    display: flex;
+    flex-direction: column;
+    gap: 0.39rem;
+}
+
+.message p {
+    width: 100%;
+    word-wrap: break-word;
+    word-break: break-word;
+}
+
+.message .send_date-time {
+    font-size: var(--font-size-1);
+    align-self: flex-end;
+}
+
+.send_date-day {
+    color: var(--else-text-color-50);
+    font-size: var(--font-size-1);
+    align-self: center;
+    text-transform: lowercase;
+    margin: 1.6rem 0;
 }
 
 .message.your-message {
@@ -114,10 +190,18 @@
     border-radius: 1rem 1rem 0 1rem;
 }
 
+.message.your-message .send_date-time {
+    color: var(--else-text-color-50);
+}
+
 .message.other-message {
     background-color: var(--block-accent-color-210);
     color: var(--main-accent-color);
     border-radius: 1rem 1rem 1rem 0;
+}
+
+.message.other-message .send_date-time {
+    color: var(--else-text-color-50);
 }
 
 .chat__new-message {
@@ -215,7 +299,7 @@
     background-color: transparent;
     border-radius: 1rem;
     padding-right: 1.1rem;
-    padding-left: 0.5rem;
+    padding-left: 1.1rem;
     min-width: 2.8rem;
     min-height: 3.4rem;
     max-height: 3.4rem;
@@ -224,6 +308,10 @@
     align-items: center;
     justify-content: center;
     transition: 0.2s;
+}
+
+.message-image-icon:hover {
+    background-color: var(--block-accent-color-06);
 }
 
 .message-image-icon svg {

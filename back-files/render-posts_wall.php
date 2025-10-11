@@ -213,7 +213,7 @@ if ($result_post->num_rows > 0) {
                         echo "</div>";
                     }
                     echo "<p class='comment-text main-text'>" . $comment_text . "</p>";
-                    echo "<span class='date'>" . $comment_date . "</span>";
+                    echo "<span class='date mobile'>" . $comment_date . "</span>";
                     echo "</div>";
                     echo "</div>";
                 }

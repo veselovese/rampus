@@ -85,7 +85,15 @@ if (isset($_SESSION['user'])) {
                                 </svg>
                                 Стена
                             </a>
-
+                        </li>
+                        <li>
+                            <a href="./chats">
+                                <svg width="28" height="24" viewBox="0 0 28 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M20.9219 4C20.4586 1.71776 18.4408 0 16.0219 0H4.99997C2.23855 0 -2.28882e-05 2.23858 -2.28882e-05 5V18H5V11C5 7.13401 8.13401 4 12 4H20.9219Z" />
+                                    <path d="M7 11C7 8.23858 9.23858 6 12 6H23C25.7614 6 28 8.23858 28 11V24H12C9.23858 24 7 21.7614 7 19V11Z" />
+                                </svg>
+                                Чаты
+                            </a>
                         </li>
                         <li><a href="./users"><svg width='28' height='24' viewBox='0 0 28 24' fill='none' xmlns='http://www.w3.org/2000/svg'>
                                     <path d='M15 4.49829C12.651 5.47785 11 7.79617 11 10.5001C11 11.397 11.1816 12.2514 11.5102 13.0287C10.4728 13.595 9.51192 14.3105 8.66116 15.1613C7.81316 16.0093 7.09958 16.9666 6.53414 18.0001L0 18C0 15.2153 1.10625 12.5446 3.07538 10.5754C4.33742 9.31339 5.88765 8.4058 7.5714 7.91672C6.60943 7.09142 6 5.86688 6 4.5C6 2.01472 8.01472 0 10.5 0C12.9847 0 14.9991 2.01379 15 4.49829Z' />
@@ -129,7 +137,7 @@ if (isset($_SESSION['user'])) {
                         <div class="wall__user-posts" id="success-render-posts">
                         </div>
                         <div class="wall__new-post">
-                            <p>О чём расскажете сегодня?</p>
+                            <!-- <p>О чём расскажете сегодня?</p> -->
                             <form action="./back-files/add" method="post" enctype="multipart/form-data" autocomplete="off">
                                 <div class="current-post-image-div">
                                     <img class="post-image" id="current-post-image" src="">
