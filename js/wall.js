@@ -132,6 +132,8 @@ postImage.addEventListener('change', (e) => {
         if (fileType) {
             reader.onload = () => {
                 $('#textarea-post').addClass('image-uploaded');
+                $('#textarea-post_sumbit').addClass('image-uploaded');
+                $('.current-post-image-div').addClass('image-uploaded');
                 $('.post-image-delete').css('display', 'flex');
                 document.getElementById('current-post-image').src = reader.result;
                 if (($('#textarea-post').text().trim(' ') != '') || ($('#post-image').val().length)) {
@@ -152,6 +154,8 @@ function clearPostImage() {
     document.getElementById('current-post-image').src = '';
     $('#post-image').val('');
     $('#textarea-post').removeClass('image-uploaded');
+    $('#textarea-post_sumbit').removeClass('image-uploaded');
+    $('.current-post-image-div').removeClass('image-uploaded');
     $('.post-image-delete').css('display', 'none');
     $('#textarea-post_sumbit').removeClass('active');
     $('#textarea-post_sumbit').attr('disabled');
