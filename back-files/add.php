@@ -6,6 +6,7 @@ require('blossoming.php');
 $user_id = $_SESSION['user']['id'];
 
 if (isset($_POST['post'])) $text_post = $_POST['post'];
+if (isset($_POST['post-mode'])) $post_mode = $_POST['post-mode'];
 if (isset($_POST['post-source'])) $post_source = $_POST['post-source'];
 if (isset($_POST['post-search'])) $post_search = $_POST['post-search'];
 if (isset($_FILES['post-image']) && $_FILES['post-image']['name'] != '') {
@@ -15,6 +16,8 @@ if (isset($_FILES['post-image']) && $_FILES['post-image']['name'] != '') {
     $dir = '../uploads/post-image/';
     $uploadfile = $dir . $name;
 }
+
+$for_friends = $post_mode == 'for-friends' ? true : false;
 
 function postImageSecurity($post_image)
 {
@@ -51,7 +54,7 @@ if (isset($_FILES['post-image']) && $_FILES['post-image']['name'] != '' && isset
                 $hashtag_id = $connect->query("SELECT id FROM hashtags WHERE name = '$hashtag'")->fetch_assoc()['id'];
             }
 
-            $result = mysqli_query($connect, "INSERT INTO posts (hashtag_id, text, user_id, img) VALUES ($hashtag_id, '$text_without_hashtags', $user_id, '$name');");
+            $result = mysqli_query($connect, "INSERT INTO posts (hashtag_id, text, user_id, for_friends, img) VALUES ($hashtag_id, '$text_without_hashtags', $user_id, '$for_friends', '$name');");
             $current_id = $connect->query("SELECT @@IDENTITY AS id")->fetch_assoc()['id'];
             
             blossoming($user_id, 'add-post', $connect);
@@ -126,7 +129,7 @@ if ((!isset($_FILES['post-image']) || $_FILES['post-image']['name'] == '') && is
             $hashtag_id = $connect->query("SELECT id FROM hashtags WHERE name = '$hashtag'")->fetch_assoc()['id'];
         }
 
-        $result = mysqli_query($connect, "INSERT INTO posts (hashtag_id, text, user_id, img) VALUES ($hashtag_id, '$text_without_hashtags', $user_id, '$name');");
+        $result = mysqli_query($connect, "INSERT INTO posts (hashtag_id, text, user_id, for_friends, img) VALUES ($hashtag_id, '$text_without_hashtags', $user_id, '$for_friends', '$name');");
         $current_id = $connect->query("SELECT @@IDENTITY AS id")->fetch_assoc()['id'];
         
         blossoming($user_id, 'add-post', $connect);

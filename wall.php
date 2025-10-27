@@ -167,6 +167,17 @@ if (isset($_SESSION['user'])) {
                                         </svg>
                                         <span>Фото</span>
                                     </div>
+                                    <fieldset class="post-mode-fieldset">
+                                        <legend>Режим публикации поста</legend>
+                                        <div>
+                                            <input type="radio" id="for-all" name="post-mode" value="for-all" checked />
+                                            <label for="for-all">Для всех</label>
+                                        </div>
+                                        <div>
+                                            <input type="radio" id="for-friends" name="post-mode" value="for-friends" />
+                                            <label for="for-friends">Для друзей</label>
+                                        </div>
+                                    </fieldset>
                                 </div>
                             </form>
                         </div>
