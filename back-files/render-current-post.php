@@ -6,6 +6,7 @@ $yesterday = date('Y-m-d', mktime(0, 0, 0, date("m"), date("d") - 1, date("Y")))
 $beforeyesterday = date('Y-m-d', mktime(0, 0, 0, date("m"), date("d") - 2, date("Y")));
 $month_list = array(1 => 'января', 2 => 'февраля', 3 => 'марта', 4 => 'апреля', 5 => 'мая', 6 => 'июня', 7 => 'июля', 8 => 'августа', 9 => 'сентября', 10 => 'октября', 11 => 'ноября', 12 => 'декабря');
 $current_user_id = $_SESSION['user']['id'];
+if (isset($_POST['post-id'])) $post_id = $_POST['post-id'];
 
 require_once('connect.php');
 require('find-user-position-in-top.php');
@@ -13,15 +14,11 @@ require('get-user-friends-id.php');
 
 $user_friends_id = implode(',', getUserFriendsId($current_user_id, $connect));
 
-$filter = $_POST['filter'] === 'friends' ? "AND posts.user_id IN ($user_friends_id)" : "";
-$search = $_POST['search'];
-$search = $search != null ? "AND hashtags.name = '$search'" : '';
-
 $sql_post = "SELECT posts.hashtag_id AS hashtag_id, posts.text AS post_text, post_date, posts.likes AS post_likes, posts.user_id AS user_id, users.first_name AS first_name, users.second_name AS second_name, users.avatar AS avatar, posts.id AS i, users.username AS username, posts.img AS post_image, posts.for_friends AS for_friends
                             FROM posts
                             JOIN users ON posts.user_id = users.id
                             LEFT JOIN hashtags ON posts.hashtag_id = hashtags.id
-                            WHERE posts.status = 0 $filter $search";
+                            WHERE posts.status = 0 AND posts.id = $post_id";
 
 $result_post = $connect->query($sql_post);
 if ($result_post->num_rows > 0) {
@@ -58,12 +55,12 @@ if ($result_post->num_rows > 0) {
             echo "<div class='user-post' id='post-$i'>";
             echo "<div>";
             echo "<div class='wall__user-info'>";
-            echo "<img class='avatar' src='uploads/avatar/thin_" . $post_avatar . "'>";
+            echo "<img class='avatar' src='../uploads/avatar/thin_" . $post_avatar . "'>";
             echo "<div>";
             if ($post_username == 'rampus') {
-                echo "<a href='./user/$post_username' class='first-and-second-names rampus'>" . $post_first_name . " " . $post_second_name . "</a>";
+                echo "<a href='../user/$post_username' class='first-and-second-names rampus'>" . $post_first_name . " " . $post_second_name . "</a>";
             } else {
-                echo "<a href='./user/$post_username' class='first-and-second-names'>" . $post_first_name . " " . $post_second_name . "</a>";
+                echo "<a href='../user/$post_username' class='first-and-second-names'>" . $post_first_name . " " . $post_second_name . "</a>";
             }
             echo "<span>" . $post_date . "</span>";
             echo "</div>";
@@ -72,32 +69,32 @@ if ($result_post->num_rows > 0) {
                 </svg>
                 <span class='for-friends'>Для друзей</span></div>" : "";
             if ($post_username == 'rampus') {
-                echo "<img src='pics/SuperUserIcon.svg'>";
+                echo "<img src='../pics/SuperUserIcon.svg'>";
             } else {
                 switch ($user_in_top) {
                     case 1:
-                        echo "<img src='pics/BlossomFirstIcon.svg'>";
+                        echo "<img src='../pics/BlossomFirstIcon.svg'>";
                         break;
                     case 2:
-                        echo "<img src='pics/BlossomSecondIcon.svg'>";
+                        echo "<img src='../pics/BlossomSecondIcon.svg'>";
                         break;
                     case 3:
-                        echo "<img src='pics/BlossomThirdIcon.svg'>";
+                        echo "<img src='../pics/BlossomThirdIcon.svg'>";
                         break;
                 }
             }
             echo "</div>";
             echo "<div class='div-show-three-dots-popup' onclick='showPopup($i)' id='div-show-three-dots-popup_$i'>";
-            echo "<img src='pics/ThreeDotsIcon.svg' class='show-three-dots-popup'>";
+            echo "<img src='../pics/ThreeDotsIcon.svg' class='show-three-dots-popup'>";
             echo "</div>";
             echo "<div class='three-dots-popup' id='three-dots-popup_$i'>";
             if ($post_user_id == $current_user_id) {
                 echo "<span class='three-dots-popup-li edit' onclick='editPost($i)'>Редактировать</span>";
             }
             echo "<span class='three-dots-popup-li copy-link' onclick='copyLinkToPost($i)'>Копировать ссылку</span>";
-            echo "<a class='three-dots-popup-li open-profile' href='./user/$post_username'>Открыть профиль</a>";
+            echo "<a class='three-dots-popup-li open-profile' href='../user/$post_username'>Открыть профиль</a>";
             if ($post_user_id == $current_user_id) {
-                echo "<a class='three-dots-popup-li delete-post' href='back-files/delete-post?post=$i&source=wall'>Удалить</a>";
+                echo "<a class='three-dots-popup-li delete-post' href='../back-files/delete-post?post=$i&source=wall'>Удалить</a>";
             }
             echo "</div>";
             echo "</div>";
@@ -115,8 +112,8 @@ if ($result_post->num_rows > 0) {
             //                 </form>";
             if ($post_image != null) {
                 echo "<div class='image-in-post-div'>";
-                echo "<img class='image-in-post-hide' src=./uploads/post-image/small_" . $post_image . ">";
-                echo "<img class='image-in-post' src=./uploads/post-image/small_" . $post_image . ">";
+                echo "<img class='image-in-post-hide' src=../uploads/post-image/small_" . $post_image . ">";
+                echo "<img class='image-in-post' src=../uploads/post-image/small_" . $post_image . ">";
                 echo "</div>";
             }
             echo "<div class='post-buttons'>";
@@ -206,20 +203,20 @@ if ($result_post->num_rows > 0) {
                             echo "<div class='div-line'></div>";
                         }
                         echo "<div class='user-comment'>";
-                        echo "<img src='uploads/avatar/thin_" . $comment_avatar . "'>";
+                        echo "<img src='../uploads/avatar/thin_" . $comment_avatar . "'>";
                         echo "<div class='comment-div'>";
                         if ($comment_username == 'rampus') {
-                            echo "<div><a href='./user/$comment_username' class='first-and-second-names rampus'>" . $comment_first_name . " " . $comment_second_name . "</a><span class='date'>" . $comment_date . "</span>";
+                            echo "<div><a href='../user/$comment_username' class='first-and-second-names rampus'>" . $comment_first_name . " " . $comment_second_name . "</a><span class='date'>" . $comment_date . "</span>";
                             if ($comment_user_id == $current_user_id) {
-                                echo "<a class='delete-comment' href='back-files/delete-comment?comment=$comment_id'><svg width='10' height='10' viewBox='0 0 10 10' fill='none' xmlns='http://www.w3.org/2000/svg'>
+                                echo "<a class='delete-comment' href='../back-files/delete-comment?comment=$comment_id'><svg width='10' height='10' viewBox='0 0 10 10' fill='none' xmlns='http://www.w3.org/2000/svg'>
                                         <path d='M0.191016 8.88671C-0.0636719 9.14141 -0.0636719 9.55428 0.191016 9.80898C0.445703 10.0637 0.858643 10.0637 1.11333 9.80898L0.191016 8.88671ZM5.46114 5.46114C5.71584 5.20644 5.71584 4.79357 5.46114 4.53888C5.20644 4.28418 4.79357 4.28418 4.53888 4.53888L5.46114 5.46114ZM4.53888 4.53888C4.28418 4.79357 4.28418 5.20644 4.53888 5.46114C4.79357 5.71584 5.20644 5.71584 5.46114 5.46114L4.53888 4.53888ZM9.80898 1.11333C10.0637 0.858644 10.0637 0.445703 9.80898 0.191016C9.55428 -0.0636719 9.14141 -0.0636719 8.88671 0.191016L9.80898 1.11333ZM5.46114 4.53888C5.20644 4.28418 4.79357 4.28418 4.53888 4.53888C4.28418 4.79357 4.28418 5.20644 4.53888 5.46114L5.46114 4.53888ZM8.88671 9.80898C9.14141 10.0637 9.55428 10.0637 9.80898 9.80898C10.0637 9.55428 10.0637 9.14141 9.80898 8.88671L8.88671 9.80898ZM4.53888 5.46114C4.79357 5.71584 5.20644 5.71584 5.46114 5.46114C5.71584 5.20644 5.71584 4.79357 5.46114 4.53888L4.53888 5.46114ZM1.11333 0.191016C0.858643 -0.0636719 0.445703 -0.0636719 0.191016 0.191016C-0.0636719 0.445703 -0.0636719 0.858644 0.191016 1.11333L1.11333 0.191016ZM1.11333 9.80898L5.46114 5.46114L4.53888 4.53888L0.191016 8.88671L1.11333 9.80898ZM5.46114 5.46114L9.80898 1.11333L8.88671 0.191016L4.53888 4.53888L5.46114 5.46114ZM4.53888 5.46114L8.88671 9.80898L9.80898 8.88671L5.46114 4.53888L4.53888 5.46114ZM5.46114 4.53888L1.11333 0.191016L0.191016 1.11333L4.53888 5.46114L5.46114 4.53888Z' />
                                         </svg></a>";
                             }
                             echo "</div>";
                         } else {
-                            echo "<div><a href='./user/$comment_username' class='first-and-second-names'>" . $comment_first_name . " " . $comment_second_name . "</a><span class='date'>" . $comment_date . "</span>";
+                            echo "<div><a href='../user/$comment_username' class='first-and-second-names'>" . $comment_first_name . " " . $comment_second_name . "</a><span class='date'>" . $comment_date . "</span>";
                             if ($comment_user_id == $current_user_id) {
-                                echo "<a class='delete-comment' href='back-files/delete-comment?comment=$comment_id'><svg width='10' height='10' viewBox='0 0 10 10' fill='none' xmlns='http://www.w3.org/2000/svg'>
+                                echo "<a class='delete-comment' href='../back-files/delete-comment?comment=$comment_id'><svg width='10' height='10' viewBox='0 0 10 10' fill='none' xmlns='http://www.w3.org/2000/svg'>
                                         <path d='M0.191016 8.88671C-0.0636719 9.14141 -0.0636719 9.55428 0.191016 9.80898C0.445703 10.0637 0.858643 10.0637 1.11333 9.80898L0.191016 8.88671ZM5.46114 5.46114C5.71584 5.20644 5.71584 4.79357 5.46114 4.53888C5.20644 4.28418 4.79357 4.28418 4.53888 4.53888L5.46114 5.46114ZM4.53888 4.53888C4.28418 4.79357 4.28418 5.20644 4.53888 5.46114C4.79357 5.71584 5.20644 5.71584 5.46114 5.46114L4.53888 4.53888ZM9.80898 1.11333C10.0637 0.858644 10.0637 0.445703 9.80898 0.191016C9.55428 -0.0636719 9.14141 -0.0636719 8.88671 0.191016L9.80898 1.11333ZM5.46114 4.53888C5.20644 4.28418 4.79357 4.28418 4.53888 4.53888C4.28418 4.79357 4.28418 5.20644 4.53888 5.46114L5.46114 4.53888ZM8.88671 9.80898C9.14141 10.0637 9.55428 10.0637 9.80898 9.80898C10.0637 9.55428 10.0637 9.14141 9.80898 8.88671L8.88671 9.80898ZM4.53888 5.46114C4.79357 5.71584 5.20644 5.71584 5.46114 5.46114C5.71584 5.20644 5.71584 4.79357 5.46114 4.53888L4.53888 5.46114ZM1.11333 0.191016C0.858643 -0.0636719 0.445703 -0.0636719 0.191016 0.191016C-0.0636719 0.445703 -0.0636719 0.858644 0.191016 1.11333L1.11333 0.191016ZM1.11333 9.80898L5.46114 5.46114L4.53888 4.53888L0.191016 8.88671L1.11333 9.80898ZM5.46114 5.46114L9.80898 1.11333L8.88671 0.191016L4.53888 4.53888L5.46114 5.46114ZM4.53888 5.46114L8.88671 9.80898L9.80898 8.88671L5.46114 4.53888L4.53888 5.46114ZM5.46114 4.53888L1.11333 0.191016L0.191016 1.11333L4.53888 5.46114L5.46114 4.53888Z' />
                                         </svg></a>";
                             }
@@ -234,20 +231,20 @@ if ($result_post->num_rows > 0) {
                             echo "<div class='div-line hide comment_div-line_$i'></div>";
                         }
                         echo "<div class='user-comment hide comment_user-comment_$i'>";
-                        echo "<img src='uploads/avatar/thin_" . $comment_avatar . "'>";
+                        echo "<img src='../uploads/avatar/thin_" . $comment_avatar . "'>";
                         echo "<div class='comment-div'>";
                         if ($comment_username == 'rampus') {
-                            echo "<div><a href='./user/$comment_username' class='first-and-second-names rampus'>" . $comment_first_name . " " . $comment_second_name . "</a><span class='date'>" . $comment_date . "</span>";
+                            echo "<div><a href='../user/$comment_username' class='first-and-second-names rampus'>" . $comment_first_name . " " . $comment_second_name . "</a><span class='date'>" . $comment_date . "</span>";
                             if ($comment_user_id == $current_user_id) {
-                                echo "<a class='delete-comment' href='back-files/delete-comment?comment=$comment_id'><svg width='10' height='10' viewBox='0 0 10 10' fill='none' xmlns='http://www.w3.org/2000/svg'>
+                                echo "<a class='delete-comment' href='../back-files/delete-comment?comment=$comment_id'><svg width='10' height='10' viewBox='0 0 10 10' fill='none' xmlns='http://www.w3.org/2000/svg'>
                                         <path d='M0.191016 8.88671C-0.0636719 9.14141 -0.0636719 9.55428 0.191016 9.80898C0.445703 10.0637 0.858643 10.0637 1.11333 9.80898L0.191016 8.88671ZM5.46114 5.46114C5.71584 5.20644 5.71584 4.79357 5.46114 4.53888C5.20644 4.28418 4.79357 4.28418 4.53888 4.53888L5.46114 5.46114ZM4.53888 4.53888C4.28418 4.79357 4.28418 5.20644 4.53888 5.46114C4.79357 5.71584 5.20644 5.71584 5.46114 5.46114L4.53888 4.53888ZM9.80898 1.11333C10.0637 0.858644 10.0637 0.445703 9.80898 0.191016C9.55428 -0.0636719 9.14141 -0.0636719 8.88671 0.191016L9.80898 1.11333ZM5.46114 4.53888C5.20644 4.28418 4.79357 4.28418 4.53888 4.53888C4.28418 4.79357 4.28418 5.20644 4.53888 5.46114L5.46114 4.53888ZM8.88671 9.80898C9.14141 10.0637 9.55428 10.0637 9.80898 9.80898C10.0637 9.55428 10.0637 9.14141 9.80898 8.88671L8.88671 9.80898ZM4.53888 5.46114C4.79357 5.71584 5.20644 5.71584 5.46114 5.46114C5.71584 5.20644 5.71584 4.79357 5.46114 4.53888L4.53888 5.46114ZM1.11333 0.191016C0.858643 -0.0636719 0.445703 -0.0636719 0.191016 0.191016C-0.0636719 0.445703 -0.0636719 0.858644 0.191016 1.11333L1.11333 0.191016ZM1.11333 9.80898L5.46114 5.46114L4.53888 4.53888L0.191016 8.88671L1.11333 9.80898ZM5.46114 5.46114L9.80898 1.11333L8.88671 0.191016L4.53888 4.53888L5.46114 5.46114ZM4.53888 5.46114L8.88671 9.80898L9.80898 8.88671L5.46114 4.53888L4.53888 5.46114ZM5.46114 4.53888L1.11333 0.191016L0.191016 1.11333L4.53888 5.46114L5.46114 4.53888Z' />
                                         </svg></a>";
                             }
                             echo "</div>";
                         } else {
-                            echo "<div><a href='./user/$comment_username' class='first-and-second-names'>" . $comment_first_name . " " . $comment_second_name . "</a><span class='date'>" . $comment_date . "</span>";
+                            echo "<div><a href='../user/$comment_username' class='first-and-second-names'>" . $comment_first_name . " " . $comment_second_name . "</a><span class='date'>" . $comment_date . "</span>";
                             if ($comment_user_id == $current_user_id) {
-                                echo "<a class='delete-comment' href='back-files/delete-comment?comment=$comment_id'><svg width='10' height='10' viewBox='0 0 10 10' fill='none' xmlns='http://www.w3.org/2000/svg'>
+                                echo "<a class='delete-comment' href='../back-files/delete-comment?comment=$comment_id'><svg width='10' height='10' viewBox='0 0 10 10' fill='none' xmlns='http://www.w3.org/2000/svg'>
                                         <path d='M0.191016 8.88671C-0.0636719 9.14141 -0.0636719 9.55428 0.191016 9.80898C0.445703 10.0637 0.858643 10.0637 1.11333 9.80898L0.191016 8.88671ZM5.46114 5.46114C5.71584 5.20644 5.71584 4.79357 5.46114 4.53888C5.20644 4.28418 4.79357 4.28418 4.53888 4.53888L5.46114 5.46114ZM4.53888 4.53888C4.28418 4.79357 4.28418 5.20644 4.53888 5.46114C4.79357 5.71584 5.20644 5.71584 5.46114 5.46114L4.53888 4.53888ZM9.80898 1.11333C10.0637 0.858644 10.0637 0.445703 9.80898 0.191016C9.55428 -0.0636719 9.14141 -0.0636719 8.88671 0.191016L9.80898 1.11333ZM5.46114 4.53888C5.20644 4.28418 4.79357 4.28418 4.53888 4.53888C4.28418 4.79357 4.28418 5.20644 4.53888 5.46114L5.46114 4.53888ZM8.88671 9.80898C9.14141 10.0637 9.55428 10.0637 9.80898 9.80898C10.0637 9.55428 10.0637 9.14141 9.80898 8.88671L8.88671 9.80898ZM4.53888 5.46114C4.79357 5.71584 5.20644 5.71584 5.46114 5.46114C5.71584 5.20644 5.71584 4.79357 5.46114 4.53888L4.53888 5.46114ZM1.11333 0.191016C0.858643 -0.0636719 0.445703 -0.0636719 0.191016 0.191016C-0.0636719 0.445703 -0.0636719 0.858644 0.191016 1.11333L1.11333 0.191016ZM1.11333 9.80898L5.46114 5.46114L4.53888 4.53888L0.191016 8.88671L1.11333 9.80898ZM5.46114 5.46114L9.80898 1.11333L8.88671 0.191016L4.53888 4.53888L5.46114 5.46114ZM4.53888 5.46114L8.88671 9.80898L9.80898 8.88671L5.46114 4.53888L4.53888 5.46114ZM5.46114 4.53888L1.11333 0.191016L0.191016 1.11333L4.53888 5.46114L5.46114 4.53888Z' />
                                         </svg></a>";
                             }
@@ -267,7 +264,7 @@ if ($result_post->num_rows > 0) {
                 echo "</div>";
             }
             echo "<div class='current-user'>";
-            echo "<form action='./back-files/comment' method='post' autocomplete='off'>
+            echo "<form action='../back-files/comment' method='post' autocomplete='off'>
                     <div contenteditable='true' class='textarea-comment' id='textarea-comment_$i' role='textbox' onkeyup='textareaComment(event, $i)' onkeydown='textareaCommentPlaceholder(event, $i)'></div>
                     <label for='textarea-comment' class='textarea-comment_label' id='textarea-comment_label_$i'>Ответить..</label>
                     <input type='hidden' required name='comment' class='textarea-comment_input' id='textarea-comment_input_$i' value=''>

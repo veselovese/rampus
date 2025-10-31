@@ -1008,7 +1008,7 @@ div.for-friends svg {
 .post-mode-fieldset div:has([type="radio"]:checked) label {
     background-color: var(--block-accent-color-210);
     color: var(--main-accent-color);
-    font-weight: 600;
+    /* font-weight: 600; */
 }
 
 @media (max-width: 1320px) {

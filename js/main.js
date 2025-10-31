@@ -75,6 +75,44 @@ $(document).ready(function () {
         })
     })
 
+    $('.wall__user-posts.current-post').on('click', '.unliked', function () {
+        const postId = $(this).attr('id');
+        $post = $(this);
+        $.ajax({
+            url: '../wall',
+            type: 'post',
+            data: {
+                'liked': 1,
+                'postId': postId
+            },
+            success: function (response) {
+                $post.find('.like-counter').text(response);
+                $post.siblings().find('.like-counter').text(response);
+                $post.addClass('hide');
+                $post.siblings().removeClass('hide');
+            }
+        })
+    })
+
+    $('.wall__user-posts.current-post').on('click', '.liked', function () {
+        const postId = $(this).attr('id');
+        $post = $(this);
+        $.ajax({
+            url: '../wall',
+            type: 'post',
+            data: {
+                'unliked': 1,
+                'postId': postId
+            },
+            success: function (response) {
+                $post.find('.like-counter').text(response);
+                $post.siblings().find('.like-counter').text(response);
+                $post.addClass('hide');
+                $post.siblings().removeClass('hide');
+            }
+        })
+    })
+
     searchHashtag();
 
     function searchHashtag(query) {
@@ -134,7 +172,7 @@ $(document).ready(function () {
 })
 
 function copyLinkToPost(i) {
-    navigator.clipboard.writeText('https://rampus.ru/post/' + i);
+    navigator.clipboard.writeText('http://localhost/rampus/post/' + i);
 }
 
 function showPopup(i) {

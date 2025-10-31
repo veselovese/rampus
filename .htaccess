@@ -21,7 +21,7 @@ RewriteRule ^(.*)$ %1/%2 [R=301,L]
 RewriteCond %{THE_REQUEST} ([^\s]*)\/{2,}(\?[^\s]*)?
 RewriteRule ^(.*)$ / [R=301,L]
 
-RewriteRule ^post/([0-9]+)$ "https://localhost/rampus/wall#post-$1" [NE,R]
+RewriteRule ^post/([0-9]+)$ current-post.php?postid=$1  
 
 RewriteRule ^user/([\w]+)$ other-user-profile.php?username=$1 
 
