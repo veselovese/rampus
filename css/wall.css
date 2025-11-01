@@ -80,6 +80,18 @@
     }
 }
 
+@keyframes showPopupUp {
+    from {
+        opacity: 0;
+        transform: scale(0%) translate(-50%, 50%);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(100%) translate(0, 0);
+    }
+}
+
 @keyframes hidePopup {
     from {
         opacity: 1;
@@ -89,6 +101,18 @@
     to {
         opacity: 0;
         transform: scale(0%) translate(50%, -50%);
+    }
+}
+
+@keyframes hidePopupDown {
+    from {
+        opacity: 1;
+        transform: scale(100%) translate(0, 0);
+    }
+
+    to {
+        opacity: 0;
+        transform: scale(0%) translate(-50%, 50%);
     }
 }
 
@@ -176,11 +200,11 @@
 .wall__new-post form {
     display: flex;
     flex-direction: column;
-    gap: 0.39rem;
+    gap: 0rem;
     position: relative;
     width: 100%;
     transition: 0.2s;
-    /* background-color: var(--block-color); */
+    background-color: var(--block-color);
     border-radius: calc(2rem - 0.39rem);
 }
 
@@ -197,9 +221,8 @@
 
 .postarea-buttons {
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    /* padding: 0 1.1rem; */
+    padding: 0 0.6rem 0.6rem;
 }
 
 .wall__new-post button {
@@ -217,12 +240,8 @@
 
 #textarea-post_sumbit {
     position: absolute;
-    right: 0.39rem;
-    top: 0.39rem;
-}
-
-#textarea-post_sumbit.image-uploaded {
-    top: calc(0.39rem + 0.39rem*2 + 100px + 0.39rem);
+    right: 0.6rem;
+    bottom: 0.6rem;
 }
 
 .wall__comments button {
@@ -240,10 +259,10 @@
 
 .wall__new-post button svg {
     fill: var(--else-text-color-33);
-    min-width: calc(4rem - 0.39rem*2);
-    max-width: calc(4rem - 0.39rem*2);
-    min-height: calc(4rem - 0.39rem*2);
-    max-height: calc(4rem - 0.39rem*2);
+    min-width: 3.4rem;
+    max-width: 3.4rem;
+    min-height: 3.4rem;
+    max-height: 3.4rem;
     transition: 0.2s;
 }
 
@@ -280,9 +299,7 @@
     outline: none;
     background-color: var(--block-color);
     border-radius: calc(2rem - 0.39rem);
-    padding: 1.25rem 0;
-    padding-left: 1.6rem;
-    padding-right: calc((4rem - 0.39rem*2) + 0.39rem*2);
+    padding: 1.25rem 1.6rem;
     margin: 0;
     word-wrap: break-word;
     word-break: break-word;
@@ -853,9 +870,9 @@ div.for-friends svg {
 .post-image-icon {
     cursor: pointer;
     background-color: transparent;
-    border-radius: calc(2rem - 0.39rem);
-    padding-right: 1.1rem;
-    padding-left: 1.1rem;
+    border-radius: calc(2rem - 0.39rem*2);
+    padding-right: 1rem;
+    padding-left: 1rem;
     min-width: 2.8rem;
     min-height: 3.4rem;
     max-height: 3.4rem;
@@ -866,16 +883,16 @@ div.for-friends svg {
     transition: 0.2s;
 }
 
-/* .post-image-icon:hover {
+.post-image-icon:hover {
     background-color: var(--block-accent-color-06);
-} */
+}
 
 .post-image-icon svg {
     min-height: 19px;
     max-height: 19px;
     min-width: 19px;
     max-width: 19px;
-    fill: var(--block-color);
+    fill: var(--main-accent-color);
     transition: 0.2s;
 }
 
@@ -885,7 +902,7 @@ div.for-friends svg {
 
 .post-image-icon span {
     font-size: var(--font-size-1);
-    color: var(--block-color);
+    color: var(--else-text-color-50);
     transition: 0.2s;
 }
 
@@ -965,16 +982,80 @@ div.for-friends svg {
 
 .post-mode-fieldset {
     margin: 0;
-    padding: 0.39rem;
+    padding: 0.625rem;
+    border-radius: calc(2rem - 0.39rem*2);
     display: flex;
-    align-items: center;
+    flex-direction: column;
+    gap: 0.39rem;
+    align-items: flex-start;
     border: transparent;
+    outline: none;
+    background-color: var(--block-color);
+    font-size: var(--font-size-1);
+    transition: 0.2s;
+    visibility: hidden;
+    animation: hidePopupDown 0.2s;
+    box-shadow: var(--shadow-popup);
+    position: absolute;
+    left: 0;
+    bottom: calc(3.4rem + 0.625rem);
+    width: 100%;
+    max-width: max-content;
+}
+
+.post-mode-fieldset>div {
+    width: 100%;
+}
+
+.post-mode-fieldset.show {
+    visibility: visible;
+    animation: showPopupUp 0.2s;
+}
+
+.post-mode__div {
+    position: relative;
+}
+
+.post-mode-div {
+    cursor: pointer;
+    margin: 0;
+    padding: 0;
+    border-radius: calc(2rem - 0.39rem*2);
+    padding-right: 1rem;
+    padding-left: 1rem;
+    min-width: 2.8rem;
     min-height: 3.4rem;
     max-height: 3.4rem;
-    border-radius: calc(2rem - 0.39rem);
+    display: flex;
+    gap: 0.625rem;
+    align-items: center;
+    border: transparent;
     outline: none;
-    background-color: var(--background-color);
+    background-color: transparent;
     font-size: var(--font-size-1);
+    transition: 0.2s;
+}
+
+.post-mode-div:hover {
+    background-color: var(--block-accent-color-06);
+}
+
+.post-mode-div.mode__for-friends {
+    background-color: var(--block-accent-color-210);
+}
+
+.post-mode-div.mode__for-friends span {
+    color: var(--main-accent-color);
+}
+
+.post-mode-div span {
+    font-size: var(--font-size-1);
+    color: var(--else-text-color-50);
+    transition: 0.2s;
+}
+
+.post-mode-div:hover span {
+    opacity: 80%;
 }
 
 .post-mode-fieldset legend {
@@ -991,14 +1072,16 @@ div.for-friends svg {
 .post-mode-fieldset label {
     transition: 0.2s;
     cursor: pointer;
-    border-radius: calc(2rem - 0.39rem - 0.39rem);
+    border-radius: calc(2rem - 0.39rem*2 - 0.625rem);
     color: var(--else-text-color-50);
-    min-height: calc(3.4rem - 0.39rem*2);
-    max-height: calc(3.4rem - 0.39rem*2);
     display: flex;
-    align-items: center;
-    padding-right: 1.1rem;
-    padding-left: 1.1rem;
+    flex-direction: column;
+    gap: 0.39rem;
+    padding: 1rem 1.6rem;
+    font-size: var(--font-size-2);
+    font-weight: 600;
+    width: 100%;
+    min-width: max-content;
 }
 
 .post-mode-fieldset label:hover {
@@ -1008,7 +1091,22 @@ div.for-friends svg {
 .post-mode-fieldset div:has([type="radio"]:checked) label {
     background-color: var(--block-accent-color-210);
     color: var(--main-accent-color);
-    /* font-weight: 600; */
+}
+
+.post-mode-fieldset label span {
+    font-weight: 400;
+    font-size: var(--font-size-1);
+    color: var(--else-text-color-50);
+    min-width: min-content;
+}
+
+.post-mode-div svg {
+    min-height: 19px;
+    max-height: 19px;
+    min-width: 19px;
+    max-width: 19px;
+    fill: var(--main-accent-color);
+    transition: 0.2s;
 }
 
 @media (max-width: 1320px) {

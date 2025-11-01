@@ -228,7 +228,6 @@
 .chat__new-message form {
     display: flex;
     flex-direction: column;
-    gap: 1.1rem;
     position: relative;
     width: 100%;
     transition: 0.2s;
@@ -289,17 +288,16 @@
 
 .messagearea-buttons {
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    padding: 0 1.1rem 1.1rem 1.1rem;
+    padding: 0 0.6rem 0.6rem;
 }
 
 .message-image-icon {
     cursor: pointer;
     background-color: transparent;
     border-radius: 1rem;
-    padding-right: 1.1rem;
-    padding-left: 1.1rem;
+    padding-right: 1rem;
+    padding-left: 1rem;
     min-width: 2.8rem;
     min-height: 3.4rem;
     max-height: 3.4rem;
@@ -336,10 +334,17 @@
     margin: 0;
     pointer-events: none;
     transition: 0.2s;
+    position: absolute;
+    right: 0.6rem;
+    bottom: 0.6rem;
+    opacity: 0;
+    transform: scale(50%) translateY(1rem);
 }
 
 .chat__new-message button.active {
     pointer-events: all;
+    opacity: 1;
+    transform: scale(100%);
 }
 
 .chat__new-message button.active svg {

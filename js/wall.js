@@ -160,3 +160,19 @@ function clearPostImage() {
     $('#textarea-post_sumbit').removeClass('active');
     $('#textarea-post_sumbit').attr('disabled');
 }
+
+function showPostModePopup() {
+    $('#post-mode-fieldset').toggleClass('show');
+}
+
+$(document).on('click', function (e) {
+    console.log($(e.target).closest('#mode__for-friends').length)
+    if (($(e.target).closest('#mode__for-friends')).length) {
+        $('.post-mode-div').addClass('mode__for-friends')
+    } else if (($(e.target).closest('#mode__for-all')).length) {
+        $('.post-mode-div').removeClass('mode__for-friends')
+    }
+    if (!($(e.target).closest('.post-mode-div').length)) {
+        $(this).find('#post-mode-fieldset').removeClass('show')
+    }
+})
