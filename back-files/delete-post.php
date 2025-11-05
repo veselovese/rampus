@@ -4,8 +4,7 @@ require_once('connect.php');
 require('blossoming.php');
 
 $user_id = $_SESSION['user']['id'];
-$post_id = $_GET["post"];
-$source = $_GET["source"];
+$post_id = $_POST["post_id"];
 $hashtag_id = $connect->query("SELECT hashtag_id FROM posts WHERE id = $post_id AND user_id = $user_id")->fetch_assoc()['hashtag_id'];
 
 if ($hashtag_id > 0) {
@@ -43,9 +42,3 @@ if ($other_users_id_likes->num_rows > 0) {
 }
 
 $connect->query("DELETE FROM posts WHERE id = $post_id AND user_id = $user_id");
-
-if ($source == 'profile') {
-    header('Location: ../profile');
-} else if ($source == 'wall') {
-    header('Location: ../wall');
-}

@@ -1,80 +1,4 @@
 $(document).ready(function () {
-    $('.wall__user-posts').on('click', '.unliked', function () {
-        const postId = $(this).attr('id');
-        $post = $(this);
-        $.ajax({
-            url: 'wall',
-            type: 'post',
-            data: {
-                'liked': 1,
-                'postId': postId
-            },
-            success: function (response) {
-                $post.find('.like-counter').text(response);
-                $post.siblings().find('.like-counter').text(response);
-                $post.addClass('hide');
-                $post.siblings().removeClass('hide');
-            }
-        })
-    })
-
-    $('.wall__user-posts').on('click', '.liked', function () {
-        const postId = $(this).attr('id');
-        $post = $(this);
-        $.ajax({
-            url: 'wall',
-            type: 'post',
-            data: {
-                'unliked': 1,
-                'postId': postId
-            },
-            success: function (response) {
-                $post.find('.like-counter').text(response);
-                $post.siblings().find('.like-counter').text(response);
-                $post.addClass('hide');
-                $post.siblings().removeClass('hide');
-            }
-        })
-    })
-
-    $('.profile__user-posts').on('click', '.unliked', function () {
-        const postId = $(this).attr('id');
-        $post = $(this);
-        $.ajax({
-            url: 'wall',
-            type: 'post',
-            data: {
-                'liked': 1,
-                'postId': postId
-            },
-            success: function (response) {
-                $post.find('.like-counter').text(response);
-                $post.siblings().find('.like-counter').text(response);
-                $post.addClass('hide');
-                $post.siblings().removeClass('hide');
-            }
-        })
-    })
-
-    $('.profile__user-posts').on('click', '.liked', function () {
-        const postId = $(this).attr('id');
-        $post = $(this);
-        $.ajax({
-            url: 'wall',
-            type: 'post',
-            data: {
-                'unliked': 1,
-                'postId': postId
-            },
-            success: function (response) {
-                $post.find('.like-counter').text(response);
-                $post.siblings().find('.like-counter').text(response);
-                $post.addClass('hide');
-                $post.siblings().removeClass('hide');
-            }
-        })
-    })
-
     $('.wall__user-posts.current-post').on('click', '.unliked', function () {
         const postId = $(this).attr('id');
         $post = $(this);
@@ -109,6 +33,21 @@ $(document).ready(function () {
                 $post.siblings().find('.like-counter').text(response);
                 $post.addClass('hide');
                 $post.siblings().removeClass('hide');
+            }
+        })
+    })
+
+    $('.wall__user-posts.current-post').on('click', '.delete-post', function () {
+        const postId = $(this).attr('id');
+        $deletePost = $(this);
+        $.ajax({
+            url: '../back-files/delete-post',
+            type: 'post',
+            data: {
+                'post_id': postId,
+            },
+            success: function (response) {
+                window.location = '../wall'
             }
         })
     })

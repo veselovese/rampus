@@ -17,6 +17,74 @@ $(document).ready(function () {
         });
     }
 
+    $('.wall__user-posts').on('click', '.unliked', function () {
+        const postId = $(this).attr('id');
+        $post = $(this);
+        $.ajax({
+            url: 'wall',
+            type: 'post',
+            data: {
+                'liked': 1,
+                'postId': postId
+            },
+            success: function (response) {
+                $post.find('.like-counter').text(response);
+                $post.siblings().find('.like-counter').text(response);
+                $post.addClass('hide');
+                $post.siblings().removeClass('hide');
+            }
+        })
+    })
+
+    $('.wall__user-posts').on('click', '.liked', function () {
+        const postId = $(this).attr('id');
+        $post = $(this);
+        $.ajax({
+            url: 'wall',
+            type: 'post',
+            data: {
+                'unliked': 1,
+                'postId': postId
+            },
+            success: function (response) {
+                $post.find('.like-counter').text(response);
+                $post.siblings().find('.like-counter').text(response);
+                $post.addClass('hide');
+                $post.siblings().removeClass('hide');
+            }
+        })
+    })
+
+    $('.wall__user-posts').on('click', '.delete-post', function () {
+        const postId = $(this).attr('id');
+        $deletePost = $(this);
+        $.ajax({
+            url: 'back-files/delete-post',
+            type: 'post',
+            data: {
+                'post_id': postId,
+            },
+            success: function (response) {
+                $deletePost.parent().parent().parent().addClass('deleted')
+            }
+        })
+    })
+
+    $('.wall__user-posts').on('click', '.delete-comment', function () {
+        const commentId = $(this).attr('id');
+        $deleteComment = $(this);
+        $.ajax({
+            url: 'back-files/delete-comment',
+            type: 'post',
+            data: {
+                'comment_id': commentId,
+            },
+            success: function (response) {
+                $deleteComment.parent().parent().parent().addClass('deleted')
+            }
+        })
+    })
+
     $('#wall-filter-friends').click(() => {
         renderPosts('friends', search);
     })
@@ -166,7 +234,6 @@ function showPostModePopup() {
 }
 
 $(document).on('click', function (e) {
-    console.log($(e.target).closest('#mode__for-friends').length)
     if (($(e.target).closest('#mode__for-friends')).length) {
         $('.post-mode-div').addClass('mode__for-friends')
     } else if (($(e.target).closest('#mode__for-all')).length) {

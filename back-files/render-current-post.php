@@ -94,7 +94,7 @@ if ($result_post->num_rows > 0) {
             echo "<span class='three-dots-popup-li copy-link' onclick='copyLinkToPost($i)'>Копировать ссылку</span>";
             echo "<a class='three-dots-popup-li open-profile' href='../user/$post_username'>Открыть профиль</a>";
             if ($post_user_id == $current_user_id) {
-                echo "<a class='three-dots-popup-li delete-post' href='../back-files/delete-post?post=$i&source=wall'>Удалить</a>";
+                echo "<span class='three-dots-popup-li delete-post' id='$i'>Удалить</span>";
             }
             echo "</div>";
             echo "</div>";

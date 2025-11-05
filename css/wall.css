@@ -45,6 +45,23 @@
     cursor: default;
 }
 
+.wall__user-posts .user-post.deleted {
+    animation: deletingPost 1s forwards;
+}
+
+@keyframes deletingPost {
+    from {
+        opacity: 1;
+        transform: scale(100%);
+    }
+
+    to {
+        opacity: 0;
+        transform: scale(0%);
+        position: fixed;
+    }
+}
+
 .user-post .three-dots-popup {
     font-size: var(--font-size-1);
     border-radius: 1rem;
@@ -579,6 +596,10 @@ div.for-friends svg {
     position: relative;
     gap: 1rem;
     margin: 1rem 0;
+}
+
+.wall__comments .other-users .user-comment.deleted {
+    display: none;
 }
 
 .wall__comments .other-users {

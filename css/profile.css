@@ -521,7 +521,9 @@
     position: relative;
 }
 
-.profile__user-posts .user-post.hide {
+
+
+.profile__user-posts .user-post.hide, .profile__user-posts .user-post.deleted {
     display: none;
 }
 

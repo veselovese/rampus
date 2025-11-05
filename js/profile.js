@@ -13,6 +13,59 @@ $(document).ready(function () {
             }
         });
     }
+
+    $('.profile__user-posts').on('click', '.unliked', function () {
+        const postId = $(this).attr('id');
+        $post = $(this);
+        $.ajax({
+            url: 'wall',
+            type: 'post',
+            data: {
+                'liked': 1,
+                'postId': postId
+            },
+            success: function (response) {
+                $post.find('.like-counter').text(response);
+                $post.siblings().find('.like-counter').text(response);
+                $post.addClass('hide');
+                $post.siblings().removeClass('hide');
+            }
+        })
+    })
+
+    $('.profile__user-posts').on('click', '.liked', function () {
+        const postId = $(this).attr('id');
+        $post = $(this);
+        $.ajax({
+            url: 'wall',
+            type: 'post',
+            data: {
+                'unliked': 1,
+                'postId': postId
+            },
+            success: function (response) {
+                $post.find('.like-counter').text(response);
+                $post.siblings().find('.like-counter').text(response);
+                $post.addClass('hide');
+                $post.siblings().removeClass('hide');
+            }
+        })
+    })
+
+    $('.profile__user-posts').on('click', '.delete-post', function () {
+        const postId = $(this).attr('id');
+        $deletePost = $(this);
+        $.ajax({
+            url: 'back-files/delete-post',
+            type: 'post',
+            data: {
+                'post_id': postId,
+            },
+            success: function (response) {
+                $deletePost.parent().parent().addClass('deleted')
+            }
+        })
+    })
 })
 
 $('#textarea-post').keypress(function (e) {
@@ -26,7 +79,7 @@ $('#textarea-post').keypress(function (e) {
 
 $('#create-new-post').on('click', () => {
     console.log($('#create-new-post-title').text())
-    if($('#create-new-post-title').text() == 'Написать пост') {
+    if ($('#create-new-post-title').text() == 'Написать пост') {
         $('#create-new-post-title').text('Закрыть')
         $('#create-new-post').addClass('close')
         $('#yours-posts-div').addClass('creating-new-post')
