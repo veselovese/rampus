@@ -160,7 +160,7 @@ if (isset($_SESSION['user'])) {
                                                 </div>
                                                 </div>
                                                 <div class='user-statistic'>Это";
-                                                echo "<a href='./users' class='current-static blossom-level'><img src='pics/BlossomIcon.svg'>" . $user_level . " уровень</a>и ещё";
+                                                echo "<a href='./users' class='current-static blossom-level'><img src='pics/BlossomIcon.svg'>" . $user_level . " уровень</a>:";
                                                 if (($posts_count[-1] == '1') && (!isset($posts_count[-2]) || $posts_count[-2] != '1')) {
                                                     echo "<span class='current-static post'>" . $posts_count . " пост</span>,";
                                                 } else if (($posts_count[-1] == '2' || $posts_count[-1] == '3' || $posts_count[-1] == '4') && (!isset($posts_count[-2]) || $posts_count[-2] != '1')) {

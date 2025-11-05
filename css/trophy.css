@@ -28,9 +28,6 @@
 }
 
 .rating-trophies-div {
-    background: linear-gradient(-135deg, var(--posts-color), var(--likes-color), var(--comments-color));
-    border-radius: 2rem;
-    padding: 0.39rem;
     margin-bottom: 2.6rem;
 }
 
@@ -51,7 +48,7 @@
 
 .rating-trophies-div .trophy-list {
     margin-bottom: 0;
-    gap: 0.39rem;
+    gap: 1rem;
 }
 
 .current-trophy {
@@ -60,15 +57,11 @@
     background-color: var(--block-color);
     box-shadow: var(--shadow-small);
     padding: 1rem 1.6rem;
-    border-radius: calc(2rem - 0.39rem);
+    border-radius: 2rem;
     min-width: min-content;
     width: calc((100% - 1rem*2)/3);
     transition: 0.2s;
     cursor: default;
-}
-
-.rating-trophies-div .current-trophy {
-    width: calc((100% - 0.39rem*2)/3);
 }
 
 .current-trophy .icon {
