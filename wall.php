@@ -134,6 +134,7 @@ if (isset($_SESSION['user'])) {
                                                                     } ?>">Друзья<span>Посты ваших друзей</span><input name="wall-filter__mobile" id="wall-filter-friends__mobile" type="radio" value=""></label>
                             </div>
                         </div>
+                        <div class="wall__user-posts" id="new-posts"></div>
                         <div class="wall__user-posts" id="success-render-posts">
                         </div>
                         <div class="wall__new-post">
