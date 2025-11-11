@@ -20,6 +20,8 @@ $(document).ready(function () {
     $('.wall__user-posts').on('click', '.unliked', function () {
         const postId = $(this).attr('id');
         $post = $(this);
+        console.log($post)
+        console.log($post.siblings().find('.like-button'))
         $.ajax({
             url: 'wall',
             type: 'post',
@@ -50,10 +52,49 @@ $(document).ready(function () {
                 $post.find('.like-counter').text(response);
                 $post.siblings().find('.like-counter').text(response);
                 $post.addClass('hide');
+                $post.siblings().find('.like-button').removeClass('hide');
+            }
+        })
+    })
+
+    $('.wall__user-posts').on('click', '.unreposted', function () {
+        const postId = $(this).attr('id').split('-')[1];
+        $post = $(this);
+        console.log($post)
+        $.ajax({
+            url: 'wall',
+            type: 'post',
+            data: {
+                'reposted': 1,
+                'postId': postId
+            },
+            success: function (response) {
+                $post.find('.repost-counter').text(response);
+                $post.siblings().find('.repost-counter').text(response);
+                $post.addClass('hide');
                 $post.siblings().removeClass('hide');
             }
         })
     })
+
+    // $('.wall__user-posts').on('click', '.reposted', function () {
+    //     const postId = $(this).attr('id');
+    //     $post = $(this);
+    //     $.ajax({
+    //         url: 'wall',
+    //         type: 'post',
+    //         data: {
+    //             'unliked': 1,
+    //             'postId': postId
+    //         },
+    //         success: function (response) {
+    //             $post.find('.like-counter').text(response);
+    //             $post.siblings().find('.like-counter').text(response);
+    //             $post.addClass('hide');
+    //             $post.siblings().removeClass('hide');
+    //         }
+    //     })
+    // })
 
     $('.wall__user-posts').on('click', '.delete-post', function () {
         const postId = $(this).attr('id');

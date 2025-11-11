@@ -18,13 +18,12 @@ $search = $_POST['search'];
 $search = $search != null ? "AND hashtags.name = '$search'" : '';
 
 $sql_post = "SELECT 
-    'post' AS content_type,
     posts.id AS content_id,
-    posts.id AS repost_id,
     posts.hashtag_id AS hashtag_id,
     posts.text AS content_text,
-    posts.post_date AS content_date,
+    posts.content_date AS content_date,
     posts.likes AS content_likes,
+    posts.reposts AS content_reposts,
     posts.user_id AS author_id,
     users.first_name AS author_first_name,
     users.second_name AS author_second_name,
@@ -33,44 +32,16 @@ $sql_post = "SELECT
     posts.img AS content_image,
     posts.for_friends AS for_friends,
 
-    NULL AS repost_user_id,
-    NULL AS repost_author_first_name,
-    NULL AS repost_author_second_name,
-    NULL AS repost_author_username,
-    NULL AS repost_author_avatar
-
-FROM posts
-JOIN users ON posts.user_id = users.id
-LEFT JOIN hashtags ON posts.hashtag_id = hashtags.id
-WHERE posts.status = 0 $filter $search
-
-UNION ALL
-
-SELECT 
-    'repost' AS content_type,
-    reposts.id AS content_id,
-    posts.id AS repost_id,
-    posts.hashtag_id AS hashtag_id,
-    posts.text AS content_text,
-    reposts.repost_date AS content_date,
-    posts.likes AS content_likes,
-    posts.user_id AS author_id,
-    users.first_name AS author_first_name,
-    users.second_name AS author_second_name,
-    users.avatar AS author_avatar,
-    users.username AS author_username,
-    posts.img AS content_image,
-    posts.for_friends AS for_friends,
-
-    reposts.user_id AS repost_user_id,
+    posts.repost_user_id AS repost_author_id,
+    posts.repost_post_id AS repost_post_id,
     repost_users.first_name AS repost_author_first_name,
     repost_users.second_name AS repost_author_second_name,
     repost_users.username AS repost_author_username,
     repost_users.avatar AS repost_author_avatar
-FROM reposts
-JOIN posts ON reposts.post_id = posts.id
+
+FROM posts
 JOIN users ON posts.user_id = users.id
-JOIN users AS repost_users ON reposts.user_id = repost_users.id
+LEFT JOIN users AS repost_users ON posts.repost_user_id = repost_users.id
 LEFT JOIN hashtags ON posts.hashtag_id = hashtags.id
 WHERE posts.status = 0 $filter $search
 
@@ -79,10 +50,11 @@ ORDER BY content_date DESC";
 $result_post = $connect->query($sql_post);
 if ($result_post->num_rows > 0) {
     while ($row_post = $result_post->fetch_assoc()) {
-        $content_type = $row_post["content_type"];
-        $content_user_id = $content_type == 'post' ? $row_post["author_id"] : $row_post["repost_user_id"];
+        $content_type = $row_post["repost_author_id"] ? 'repost' : 'post';
+        $content_author_id = $row_post["author_id"];
+        $content_repost_author_id = $row_post["repost_author_id"];
         $for_friends = $row_post["for_friends"];
-        if ((!$for_friends) || ($for_friends && in_array($content_user_id, getUserFriendsId($current_user_id, $connect))) || ($content_user_id == $current_user_id)) {
+        if ((!$for_friends) || ($for_friends && in_array($content_author_id, getUserFriendsId($current_user_id, $connect))) || ($content_author_id == $current_user_id)) {
             $hashtag_id = $row_post["hashtag_id"];
             $content_text = preg_replace('/\xc2\xa0/', ' ', $row_post["content_text"]);
             $content_date = $row_post["content_date"];
@@ -102,16 +74,19 @@ if ($result_post->num_rows > 0) {
                     break;
             }
             $content_likes = $row_post["content_likes"];
-            $author_username = $row_post["author_username"];
-            $content_first_name = $content_type == 'post' ? $row_post["author_first_name"] : $row_post["repost_author_first_name"];
-            $content_second_name = $content_type == 'post' ? $row_post["author_second_name"] : $row_post["repost_author_second_name"];
-            $content_username = $content_type == 'post' ? $row_post["author_username"] : $row_post["repost_author_username"];
-            $content_avatar = $content_type == 'post' ? $row_post["author_avatar"] : $row_post["repost_author_avatar"];
-            $content_repost_avatar = $content_type == 'repost' ? $row_post["author_avatar"] : NULL;
+            $content_reposts = $row_post["content_reposts"];
+            $content_username = $row_post["author_username"];
+            $content_first_name = $row_post["author_first_name"];
+            $content_second_name = $row_post["author_second_name"];
+            $content_avatar = $row_post["author_avatar"];
+            $content_repost_first_name = $row_post["repost_author_first_name"];
+            $content_repost_second_name = $row_post["repost_author_second_name"];
+            $content_repost_username = $row_post["repost_author_username"];
+            $content_repost_avatar = $row_post["repost_author_avatar"];
             $content_image = $row_post["content_image"];
             $content_id = $row_post['content_id'];
-            $repost_id = $row_post["repost_id"];
-            $user_in_top = findUserPositionInTop($content_user_id, $connect);
+            $content_repost_id = $row_post['repost_post_id'];
+            $user_in_top = findUserPositionInTop($content_author_id, $connect);
             echo "<div class='user-post' id='post-$content_id'>";
             echo "<div>";
             echo "<div class='wall__user-info'>";
@@ -126,7 +101,7 @@ if ($result_post->num_rows > 0) {
             echo "<div class='extra-post-info'>";
             echo "<span>" . $content_date . "</span>";
             if ($content_type == 'repost') echo "<span class='repost-info'>•</span>";
-            if ($content_type == 'repost') echo "<a href='./post/$repost_id' class='repost-info'>репост @" . $author_username . "</a>";
+            if ($content_type == 'repost') echo "<a href='./post/$content_repost_id' class='repost-info'>репост @" . $content_repost_username . "</a>";
             echo "</div>";
             echo "</div>";
             echo $for_friends ? "<div class='for-friends'><svg width='28' height='31' viewBox='0 0 28 31' fill='none' xmlns='http://www.w3.org/2000/svg'>
@@ -153,12 +128,12 @@ if ($result_post->num_rows > 0) {
             echo "<img src='pics/ThreeDotsIcon.svg' class='show-three-dots-popup'>";
             echo "</div>";
             echo "<div class='three-dots-popup' id='three-dots-popup_$content_id'>";
-            if ($content_user_id == $current_user_id) {
+            if ($content_author_id == $current_user_id) {
                 echo "<span class='three-dots-popup-li edit' onclick='editPost($content_id)'>Редактировать</span>";
             }
             echo "<span class='three-dots-popup-li copy-link' onclick='copyLinkToPost($content_id)'>Копировать ссылку</span>";
-            echo "<a class='three-dots-popup-li open-profile' href='./user/$content_username'>Открыть профиль</a>";
-            if ($content_user_id == $current_user_id) {
+            echo "<a class='three-dots-popup-li open-profile' href='./user/$content_author_id'>Открыть профиль</a>";
+            if ($content_author_id == $current_user_id) {
                 echo "<span class='three-dots-popup-li delete-post' id='$content_id'>Удалить</span>";
             }
             echo "</div>";
@@ -191,7 +166,9 @@ if ($result_post->num_rows > 0) {
             $result_comment = $connect->query($sql_comment);
             $rows_num_comment = $result_comment->num_rows;
             $sql_like = "SELECT * FROM likes_on_posts WHERE post_id = $content_id AND user_id = " . $current_user_id;
+            $sql_repost = "SELECT * FROM reposts WHERE post_id = $content_id AND user_id = " . $current_user_id;
             $result_like = $connect->query($sql_like);
+            $result_repost = $connect->query($sql_repost);
             if ($result_like->num_rows > 0) {
                 echo "<button id='$content_id' class='like-button liked'><svg width='23' height='19' viewBox='0 0 23 19' fill='none' xmlns='http://www.w3.org/2000/svg'>
             <path d='M21.3345 8.71342C21.0727 9.33749 20.6942 9.9081 20.2183 10.3954L20.148 10.4648L13.6656 16.8654C12.4711 18.0449 10.5278 18.0449 9.33329 16.8654L9.33326 16.8654L2.85134 10.4657C2.34261 9.96338 1.93992 9.36791 1.66547 8.7137L0.7102 9.11444L1.66547 8.71369C1.39104 8.05952 1.25 7.35894 1.25 6.65182C1.25 5.94469 1.39104 5.24411 1.66547 4.58994C1.93992 3.93572 2.34261 3.34025 2.85134 2.83794C3.36011 2.33559 3.96496 1.93628 4.63177 1.66356C5.29861 1.39084 6.01386 1.25027 6.73655 1.25027C7.45924 1.25027 8.17449 1.39084 8.84133 1.66356C9.50754 1.93603 10.1119 2.33487 10.6204 2.83658L11.4989 3.70337L11.4998 3.7025L11.5009 3.7036L12.3791 2.83686C12.8877 2.33489 13.4922 1.93586 14.1587 1.66329C14.8255 1.39057 15.5408 1.25 16.2634 1.25C16.9861 1.25 17.7014 1.39057 18.3682 1.66329C19.035 1.93601 19.6399 2.33532 20.1487 2.83767C20.6574 3.33999 21.0601 3.93546 21.3345 4.58967C21.609 5.24384 21.75 5.94442 21.75 6.65155C21.75 7.35867 21.609 8.05925 21.3345 8.71342Z' />
@@ -232,6 +209,39 @@ if ($result_post->num_rows > 0) {
             <path d='M4 1.25L19 1.25C20.5188 1.25 21.75 2.48122 21.75 4L21.75 17.75L4 17.75C2.48122 17.75 1.25 16.5188 1.25 15L1.25 4C1.25 2.48122 2.48122 1.25 4 1.25Z' />
             </svg>";
                 echo "<span class='comment-counter'>" . $rows_num_comment . "</span></button>";
+            }
+            if (!$for_friends) {
+                if ($result_repost->num_rows > 0) {
+                    echo "<button id='repost-$content_id' class='repost-button reposted'><svg width='27' height='22' viewBox='0 0 27 22' fill='none' xmlns='http://www.w3.org/2000/svg'>
+                    <path d='M22.2501 4.41667V2.30556C22.2501 2.0256 22.0921 1.75712 21.8108 1.55917C21.5295 1.36121 21.1479 1.25 20.7501 1.25H5.75013C5.3523 1.25 4.97077 1.36121 4.68947 1.55917C4.40816 1.75712 4.25013 2.0256 4.25013 2.30556V12.8611M4.25013 12.8611L7.25012 10.75M4.25013 12.8611L1.25012 10.75M4.25012 17.0833V19.1944C4.25012 19.4744 4.40816 19.7429 4.68946 19.9408C4.97077 20.1388 5.3523 20.25 5.75012 20.25H20.7501C21.1479 20.25 21.5295 20.1388 21.8108 19.9408C22.0921 19.7429 22.2501 19.4744 22.2501 19.1944V8.63889M22.2501 8.63889L19.2501 10.75M22.2501 8.63889L25.2501 10.75' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'/>
+                    </svg>";
+                    echo "<span class='repost-counter'>" . $content_reposts . "</span></button>";
+                    if ($content_reposts == 1) {
+                        echo "<button id='repost-$content_id' class='repost-button unreposted hide'><svg width='27' height='22' viewBox='0 0 27 22' fill='none' xmlns='http://www.w3.org/2000/svg'>
+                        <path d='M22.2501 4.41667V2.30556C22.2501 2.0256 22.0921 1.75712 21.8108 1.55917C21.5295 1.36121 21.1479 1.25 20.7501 1.25H5.75013C5.3523 1.25 4.97077 1.36121 4.68947 1.55917C4.40816 1.75712 4.25013 2.0256 4.25013 2.30556V12.8611M4.25013 12.8611L7.25012 10.75M4.25013 12.8611L1.25012 10.75M4.25012 17.0833V19.1944C4.25012 19.4744 4.40816 19.7429 4.68946 19.9408C4.97077 20.1388 5.3523 20.25 5.75012 20.25H20.7501C21.1479 20.25 21.5295 20.1388 21.8108 19.9408C22.0921 19.7429 22.2501 19.4744 22.2501 19.1944V8.63889M22.2501 8.63889L19.2501 10.75M22.2501 8.63889L25.2501 10.75' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'/>
+                        </svg>";
+                    } else {
+                        echo "<button id='repost-$content_id' class='repost-button unreposted hide'><svg width='27' height='22' viewBox='0 0 27 22' fill='none' xmlns='http://www.w3.org/2000/svg'>
+                        <path d='M22.2501 4.41667V2.30556C22.2501 2.0256 22.0921 1.75712 21.8108 1.55917C21.5295 1.36121 21.1479 1.25 20.7501 1.25H5.75013C5.3523 1.25 4.97077 1.36121 4.68947 1.55917C4.40816 1.75712 4.25013 2.0256 4.25013 2.30556V12.8611M4.25013 12.8611L7.25012 10.75M4.25013 12.8611L1.25012 10.75M4.25012 17.0833V19.1944C4.25012 19.4744 4.40816 19.7429 4.68946 19.9408C4.97077 20.1388 5.3523 20.25 5.75012 20.25H20.7501C21.1479 20.25 21.5295 20.1388 21.8108 19.9408C22.0921 19.7429 22.2501 19.4744 22.2501 19.1944V8.63889M22.2501 8.63889L19.2501 10.75M22.2501 8.63889L25.2501 10.75' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'/>
+                        </svg>";
+                        echo "<span class='repost-counter'>" . $content_reposts . "</span></button>";
+                    }
+                } else {
+                    if ($content_reposts == 0) {
+                        echo "<button id='repost-$content_id' class='repost-button unreposted'><svg width='27' height='22' viewBox='0 0 27 22' fill='none' xmlns='http://www.w3.org/2000/svg'>
+                        <path d='M22.2501 4.41667V2.30556C22.2501 2.0256 22.0921 1.75712 21.8108 1.55917C21.5295 1.36121 21.1479 1.25 20.7501 1.25H5.75013C5.3523 1.25 4.97077 1.36121 4.68947 1.55917C4.40816 1.75712 4.25013 2.0256 4.25013 2.30556V12.8611M4.25013 12.8611L7.25012 10.75M4.25013 12.8611L1.25012 10.75M4.25012 17.0833V19.1944C4.25012 19.4744 4.40816 19.7429 4.68946 19.9408C4.97077 20.1388 5.3523 20.25 5.75012 20.25H20.7501C21.1479 20.25 21.5295 20.1388 21.8108 19.9408C22.0921 19.7429 22.2501 19.4744 22.2501 19.1944V8.63889M22.2501 8.63889L19.2501 10.75M22.2501 8.63889L25.2501 10.75' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'/>
+                        </svg>";
+                    } else {
+                        echo "<button id='repost-$content_id' class='repost-button unreposted'><svg width='27' height='22' viewBox='0 0 27 22' fill='none' xmlns='http://www.w3.org/2000/svg'>
+                        <path d='M22.2501 4.41667V2.30556C22.2501 2.0256 22.0921 1.75712 21.8108 1.55917C21.5295 1.36121 21.1479 1.25 20.7501 1.25H5.75013C5.3523 1.25 4.97077 1.36121 4.68947 1.55917C4.40816 1.75712 4.25013 2.0256 4.25013 2.30556V12.8611M4.25013 12.8611L7.25012 10.75M4.25013 12.8611L1.25012 10.75M4.25012 17.0833V19.1944C4.25012 19.4744 4.40816 19.7429 4.68946 19.9408C4.97077 20.1388 5.3523 20.25 5.75012 20.25H20.7501C21.1479 20.25 21.5295 20.1388 21.8108 19.9408C22.0921 19.7429 22.2501 19.4744 22.2501 19.1944V8.63889M22.2501 8.63889L19.2501 10.75M22.2501 8.63889L25.2501 10.75' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'/>
+                        </svg>";
+                        echo "<span class='repost-counter'>" . $content_reposts . "</span></button>";
+                    }
+                    echo "<button id='repost-$content_id' class='repost-button reposted hide'><svg width='27' height='22' viewBox='0 0 27 22' fill='none' xmlns='http://www.w3.org/2000/svg'>
+                    <path d='M22.2501 4.41667V2.30556C22.2501 2.0256 22.0921 1.75712 21.8108 1.55917C21.5295 1.36121 21.1479 1.25 20.7501 1.25H5.75013C5.3523 1.25 4.97077 1.36121 4.68947 1.55917C4.40816 1.75712 4.25013 2.0256 4.25013 2.30556V12.8611M4.25013 12.8611L7.25012 10.75M4.25013 12.8611L1.25012 10.75M4.25012 17.0833V19.1944C4.25012 19.4744 4.40816 19.7429 4.68946 19.9408C4.97077 20.1388 5.3523 20.25 5.75012 20.25H20.7501C21.1479 20.25 21.5295 20.1388 21.8108 19.9408C22.0921 19.7429 22.2501 19.4744 22.2501 19.1944V8.63889M22.2501 8.63889L19.2501 10.75M22.2501 8.63889L25.2501 10.75' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'/>
+                    </svg>";
+                    echo "<span class='repost-counter'>" . $content_reposts . "</span></button>";
+                }
             }
             echo "</div>";
             echo "<div class='div-line'></div>";

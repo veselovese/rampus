@@ -14,7 +14,7 @@ require('get-user-friends-id.php');
 
 $user_friends_id = implode(',', getUserFriendsId($current_user_id, $connect));
 
-$sql_post = "SELECT posts.hashtag_id AS hashtag_id, posts.text AS post_text, post_date, posts.likes AS post_likes, posts.user_id AS user_id, users.first_name AS first_name, users.second_name AS second_name, users.avatar AS avatar, posts.id AS i, users.username AS username, posts.img AS post_image, posts.for_friends AS for_friends
+$sql_post = "SELECT posts.hashtag_id AS hashtag_id, posts.text AS post_text, content_date, posts.likes AS post_likes, posts.user_id AS user_id, users.first_name AS first_name, users.second_name AS second_name, users.avatar AS avatar, posts.id AS i, users.username AS username, posts.img AS post_image, posts.for_friends AS for_friends
                             FROM posts
                             JOIN users ON posts.user_id = users.id
                             LEFT JOIN hashtags ON posts.hashtag_id = hashtags.id
@@ -28,7 +28,7 @@ if ($result_post->num_rows > 0) {
         if ((!$for_friends) || ($for_friends && in_array($post_user_id, getUserFriendsId($current_user_id, $connect))) || ($post_user_id == $current_user_id)) {
             $hashtag_id = $row_post["hashtag_id"];
             $post_text = preg_replace('/\xc2\xa0/', ' ', $row_post["post_text"]);
-            $post_date = $row_post["post_date"];
+            $post_date = $row_post["content_date"];
             $post_date_db = date_format(date_create($post_date), 'Y-m-d');
             switch ($post_date_db) {
                 case $today:

@@ -763,7 +763,8 @@ input.auth-and-reg::placeholder {
 }
 
 .like-button,
-.comment-button {
+.comment-button,
+.repost-button {
     background-color: transparent;
     border: none;
     display: -webkit-flex;
@@ -779,23 +780,21 @@ input.auth-and-reg::placeholder {
     transition: 0.2s;
 }
 
-.like-button.unliked:hover svg,
-.comment-button:hover svg {
-    opacity: 80%;
-}
-
-.like-button.liked:hover {
-    opacity: 80%;
-    ;
+.like-button:hover svg,
+.comment-button:hover svg,
+.repost-button:hover svg {
+opacity: 80%;
 }
 
 .like-button:active,
-.comment-button:active {
+.comment-button:active,
+.repost-button:active {
     transform: scale(95%);
 }
 
 .like-button span,
-.comment-button span {
+.comment-button span,
+.repost-button span {
     line-height: 1.9rem;
     font-size: var(--font-size-2);
     font-weight: 700;
@@ -880,7 +879,8 @@ input.auth-and-reg::placeholder {
 }
 
 .like-button svg,
-.comment-button svg {
+.comment-button svg,
+.repost-button svg {
     width: 24px;
     height: 19px;
     stroke: var(--else-text-color-50);
@@ -896,6 +896,14 @@ input.auth-and-reg::placeholder {
 .liked svg {
     fill: var(--error-accent-color);
     stroke: transparent;
+}
+
+.reposted {
+    color: var(--main-accent-color);
+}
+
+.reposted svg {
+    stroke: var(--main-accent-color);
 }
 
 .hide {
