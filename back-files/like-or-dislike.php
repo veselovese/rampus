@@ -1,5 +1,5 @@
 <?php
-require('blossoming.php');
+require_once('blossoming.php');
 
 if (isset($_POST['liked'])) {
     $post_id = $_POST['postId'];

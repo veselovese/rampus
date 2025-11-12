@@ -5,6 +5,7 @@ require_once('back-files/connect.php');
 
 if (isset($_SESSION['user'])) {
     require('back-files/like-or-dislike.php');
+    require('back-files/repost-or-unrepost.php');
     require('back-files/rating-trophies.php');
     require('back-files/find-user-position-in-top.php');
     require('back-files/get-user-friends.php');

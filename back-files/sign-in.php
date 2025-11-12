@@ -20,7 +20,7 @@ if (mysqli_num_rows($check_user_by_email) > 0) {
     $last_auth_date = $user['last_auth_date'];
     $id = $user['id'];
     $username = $user['username'];
-    $unread_posts_now = mysqli_query($connect, "SELECT * FROM `posts` WHERE `post_date` >= '$last_auth_date'")->num_rows;
+    $unread_posts_now = mysqli_query($connect, "SELECT * FROM `posts` WHERE `content_date` >= '$last_auth_date'")->num_rows;
     $unread_posts_db = mysqli_fetch_assoc(mysqli_query($connect, "SELECT `unread_posts` FROM `users` WHERE `id` = $id"));
     $unread_posts = $unread_posts_now + $unread_posts_db['unread_posts'];
 
@@ -40,7 +40,7 @@ if (mysqli_num_rows($check_user_by_email) > 0) {
     $last_auth_date = $user['last_auth_date'];
     $id = $user['id'];
     $username = $user['username'];
-    $unread_posts_now = mysqli_query($connect, "SELECT * FROM `posts` WHERE `post_date` >= '$last_auth_date'")->num_rows;
+    $unread_posts_now = mysqli_query($connect, "SELECT * FROM `posts` WHERE `content_date` >= '$last_auth_date'")->num_rows;
     $unread_posts_db = mysqli_fetch_assoc(mysqli_query($connect, "SELECT `unread_posts` FROM `users` WHERE `id` = $id"));
     $unread_posts = $unread_posts_now + $unread_posts_db['unread_posts'];
 
