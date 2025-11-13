@@ -499,6 +499,18 @@
     width: 100%;
 }
 
+.wall__user-info .avatar-repost-link {
+    position: absolute;
+    top: calc(-0.2rem - 0.39rem);
+    left: calc(-0.3rem - 0.39rem);
+    background-color: var(--block-color);
+    border-radius: 50%;
+    max-width: calc(28px + 0.39rem);
+    max-height: calc(28px + 0.39rem);
+    min-height: calc(28px + 0.39rem);
+    min-width: calc(28px + 0.39rem);
+}
+
 .wall__user-info img.avatar {
     min-width: 50px;
     min-height: 50px;
@@ -507,6 +519,7 @@
     border-radius: 50%;
     margin: 0;
     object-fit: cover;
+    transition: 0.2s;
 }
 
 .wall__user-info img.avatar.repost {
@@ -515,13 +528,14 @@
     max-height: calc(28px + 0.39rem);
     min-height: calc(28px + 0.39rem);
     min-width: calc(28px + 0.39rem);
-    position: absolute;
     border: 0.39rem solid var(--block-color);
-    top: calc(-0.2rem - 0.39rem);
-    left: calc(-0.3rem - 0.39rem);
 }
 
-.wall__user-info img:last-child {
+.wall__user-info img.avatar:hover {
+    opacity: 80%;
+}
+
+.wall__user-info img.user-status {
     margin: 0;
     max-width: 19px;
     max-height: 19px;
@@ -542,10 +556,17 @@
 .wall__user-info .extra-post-info {
     display: flex;
     gap: 0.625rem;
-} 
+}
 
 .wall__user-info .extra-post-info .repost-info {
     color: var(--else-text-color-50);
+    transition: 0.2s;
+}
+
+.wall__user-info .extra-post-info .repost-info:hover {
+    text-decoration: underline;
+    text-decoration-color: var(--else-text-color-50);
+    text-decoration-thickness: 0.1rem;
 }
 
 .wall__user-info div.for-friends {
@@ -602,7 +623,7 @@ div.for-friends svg {
     object-fit: cover;
 }
 
-.wall__comments .other-users img {
+.wall__comments .other-users .comment-avatar {
     min-width: 40px;
     min-height: 40px;
     max-width: 40px;
@@ -610,6 +631,11 @@ div.for-friends svg {
     border-radius: 2rem;
     margin: 0;
     object-fit: cover;
+    transition: 0.2s;
+}
+
+.wall__comments .other-users .comment-avatar:hover {
+    opacity: 80%;
 }
 
 .wall__comments .other-users .user-comment {

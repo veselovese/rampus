@@ -13,7 +13,7 @@ $(document).ready(function () {
                 $post.find('.like-counter').text(response);
                 $post.siblings().find('.like-counter').text(response);
                 $post.addClass('hide');
-                $post.siblings().removeClass('hide');
+                $post.siblings('.like-button').removeClass('hide');
             }
         })
     })
@@ -32,7 +32,45 @@ $(document).ready(function () {
                 $post.find('.like-counter').text(response);
                 $post.siblings().find('.like-counter').text(response);
                 $post.addClass('hide');
-                $post.siblings().removeClass('hide');
+                $post.siblings('.like-button').removeClass('hide');
+            }
+        })
+    })
+
+    $('.wall__user-posts.current-post').on('click', '.unreposted', function () {
+        const postId = $(this).attr('id').split('-')[1];
+        $post = $(this);
+        $.ajax({
+            url: '../wall',
+            type: 'post',
+            data: {
+                'reposted': 1,
+                'postId': postId
+            },
+            success: function (response) {
+                $post.find('.repost-counter').text(response);
+                $post.siblings().find('.repost-counter').text(response);
+                $post.addClass('hide');
+                $post.siblings('.repost-button').removeClass('hide');
+            }
+        })
+    })
+
+    $('.wall__user-posts.current-post').on('click', '.reposted', function () {
+        const postId = $(this).attr('id').split('-')[1];
+        $post = $(this);
+        $.ajax({
+            url: '../wall',
+            type: 'post',
+            data: {
+                'unreposted': 1,
+                'postId': postId
+            },
+            success: function (response) {
+                $post.find('.repost-counter').text(response);
+                $post.siblings().find('.repost-counter').text(response);
+                $post.addClass('hide');
+                $post.siblings('.repost-button').removeClass('hide');
             }
         })
     })
@@ -48,6 +86,21 @@ $(document).ready(function () {
             },
             success: function (response) {
                 window.location = '../wall'
+            }
+        })
+    })
+
+    $('.wall__user-posts.current-post').on('click', '.delete-comment', function () {
+        const commentId = $(this).attr('id');
+        $deleteComment = $(this);
+        $.ajax({
+            url: '../back-files/delete-comment',
+            type: 'post',
+            data: {
+                'comment_id': commentId,
+            },
+            success: function (response) {
+                $deleteComment.parent().parent().parent().addClass('deleted')
             }
         })
     })
