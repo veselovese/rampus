@@ -360,6 +360,10 @@ if ($result_post->num_rows > 0) {
             echo "</div>";
             echo "</div>";
             echo "</div>";
+        } else {
+            echo "<div class='only-for-friends-div'>";
+            echo "<p class='only-for-friends-sorry'>Этот пост только для друзей. На <a href='../wall'>стене</a> больше интересного</p>";
+            echo "</div>";
         }
     }
 } else {

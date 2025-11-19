@@ -72,10 +72,22 @@ if (isset($_SESSION['user'])) {
                                     }
                                 } ?>
                                 <img class="menu-avatar" src="uploads/avatar/thin_<?= $avatar ?>">
-                                <div>
-                                    <p><?= $first_name ?></p>
-                                    <p>@<?= $username ?></p>
-                                </div>
+                                <?php if ($first_name) { ?>
+                                    <div>
+                                        <p class="menu__first-and-second-names"><?= $first_name ?></p>
+                                        <p class="menu__username">@<?= $username ?></p>
+                                    </div>
+                                <?php } else if ($second_name) { ?>
+                                    <div>
+                                        <p class="menu__first-and-second-names"><?= $second_name ?></p>
+                                        <p class="menu__username">@<?= $username ?></p>
+                                    </div>
+                                <?php } else { ?>
+                                    <div>
+                                        <p class="menu__username main">@<span><?= $username ?></span></p>
+                                        <p class="menu__username">Ваш профиль</p>
+                                    </div>
+                                <?php } ?>
                             </a></li>
                         <p class="menu-title">Общение</p>
                         <li id="active">

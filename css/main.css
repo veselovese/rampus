@@ -521,6 +521,7 @@ input.auth-and-reg::placeholder {
 .reg__buttons .have-account svg {
     transform: rotate(180deg);
 }
+
 .reg__buttons .have-account:hover svg {
     transform: rotate(180deg) translateX(4px);
 }
@@ -783,7 +784,7 @@ input.auth-and-reg::placeholder {
 .like-button:hover svg,
 .comment-button:hover svg,
 .repost-button:hover svg {
-opacity: 80%;
+    opacity: 80%;
 }
 
 .like-button:active,
@@ -818,7 +819,7 @@ opacity: 80%;
     flex-direction: column;
 }
 
-.menu-profile div p:first-child {
+.menu-profile div p.menu__first-and-second-names {
     color: var(--main-text-color);
     font-weight: 600;
     text-overflow: ellipsis;
@@ -827,9 +828,27 @@ opacity: 80%;
     overflow: hidden;
 }
 
-.menu-profile div p:last-child {
+.menu-profile div p.menu__username {
     color: var(--main-accent-color);
     font-size: var(--font-size-1);
+    text-overflow: ellipsis;
+    width: calc(23rem - 50px - 1.6rem*3);
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.menu-profile div p.menu__username.main {
+    color: var(--main-accent-color);
+    font-weight: 600;
+    text-overflow: ellipsis;
+    width: calc(23rem - 50px - 1.6rem*3);
+    white-space: nowrap;
+    overflow: hidden;
+    font-size: var(--font-size-3);
+}
+
+.menu-profile div p.menu__username.main span {
+    color: var(--main-text-color);
 }
 
 .menu-profile .menu-avatar {
@@ -1024,9 +1043,11 @@ opacity: 80%;
     transition: 0.2s;
 }
 
-.div-show-three-dots-popup.in-profile {
-    margin-left: auto;
-    align-self: flex-start;
+.div-show-three-dots-popup.main-in-profile {
+    position: absolute;
+    top: 1.6rem;
+    right: 2.6rem;
+    z-index: 51;
 }
 
 .div-show-three-dots-popup:hover {

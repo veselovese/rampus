@@ -19,6 +19,8 @@ if (!isset($_SESSION['user'])) {
     if ($result->num_rows > 0) {
         while ($row = $result->fetch_assoc()) {
             $current_username = $row["username"];
+            $current_first_name = $row["first_name"];
+            $current_second_name = $row["second_name"];
             $current_avatar = $row["avatar"];
         }
     }
@@ -155,10 +157,22 @@ $posts_counter = $connect->query("SELECT * FROM posts WHERE user_id = $other_id"
                                     }
                                 } ?>
                                 <img class="menu-avatar" src="../uploads/avatar/thin_<?= $avatar ?>">
-                                <div>
-                                    <p><?= $first_name ?></p>
-                                    <p>@<?= $current_username ?></p>
-                                </div>
+                                <?php if ($current_first_name) { ?>
+                                    <div>
+                                        <p class="menu__first-and-second-names"><?= $current_first_name ?></p>
+                                        <p class="menu__username">@<?= $current_username ?></p>
+                                    </div>
+                                <?php } else if ($current_second_name) { ?>
+                                    <div>
+                                        <p class="menu__first-and-second-names"><?= $current_second_name ?></p>
+                                        <p class="menu__username">@<?= $current_username ?></p>
+                                    </div>
+                                <?php } else { ?>
+                                    <div>
+                                        <p class="menu__username main">@<span><?= $current_username ?></span></p>
+                                        <p class="menu__username">Ваш профиль</p>
+                                    </div>
+                                <?php } ?>
                             </a></li>
                         <p class="menu-title">Общение</p>
                         <li><a href="../wall"><svg width='28' height='24' viewBox='0 0 28 24' fill='none' xmlns='http://www.w3.org/2000/svg'>
@@ -170,6 +184,15 @@ $posts_counter = $connect->query("SELECT * FROM posts WHERE user_id = $other_id"
                                     <span class="notification-in-menu"><?= $unread_posts ?></span>
                                 <?php } ?>
                             </a></li>
+                        <li>
+                            <a href="../chats">
+                                <svg width="28" height="24" viewBox="0 0 28 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M20.9219 4C20.4586 1.71776 18.4408 0 16.0219 0H4.99997C2.23855 0 -2.28882e-05 2.23858 -2.28882e-05 5V18H5V11C5 7.13401 8.13401 4 12 4H20.9219Z" />
+                                    <path d="M7 11C7 8.23858 9.23858 6 12 6H23C25.7614 6 28 8.23858 28 11V24H12C9.23858 24 7 21.7614 7 19V11Z" />
+                                </svg>
+                                Чаты
+                            </a>
+                        </li>
                         <li><a href="../users"><svg width='28' height='24' viewBox='0 0 28 24' fill='none' xmlns='http://www.w3.org/2000/svg'>
                                     <path d='M15 4.49829C12.651 5.47785 11 7.79617 11 10.5001C11 11.397 11.1816 12.2514 11.5102 13.0287C10.4728 13.595 9.51192 14.3105 8.66116 15.1613C7.81316 16.0093 7.09958 16.9666 6.53414 18.0001L0 18C0 15.2153 1.10625 12.5446 3.07538 10.5754C4.33742 9.31339 5.88765 8.4058 7.5714 7.91672C6.60943 7.09142 6 5.86688 6 4.5C6 2.01472 8.01472 0 10.5 0C12.9847 0 14.9991 2.01379 15 4.49829Z' />
                                     <path d='M21.25 10.5001C21.25 12.5712 19.5711 14.2501 17.5 14.2501C15.4289 14.2501 13.75 12.5712 13.75 10.5001C13.75 8.42905 15.4289 6.75012 17.5 6.75012C19.5711 6.75012 21.25 8.42905 21.25 10.5001ZM10.6057 17.1058C11.2822 16.4293 12.0479 15.8625 12.8752 15.4168C14.0826 16.5528 15.7103 17.2501 17.5 17.2501C19.2897 17.2501 20.9174 16.5528 22.1248 15.4168C22.9521 15.8625 23.7177 16.4293 24.3943 17.1058C26.0452 18.7567 27.0429 20.9386 27.2211 23.2501H17.5L7.77887 23.2501C7.95711 20.9386 8.95483 18.7567 10.6057 17.1058Z' stroke-linecap='round' stroke-linejoin='round' />

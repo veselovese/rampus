@@ -1178,6 +1178,29 @@ div.for-friends svg {
     transition: 0.2s;
 }
 
+.only-for-friends-div {
+    min-height: calc(100vh - 2.6rem*2 - 7.2rem);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.only-for-friends-sorry {
+    margin: 0 auto;
+    text-align: center;
+    color: var(--else-text-color-50);
+}
+
+.only-for-friends-sorry a {
+    color: var(--main-accent-color);
+    font-size: var(--font-size-3);
+    transition: 0.2s;
+}
+
+.only-for-friends-sorry a:hover {
+    opacity: 80%;
+} 
+
 @media (max-width: 1320px) {
     .third-part-in-header {
         display: flex;

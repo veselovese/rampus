@@ -28,7 +28,7 @@ $(document).ready(function () {
                 $post.find('.like-counter').text(response);
                 $post.siblings().find('.like-counter').text(response);
                 $post.addClass('hide');
-                $post.siblings().removeClass('hide');
+                $post.siblings('.like-button').removeClass('hide');
             }
         })
     })
@@ -47,7 +47,45 @@ $(document).ready(function () {
                 $post.find('.like-counter').text(response);
                 $post.siblings().find('.like-counter').text(response);
                 $post.addClass('hide');
-                $post.siblings().removeClass('hide');
+                $post.siblings('.like-button').removeClass('hide');
+            }
+        })
+    })
+
+    $('.profile__user-posts').on('click', '.unreposted', function () {
+        const postId = $(this).attr('id').split('-')[1];
+        $post = $(this);
+        $.ajax({
+            url: 'wall',
+            type: 'post',
+            data: {
+                'reposted': 1,
+                'postId': postId
+            },
+            success: function (response) {
+                $post.find('.repost-counter').text(response);
+                $post.siblings().find('.repost-counter').text(response);
+                $post.addClass('hide');
+                $post.siblings('.repost-button').removeClass('hide');
+            }
+        })
+    })
+
+    $('.profile__user-posts').on('click', '.reposted', function () {
+        const postId = $(this).attr('id').split('-')[1];
+        $post = $(this);
+        $.ajax({
+            url: 'wall',
+            type: 'post',
+            data: {
+                'unreposted': 1,
+                'postId': postId
+            },
+            success: function (response) {
+                $post.find('.repost-counter').text(response);
+                $post.siblings().find('.repost-counter').text(response);
+                $post.addClass('hide');
+                $post.siblings('.repost-button').removeClass('hide');
             }
         })
     })
