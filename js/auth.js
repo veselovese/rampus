@@ -21,23 +21,23 @@ $(document).ready(function () {
             },
             success: function (username) {
                 if (username == '@@@') {
+                    $('#auth__notify').addClass('reject')
                     $('#auth__notify-label').text('Проблемы с сетью, попробуйте позже')
                     $('#auth__notify-username').text('')
-                    $('#auth__notify').addClass('reject')
                     setTimeout(() => {
                         $('#auth__notify').removeClass('reject')
                     }, 2000)
                 } else if (username !== '') {
+                    $('#auth__notify').addClass('success')
                     $('#auth__notify-label').text('Опа, это же ')
                     $('#auth__notify-username').text('@' + username)
-                    $('#auth__notify').addClass('success')
                     setTimeout(() => {
                         window.location.href = 'wall.php'
                     }, 1500)
                 } else if (username === '') {
+                    $('#auth__notify').addClass('reject')
                     $('#auth__notify-label').text('Неверный логин, почта или пароль')
                     $('#auth__notify-username').text('')
-                    $('#auth__notify').addClass('reject')
                     setTimeout(() => {
                         $('#auth__notify').removeClass('reject')
                     }, 2000)
@@ -49,9 +49,9 @@ $(document).ready(function () {
         const emailOrUsername = $('#email_or_username');
         const password = $('#password');
         if (emailOrUsername.val() == '' || password.val() == '') {
+            $('#auth__notify').addClass('reject')
             $('#auth__notify-label').text('Все поля должны быть заполнены')
             $('#auth__notify-username').text('')
-            $('#auth__notify').addClass('reject')
             if (password.val() == '') {
                 password.addClass('off')
                 password.focus()

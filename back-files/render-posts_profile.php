@@ -11,6 +11,7 @@ require_once('connect.php');
 require('get-user-friends-id.php');
 
 $user_friends_id = implode(',', getUserFriendsId($current_user_id, $connect));
+$filter = $_POST['filter'] === 'reposts' ? "AND posts.repost_user_id" : "AND posts.repost_user_id IS NULL";
 
 $sql_post = "SELECT 
     posts.id AS content_id,
@@ -38,7 +39,7 @@ FROM posts
 JOIN users ON posts.user_id = users.id
 LEFT JOIN users AS repost_users ON posts.repost_user_id = repost_users.id
 LEFT JOIN hashtags ON posts.hashtag_id = hashtags.id
-WHERE posts.status = 0 AND posts.user_id = $current_user_id 
+WHERE posts.status = 0 AND posts.user_id = $current_user_id $filter
 
 ORDER BY content_date DESC";
 
@@ -84,6 +85,7 @@ if ($result_post->num_rows > 0) {
         if ($posts_counter < 3) {
             echo "<div class='user-post' id='post-$content_id'>";
             echo "<div class='extra-post-info'>";
+            echo $content_type == 'repost' ? "<a href='./post/$content_repost_id' class='repost-link-profile'>Репост  <img src='uploads/avatar/thin_$content_repost_avatar' class='repost_avatar'>@$content_repost_username</a>" : "";
             echo $for_friends ? "<div class='for-friends'><svg width='28' height='31' viewBox='0 0 28 31' fill='none' xmlns='http://www.w3.org/2000/svg'>
                                             <path d='M25 19.6055C25 18.278 24.9991 17.3577 24.9404 16.6426C24.883 15.9425 24.7759 15.5499 24.626 15.2568V15.2559C24.2972 14.6137 23.7721 14.0909 23.125 13.7627C22.7942 13.595 22.343 13.4837 21.4863 13.4316C20.7964 13.3897 19.9321 13.3887 18.75 13.3887H8.75C7.56785 13.3887 6.70365 13.3897 6.01367 13.4316C5.15689 13.4837 4.70568 13.595 4.375 13.7627C3.72775 14.091 3.2028 14.6144 2.87402 15.2568C2.72409 15.5499 2.61704 15.9425 2.55957 16.6426C2.50088 17.3577 2.5 18.278 2.5 19.6055V21.7832C2.5 23.1107 2.50088 24.0309 2.55957 24.7461C2.61705 25.4465 2.72401 25.8397 2.87402 26.1328C3.20282 26.7751 3.72786 27.2987 4.375 27.627C4.67121 27.7772 5.06793 27.8831 5.77246 27.9404C6.49167 27.9989 7.41684 28 8.75 28H18.75C20.0832 28 21.0083 27.9989 21.7275 27.9404C22.432 27.8831 22.8287 27.7772 23.125 27.627C23.7721 27.2987 24.2972 26.7751 24.626 26.1328C24.776 25.8397 24.8829 25.4465 24.9404 24.7461C24.9991 24.0309 25 23.1107 25 21.7832V19.6055ZM20.3125 9.02734C20.3123 5.4276 17.3794 2.5 13.75 2.5C10.1205 2.5 7.18774 5.4276 7.1875 9.02734V10.8936C7.662 10.888 8.18153 10.8887 8.75 10.8887H18.75C19.3185 10.8887 19.838 10.888 20.3125 10.8936V9.02734ZM22.8125 11.0684C23.3248 11.1602 23.8023 11.3032 24.2559 11.5332C25.3726 12.0996 26.2816 13.0035 26.8516 14.1172C27.2125 14.8224 27.3614 15.5825 27.4316 16.4385C27.5007 17.2796 27.5 18.3195 27.5 19.6055V21.7832C27.5 23.0691 27.5006 24.1091 27.4316 24.9502C27.3614 25.8061 27.2125 26.5663 26.8516 27.2715C26.2816 28.3852 25.3726 29.29 24.2559 29.8564C23.5495 30.2147 22.7881 30.3628 21.9297 30.4326C21.0857 30.5012 20.0419 30.5 18.75 30.5H8.75C7.45813 30.5 6.41432 30.5012 5.57031 30.4326C4.71193 30.3628 3.9505 30.2147 3.24414 29.8564C2.19707 29.3253 1.33243 28.4969 0.758789 27.4775L0.648438 27.2715C0.287543 26.5663 0.138605 25.8061 0.0683596 24.9502C-0.000638187 24.1091 2.29428e-07 23.0691 2.29428e-07 21.7832V19.6055C1.85029e-07 18.3195 -0.000654526 17.2796 0.0683596 16.4385C0.138605 15.5825 0.287543 14.8224 0.648438 14.1172C1.21847 13.0035 2.12749 12.0996 3.24414 11.5332C3.69773 11.3031 4.17518 11.1602 4.6875 11.0684V9.02734C4.68774 4.0364 8.75033 0 13.75 0C18.7496 0 22.8123 4.0364 22.8125 9.02734V11.0684Z' />
                                         </svg>
@@ -100,8 +102,8 @@ if ($result_post->num_rows > 0) {
             }
             if ($content_image != null) {
                 echo "<div class='image-in-post-div'>";
-                echo "<img class='image-in-post-hide' src=./uploads/post-image/small_" . $post_image . ">";
-                echo "<img class='image-in-post' src=./uploads/post-image/small_" . $post_image . ">";
+                echo "<img class='image-in-post-hide' src=./uploads/post-image/small_" . $content_image . ">";
+                echo "<img class='image-in-post' src=./uploads/post-image/small_" . $content_image . ">";
                 echo "</div>";
             }
             echo "<div class='buttons-and-date'>";

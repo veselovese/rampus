@@ -104,6 +104,13 @@ $(document).ready(function () {
             }
         })
     })
+
+    $('#show-reposts').click(() => {
+        renderPosts('reposts');
+    })
+    $('#show-posts').click(() => {
+        renderPosts('all');
+    })
 })
 
 $('#textarea-post').keypress(function (e) {

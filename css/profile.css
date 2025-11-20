@@ -575,8 +575,8 @@ div.for-friends svg {
 
 .profile__user-posts .extra-post-info {
     display: flex;
-    justify-content: flex-end;
 }
+
 
 .profile__user-posts .user-post.hide,
 .profile__user-posts .user-post.deleted {
@@ -1285,7 +1285,7 @@ div.for-friends svg {
 }
 
 .show-user-posts-mode-fieldset label:hover {
-  background-color: var(--block-accent-color-06);
+    background-color: var(--block-accent-color-06);
 }
 
 .show-user-posts-mode-fieldset label svg {
@@ -1299,6 +1299,36 @@ div.for-friends svg {
 
 .show-user-posts-mode-fieldset div:has([type="radio"]:checked) label svg {
     stroke: var(--main-accent-color);
+}
+
+.extra-post-info .repost-link-profile {
+    display: flex;
+    align-items: center;
+    gap: 0.625rem;
+    transition: 0.2s;
+}
+
+.extra-post-info .repost-link-profile:hover {
+    text-decoration: underline;
+    opacity: 80%;
+}
+
+.extra-post-info .repost_avatar {
+    min-width: 24px;
+    min-height: 24px;
+    max-width: 24px;
+    max-height: 24px;
+    border-radius: 50%;
+    margin: 0;
+    object-fit: cover;
+    transition: 0.2s;
+}
+
+.extra-post-info .div-show-three-dots-popup {
+    margin-left: auto;
+}
+.extra-post-info .for-friends~.div-show-three-dots-popup {
+    margin-left: 0;
 }
 
 @keyframes move-shaking {
