@@ -1,3 +1,7 @@
 versions/
 .hintrc
-uploads/
+uploads/avatar
+uploads/post-image
+vendor/
+composer.json
+composer.lock
