@@ -998,9 +998,9 @@ div.for-friends svg {
     position: absolute;
     display: none;
     align-items: center;
-    justify-content: left;
+    justify-content: center;
     width: 100%;
-    max-width: 100%;
+    max-width: fit-content;
     padding: 0.39rem;
     border-radius: calc(2rem - 0.39rem);
     background-color: var(--block-color);

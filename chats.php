@@ -24,9 +24,7 @@ if (isset($_SESSION['user'])) {
     $user_level = $connect->query("SELECT blossom_level FROM users WHERE id = '$user_id'")->fetch_assoc()['blossom_level'];
 }
 
-$sql_top = "SELECT * FROM users ORDER BY blossom_level DESC, blossom_progress DESC";
-$result_top = $connect->query($sql_top);
-$users_counter = $connect->query("SELECT * FROM users")->num_rows;
+$friends_counter = $result_friend_1->num_rows + $result_friend_2->num_rows;
 ?>
 
 <!DOCTYPE html>
@@ -148,7 +146,7 @@ $users_counter = $connect->query("SELECT * FROM users")->num_rows;
                 <div class="second-and-third-parts">
                     <div class="second-part">
                         <div class="chats all-chats">
-                            <p>Чаты<span><?= $friend_counter ?></span></p>
+                            <p>Чаты<span><?= $friends_counter ?></span></p>
                             <div class="search-chats-div">
                                 <input type="text" name="search-chats" id="search-chats" placeholder="Рампус Кроликович">
                                 <img id="icon-search-people" src="pics/SearchIcon.svg">

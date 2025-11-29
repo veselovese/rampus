@@ -565,7 +565,7 @@ $posts_counter = $connect->query("SELECT * FROM posts WHERE user_id = $other_id"
                         </div>
             </section>
     </main>
-<?php require('footer-2.php');
+<?php require('footer.php');
         } ?>
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script src="../js/main.js?v=250"></script>

@@ -359,3 +359,21 @@
     max-height: 3.4rem;
     transition: 0.2s;
 }
+
+.no-message-yet {
+    color: var(--else-text-color-50);
+}
+
+.current-chat-info {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.date-and-message-counter {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    font-size: var(--font-size-1);
+    color: var(--else-text-color-50);
+}

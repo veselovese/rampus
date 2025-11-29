@@ -1,7 +1,7 @@
 <footer>
     <div>
         <p>Rampus (Рампус), 2024-2025</p>
-        <p>Версия 2.5.0</p>
+        <p>Версия 3.0.0</p>
     </div>
-    <a href="https://t.me/rampusru" target="_blank"><img src="pics/TelegramIcon.svg" alt="Официальный telegram-канал"></a>
+    <a href="https://t.me/rampusru" target="_blank"><img src="http://localhost/rampus/pics/TelegramIcon.svg" alt="Официальный telegram-канал"></a>
 </footer>

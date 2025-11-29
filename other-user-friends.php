@@ -164,7 +164,7 @@ $result_friend_1 = $connect->query("SELECT * FROM friends JOIN users ON friends.
                     </div>
             </section>
     </main>
-<?php require('footer-3.php');
+<?php require('footer.php');
         } ?>
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script src="../../js/main.js?v=250"></script>

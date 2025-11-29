@@ -71,7 +71,7 @@ if (isset($_SESSION['user'])) {
                                             break;
                                     }
                                 } ?>
-                                <img class="menu-avatar" src="uploads/avatar/thin_<?= $avatar ?>">
+                                <img class="menu-avatar" src="uploads/avatar/thin_<?= $current_avatar ?>">
                                 <?php if ($first_name) { ?>
                                     <div>
                                         <p class="menu__first-and-second-names"><?= $first_name ?></p>

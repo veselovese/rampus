@@ -16,10 +16,10 @@ $(document).ready(function () {
     $('#search-chats').keyup(function () {
         var search = $(this).val();
         if (search != '') {
-            searchPeople(search);
+            searchChats(search);
         }
         else {
-            searchPeople();
+            searchChats();
         }
     })
 

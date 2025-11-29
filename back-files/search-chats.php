@@ -1,6 +1,11 @@
 <?php
 session_start();
 require_once('connect.php');
+date_default_timezone_set('Europe/Moscow');
+$today = date('Y-m-d', time());
+$yesterday = date('Y-m-d', mktime(0, 0, 0, date("m"), date("d") - 1, date("Y")));
+$beforeyesterday = date('Y-m-d', mktime(0, 0, 0, date("m"), date("d") - 2, date("Y")));
+$month_list = array(1 => 'января', 2 => 'февраля', 3 => 'марта', 4 => 'апреля', 5 => 'мая', 6 => 'июня', 7 => 'июля', 8 => 'августа', 9 => 'сентября', 10 => 'октября', 11 => 'ноября', 12 => 'декабря');
 $current_user_id = $_SESSION['user']['id'];
 
 if (isset($_POST["people"])) {
@@ -26,7 +31,7 @@ if ($result_friend_2->num_rows > 0) {
 }
 
 $result_people = $connect->query($sql_people);
-$counter = count($friends_id) - 1;
+$counter = count($friends_id);
 if ($result_people->num_rows > 0) {
     while ($row_people = $result_people->fetch_assoc()) {
         $id = $row_people['id'];
@@ -37,15 +42,50 @@ if ($result_people->num_rows > 0) {
                 $avatar = $row_people['avatar'];
                 $first_name = $row_people['first_name'];
                 $second_name = $row_people['second_name'];
+                $sql_last_message = "SELECT message, send_date FROM messages WHERE (user_id_from = $current_user_id AND user_id_to = $id) OR (user_id_to = $current_user_id AND user_id_from = $id) ORDER BY send_date DESC LIMIT 1";
+                $result_last_message = $connect->query($sql_last_message);
                 echo "<li class='user' onclick='openChatWithUser(event, `$username`)'>";
                 echo "<img src='uploads/avatar/thin_$avatar'>";
+                echo "<div class='current-chat-info'>";
                 echo "<div class='current-user-info'>";
                 if ($username == 'rampus') {
                     echo "<p class='rampus'>$first_name $second_name<img src=pics/SuperUserIcon.svg></p>";
                 } else {
-                    echo "<p>$first_name $second_name</p>";
+                    if ($first_name || $second_name) {
+                        echo "<p class='chat__user-info'>$first_name $second_name</p>";
+                    } else {
+                        echo "<p class='chat__user-info'>@<span>$username</span></p>";
+                    }
                 }
-                echo "<p>@$username</p>";
+                if ($result_last_message->num_rows > 0) {
+                    while ($row_last_message = $result_last_message->fetch_assoc()) {
+                        $last_message = $row_last_message['message'];
+                        $last_message_date = $row_last_message['send_date'];
+                        $massage_date_db = date_format(date_create($last_message_date), 'Y-m-d');
+                        switch ($massage_date_db) {
+                            case $today:
+                                $last_message_date = date_format(date_create($last_message_date), 'G:i');
+                                break;
+                            case $yesterday:
+                                $last_message_date = date_format(date_create($last_message_date), 'вчера');
+                                break;
+                            case $beforeyesterday:
+                                $last_message_date = date_format(date_create($last_message_date), 'позавчера');
+                                break;
+                            default:
+                                $last_message_date = date_format(date_create($last_message_date), 'j ') . $month_list[date_format(date_create($last_message_date), 'n')];
+                                break;
+                        }
+                        echo "<span>$last_message</span>";
+                        echo "</div>";
+                        echo "<div class='date-and-message-counter'>";
+                        echo "<span class='last-message-date'>$last_message_date</span>";
+                        echo "</div>";
+                    }
+                } else {
+                    echo "<span class='no-message-yet'>Сообщений ещё нет</span>";
+                    echo "</div>";
+                }
                 echo "</div>";
                 echo "</li>";
                 if ($counter > 0) {
