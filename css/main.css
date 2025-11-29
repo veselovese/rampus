@@ -253,7 +253,7 @@ textarea {
 
 .auth__section,
 .reg__section {
-    max-width: calc(30rem + 30rem + 4.1rem + 2.6rem*2);
+    max-width: calc(35rem + 2.6rem*2);
     height: max-content;
     background-color: var(--block-color);
     box-shadow: var(--shadow-small);

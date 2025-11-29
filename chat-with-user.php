@@ -97,10 +97,22 @@ if (!isset($_SESSION['user'])) {
                                     }
                                 } ?>
                                 <img class="menu-avatar" src="../uploads/avatar/thin_<?= $current_avatar ?>">
-                                <div>
-                                    <p><?= $current_first_name ?></p>
-                                    <p>@<?= $current_username ?></p>
-                                </div>
+                                <?php if ($current_first_name) { ?>
+                                    <div>
+                                        <p class="menu__first-and-second-names"><?= $current_first_name ?></p>
+                                        <p class="menu__username">@<?= $current_username ?></p>
+                                    </div>
+                                <?php } else if ($current_second_name) { ?>
+                                    <div>
+                                        <p class="menu__first-and-second-names"><?= $current_second_name ?></p>
+                                        <p class="menu__username">@<?= $current_username ?></p>
+                                    </div>
+                                <?php } else { ?>
+                                    <div>
+                                        <p class="menu__username main">@<span><?= $current_username ?></span></p>
+                                        <p class="menu__username">Ваш профиль</p>
+                                    </div>
+                                <?php } ?>
                             </a></li>
                         <p class="menu-title">Общение</p>
                         <li><a href="../wall">
@@ -113,6 +125,15 @@ if (!isset($_SESSION['user'])) {
                                     <span class="notification-in-menu"><?= $unread_posts ?></span>
                                 <?php } ?>
                             </a></li>
+                        <li>
+                            <a href="../chats">
+                                <svg width="28" height="24" viewBox="0 0 28 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M20.9219 4C20.4586 1.71776 18.4408 0 16.0219 0H4.99997C2.23855 0 -2.28882e-05 2.23858 -2.28882e-05 5V18H5V11C5 7.13401 8.13401 4 12 4H20.9219Z" />
+                                    <path d="M7 11C7 8.23858 9.23858 6 12 6H23C25.7614 6 28 8.23858 28 11V24H12C9.23858 24 7 21.7614 7 19V11Z" />
+                                </svg>
+                                Чаты
+                            </a>
+                        </li>
                         <li>
                             <a href="../users">
                                 <svg width='28' height='24' viewBox='0 0 28 24' fill='none' xmlns='http://www.w3.org/2000/svg'>

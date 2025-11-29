@@ -10,6 +10,12 @@ function removeInfoNotify() {
 
 removeInfoNotify();
 
+function simpleStart() {
+    $('#email_or_username').focus();
+}
+
+simpleStart();
+
 $(document).ready(function () {
     function signIn(eOrP, password, request) {
         $.ajax({
@@ -45,10 +51,11 @@ $(document).ready(function () {
             },
         });
     }
-    $('#auth-button').click(function () {
+
+    function submitValid() {
         const emailOrUsername = $('#email_or_username');
         const password = $('#password');
-        if (emailOrUsername.val() == '' || password.val() == '') {
+        if (emailOrUsername.val() == '') {
             $('#auth__notify').addClass('reject')
             $('#auth__notify-label').text('Все поля должны быть заполнены')
             $('#auth__notify-username').text('')
@@ -67,10 +74,47 @@ $(document).ready(function () {
             setTimeout(() => {
                 $('#auth__notify').removeClass('reject')
             }, 2000)
+        } else if ((password.val() == '') && (emailOrUsername.val() != '')) {
+            if ((password.val() == '') && (password.hasClass('was'))) {
+                console.log(password.hasClass('was'))
+                $('#auth__notify').addClass('reject')
+                password.addClass('off')
+                password.focus()
+                $('#auth__notify-label').text('Все поля должны быть заполнены')
+                $('#auth__notify-username').text('')
+                setTimeout(() => {
+                    $('#auth__notify').removeClass('reject')
+                }, 2000)
+            } else if (password.val() == '') {
+                $('#auth__notify').addClass('info')
+                password.addClass('was')
+                password.focus()
+                $('#auth__notify-label').text('Отлично, теперь пароль')
+                $('#auth__notify-username').text('')
+                setTimeout(() => {
+                    $('#auth__notify').removeClass('info')
+                }, 2000)
+            } else {
+                password.removeClass('off')
+            }
         } else {
             signIn(emailOrUsername.val(), password.val());
         }
-    })
+    }
+
+    $('#auth-button').click(() => { submitValid() })
+    $('#email_or_username').keypress(function (e) {
+        if (e.which === 13 && !e.shiftKey) {
+            e.preventDefault();
+            submitValid();
+        }
+    });
+    $('#password').keypress(function (e) {
+        if (e.which === 13 && !e.shiftKey) {
+            e.preventDefault();
+            submitValid();
+        }
+    });
 })
 
 function authFormValid() {

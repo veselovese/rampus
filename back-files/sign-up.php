@@ -3,7 +3,7 @@ require_once('connect.php');
 
 $email = $_POST['email'];
 $username = $_POST['username'];
-$password = $_POST['password'];
+$password = $_POST['password']; 
 
 $resultUsername = mysqli_query($connect, "SELECT * FROM users WHERE username = '$username'");
 $resultEmail = mysqli_query($connect, "SELECT * FROM users WHERE email = '$email'");

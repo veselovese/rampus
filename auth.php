@@ -35,7 +35,7 @@ session_start();
                     <div class="auth__notify" id="auth__notify">
                         <p><span id="auth__notify-label" class="auth__notify-label">Привет, </span><span id="auth__notify-username" class="auth__notify-username"></span></p>
                     </div>
-                    <img src="pics/RampusLogo.svg">
+                    <!-- <img src="pics/RampusLogo.svg"> -->
                     <?php $request = '' ?>
                     <?php if (isset($_GET['request'])) {
                         $request = '?request=' . $_GET['request'];
