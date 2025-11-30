@@ -70,7 +70,7 @@ if (!isset($_SESSION['user'])) {
 </head>
 
 <body>
-    <?php require('header-2.php'); ?>
+    <?php require('header.php'); ?>
     <main>
         <h1 class="title">Чат в Rampus (Рампус)</h1>
         <?php if (!isset($_SESSION['user'])) {
@@ -178,8 +178,12 @@ if (!isset($_SESSION['user'])) {
                                     </svg>
                                     Назад</a>
                                 <?php
-                                echo "<p class='chat__user-names'>$other_first_name $other_second_name</p>";
-                                echo "<img class='chat__user-avatar' src='../uploads/avatar/thin_$other_avatar'>";
+                                if ($other_first_name || $other_second_name) {
+                                    echo "<a href='../user/$other_username' class='chat__user-names'>$other_first_name $other_second_name</a>";
+                                } else {
+                                    echo "<a href='../user/$other_username' class='chat__user-names'>@<span>$other_username</span></a>";
+                                }
+                                echo "<a href='../user/$other_username'><img class='chat__user-avatar' src='../uploads/avatar/thin_$other_avatar'></a>";
                                 ?>
                             </div>
                             <div id="success-load-chat" class="loading">

@@ -46,7 +46,7 @@ $result_friend_1 = $connect->query("SELECT * FROM friends JOIN users ON friends.
 </head>
 
 <body>
-    <?php require('header-3.php'); ?>
+    <?php require('header.php'); ?>
     <main>
         <h1 class="title">Друзья в Rampus (Рампус)</h1>
         <?php if (!isset($_SESSION['user'])) {

@@ -1,5 +1,5 @@
 <header>
-    <a class="phone-link" href="http://localhost/rampus/wall"><img src="pics/RampusLogo.svg"><span>Rampus</span></a>
+    <a class="phone-link" href="http://localhost/rampus/wall"><img src="http://localhost/rampus/pics/RampusLogo.svg"><span>Rampus</span></a>
     <div class="third-part-in-header">
         <div>
             <input type="text" name="search-hashtag" id="search-hashtag-in-header" placeholder="Поиск">

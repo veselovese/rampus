@@ -45,7 +45,7 @@ if (isset($_SESSION['user'])) {
 </head>
 
 <body>
-    <?php require('header-2.php'); ?>
+    <?php require('header.php'); ?>
     <main>
         <h1 class="title">Посты на стене в Rampus (Рампус)</h1>
         <?php if (!isset($_SESSION['user'])) {

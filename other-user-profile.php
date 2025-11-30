@@ -130,7 +130,7 @@ $posts_counter = $connect->query("SELECT * FROM posts WHERE user_id = $other_id"
 </head>
 
 <body>
-    <?php require('header-2.php'); ?>
+    <?php require('header.php'); ?>
     <main>
         <h1 class="title">Профиль другого пользователя в Rampus (Рампус)</h1>
         <?php if (!isset($_SESSION['user'])) {

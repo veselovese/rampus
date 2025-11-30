@@ -2,8 +2,8 @@
 session_start();
 require_once('connect.php');
 
-$email_or_username = $_POST['email_or_username'];
-$password = md5($_POST['password']);
+$email_or_username = mysqli_real_escape_string($connect, $_POST['email_or_username']);
+$password = md5(mysqli_real_escape_string($connect, $_POST['password']));
 $request = $_GET['request'];
 
 if (mysqli_query($connect, "SELECT id FROM `users` LIMIT 1")) {

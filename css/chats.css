@@ -146,6 +146,16 @@
     max-height: 11px;
 }
 
+.chat__user-names {
+    font-size: var(--font-size-3);
+    color: var(--main-text-color);
+    transition: 0.2s;
+}
+
+.chat__user-names:hover {
+    opacity: 80%;
+}
+
 .chat__user-avatar {
     min-height: 50px;
     min-width: 50px;
@@ -153,6 +163,11 @@
     max-height: 50px;
     object-fit: cover;
     border-radius: 50%;
+    transition: 0.2s;
+}
+
+.chat__user-avatar:hover {
+    opacity: 80%;
 }
 
 .message {
