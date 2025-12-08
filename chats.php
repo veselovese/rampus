@@ -149,6 +149,7 @@ $friends_counter = $result_friend_1->num_rows + $result_friend_2->num_rows;
                             <p>Чаты<span><?= $friends_counter ?></span></p>
                             <div class="search-chats-div">
                                 <input type="text" name="search-chats" id="search-chats" placeholder="Рампус Кроликович">
+                                <input type="hidden" name="current-user-id" id="current-user-id" value="<?= $current_user_id ?>">
                                 <img id="icon-search-people" src="pics/SearchIcon.svg">
                             </div>
                             <ul id="success-search-chats">
@@ -225,6 +226,7 @@ $friends_counter = $result_friend_1->num_rows + $result_friend_2->num_rows;
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script src="js/main.js?v=250"></script>
 <script src="js/chats.js?v=250"></script>
+<script src="js/chat.js?v=250"></script>
 </body>
 
 </html>

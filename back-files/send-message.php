@@ -28,13 +28,15 @@ if ($message) {
         VALUES ('$user_id_from', '$user_id_to', '$message', '$chat_id')";
 
     $result_message = mysqli_query($connect, $sql_message);
+    $message_id = $connect->query("SELECT @@IDENTITY AS id")->fetch_assoc()['id'];
+
     if (!$result) {
         echo "Error: " . mysqli_error($connect);
     } else {
         $_SESSION['message'] = 'Сообщение отправлено';
     }
 
-    $sql_chat = "UPDATE chats SET last_message = $message, last_message_date = NOW() WHERE (user_id_1 = $user_id_from AND user_id_2 = $user_id_to) OR (user_id_1 = $user_id_to AND user_id_2 = $user_id_from) LIMIT 1";
+    $sql_chat = "UPDATE chats SET last_message_id = '$message_id' WHERE (user_id_1 = $user_id_from AND user_id_2 = $user_id_to) OR (user_id_1 = $user_id_to AND user_id_2 = $user_id_from) LIMIT 1";
     $result_chat = mysqli_query($connect, $sql_chat);
     if (!$result) {
         echo "Error: " . mysqli_error($connect);

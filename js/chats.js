@@ -17,8 +17,7 @@ $(document).ready(function () {
         var search = $(this).val();
         if (search != '') {
             searchChats(search);
-        }
-        else {
+        } else {
             searchChats();
         }
     })

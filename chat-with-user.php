@@ -12,6 +12,7 @@ if (!isset($_SESSION['user'])) {
     require('back-files/rating-trophies.php');
     require('back-files/find-user-position-in-top.php');
     require('back-files/get-user-friends.php');
+    require('back-files/get-chat_id.php');
 
     $user_id = $_SESSION['user']['id'];
     $result = $connect->query("SELECT * FROM users WHERE id = $user_id");
@@ -45,6 +46,8 @@ if (!isset($_SESSION['user'])) {
     }
 
     $unread_posts = $_SESSION['user']['unread_posts'];
+
+    $chat_id = getChatId($current_user_id, $other_id);
 
     $user_in_top = findUserPositionInTop($user_id, $connect);
     $unread_posts = $_SESSION['user']['unread_posts'];
@@ -204,6 +207,7 @@ if (!isset($_SESSION['user'])) {
                                     <div contenteditable="true" id="textarea-message" role="textbox" onkeyup="textareaMessage(event)" onkeydown="textareaMessagePlaceholder(event)"></div>
                                     <label for="textarea-message" id="textarea-message_label">Чел, ты будешь в шоке..</label>
                                     <input type="hidden" required name="message" id="textarea-message_input" value="">
+                                    <input type="hidden" required name="chat_id" id="chatid-message_input" value="<?= $chat_id ?>">
                                     <input type="hidden" required name="user_id_to" id="useridto-message_input" value="<?= $other_id ?>">
                                     <input type="file" name="message-image" id="message-image">
                                     <div class="messagearea-buttons">

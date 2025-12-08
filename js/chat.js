@@ -1,15 +1,16 @@
 const ws = new WebSocket('ws://localhost:2346');
+const currentUserId = $('#current-user-id').val();
+const chatId = $('#chatid-message_input').val();
 
 function simpleStart() {
     $('#textarea-message').focus();
 }
-
 simpleStart();
 
 const usrnm = window.location.pathname.split('/')[3];
-loadChat(usrnm);
+loadChat(usrnm, '');
 
-function loadChat(query) {
+function loadChat(query, status = '') {
     $.ajax({
         url: "../back-files/render-messages",
         method: "POST",
@@ -20,13 +21,37 @@ function loadChat(query) {
             $('#success-load-chat').html(data);
             $('#success-load-chat').removeClass('loading');
             $('#chat-loading').removeClass('loading');
-
+            console.log(status)
+            if (status != 'opened') {
+                console.log(status)
+                let sendedData = {
+                    action: 'open_chat',
+                    current_user_id: currentUserId,
+                    chat_id: chatId,
+                }
+                ws.send(JSON.stringify(sendedData))
+            }
         }
     });
 }
 
-function sendMessage(message, userIdTo) {
+function loadChatList(query) {
+    $.ajax({
+        url: "back-files/search-chats",
+        method: "POST",
+        data: {
+            'people': query
+        },
+        success: function (data) {
+            $('#success-search-chats').html(data);
+        }
+    });
+}
+
+function sendMessage(chatId, message, userIdTo) {
     let sendedData = {
+        action: 'send_message',
+        chat_id: chatId,
         message: message,
         user_id_to: userIdTo
     }
@@ -47,15 +72,31 @@ function sendMessage(message, userIdTo) {
 }
 
 ws.onmessage = (response) => {
-    // let responsedData = JSON.parse(response.data)
-    loadChat(usrnm)
+    let responsedData = JSON.parse(response.data)
+    if (responsedData.action == 'open_chat') {
+        if (responsedData.chat_id == chatId && responsedData.current_user_id != currentUserId) {
+            loadChat(usrnm, 'opened')
+        }
+    } else if (responsedData.action == 'send_message') {
+        if (responsedData.chat_id == chatId) {
+            loadChat(usrnm, '')
+        }
+        if (responsedData.user_id_to == currentUserId) {
+            var search = $('#search-chats').val();
+            if (search != '') {
+                loadChatList(search);
+            } else {
+                loadChatList();
+            }
+        }
+    }
 }
 
 $('#textarea-message').keypress(function (e) {
     if (e.which === 13 && !e.shiftKey) {
         e.preventDefault();
         if (($('#textarea-message').text().trim(' ') != '') || ($('#message-image').val().length)) {
-            sendMessage($('#textarea-message').text(), $('#useridto-message_input').val());
+            sendMessage(chatId, $('#textarea-message').text(), $('#useridto-message_input').val());
 
         }
     }
@@ -64,7 +105,7 @@ $('#textarea-message').keypress(function (e) {
 $('#textarea-message_sumbit').click(function (e) {
     e.preventDefault();
     if (($('#textarea-message').text().trim(' ') != '') || ($('#message-image').val().length)) {
-        sendMessage($('#textarea-message').text(), $('#useridto-message_input').val());
+        sendMessage(chatId, $('#textarea-message').text(), $('#useridto-message_input').val());
     }
 });
 

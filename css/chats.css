@@ -219,6 +219,25 @@
     color: var(--else-text-color-50);
 }
 
+.status-and-date {
+    display: flex;
+    gap: 0.39rem;
+}
+
+.status-and-date svg {
+    min-height: 11px;
+    max-height: 11px;
+    min-width: fit-content;
+}
+
+.status-and-date svg.not-read {
+    fill: var(--else-text-color-50);
+}
+
+.status-and-date svg.has-read {
+    fill: var(--main-accent-color);
+}
+
 .chat__new-message {
     display: flex;
     flex-direction: column;
@@ -389,6 +408,20 @@
     display: flex;
     flex-direction: column;
     align-items: flex-end;
+    gap: 0.39rem;
     font-size: var(--font-size-1);
     color: var(--else-text-color-50);
+}
+
+.unread-messages {
+    background-color: var(--main-accent-color);
+    border-radius: 50%;
+    padding: 0.39rem;
+    color: var(--block-color);
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 19px;
+    min-width: 19px;
 }
