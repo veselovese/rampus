@@ -51,9 +51,9 @@ if (isset($_POST["username"])) {
         }
         echo "<span class='send_date-day'>$last_send_date_day</span>";
 
-        $connect->query("UPDATE messages
-    SET read_status = 1
-    WHERE user_id_to = $current_user_id AND chat_id = $chat_id");
+    //     $connect->query("UPDATE messages
+    // SET read_status = 1
+    // WHERE user_id_to = $current_user_id AND chat_id = $chat_id");
     } else {
         echo "<p class='no-dialog'>У вас нет диалога. Начните общение первым!</p>";
     }

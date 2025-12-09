@@ -209,6 +209,7 @@ if (!isset($_SESSION['user'])) {
                                     <input type="hidden" required name="message" id="textarea-message_input" value="">
                                     <input type="hidden" required name="chat_id" id="chatid-message_input" value="<?= $chat_id ?>">
                                     <input type="hidden" required name="user_id_to" id="useridto-message_input" value="<?= $other_id ?>">
+                                    <input type="hidden" required name="current-user-id" id="currentuserid-message_input" value="<?= $user_id ?>">
                                     <input type="file" name="message-image" id="message-image">
                                     <div class="messagearea-buttons">
                                         <div onclick='addImageToMessage()' class="message-image-icon">

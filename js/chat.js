@@ -1,6 +1,7 @@
 const ws = new WebSocket('ws://localhost:2346');
-const currentUserId = $('#current-user-id').val();
+const currentUserId = $('#currentuserid-message_input').val();
 const chatId = $('#chatid-message_input').val();
+const userIdTo = $('#useridto-message_input').val();
 
 function simpleStart() {
     $('#textarea-message').focus();
@@ -8,9 +9,9 @@ function simpleStart() {
 simpleStart();
 
 const usrnm = window.location.pathname.split('/')[3];
-loadChat(usrnm, '');
+loadChat(usrnm);
 
-function loadChat(query, status = '') {
+function loadChat(query) {
     $.ajax({
         url: "../back-files/render-messages",
         method: "POST",
@@ -21,9 +22,41 @@ function loadChat(query, status = '') {
             $('#success-load-chat').html(data);
             $('#success-load-chat').removeClass('loading');
             $('#chat-loading').removeClass('loading');
-            console.log(status)
-            if (status != 'opened') {
-                console.log(status)
+            let sendedData = {
+                action: 'open_chat',
+                current_user_id: currentUserId,
+                chat_id: chatId,
+            }
+            ws.send(JSON.stringify(sendedData))
+        }
+    });
+}
+
+function reloadChat(query) {
+    $.ajax({
+        url: "../back-files/render-messages",
+        method: "POST",
+        data: {
+            'username': query
+        },
+        success: function (data) {
+            $('#success-load-chat').html(data);
+            $('#success-load-chat').removeClass('loading');
+            $('#chat-loading').removeClass('loading');
+        }
+    });
+}
+
+function readMessages(userIdTo) {
+    $.ajax({
+        url: "../back-files/chats/read-all-messages",
+        method: "POST",
+        data: {
+            'chat_id': chatId,
+            'user_id_to': userIdTo
+        },
+        success: function (data) {
+            if (data) {
                 let sendedData = {
                     action: 'open_chat',
                     current_user_id: currentUserId,
@@ -71,24 +104,34 @@ function sendMessage(chatId, message, userIdTo) {
     $('#textarea-message').trigger('focus')
 }
 
-ws.onmessage = (response) => {
+ws.onmessage = async (response) => {
     let responsedData = JSON.parse(response.data)
-    if (responsedData.action == 'open_chat') {
-        if (responsedData.chat_id == chatId && responsedData.current_user_id != currentUserId) {
-            loadChat(usrnm, 'opened')
-        }
-    } else if (responsedData.action == 'send_message') {
-        if (responsedData.chat_id == chatId) {
-            loadChat(usrnm, '')
-        }
-        if (responsedData.user_id_to == currentUserId) {
-            var search = $('#search-chats').val();
-            if (search != '') {
-                loadChatList(search);
-            } else {
-                loadChatList();
+    switch (responsedData.action) {
+        case 'open_chat':
+            if (responsedData.chat_id == chatId) {
+                reloadChat(usrnm)
             }
-        }
+            break;
+        case 'send_message':
+            if (responsedData.chat_id == chatId) {
+                reloadChat(usrnm)
+            }
+            if (responsedData.user_id_to == currentUserId) {
+                var search = $('#search-chats').val();
+                if (search != '') {
+                    loadChatList(search);
+                } else {
+                    loadChatList();
+                }
+            }
+            break;
+        case 'mouse_move':
+            const shouldRead = $('.message').first().hasClass('your-message') ? false : true;
+            console.log(responsedData);
+            if (responsedData.chat_id == chatId && shouldRead && currentUserId != responsedData.user_id_to) {
+                readMessages(responsedData.user_id_to)
+            }
+            break;
     }
 }
 
@@ -96,8 +139,7 @@ $('#textarea-message').keypress(function (e) {
     if (e.which === 13 && !e.shiftKey) {
         e.preventDefault();
         if (($('#textarea-message').text().trim(' ') != '') || ($('#message-image').val().length)) {
-            sendMessage(chatId, $('#textarea-message').text(), $('#useridto-message_input').val());
-
+            sendMessage(chatId, $('#textarea-message').text(), userIdTo);
         }
     }
 });
@@ -105,7 +147,7 @@ $('#textarea-message').keypress(function (e) {
 $('#textarea-message_sumbit').click(function (e) {
     e.preventDefault();
     if (($('#textarea-message').text().trim(' ') != '') || ($('#message-image').val().length)) {
-        sendMessage(chatId, $('#textarea-message').text(), $('#useridto-message_input').val());
+        sendMessage(chatId, $('#textarea-message').text(), userIdTo);
     }
 });
 
@@ -169,3 +211,16 @@ function clearMessageImage() {
     $('#textarea-message_sumbit').removeClass('active');
     $('#textarea-message_sumbit').attr('disabled');
 }
+
+document.addEventListener('mousemove', function (event) {
+    if ($('.not-read').length) {
+        let sendedData = {
+            action: 'mouse_move',
+            user_id_to: userIdTo,
+            current_user_id: currentUserId,
+            chat_id: chatId,
+        }
+        ws.send(JSON.stringify(sendedData))
+    }
+});
+
