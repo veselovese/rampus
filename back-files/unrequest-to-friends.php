@@ -1,10 +1,10 @@
 <?php
+session_start();
 require_once('connect.php');
 
-$user_id_from = $_POST['id_from'];
-$user_id_to = $_POST['id_to'];
+$user_id_1 = $_SESSION['user']['id'];
+$user_id_2 = mysqli_real_escape_string($connect, $_POST['user_id_2']);
 
-if ($connect->query("SELECT id FROM requests WHERE user_id_from = $user_id_from AND user_id_to = $user_id_to")->num_rows > 0) {
-    $connect->query("DELETE FROM requests WHERE user_id_from = $user_id_from AND user_id_to = $user_id_to");
+if ($connect->query("SELECT 1 FROM requests WHERE (user_id_from = $user_id_2 AND user_id_to = $user_id_1) OR (user_id_from = $user_id_1 AND user_id_to = $user_id_2) LIMIT 1")->num_rows > 0) {
+    $connect->query("DELETE FROM requests WHERE (user_id_from = $user_id_1 AND user_id_to = $user_id_2) OR (user_id_from = $user_id_2 AND user_id_to = $user_id_1)");
 }
-

@@ -13,6 +13,7 @@ if (!isset($_SESSION['user'])) {
     require('back-files/like-or-dislike.php');
     require('back-files/rating-trophies.php');
     require('back-files/get-user-friends.php');
+    require('back-files/friends/get-friend-status.php');
 
     $id = $_SESSION['user']['id'];
     $result = $connect->query("SELECT * FROM users WHERE id = $id");
@@ -47,9 +48,7 @@ if ($result->num_rows > 0) {
     exit();
 }
 
-$result_request_from = $connect->query("SELECT * FROM requests WHERE user_id_from = $id AND user_id_to = $other_id");
-$result_request_to = $connect->query("SELECT * FROM requests WHERE user_id_from = $other_id AND user_id_to = $id");
-$result_friend = $connect->query("SELECT * FROM friends WHERE (user_id_1 = $id AND user_id_2 = $other_id) OR (user_id_2 = $id AND user_id_1 = $other_id)");
+$friend_status = getFriendStatus($other_id, $connect);
 $result_friend_1 = $connect->query("SELECT users.avatar AS friend_avatar, users.first_name AS friend_first_name, users.username AS friend_username FROM friends JOIN users ON friends.user_id_2 = users.id WHERE user_id_1 = $other_id ORDER BY friend_date");
 $result_friend_2 = $connect->query("SELECT users.avatar AS friend_avatar, users.first_name AS friend_first_name, users.username AS friend_username FROM friends JOIN users ON friends.user_id_1 = users.id WHERE user_id_2 = $other_id ORDER BY friend_date");
 
@@ -156,7 +155,7 @@ $posts_counter = $connect->query("SELECT * FROM posts WHERE user_id = $other_id"
                                             break;
                                     }
                                 } ?>
-                                <img class="menu-avatar" src="../uploads/avatar/thin_<?= $avatar ?>">
+                                <img class="menu-avatar" src="../uploads/avatar/thin_<?= $current_avatar ?>">
                                 <?php if ($current_first_name) { ?>
                                     <div>
                                         <p class="menu__first-and-second-names"><?= $current_first_name ?></p>
@@ -238,96 +237,101 @@ $posts_counter = $connect->query("SELECT * FROM posts WHERE user_id = $other_id"
                                     <?php if ($other_description != '') { ?>
                                         <p class="description"><?= $other_description ?></p>
                                     <?php } ?>
-                                    <?php if ($result_friend->num_rows > 0) { ?>
-                                        <div class='answer-to-request-div'>
-                                            <div class='answer-to-request show-answer-to-request-popup you-are-friends' id='delete-from-friends_<?= $other_id ?>' onclick='showPopupDeleteUser(<?= $other_id ?>)'>
-                                                Друзья
-                                                <svg width='8' height='13' viewBox='0 0 8 13' fill='none' xmlns='http://www.w3.org/2000/svg'>
-                                                    <path d='M6.96771 6.03603L1.12165 0.191904C0.865127 -0.0639698 0.449521 -0.0639698 0.192352 0.191904C-0.0641698 0.447777 -0.0641699 0.863383 0.192352 1.11926L5.57471 6.49968L0.192999 11.8801C-0.0635223 12.136 -0.0635224 12.5516 0.192999 12.8081C0.44952 13.064 0.865774 13.064 1.1223 12.8081L6.96836 6.96403C7.22094 6.7108 7.22094 6.28866 6.96771 6.03603Z' />
-                                                </svg>
+                                    <?php switch ($friend_status) {
+                                        case 'friends': ?>
+                                            <div class='answer-to-request-div'>
+                                                <div class='answer-to-request show-answer-to-request-popup you-are-friends' id='delete-from-friends_<?= $other_id ?>' onclick='showPopupDeleteUser(<?= $other_id ?>)'>
+                                                    Друзья
+                                                    <svg width='8' height='13' viewBox='0 0 8 13' fill='none' xmlns='http://www.w3.org/2000/svg'>
+                                                        <path d='M6.96771 6.03603L1.12165 0.191904C0.865127 -0.0639698 0.449521 -0.0639698 0.192352 0.191904C-0.0641698 0.447777 -0.0641699 0.863383 0.192352 1.11926L5.57471 6.49968L0.192999 11.8801C-0.0635223 12.136 -0.0635224 12.5516 0.192999 12.8081C0.44952 13.064 0.865774 13.064 1.1223 12.8081L6.96836 6.96403C7.22094 6.7108 7.22094 6.28866 6.96771 6.03603Z' />
+                                                    </svg>
+                                                </div>
+                                                <div class='answer-to-requests-popup' id='popup_delete-from-friends_<?= $other_id ?>'>
+                                                    <span class='answer-to-requests-popup-li unrequest' id='unrequest-from-friends_<?= $other_id ?>' onclick='deleteFromFriends(<?= $other_id ?>, <?= $id ?>)'>Удалить</span>
+                                                </div>
+                                                <div class='answer-to-request show-answer-to-request-popup hide' id='unrequest-to-friends_<?= $other_id ?>' onclick='showPopupUnrequestToUser(<?= $other_id ?>)'>
+                                                    Заявка отправлена
+                                                    <svg width='8' height='13' viewBox='0 0 8 13' fill='none' xmlns='http://www.w3.org/2000/svg'>
+                                                        <path d='M6.96771 6.03603L1.12165 0.191904C0.865127 -0.0639698 0.449521 -0.0639698 0.192352 0.191904C-0.0641698 0.447777 -0.0641699 0.863383 0.192352 1.11926L5.57471 6.49968L0.192999 11.8801C-0.0635223 12.136 -0.0635224 12.5516 0.192999 12.8081C0.44952 13.064 0.865774 13.064 1.1223 12.8081L6.96836 6.96403C7.22094 6.7108 7.22094 6.28866 6.96771 6.03603Z' />
+                                                    </svg>
+                                                </div>
+                                                <div class='answer-to-requests-popup' id='popup_unrequest-to-friends_<?= $other_id ?>'>
+                                                    <span class='answer-to-requests-popup-li unrequest' id='unrequest-to-friends_<?= $other_id ?>' onclick='unrequestToFriends(<?= $id ?>, <?= $other_id ?>)'>Отменить</span>
+                                                </div>
+                                                <div class='answer-to-request show-answer-to-request-popup not-friends hide' id='request-to-friends_<?= $other_id ?>' onclick='requestToFriends(<?= $id ?>, <?= $other_id ?>)'>
+                                                    Добавить в друзья
+                                                </div>
                                             </div>
-                                            <div class='answer-to-requests-popup' id='popup_delete-from-friends_<?= $other_id ?>'>
-                                                <span class='answer-to-requests-popup-li unrequest' id='unrequest-from-friends_<?= $other_id ?>' onclick='deleteFromFriends(<?= $other_id ?>, <?= $id ?>)'>Удалить</span>
+                                        <?php break;
+                                        case 'request_to': ?>
+                                            <div class='answer-to-request-div'>
+                                                <div class='answer-to-request show-answer-to-request-popup' id='answer-to-request_<?= $other_id ?>' onclick='showPopupAnswerToUser(<?= $other_id ?>)'>
+                                                    Ответить
+                                                    <svg width='8' height='13' viewBox='0 0 8 13' fill='none' xmlns='http://www.w3.org/2000/svg'>
+                                                        <path d='M6.96771 6.03603L1.12165 0.191904C0.865127 -0.0639698 0.449521 -0.0639698 0.192352 0.191904C-0.0641698 0.447777 -0.0641699 0.863383 0.192352 1.11926L5.57471 6.49968L0.192999 11.8801C-0.0635223 12.136 -0.0635224 12.5516 0.192999 12.8081C0.44952 13.064 0.865774 13.064 1.1223 12.8081L6.96836 6.96403C7.22094 6.7108 7.22094 6.28866 6.96771 6.03603Z' />
+                                                    </svg>
+                                                </div>
+                                                <div class='answer-to-requests-popup' id='popup_answer-to-request_<?= $other_id ?>'>
+                                                    <span class='answer-to-requests-popup-li' id='add-to-friends_<?= $other_id ?>' onclick='addToFriends(<?= $other_id ?>, <?= $id ?>)'>Принять</span>
+                                                    <div class='div-line'></div>
+                                                    <span class='answer-to-requests-popup-li unrequest' id='unrequest-from-friends_<?= $other_id ?>' onclick='unrequestFromFriends(<?= $other_id ?>, <?= $id ?>)'>Отклонить</span>
+                                                </div>
+                                                <div class='answer-to-request show-answer-to-request-popup hide' id='unrequest-to-friends_<?= $other_id ?>' onclick='showPopupUnrequestToUser(<?= $other_id ?>)'>
+                                                    Заявка отправлена
+                                                    <svg width='8' height='13' viewBox='0 0 8 13' fill='none' xmlns='http://www.w3.org/2000/svg'>
+                                                        <path d='M6.96771 6.03603L1.12165 0.191904C0.865127 -0.0639698 0.449521 -0.0639698 0.192352 0.191904C-0.0641698 0.447777 -0.0641699 0.863383 0.192352 1.11926L5.57471 6.49968L0.192999 11.8801C-0.0635223 12.136 -0.0635224 12.5516 0.192999 12.8081C0.44952 13.064 0.865774 13.064 1.1223 12.8081L6.96836 6.96403C7.22094 6.7108 7.22094 6.28866 6.96771 6.03603Z' />
+                                                    </svg>
+                                                </div>
+                                                <div class='answer-to-requests-popup' id='popup_unrequest-to-friends_<?= $other_id ?>'>
+                                                    <span class='answer-to-requests-popup-li unrequest' id='unrequest-to-friends_<?= $other_id ?>' onclick='unrequestToFriends(<?= $id ?>, <?= $other_id ?>)'>Отменить</span>
+                                                </div>
+                                                <div class='answer-to-request show-answer-to-request-popup not-friends hide' id='request-to-friends_<?= $other_id ?>' onclick='requestToFriends(<?= $id ?>, <?= $other_id ?>)'>
+                                                    Добавить в друзья
+                                                </div>
+                                                <div class='answer-to-request show-answer-to-request-popup you-are-friends hide' id='delete-from-friends_<?= $other_id ?>' onclick='showPopupDeleteUser(<?= $other_id ?>)'>
+                                                    Друзья
+                                                    <svg width='8' height='13' viewBox='0 0 8 13' fill='none' xmlns='http://www.w3.org/2000/svg'>
+                                                        <path d='M6.96771 6.03603L1.12165 0.191904C0.865127 -0.0639698 0.449521 -0.0639698 0.192352 0.191904C-0.0641698 0.447777 -0.0641699 0.863383 0.192352 1.11926L5.57471 6.49968L0.192999 11.8801C-0.0635223 12.136 -0.0635224 12.5516 0.192999 12.8081C0.44952 13.064 0.865774 13.064 1.1223 12.8081L6.96836 6.96403C7.22094 6.7108 7.22094 6.28866 6.96771 6.03603Z' />
+                                                    </svg>
+                                                </div>
+                                                <div class='answer-to-requests-popup' id='popup_delete-from-friends_<?= $other_id ?>'>
+                                                    <span class='answer-to-requests-popup-li unrequest' id='unrequest-from-friends_<?= $other_id ?>' onclick='deleteFromFriends(<?= $other_id ?>, <?= $id ?>)'>Удалить</span>
+                                                </div>
                                             </div>
-                                            <div class='answer-to-request show-answer-to-request-popup hide' id='unrequest-to-friends_<?= $other_id ?>' onclick='showPopupUnrequestToUser(<?= $other_id ?>)'>
-                                                Заявка отправлена
-                                                <svg width='8' height='13' viewBox='0 0 8 13' fill='none' xmlns='http://www.w3.org/2000/svg'>
-                                                    <path d='M6.96771 6.03603L1.12165 0.191904C0.865127 -0.0639698 0.449521 -0.0639698 0.192352 0.191904C-0.0641698 0.447777 -0.0641699 0.863383 0.192352 1.11926L5.57471 6.49968L0.192999 11.8801C-0.0635223 12.136 -0.0635224 12.5516 0.192999 12.8081C0.44952 13.064 0.865774 13.064 1.1223 12.8081L6.96836 6.96403C7.22094 6.7108 7.22094 6.28866 6.96771 6.03603Z' />
-                                                </svg>
+                                        <?php break;
+                                        case 'request_from': ?>
+                                            <div class='answer-to-request-div'>
+                                                <div class='answer-to-request show-answer-to-request-popup' id='unrequest-to-friends_<?= $other_id ?>' onclick='showPopupUnrequestToUser(<?= $other_id ?>)'>
+                                                    Заявка отправлена
+                                                    <svg width='8' height='13' viewBox='0 0 8 13' fill='none' xmlns='http://www.w3.org/2000/svg'>
+                                                        <path d='M6.96771 6.03603L1.12165 0.191904C0.865127 -0.0639698 0.449521 -0.0639698 0.192352 0.191904C-0.0641698 0.447777 -0.0641699 0.863383 0.192352 1.11926L5.57471 6.49968L0.192999 11.8801C-0.0635223 12.136 -0.0635224 12.5516 0.192999 12.8081C0.44952 13.064 0.865774 13.064 1.1223 12.8081L6.96836 6.96403C7.22094 6.7108 7.22094 6.28866 6.96771 6.03603Z' />
+                                                    </svg>
+                                                </div>
+                                                <div class='answer-to-requests-popup' id='popup_unrequest-to-friends_<?= $other_id ?>'>
+                                                    <span class='answer-to-requests-popup-li unrequest' id='unrequest-to-friends_<?= $other_id ?>' onclick='unrequestToFriends(<?= $id ?>, <?= $other_id ?>)'>Отменить</span>
+                                                </div>
+                                                <div class='answer-to-request show-answer-to-request-popup not-friends hide' id='request-to-friends_<?= $other_id ?>' onclick='requestToFriends(<?= $id ?>, <?= $other_id ?>)'>
+                                                    Добавить в друзья
+                                                </div>
                                             </div>
-                                            <div class='answer-to-requests-popup' id='popup_unrequest-to-friends_<?= $other_id ?>'>
-                                                <span class='answer-to-requests-popup-li unrequest' id='unrequest-to-friends_<?= $other_id ?>' onclick='unrequestToFriends(<?= $id ?>, <?= $other_id ?>)'>Отменить</span>
+                                        <?php break;
+                                        case 'no-status': ?>
+                                            <div class='answer-to-request-div'>
+                                                <div class='answer-to-request show-answer-to-request-popup not-friends' id='request-to-friends_<?= $other_id ?>' onclick='requestToFriends(<?= $id ?>, <?= $other_id ?>)'>
+                                                    Добавить в друзья
+                                                </div>
+                                                <div class='answer-to-request show-answer-to-request-popup hide' id='unrequest-to-friends_<?= $other_id ?>' onclick='showPopupUnrequestToUser(<?= $other_id ?>)'>
+                                                    Заявка отправлена
+                                                    <svg width='8' height='13' viewBox='0 0 8 13' fill='none' xmlns='http://www.w3.org/2000/svg'>
+                                                        <path d='M6.96771 6.03603L1.12165 0.191904C0.865127 -0.0639698 0.449521 -0.0639698 0.192352 0.191904C-0.0641698 0.447777 -0.0641699 0.863383 0.192352 1.11926L5.57471 6.49968L0.192999 11.8801C-0.0635223 12.136 -0.0635224 12.5516 0.192999 12.8081C0.44952 13.064 0.865774 13.064 1.1223 12.8081L6.96836 6.96403C7.22094 6.7108 7.22094 6.28866 6.96771 6.03603Z' />
+                                                    </svg>
+                                                </div>
+                                                <div class='answer-to-requests-popup' id='popup_unrequest-to-friends_<?= $other_id ?>'>
+                                                    <span class='answer-to-requests-popup-li unrequest' id='unrequest-to-friends_<?= $other_id ?>' onclick='unrequestToFriends(<?= $id ?>, <?= $other_id ?>)'>Отменить</span>
+                                                </div>
                                             </div>
-                                            <div class='answer-to-request show-answer-to-request-popup not-friends hide' id='request-to-friends_<?= $other_id ?>' onclick='requestToFriends(<?= $id ?>, <?= $other_id ?>)'>
-                                                Добавить в друзья
-                                            </div>
-                                        </div>
-                                    <?php } else if ($result_request_to->num_rows > 0) { ?>
-                                        <div class='answer-to-request-div'>
-                                            <div class='answer-to-request show-answer-to-request-popup' id='answer-to-request_<?= $other_id ?>' onclick='showPopupAnswerToUser(<?= $other_id ?>)'>
-                                                Ответить
-                                                <svg width='8' height='13' viewBox='0 0 8 13' fill='none' xmlns='http://www.w3.org/2000/svg'>
-                                                    <path d='M6.96771 6.03603L1.12165 0.191904C0.865127 -0.0639698 0.449521 -0.0639698 0.192352 0.191904C-0.0641698 0.447777 -0.0641699 0.863383 0.192352 1.11926L5.57471 6.49968L0.192999 11.8801C-0.0635223 12.136 -0.0635224 12.5516 0.192999 12.8081C0.44952 13.064 0.865774 13.064 1.1223 12.8081L6.96836 6.96403C7.22094 6.7108 7.22094 6.28866 6.96771 6.03603Z' />
-                                                </svg>
-                                            </div>
-                                            <div class='answer-to-requests-popup' id='popup_answer-to-request_<?= $other_id ?>'>
-                                                <span class='answer-to-requests-popup-li' id='add-to-friends_<?= $other_id ?>' onclick='addToFriends(<?= $other_id ?>, <?= $id ?>)'>Принять</span>
-                                                <div class='div-line'></div>
-                                                <span class='answer-to-requests-popup-li unrequest' id='unrequest-from-friends_<?= $other_id ?>' onclick='unrequestFromFriends(<?= $other_id ?>, <?= $id ?>)'>Отклонить</span>
-                                            </div>
-                                            <div class='answer-to-request show-answer-to-request-popup hide' id='unrequest-to-friends_<?= $other_id ?>' onclick='showPopupUnrequestToUser(<?= $other_id ?>)'>
-                                                Заявка отправлена
-                                                <svg width='8' height='13' viewBox='0 0 8 13' fill='none' xmlns='http://www.w3.org/2000/svg'>
-                                                    <path d='M6.96771 6.03603L1.12165 0.191904C0.865127 -0.0639698 0.449521 -0.0639698 0.192352 0.191904C-0.0641698 0.447777 -0.0641699 0.863383 0.192352 1.11926L5.57471 6.49968L0.192999 11.8801C-0.0635223 12.136 -0.0635224 12.5516 0.192999 12.8081C0.44952 13.064 0.865774 13.064 1.1223 12.8081L6.96836 6.96403C7.22094 6.7108 7.22094 6.28866 6.96771 6.03603Z' />
-                                                </svg>
-                                            </div>
-                                            <div class='answer-to-requests-popup' id='popup_unrequest-to-friends_<?= $other_id ?>'>
-                                                <span class='answer-to-requests-popup-li unrequest' id='unrequest-to-friends_<?= $other_id ?>' onclick='unrequestToFriends(<?= $id ?>, <?= $other_id ?>)'>Отменить</span>
-                                            </div>
-                                            <div class='answer-to-request show-answer-to-request-popup not-friends hide' id='request-to-friends_<?= $other_id ?>' onclick='requestToFriends(<?= $id ?>, <?= $other_id ?>)'>
-                                                Добавить в друзья
-                                            </div>
-                                            <div class='answer-to-request show-answer-to-request-popup you-are-friends hide' id='delete-from-friends_<?= $other_id ?>' onclick='showPopupDeleteUser(<?= $other_id ?>)'>
-                                                Друзья
-                                                <svg width='8' height='13' viewBox='0 0 8 13' fill='none' xmlns='http://www.w3.org/2000/svg'>
-                                                    <path d='M6.96771 6.03603L1.12165 0.191904C0.865127 -0.0639698 0.449521 -0.0639698 0.192352 0.191904C-0.0641698 0.447777 -0.0641699 0.863383 0.192352 1.11926L5.57471 6.49968L0.192999 11.8801C-0.0635223 12.136 -0.0635224 12.5516 0.192999 12.8081C0.44952 13.064 0.865774 13.064 1.1223 12.8081L6.96836 6.96403C7.22094 6.7108 7.22094 6.28866 6.96771 6.03603Z' />
-                                                </svg>
-                                            </div>
-                                            <div class='answer-to-requests-popup' id='popup_delete-from-friends_<?= $other_id ?>'>
-                                                <span class='answer-to-requests-popup-li unrequest' id='unrequest-from-friends_<?= $other_id ?>' onclick='deleteFromFriends(<?= $other_id ?>, <?= $id ?>)'>Удалить</span>
-                                            </div>
-                                        </div>
-                                    <?php } else if ($result_request_from->num_rows > 0) { ?>
-                                        <div class='answer-to-request-div'>
-                                            <div class='answer-to-request show-answer-to-request-popup' id='unrequest-to-friends_<?= $other_id ?>' onclick='showPopupUnrequestToUser(<?= $other_id ?>)'>
-                                                Заявка отправлена
-                                                <svg width='8' height='13' viewBox='0 0 8 13' fill='none' xmlns='http://www.w3.org/2000/svg'>
-                                                    <path d='M6.96771 6.03603L1.12165 0.191904C0.865127 -0.0639698 0.449521 -0.0639698 0.192352 0.191904C-0.0641698 0.447777 -0.0641699 0.863383 0.192352 1.11926L5.57471 6.49968L0.192999 11.8801C-0.0635223 12.136 -0.0635224 12.5516 0.192999 12.8081C0.44952 13.064 0.865774 13.064 1.1223 12.8081L6.96836 6.96403C7.22094 6.7108 7.22094 6.28866 6.96771 6.03603Z' />
-                                                </svg>
-                                            </div>
-                                            <div class='answer-to-requests-popup' id='popup_unrequest-to-friends_<?= $other_id ?>'>
-                                                <span class='answer-to-requests-popup-li unrequest' id='unrequest-to-friends_<?= $other_id ?>' onclick='unrequestToFriends(<?= $id ?>, <?= $other_id ?>)'>Отменить</span>
-                                            </div>
-                                            <div class='answer-to-request show-answer-to-request-popup not-friends hide' id='request-to-friends_<?= $other_id ?>' onclick='requestToFriends(<?= $id ?>, <?= $other_id ?>)'>
-                                                Добавить в друзья
-                                            </div>
-                                        </div>
-                                    <?php } else { ?>
-                                        <div class='answer-to-request-div'>
-                                            <div class='answer-to-request show-answer-to-request-popup not-friends' id='request-to-friends_<?= $other_id ?>' onclick='requestToFriends(<?= $id ?>, <?= $other_id ?>)'>
-                                                Добавить в друзья
-                                            </div>
-                                            <div class='answer-to-request show-answer-to-request-popup hide' id='unrequest-to-friends_<?= $other_id ?>' onclick='showPopupUnrequestToUser(<?= $other_id ?>)'>
-                                                Заявка отправлена
-                                                <svg width='8' height='13' viewBox='0 0 8 13' fill='none' xmlns='http://www.w3.org/2000/svg'>
-                                                    <path d='M6.96771 6.03603L1.12165 0.191904C0.865127 -0.0639698 0.449521 -0.0639698 0.192352 0.191904C-0.0641698 0.447777 -0.0641699 0.863383 0.192352 1.11926L5.57471 6.49968L0.192999 11.8801C-0.0635223 12.136 -0.0635224 12.5516 0.192999 12.8081C0.44952 13.064 0.865774 13.064 1.1223 12.8081L6.96836 6.96403C7.22094 6.7108 7.22094 6.28866 6.96771 6.03603Z' />
-                                                </svg>
-                                            </div>
-                                            <div class='answer-to-requests-popup' id='popup_unrequest-to-friends_<?= $other_id ?>'>
-                                                <span class='answer-to-requests-popup-li unrequest' id='unrequest-to-friends_<?= $other_id ?>' onclick='unrequestToFriends(<?= $id ?>, <?= $other_id ?>)'>Отменить</span>
-                                            </div>
-                                        </div>
-                                    <?php } ?>
+                                    <?php break;
+                                    } ?>
                                 </div>
                                 <div class='div-show-three-dots-popup in-profile' onclick='showPopupUserInfo(<?= $id ?>)' id='div-show-three-dots-popup_$i'>
                                     <img src='../pics/ThreeDotsIcon.svg' class='show-three-dots-popup'>

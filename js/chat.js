@@ -1,5 +1,5 @@
 const ws = new WebSocket('ws://localhost:2346');
-const currentUserId = $('#currentuserid-message_input').val();
+const currentUserId = $('#currentuserid_input').val();
 const chatId = $('#chatid-message_input').val();
 const userIdTo = $('#useridto-message_input').val();
 
@@ -22,12 +22,7 @@ function loadChat(query) {
             $('#success-load-chat').html(data);
             $('#success-load-chat').removeClass('loading');
             $('#chat-loading').removeClass('loading');
-            let sendedData = {
-                action: 'open_chat',
-                current_user_id: currentUserId,
-                chat_id: chatId,
-            }
-            ws.send(JSON.stringify(sendedData))
+            readMessages(query)
         }
     });
 }
@@ -127,7 +122,6 @@ ws.onmessage = async (response) => {
             break;
         case 'mouse_move':
             const shouldRead = $('.message').first().hasClass('your-message') ? false : true;
-            console.log(responsedData);
             if (responsedData.chat_id == chatId && shouldRead && currentUserId != responsedData.user_id_to) {
                 readMessages(responsedData.user_id_to)
             }
