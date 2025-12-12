@@ -1,9 +1,9 @@
 <?php
 session_start();
 
-require_once('back-files/connect.php');
-
 if (isset($_SESSION['user'])) {
+    require_once('back-files/connect.php');
+    require_once('back-files/get-user-friends.php');
     $id = $_SESSION['user']['id'];
     $result = $connect->query("SELECT * FROM users WHERE id = $id");
     if ($result->num_rows > 0) {
@@ -14,8 +14,6 @@ if (isset($_SESSION['user'])) {
             $current_avatar = $row["avatar"];
         }
     }
-    $result_friend_2 = $connect->query("SELECT * FROM friends JOIN users ON friends.user_id_1 = users.id WHERE user_id_2 = $id ORDER BY friend_date");
-    $result_friend_1 = $connect->query("SELECT * FROM friends JOIN users ON friends.user_id_2 = users.id WHERE user_id_1 = $id ORDER BY friend_date");
 
     $sql = "SELECT posts.likes AS post_likes
                     FROM posts
@@ -125,7 +123,7 @@ if (isset($_SESSION['user'])) {
                                         <div class="current-param">
                                             <img src="pics/FriendsIcon.svg">
                                             <p>Друзья</p>
-                                            <span><?= ($result_friend_1->num_rows + $result_friend_2->num_rows) ?></span>
+                                            <span><?= $result_friend->num_rows ?></span>
                                         </div>
                                         <div class="current-param">
                                             <img src="pics/LikedIcon.svg">

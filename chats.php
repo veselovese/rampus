@@ -24,7 +24,7 @@ if (isset($_SESSION['user'])) {
     $user_level = $connect->query("SELECT blossom_level FROM users WHERE id = '$user_id'")->fetch_assoc()['blossom_level'];
 }
 
-$friends_counter = $result_friend_1->num_rows + $result_friend_2->num_rows;
+$friends_counter = $result_friend->num_rows;
 ?>
 
 <!DOCTYPE html>

@@ -59,7 +59,7 @@ if (isset($_SESSION['user'])) {
                         <div class="wall-filter-mobile" id="wall-filter-mobile">
                             <div class="wall-filter__choice">
                                 <label class="wall-filter-popup-li">Все<span>Посты всех пользователей</span><input checked name="wall-filter__mobile" id="wall-filter-all__mobile" type="radio" value=""></label>
-                                <label class="wall-filter-popup-li <?php if (($result_friend_1->num_rows + $result_friend_2->num_rows) == 0) {
+                                <label class="wall-filter-popup-li <?php if ($result_friend->num_rows == 0) {
                                                                         echo "no-friends";
                                                                     } ?>">Друзья<span>Посты ваших друзей</span><input name="wall-filter__mobile" id="wall-filter-friends__mobile" type="radio" value=""></label>
                             </div>

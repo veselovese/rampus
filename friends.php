@@ -20,7 +20,7 @@ if (isset($_SESSION['user'])) {
     }
 
     $user_in_top = findUserPositionInTop($user_id, $connect);
-    $friends_counter = $result_friend_1->num_rows + $result_friend_2->num_rows;
+    $friends_counter = $result_friend->num_rows;
 
     $unread_posts = $_SESSION['user']['unread_posts'];
     $result_request_to_counter = $result_request_to->num_rows;
@@ -121,41 +121,16 @@ if (isset($_SESSION['user'])) {
 
                                 </div>
                             <?php } ?>
-                            <p class="friends-title">Ваши друзья</p>
-                            <?php if (($result_friend_1->num_rows > 0) || ($result_friend_2->num_rows > 0)) {
+                            <?php if ($result_friend->num_rows > 0) {
                                 echo "<ul>";
-                                if ($result_friend_1->num_rows > 0) {
-                                    while ($row_friend_1 = $result_friend_1->fetch_assoc()) {
+                                if ($result_friend->num_rows > 0) {
+                                    while ($row_friend = $result_friend->fetch_assoc()) {
                                         $friends_counter -= 1;
-                                        $id = $row_friend_1['id'];
-                                        $username = $row_friend_1['username'];
-                                        $avatar = $row_friend_1['avatar'];
-                                        $first_name = $row_friend_1['first_name'];
-                                        $second_name = $row_friend_1['second_name'];
-                                        echo "<li class='user' onclick='openOtherUserProfile(event, `$username`)'>";
-                                        echo "<img src='uploads/avatar/thin_$avatar'>";
-                                        echo "<div class='current-user-info'>";
-                                        if ($username == 'rampus') {
-                                            echo "<p class='rampus'>$first_name $second_name<img src='pics/SuperUserIcon.svg'></p>";
-                                        } else {
-                                            echo "<p>$first_name $second_name</p>";
-                                        }
-                                        echo "<p>@$username</p>";
-                                        echo "</div>";
-                                        echo "</li>";
-                                        if ($friends_counter > 0) {
-                                            echo "<div class='div-line'></div>";
-                                        }
-                                    }
-                                }
-                                if ($result_friend_2->num_rows > 0) {
-                                    while ($row_friend_2 = $result_friend_2->fetch_assoc()) {
-                                        $friends_counter -= 1;
-                                        $id = $row_friend_2['id'];
-                                        $username = $row_friend_2['username'];
-                                        $avatar = $row_friend_2['avatar'];
-                                        $first_name = $row_friend_2['first_name'];
-                                        $second_name = $row_friend_2['second_name'];
+                                        $id = $row_friend['user_id'];
+                                        $username = $row_friend['user_username'];
+                                        $avatar = $row_friend['user_avatar'];
+                                        $first_name = $row_friend['user_first_name'];
+                                        $second_name = $row_friend['user_second_name'];
                                         echo "<li class='user' onclick='openOtherUserProfile(event, `$username`)'>";
                                         echo "<img src='uploads/avatar/thin_$avatar'>";
                                         echo "<div class='current-user-info'>";

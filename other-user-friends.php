@@ -23,11 +23,21 @@ $other_username = $_GET['username'];
 $result = $connect->query("SELECT * FROM users WHERE username = '$other_username'");
 if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
-        $id = $row["id"];
+        $other_user_id = $row["id"];
     }
 }
-$result_friend_2 = $connect->query("SELECT * FROM friends JOIN users ON friends.user_id_1 = users.id WHERE user_id_2 = $id ORDER BY friend_date");
-$result_friend_1 = $connect->query("SELECT * FROM friends JOIN users ON friends.user_id_2 = users.id WHERE user_id_1 = $id ORDER BY friend_date");
+$result_friend = $connect->query("SELECT u.id AS user_id, u.username AS user_username, u.first_name AS user_first_name, u.second_name AS user_second_name, u.avatar AS user_avatar
+FROM
+(
+        SELECT 
+            CASE 
+                WHEN user_id_1 = $other_user_id THEN user_id_2
+                ELSE user_id_1
+            END AS friend_id
+        FROM friends
+        WHERE user_id_1 = $other_user_id OR user_id_2 = $other_user_id
+    ) friends   
+    JOIN users u ON u.id = friends.friend_id");
 ?>
 
 <!DOCTYPE html>
@@ -59,41 +69,17 @@ $result_friend_1 = $connect->query("SELECT * FROM friends JOIN users ON friends.
                     <div class="second-part">
                         <div class="friends__users">
                             <p>Друзья <span>@<?= $other_username ?></span></p>
-                            <?php if (($result_friend_1->num_rows > 0) || ($result_friend_2->num_rows > 0)) {
+                            <?php if ($result_friend->num_rows > 0) {
                                 echo "<ul>";
-                                $counter = $result_friend_1->num_rows + $result_friend_2->num_rows;
-                                if ($result_friend_1->num_rows > 0) {
-                                    while ($row_friend_1 = $result_friend_1->fetch_assoc()) {
+                                $counter = $result_friend->num_rows;
+                                if ($result_friend->num_rows > 0) {
+                                    while ($row_friend = $result_friend->fetch_assoc()) {
                                         $counter -= 1;
-                                        $id = $row_friend_1['id'];
-                                        $username = $row_friend_1['username'];
-                                        $avatar = $row_friend_1['avatar'];
-                                        $first_name = $row_friend_1['first_name'];
-                                        $second_name = $row_friend_1['second_name'];
-                                        echo "<li class='user' onclick='openOtherUserProfileFromOtherProfile(event, `$username`)'>";
-                                        echo "<img src='../../uploads/avatar/thin_$avatar'>";
-                                        echo "<div class='current-user-info'>";
-                                        if ($username == 'rampus') {
-                                            echo "<p class='rampus'>$first_name $second_name<img src='../../pics/SuperUserIcon.svg'></p>";
-                                        } else {
-                                            echo "<p>$first_name $second_name</p>";
-                                        }
-                                        echo "<p>@$username</p>";
-                                        echo "</div>";
-                                        echo "</li>";
-                                        if ($counter > 0) {
-                                            echo "<div class='div-line'></div>";
-                                        }
-                                    }
-                                }
-                                if ($result_friend_2->num_rows > 0) {
-                                    while ($row_friend_2 = $result_friend_2->fetch_assoc()) {
-                                        $counter -= 1;
-                                        $id = $row_friend_2['id'];
-                                        $username = $row_friend_2['username'];
-                                        $avatar = $row_friend_2['avatar'];
-                                        $first_name = $row_friend_2['first_name'];
-                                        $second_name = $row_friend_2['second_name'];
+                                        $id = $row_friend['user_id'];
+                                        $username = $row_friend['user_username'];
+                                        $avatar = $row_friend['user_avatar'];
+                                        $first_name = $row_friend['user_first_name'];
+                                        $second_name = $row_friend['user_second_name'];
                                         echo "<li class='user' onclick='openOtherUserProfileFromOtherProfile(event, `$username`)'>";
                                         echo "<img src='../../uploads/avatar/thin_$avatar'>";
                                         echo "<div class='current-user-info'>";

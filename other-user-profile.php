@@ -15,17 +15,17 @@ if (!isset($_SESSION['user'])) {
     require('back-files/get-user-friends.php');
     require('back-files/friends/get-friend-status.php');
 
-    $id = $_SESSION['user']['id'];
-    $result = $connect->query("SELECT * FROM users WHERE id = $id");
+    $current_user_id = $_SESSION['user']['id'];
+    $result = $connect->query("SELECT * FROM users WHERE id = $current_user_id");
     if ($result->num_rows > 0) {
         while ($row = $result->fetch_assoc()) {
-            $current_username = $row["username"];
-            $current_first_name = $row["first_name"];
-            $current_second_name = $row["second_name"];
-            $current_avatar = $row["avatar"];
+            $current_user_username = $row["username"];
+            $current_user_first_name = $row["first_name"];
+            $current_user_second_name = $row["second_name"];
+            $current_user_avatar = $row["avatar"];
         }
     }
-    if ($username == $current_username) {
+    if ($username == $current_user_username) {
         header("Location: ../profile");
         exit();
     }
@@ -35,38 +35,48 @@ if (!isset($_SESSION['user'])) {
 $result = $connect->query("SELECT * FROM users WHERE username = '$username'");
 if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
-        $other_id = $row["id"];
-        $other_username = $row["username"];
-        $other_email = $row["email"];
-        $other_description = $row["description"];
-        $other_first_name = $row["first_name"];
-        $other_second_name = $row["second_name"];
-        $other_avatar = $row["avatar"];
+        $other_user_id = $row["id"];
+        $other_user_username = $row["username"];
+        $other_user_email = $row["email"];
+        $other_user_description = $row["description"];
+        $other_user_first_name = $row["first_name"];
+        $other_user_second_name = $row["second_name"];
+        $other_user_avatar = $row["avatar"];
     }
 } else {
     header("Location: ../profile");
     exit();
 }
 
-$friend_status = getFriendStatus($other_id, $connect);
-$result_friend_1 = $connect->query("SELECT users.avatar AS friend_avatar, users.first_name AS friend_first_name, users.username AS friend_username FROM friends JOIN users ON friends.user_id_2 = users.id WHERE user_id_1 = $other_id ORDER BY friend_date");
-$result_friend_2 = $connect->query("SELECT users.avatar AS friend_avatar, users.first_name AS friend_first_name, users.username AS friend_username FROM friends JOIN users ON friends.user_id_1 = users.id WHERE user_id_2 = $other_id ORDER BY friend_date");
+$friend_status = getFriendStatus($other_user_id, $connect);
+$result_friend = $connect->query("SELECT u.id AS user_id, u.username AS user_username, u.first_name AS user_first_name, u.second_name AS user_second_name, u.avatar AS user_avatar
+FROM
+(
+        SELECT 
+            CASE 
+                WHEN user_id_1 = $other_user_id THEN user_id_2
+                ELSE user_id_1
+            END AS friend_id
+        FROM friends
+        WHERE user_id_1 = $other_user_id OR user_id_2 = $other_user_id
+    ) friends   
+    JOIN users u ON u.id = friends.friend_id");
 
 $sql = "SELECT posts.likes AS post_likes
                     FROM posts
                     JOIN users ON posts.user_id = users.id
-                    WHERE posts.user_id = $other_id";
+                    WHERE posts.user_id = $other_user_id";
 $sql_comment_counter = "SELECT comments.id
                     FROM comments 
                     JOIN posts ON comments.post_id = posts.id    
                     JOIN users ON users.id = posts.user_id
-                    WHERE posts.user_id = $other_id";
+                    WHERE posts.user_id = $other_user_id";
 $sql_commented_counter = "SELECT comments.id
                     FROM comments
-                    WHERE comments.user_id = $other_id";
+                    WHERE comments.user_id = $other_user_id";
 $sql_liked_counter = "SELECT likes_on_posts.id
                     FROM likes_on_posts
-                    WHERE likes_on_posts.user_id = $other_id";
+                    WHERE likes_on_posts.user_id = $other_user_id";
 $result = $connect->query($sql);
 $posts_count = $result->num_rows;
 $comment_count = $connect->query($sql_comment_counter)->num_rows;
@@ -80,13 +90,13 @@ if ($posts_count > 0) {
     }
 }
 
-$blossom = ($posts_count + $likes_count * 0.3 + $comment_count * 0.4 + $liked_count * 0.2 + $commented_count * 0.3 + ($result_friend_1->num_rows + $result_friend_2->num_rows) * 0.7) / 10;
+$blossom = ($posts_count + $likes_count * 0.3 + $comment_count * 0.4 + $liked_count * 0.2 + $commented_count * 0.3 + $result_friend->num_rows  * 0.7) / 10;
 $user_level = intval($blossom);
 $user_progress = round($blossom - $user_level, 2) * 100;
 $user_level += 1;
 
-$connect->query("UPDATE users SET blossom_level = $user_level WHERE id = $other_id");
-$connect->query("UPDATE users SET blossom_progress = $user_progress WHERE id = $other_id");
+$connect->query("UPDATE users SET blossom_level = $user_level WHERE id = $other_user_id");
+$connect->query("UPDATE users SET blossom_progress = $user_progress WHERE id = $other_user_id");
 
 $sql_top = "SELECT id FROM users ORDER BY blossom_level DESC, blossom_progress DESC";
 $result_top = $connect->query($sql_top);
@@ -95,20 +105,20 @@ if ($result_top->num_rows > 0) {
     while ($row = $result_top->fetch_assoc()) {
         $current_id = $row["id"];
         $top_count += 1;
-        if ($current_id == $other_id) {
+        if ($current_id == $other_user_id) {
             $top_count_other = $top_count;
         }
-        if ($current_id == $id) {
+        if ($current_id == $current_user_id) {
             $top_count_current = $top_count;
         }
     }
 }
 
-$sql_trophies = "SELECT * FROM trophies WHERE user_id_to = $other_id";
+$sql_trophies = "SELECT * FROM trophies WHERE user_id_to = $other_user_id";
 $result_trophies = $connect->query($sql_trophies);
 $result_trophies_m = $connect->query($sql_trophies);
 
-$posts_counter = $connect->query("SELECT * FROM posts WHERE user_id = $other_id")->num_rows;
+$posts_counter = $connect->query("SELECT * FROM posts WHERE user_id = $other_user_id")->num_rows;
 
 ?>
 
@@ -143,119 +153,119 @@ $posts_counter = $connect->query("SELECT * FROM posts WHERE user_id = $other_id"
                         <div class="profile__user-info">
                             <div class="profile-back"></div>
                             <div class="profile-userinfo">
-                                <img class="avatar" src="../uploads/avatar/small_<?= $other_avatar ?>">
+                                <img class="avatar" src="../uploads/avatar/small_<?= $other_user_avatar ?>">
                                 <div class="textinfo">
-                                    <p class='first-and-second-names'><?= $other_first_name . " " . $other_second_name ?></p>
+                                    <p class='first-and-second-names'><?= $other_user_first_name . " " . $other_user_second_name ?></p>
                                     <div>
-                                        <p class="username" onclick='copyLinkToUserAddReturnMessage("<?= $other_username ?>")'>@<?= $other_username ?></p>
+                                        <p class="username" onclick='copyLinkToUserAddReturnMessage("<?= $other_user_username ?>")'>@<?= $other_user_username ?></p>
                                         <span id="copy-link-status">Копировать ссылку</span>
                                     </div>
-                                    <?php if ($other_description != '') { ?>
-                                        <p class="description"><?= $other_description ?></p>
+                                    <?php if ($other_user_description != '') { ?>
+                                        <p class="description"><?= $other_user_description ?></p>
                                     <?php } ?>
                                     <?php switch ($friend_status) {
                                         case 'friends': ?>
                                             <div class='answer-to-request-div'>
-                                                <div class='answer-to-request show-answer-to-request-popup you-are-friends' id='delete-from-friends_<?= $other_id ?>' onclick='showPopupDeleteUser(<?= $other_id ?>)'>
+                                                <div class='answer-to-request show-answer-to-request-popup you-are-friends' id='delete-from-friends_<?= $other_user_id ?>' onclick='showPopupDeleteUser(<?= $other_user_id ?>)'>
                                                     Друзья
                                                     <svg width='8' height='13' viewBox='0 0 8 13' fill='none' xmlns='http://www.w3.org/2000/svg'>
                                                         <path d='M6.96771 6.03603L1.12165 0.191904C0.865127 -0.0639698 0.449521 -0.0639698 0.192352 0.191904C-0.0641698 0.447777 -0.0641699 0.863383 0.192352 1.11926L5.57471 6.49968L0.192999 11.8801C-0.0635223 12.136 -0.0635224 12.5516 0.192999 12.8081C0.44952 13.064 0.865774 13.064 1.1223 12.8081L6.96836 6.96403C7.22094 6.7108 7.22094 6.28866 6.96771 6.03603Z' />
                                                     </svg>
                                                 </div>
-                                                <div class='answer-to-requests-popup' id='popup_delete-from-friends_<?= $other_id ?>'>
-                                                    <span class='answer-to-requests-popup-li unrequest' id='unrequest-from-friends_<?= $other_id ?>' onclick='deleteFromFriends(<?= $other_id ?>, <?= $id ?>)'>Удалить</span>
+                                                <div class='answer-to-requests-popup' id='popup_delete-from-friends_<?= $other_user_id ?>'>
+                                                    <span class='answer-to-requests-popup-li unrequest' id='unrequest-from-friends_<?= $other_user_id ?>' onclick='deleteFromFriends(<?= $other_user_id ?>, <?= $current_user_id ?>)'>Удалить</span>
                                                 </div>
-                                                <div class='answer-to-request show-answer-to-request-popup hide' id='unrequest-to-friends_<?= $other_id ?>' onclick='showPopupUnrequestToUser(<?= $other_id ?>)'>
+                                                <div class='answer-to-request show-answer-to-request-popup hide' id='unrequest-to-friends_<?= $other_user_id ?>' onclick='showPopupUnrequestToUser(<?= $other_user_id ?>)'>
                                                     Заявка отправлена
                                                     <svg width='8' height='13' viewBox='0 0 8 13' fill='none' xmlns='http://www.w3.org/2000/svg'>
                                                         <path d='M6.96771 6.03603L1.12165 0.191904C0.865127 -0.0639698 0.449521 -0.0639698 0.192352 0.191904C-0.0641698 0.447777 -0.0641699 0.863383 0.192352 1.11926L5.57471 6.49968L0.192999 11.8801C-0.0635223 12.136 -0.0635224 12.5516 0.192999 12.8081C0.44952 13.064 0.865774 13.064 1.1223 12.8081L6.96836 6.96403C7.22094 6.7108 7.22094 6.28866 6.96771 6.03603Z' />
                                                     </svg>
                                                 </div>
-                                                <div class='answer-to-requests-popup' id='popup_unrequest-to-friends_<?= $other_id ?>'>
-                                                    <span class='answer-to-requests-popup-li unrequest' id='unrequest-to-friends_<?= $other_id ?>' onclick='unrequestToFriends(<?= $id ?>, <?= $other_id ?>)'>Отменить</span>
+                                                <div class='answer-to-requests-popup' id='popup_unrequest-to-friends_<?= $other_user_id ?>'>
+                                                    <span class='answer-to-requests-popup-li unrequest' id='unrequest-to-friends_<?= $other_user_id ?>' onclick='unrequestToFriends(<?= $current_user_id ?>, <?= $other_user_id ?>)'>Отменить</span>
                                                 </div>
-                                                <div class='answer-to-request show-answer-to-request-popup not-friends hide' id='request-to-friends_<?= $other_id ?>' onclick='requestToFriends(<?= $id ?>, <?= $other_id ?>)'>
+                                                <div class='answer-to-request show-answer-to-request-popup not-friends hide' id='request-to-friends_<?= $other_user_id ?>' onclick='requestToFriends(<?= $id ?>, <?= $other_user_id ?>)'>
                                                     Добавить в друзья
                                                 </div>
                                             </div>
                                         <?php break;
                                         case 'request_to': ?>
                                             <div class='answer-to-request-div'>
-                                                <div class='answer-to-request show-answer-to-request-popup' id='answer-to-request_<?= $other_id ?>' onclick='showPopupAnswerToUser(<?= $other_id ?>)'>
+                                                <div class='answer-to-request show-answer-to-request-popup' id='answer-to-request_<?= $other_user_id ?>' onclick='showPopupAnswerToUser(<?= $other_user_id ?>)'>
                                                     Ответить
                                                     <svg width='8' height='13' viewBox='0 0 8 13' fill='none' xmlns='http://www.w3.org/2000/svg'>
                                                         <path d='M6.96771 6.03603L1.12165 0.191904C0.865127 -0.0639698 0.449521 -0.0639698 0.192352 0.191904C-0.0641698 0.447777 -0.0641699 0.863383 0.192352 1.11926L5.57471 6.49968L0.192999 11.8801C-0.0635223 12.136 -0.0635224 12.5516 0.192999 12.8081C0.44952 13.064 0.865774 13.064 1.1223 12.8081L6.96836 6.96403C7.22094 6.7108 7.22094 6.28866 6.96771 6.03603Z' />
                                                     </svg>
                                                 </div>
-                                                <div class='answer-to-requests-popup' id='popup_answer-to-request_<?= $other_id ?>'>
-                                                    <span class='answer-to-requests-popup-li' id='add-to-friends_<?= $other_id ?>' onclick='addToFriends(<?= $other_id ?>, <?= $id ?>)'>Принять</span>
+                                                <div class='answer-to-requests-popup' id='popup_answer-to-request_<?= $other_user_id ?>'>
+                                                    <span class='answer-to-requests-popup-li' id='add-to-friends_<?= $other_user_id ?>' onclick='addToFriends(<?= $other_user_id ?>, <?= $id ?>)'>Принять</span>
                                                     <div class='div-line'></div>
-                                                    <span class='answer-to-requests-popup-li unrequest' id='unrequest-from-friends_<?= $other_id ?>' onclick='unrequestFromFriends(<?= $other_id ?>, <?= $id ?>)'>Отклонить</span>
+                                                    <span class='answer-to-requests-popup-li unrequest' id='unrequest-from-friends_<?= $other_user_id ?>' onclick='unrequestFromFriends(<?= $other_user_id ?>, <?= $current_user_id ?>)'>Отклонить</span>
                                                 </div>
-                                                <div class='answer-to-request show-answer-to-request-popup hide' id='unrequest-to-friends_<?= $other_id ?>' onclick='showPopupUnrequestToUser(<?= $other_id ?>)'>
+                                                <div class='answer-to-request show-answer-to-request-popup hide' id='unrequest-to-friends_<?= $other_user_id ?>' onclick='showPopupUnrequestToUser(<?= $other_user_id ?>)'>
                                                     Заявка отправлена
                                                     <svg width='8' height='13' viewBox='0 0 8 13' fill='none' xmlns='http://www.w3.org/2000/svg'>
                                                         <path d='M6.96771 6.03603L1.12165 0.191904C0.865127 -0.0639698 0.449521 -0.0639698 0.192352 0.191904C-0.0641698 0.447777 -0.0641699 0.863383 0.192352 1.11926L5.57471 6.49968L0.192999 11.8801C-0.0635223 12.136 -0.0635224 12.5516 0.192999 12.8081C0.44952 13.064 0.865774 13.064 1.1223 12.8081L6.96836 6.96403C7.22094 6.7108 7.22094 6.28866 6.96771 6.03603Z' />
                                                     </svg>
                                                 </div>
-                                                <div class='answer-to-requests-popup' id='popup_unrequest-to-friends_<?= $other_id ?>'>
-                                                    <span class='answer-to-requests-popup-li unrequest' id='unrequest-to-friends_<?= $other_id ?>' onclick='unrequestToFriends(<?= $id ?>, <?= $other_id ?>)'>Отменить</span>
+                                                <div class='answer-to-requests-popup' id='popup_unrequest-to-friends_<?= $other_user_id ?>'>
+                                                    <span class='answer-to-requests-popup-li unrequest' id='unrequest-to-friends_<?= $other_user_id ?>' onclick='unrequestToFriends(<?= $current_user_id ?>, <?= $other_user_id ?>)'>Отменить</span>
                                                 </div>
-                                                <div class='answer-to-request show-answer-to-request-popup not-friends hide' id='request-to-friends_<?= $other_id ?>' onclick='requestToFriends(<?= $id ?>, <?= $other_id ?>)'>
+                                                <div class='answer-to-request show-answer-to-request-popup not-friends hide' id='request-to-friends_<?= $other_user_id ?>' onclick='requestToFriends(<?= $current_user_id ?>, <?= $other_user_id ?>)'>
                                                     Добавить в друзья
                                                 </div>
-                                                <div class='answer-to-request show-answer-to-request-popup you-are-friends hide' id='delete-from-friends_<?= $other_id ?>' onclick='showPopupDeleteUser(<?= $other_id ?>)'>
+                                                <div class='answer-to-request show-answer-to-request-popup you-are-friends hide' id='delete-from-friends_<?= $other_user_id ?>' onclick='showPopupDeleteUser(<?= $other_user_id ?>)'>
                                                     Друзья
                                                     <svg width='8' height='13' viewBox='0 0 8 13' fill='none' xmlns='http://www.w3.org/2000/svg'>
                                                         <path d='M6.96771 6.03603L1.12165 0.191904C0.865127 -0.0639698 0.449521 -0.0639698 0.192352 0.191904C-0.0641698 0.447777 -0.0641699 0.863383 0.192352 1.11926L5.57471 6.49968L0.192999 11.8801C-0.0635223 12.136 -0.0635224 12.5516 0.192999 12.8081C0.44952 13.064 0.865774 13.064 1.1223 12.8081L6.96836 6.96403C7.22094 6.7108 7.22094 6.28866 6.96771 6.03603Z' />
                                                     </svg>
                                                 </div>
-                                                <div class='answer-to-requests-popup' id='popup_delete-from-friends_<?= $other_id ?>'>
-                                                    <span class='answer-to-requests-popup-li unrequest' id='unrequest-from-friends_<?= $other_id ?>' onclick='deleteFromFriends(<?= $other_id ?>, <?= $id ?>)'>Удалить</span>
+                                                <div class='answer-to-requests-popup' id='popup_delete-from-friends_<?= $other_user_id ?>'>
+                                                    <span class='answer-to-requests-popup-li unrequest' id='unrequest-from-friends_<?= $other_user_id ?>' onclick='deleteFromFriends(<?= $other_user_id ?>, <?= $current_user_id ?>)'>Удалить</span>
                                                 </div>
                                             </div>
                                         <?php break;
                                         case 'request_from': ?>
                                             <div class='answer-to-request-div'>
-                                                <div class='answer-to-request show-answer-to-request-popup' id='unrequest-to-friends_<?= $other_id ?>' onclick='showPopupUnrequestToUser(<?= $other_id ?>)'>
+                                                <div class='answer-to-request show-answer-to-request-popup' id='unrequest-to-friends_<?= $other_user_id ?>' onclick='showPopupUnrequestToUser(<?= $other_user_id ?>)'>
                                                     Заявка отправлена
                                                     <svg width='8' height='13' viewBox='0 0 8 13' fill='none' xmlns='http://www.w3.org/2000/svg'>
                                                         <path d='M6.96771 6.03603L1.12165 0.191904C0.865127 -0.0639698 0.449521 -0.0639698 0.192352 0.191904C-0.0641698 0.447777 -0.0641699 0.863383 0.192352 1.11926L5.57471 6.49968L0.192999 11.8801C-0.0635223 12.136 -0.0635224 12.5516 0.192999 12.8081C0.44952 13.064 0.865774 13.064 1.1223 12.8081L6.96836 6.96403C7.22094 6.7108 7.22094 6.28866 6.96771 6.03603Z' />
                                                     </svg>
                                                 </div>
-                                                <div class='answer-to-requests-popup' id='popup_unrequest-to-friends_<?= $other_id ?>'>
-                                                    <span class='answer-to-requests-popup-li unrequest' id='unrequest-to-friends_<?= $other_id ?>' onclick='unrequestToFriends(<?= $id ?>, <?= $other_id ?>)'>Отменить</span>
+                                                <div class='answer-to-requests-popup' id='popup_unrequest-to-friends_<?= $other_user_id ?>'>
+                                                    <span class='answer-to-requests-popup-li unrequest' id='unrequest-to-friends_<?= $other_user_id ?>' onclick='unrequestToFriends(<?= $current_id ?>, <?= $other_user_id ?>)'>Отменить</span>
                                                 </div>
-                                                <div class='answer-to-request show-answer-to-request-popup not-friends hide' id='request-to-friends_<?= $other_id ?>' onclick='requestToFriends(<?= $id ?>, <?= $other_id ?>)'>
+                                                <div class='answer-to-request show-answer-to-request-popup not-friends hide' id='request-to-friends_<?= $other_user_id ?>' onclick='requestToFriends(<?= $current_user_id ?>, <?= $other_user_id ?>)'>
                                                     Добавить в друзья
                                                 </div>
                                             </div>
                                         <?php break;
                                         case 'no-status': ?>
                                             <div class='answer-to-request-div'>
-                                                <div class='answer-to-request show-answer-to-request-popup not-friends' id='request-to-friends_<?= $other_id ?>' onclick='requestToFriends(<?= $id ?>, <?= $other_id ?>)'>
+                                                <div class='answer-to-request show-answer-to-request-popup not-friends' id='request-to-friends_<?= $other_user_id ?>' onclick='requestToFriends(<?= $current_user_id ?>, <?= $other_user_id ?>)'>
                                                     Добавить в друзья
                                                 </div>
-                                                <div class='answer-to-request show-answer-to-request-popup hide' id='unrequest-to-friends_<?= $other_id ?>' onclick='showPopupUnrequestToUser(<?= $other_id ?>)'>
+                                                <div class='answer-to-request show-answer-to-request-popup hide' id='unrequest-to-friends_<?= $other_user_id ?>' onclick='showPopupUnrequestToUser(<?= $other_user_id ?>)'>
                                                     Заявка отправлена
                                                     <svg width='8' height='13' viewBox='0 0 8 13' fill='none' xmlns='http://www.w3.org/2000/svg'>
                                                         <path d='M6.96771 6.03603L1.12165 0.191904C0.865127 -0.0639698 0.449521 -0.0639698 0.192352 0.191904C-0.0641698 0.447777 -0.0641699 0.863383 0.192352 1.11926L5.57471 6.49968L0.192999 11.8801C-0.0635223 12.136 -0.0635224 12.5516 0.192999 12.8081C0.44952 13.064 0.865774 13.064 1.1223 12.8081L6.96836 6.96403C7.22094 6.7108 7.22094 6.28866 6.96771 6.03603Z' />
                                                     </svg>
                                                 </div>
-                                                <div class='answer-to-requests-popup' id='popup_unrequest-to-friends_<?= $other_id ?>'>
-                                                    <span class='answer-to-requests-popup-li unrequest' id='unrequest-to-friends_<?= $other_id ?>' onclick='unrequestToFriends(<?= $id ?>, <?= $other_id ?>)'>Отменить</span>
+                                                <div class='answer-to-requests-popup' id='popup_unrequest-to-friends_<?= $other_user_id ?>'>
+                                                    <span class='answer-to-requests-popup-li unrequest' id='unrequest-to-friends_<?= $other_user_id ?>' onclick='unrequestToFriends(<?= $current_user_id ?>, <?= $other_user_id ?>)'>Отменить</span>
                                                 </div>
                                             </div>
                                     <?php break;
                                     } ?>
                                 </div>
-                                <div class='div-show-three-dots-popup in-profile' onclick='showPopupUserInfo(<?= $id ?>)' id='div-show-three-dots-popup_$i'>
+                                <div class='div-show-three-dots-popup in-profile' onclick='showPopupUserInfo(<?= $other_user_id ?>)' id='div-show-three-dots-popup_$i'>
                                     <img src='../pics/ThreeDotsIcon.svg' class='show-three-dots-popup'>
                                 </div>
                                 <div class='three-dots-popup' id='three-dots-popup_user-info'>
-                                    <span class='three-dots-popup-li copy-link' onclick='copyLinkToUser("<?= $username ?>")'>Копировать ссылку</span>
+                                    <span class='three-dots-popup-li copy-link' onclick='copyLinkToUser("<?= $other_user_username ?>")'>Копировать ссылку</span>
                                     <?php if ($result_friend->num_rows > 0) { ?>
-                                        <span class='three-dots-popup-li delete-from-friends delete-post' onclick='deleteFromFriends(<?= $id ?>, <?= $other_id ?>)'>Удалить из друзей</span>
+                                        <span class='three-dots-popup-li delete-from-friends delete-post' onclick='deleteFromFriends(<?= $current_user_id ?>, <?= $other_user_id ?>)'>Удалить из друзей</span>
                                     <?php } ?>
                                 </div>
                             </div>
@@ -297,46 +307,53 @@ $posts_counter = $connect->query("SELECT * FROM posts WHERE user_id = $other_id"
                             </div>
                         </div>
                         <div class="user-friends">
-                            <div class="section" onclick="openOtherFriendsPage(event, '<?= $other_username ?>')">
+                            <div class="section" onclick="openOtherFriendsPage(event, '<?= $other_user_username ?>')">
                                 <div class="friends-info">
                                     <img src="../pics/FriendsIcon.svg">
                                     <p>Друзья</p>
                                     <div>
-                                        <span><?= $result_friend_1->num_rows + $result_friend_2->num_rows ?></span>
+                                        <span><?= $result_friend->num_rows ?></span>
                                         <svg width="8" height="13" viewBox="0 0 8 13" fill="none" xmlns="http://www.w3.org/2000/svg">
                                             <path d="M6.96771 6.03603L1.12165 0.191904C0.865127 -0.0639698 0.449521 -0.0639698 0.192352 0.191904C-0.0641698 0.447777 -0.0641699 0.863383 0.192352 1.11926L5.57471 6.49968L0.192999 11.8801C-0.0635223 12.136 -0.0635224 12.5516 0.192999 12.8081C0.44952 13.064 0.865774 13.064 1.1223 12.8081L6.96836 6.96403C7.22094 6.7108 7.22094 6.28866 6.96771 6.03603Z" />
                                         </svg>
                                     </div>
                                 </div>
-                                <?php if (($result_friend_1->num_rows > 0) || ($result_friend_2->num_rows > 0)) {
+                                <?php if ($result_friend->num_rows > 0) {
                                     echo "<div class='friends'>";
-                                    if ($result_friend_1->num_rows > 0) {
-                                        while ($row_friend_1 = $result_friend_1->fetch_assoc()) {
-                                            $friend_username = $row_friend_1["friend_username"];
-                                            $avatar = $row_friend_1["friend_avatar"];
-                                            $first_name = $row_friend_1["friend_first_name"];
+                                    if ($result_friend->num_rows > 0) {
+                                        while ($row_friend = $result_friend->fetch_assoc()) {
+                                            $friend_id = $row_friend["user_id"];
+                                            $friend_in_top = findUserPositionInTop($friend_id, $connect);
+                                            $friend_username = $row_friend["user_username"];
+                                            $friend_first_name = $row_friend["user_first_name"];
+                                            $friend_second_name = $row_friend["user_second_name"];
+                                            $friend_avatar = $row_friend["user_avatar"];
                                             echo "<a class='current-friend' href='../user/$friend_username'>";
-                                            echo "<img src='../uploads/avatar/thin_$avatar'>";
-                                            if ($friend_username == 'rampus') {
-                                                echo "<p class='rampus'>$first_name</p>";
-                                            } else {
-                                                echo "<p>$first_name</p>";
+                                            echo "<img class='friend-avatar' src='../uploads/avatar/thin_$friend_avatar'>";
+                                            echo "<div class='friend-name-and-status'>";
+                                            if ($friend_first_name) {
+                                                echo $friend_username == 'rampus' || $friend_username == 'help' ? "<p class='rampus'>$friend_first_name</p>" : "<p>$friend_first_name</p>";
+                                            } else if ($friend_second_name) {
+                                                echo $friend_username == 'rampus' || $friend_username == 'help' ? "<p class='rampus'>$friend_second_name</p>" : "<p>$friend_second_name</p>";
+                                            } else if ($friend_username) {
+                                                echo $friend_username == 'rampus' || $friend_username == 'help' ? "<p class='rampus'>@$friend_username</p>" : "<p>@$friend_username</p>";
                                             }
-                                            echo "</a>";
-                                        }
-                                    }
-                                    if ($result_friend_2->num_rows > 0) {
-                                        while ($row_friend_2 = $result_friend_2->fetch_assoc()) {
-                                            $friend_username = $row_friend_2["friend_username"];
-                                            $avatar = $row_friend_2["friend_avatar"];
-                                            $first_name = $row_friend_2["friend_first_name"];
-                                            echo "<a class='current-friend' href='../user/$friend_username'>";
-                                            echo "<img src='../uploads/avatar/thin_$avatar'>";
-                                            if ($friend_username == 'rampus') {
-                                                echo "<p class='rampus'>$first_name</p>";
-                                            } else {
-                                                echo "<p>$first_name</p>";
+                                            if ($friend_username == 'rampus' || $friend_username == 'help') { ?>
+                                                <img class='status' src="../pics/SuperUserIcon.svg">
+                                <?php } else {
+                                                switch ($friend_in_top) {
+                                                    case 1:
+                                                        echo "<img class='status' src='../pics/BlossomFirstIcon.svg'>";
+                                                        break;
+                                                    case 2:
+                                                        echo "<img class='status' src='../pics/BlossomSecondIcon.svg'>";
+                                                        break;
+                                                    case 3:
+                                                        echo "<img class='status' src='../pics/BlossomThirdIcon.svg'>";
+                                                        break;
+                                                }
                                             }
+                                            echo "</div>";
                                             echo "</a>";
                                         }
                                     }

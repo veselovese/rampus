@@ -167,7 +167,7 @@ if (isset($_SESSION['user'])) {
                                 <p class="third-part-title">Фильтры</p>
                                 <div class="wall-filter__choice">
                                     <label class="wall-filter-popup-li">Все<span>Посты всех пользователей</span><input checked name="wall-filter" id="wall-filter-all" type="radio" value=""></label>
-                                    <label class="wall-filter-popup-li <?php if (($result_friend_1->num_rows + $result_friend_2->num_rows) == 0) {
+                                    <label class="wall-filter-popup-li <?php if ($result_friend->num_rows == 0) {
                                                                             echo "no-friends";
                                                                         } ?>">Друзья<span>Посты ваших друзей</span><input name="wall-filter" id="wall-filter-friends" type="radio" value=""></label>
                                 </div>

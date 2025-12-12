@@ -817,7 +817,7 @@ div.for-friends svg {
     display: none;
 }
 
-.user-friends div.friends img {
+.user-friends .friends .friend-avatar {
     min-width: 75px;
     min-height: 75px;
     max-width: 75px;
@@ -843,7 +843,32 @@ div.for-friends svg {
     flex-direction: column;
     max-width: max-content;
     align-items: center;
+    position: relative;
     font-size: var(--font-size-1);
+}
+
+.friends .current-friend p {
+    text-overflow: ellipsis;
+    max-width: 75px;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.friend-name-and-status {
+    display: flex;
+    align-items: center;
+    gap: 0.39rem;
+}
+
+.friend-name-and-status .status {
+    position: absolute;
+    top: 5.3rem;
+    left: 5.4rem;
+    transform: rotate(4deg);
+    min-height: 24px;
+    max-height: 24px;
+    min-width: 24px;
+    max-width: 24px;
 }
 
 .friends .current-friend .rampus {
@@ -1327,6 +1352,7 @@ div.for-friends svg {
 .extra-post-info .div-show-three-dots-popup {
     margin-left: auto;
 }
+
 .extra-post-info .for-friends~.div-show-three-dots-popup {
     margin-left: 0;
 }
