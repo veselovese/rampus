@@ -99,6 +99,20 @@ function sendMessage(chatId, message, userIdTo) {
     $('#textarea-message').trigger('focus')
 }
 
+loadRecentChats();
+function loadRecentChats() {
+    $.ajax({
+        url: "../back-files/chats/render-recent-chats-widget",
+        method: "POST",
+        data: {
+            'user_id_to': userIdTo
+        },
+        success: function (data) {
+            $('#success-recent-chats-widget').html(data);
+        }
+    });
+}
+
 ws.onmessage = async (response) => {
     let responsedData = JSON.parse(response.data)
     switch (responsedData.action) {
@@ -110,6 +124,7 @@ ws.onmessage = async (response) => {
         case 'send_message':
             if (responsedData.chat_id == chatId) {
                 reloadChat(usrnm)
+                loadRecentChats()
             }
             if (responsedData.user_id_to == currentUserId) {
                 var search = $('#search-chats').val();
@@ -118,12 +133,14 @@ ws.onmessage = async (response) => {
                 } else {
                     loadChatList();
                 }
+                loadRecentChats()
             }
             break;
         case 'mouse_move':
             const shouldRead = $('.message').first().hasClass('your-message') ? false : true;
             if (responsedData.chat_id == chatId && shouldRead && currentUserId != responsedData.user_id_to) {
                 readMessages(responsedData.user_id_to)
+                loadRecentChats()
             }
             break;
     }

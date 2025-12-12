@@ -1,20 +1,17 @@
 <?php
 session_start();
-require_once('connect.php');
-require('find-user-position-in-top.php');
-
+require_once('../connect.php');
+require('../find-user-position-in-top.php');
 date_default_timezone_set('Europe/Moscow');
 $today = date('Y-m-d', time());
 $yesterday = date('Y-m-d', mktime(0, 0, 0, date("m"), date("d") - 1, date("Y")));
 $beforeyesterday = date('Y-m-d', mktime(0, 0, 0, date("m"), date("d") - 2, date("Y")));
-$month_list = array(1 => 'января', 2 => 'февраля', 3 => 'марта', 4 => 'апреля', 5 => 'мая', 6 => 'июня', 7 => 'июля', 8 => 'августа', 9 => 'сентября', 10 => 'октября', 11 => 'ноября', 12 => 'декабря');
+$month_list = array(1 => '01', 2 => '02', 3 => '03', 4 => '04', 5 => '05', 6 => '06', 7 => '07', 8 => '08', 9 => '09', 10 => '10', 11 => '11', 12 => '12');
+$weeks_list = array(0 => 'вс', 1 => 'пн', 2 => 'вт', 3 => 'ср', 4 => 'чт', 5 => 'пт', 6 => 'сб');
 $current_user_id = $_SESSION['user']['id'];
+if (isset($_POST['user_id_to'])) $user_id_to = $_POST['user_id_to'];
 
-if (isset($_POST["people"])) {
-    $sql_chats = "SELECT *
-    FROM users WHERE users.username LIKE '%" . $_POST["people"] . "%' OR users.first_name LIKE '%" . $_POST["people"] . "%' OR users.second_name LIKE '%" . $_POST["people"] . "%' ORDER BY first_name";
-} else {
-    $sql_chats = "SELECT 
+$sql_chats = "SELECT 
         ch.id AS chat_id,
         friends.friend_id AS interlocutor_id,
         u.id AS user_id, u.first_name AS user_first_name, u.second_name AS user_second_name, u.username AS user_username, u.avatar AS user_avatar, 
@@ -43,8 +40,7 @@ if (isset($_POST["people"])) {
     ORDER BY 
         CASE WHEN lm.send_date IS NULL THEN 1 ELSE 0 END,
         lm.send_date DESC,
-        u.first_name, u.second_name";
-}
+        u.first_name, u.second_name LIMIT 5";
 
 $result_friend_1 = $connect->query("SELECT user_id_1 FROM friends JOIN users ON friends.user_id_1 = users.id WHERE user_id_2 = $current_user_id");
 $result_friend_2 = $connect->query("SELECT user_id_2 FROM friends JOIN users ON friends.user_id_2 = users.id WHERE user_id_1 = $current_user_id");
@@ -61,7 +57,7 @@ if ($result_friend_2->num_rows > 0) {
 }
 
 $result_chats = $connect->query($sql_chats);
-$counter = count($friends_id);
+$counter = min(count($friends_id) - 1, 5);
 if ($result_chats->num_rows > 0) {
     while ($row_chats = $result_chats->fetch_assoc()) {
         $counter -= 1;
@@ -76,32 +72,34 @@ if ($result_chats->num_rows > 0) {
         $read_status = $row_chats['last_message_read_status'];
         $last_message = $row_chats['last_message'];
         $last_message_date = $row_chats['last_message_date'];
-        echo "<li class='user' onclick='openChatWithUser(event, `$username`)'>";
-        echo "<img src='uploads/avatar/thin_$avatar'>";
+        $current = $user_id_to == $user_id ? ' current' : '';
+        echo "<li>";
+        echo "<a class='recent-chat$current' href='$username'>";
+        echo "<img src='../uploads/avatar/thin_$avatar'>";
         echo "<div class='current-chat-info'>";
-        echo "<div class='current-user-info'>";
-        echo "<div class='user-name-and-status'>";
-        if ($username == 'rampus') {
-            echo "<p class='rampus'>$first_name $second_name</p>";
+        echo "<div class='recent-chat__user-info'>";
+        echo "<div class='recent-chat__user-name-and-status'>";
+        if ($username == 'rampus' || $username == 'help') {
+            echo "<p class='trust recent-main-name'>$first_name $second_name</p>";
         } else {
             if ($first_name || $second_name) {
-                echo "<p class='chat__user-info'>$first_name $second_name</p>";
+                echo "<p class='recent-main-name'>$first_name $second_name</p>";
             } else {
-                echo "<p class='chat__user-info'>@<span>$username</span></p>";
+                echo "<p class='recent-main-name'>@<span>$username</span></p>";
             }
         }
         if ($username == 'rampus' || $username == 'help') { ?>
-            <img class='status' src="pics/SuperUserIcon.svg">
+            <img class='status' src="../pics/SuperUserIcon.svg">
 <?php } else {
             switch ($user_in_top) {
                 case 1:
-                    echo "<img class='status' src='pics/BlossomFirstIcon.svg'>";
+                    echo "<img class='status' src='../pics/BlossomFirstIcon.svg'>";
                     break;
                 case 2:
-                    echo "<img class='status' src='pics/BlossomSecondIcon.svg'>";
+                    echo "<img class='status' src='../pics/BlossomSecondIcon.svg'>";
                     break;
                 case 3:
-                    echo "<img class='status' src='pics/BlossomThirdIcon.svg'>";
+                    echo "<img class='status' src='../pics/BlossomThirdIcon.svg'>";
                     break;
             }
         }
@@ -113,13 +111,13 @@ if ($result_chats->num_rows > 0) {
                     $last_message_date = date_format(date_create($last_message_date), 'G:i');
                     break;
                 case $yesterday:
-                    $last_message_date = date_format(date_create($last_message_date), 'вчера');
+                    $last_message_date = $weeks_list[date_format(date_create($last_message_date), 'w')];
                     break;
                 case $beforeyesterday:
-                    $last_message_date = date_format(date_create($last_message_date), 'позавчера');
+                    $last_message_date = $weeks_list[date_format(date_create($last_message_date), 'w')];
                     break;
                 default:
-                    $last_message_date = date_format(date_create($last_message_date), 'j ') . $month_list[date_format(date_create($last_message_date), 'n')];
+                    $last_message_date = date_format(date_create($last_message_date), 'j.') . $month_list[date_format(date_create($last_message_date), 'n')];
                     break;
             }
             echo "<span>$last_message</span>";
@@ -133,6 +131,7 @@ if ($result_chats->num_rows > 0) {
             echo "</div>";
         }
         echo "</div>";
+        echo "</a>";
         echo "</li>";
         if ($counter > 0) {
             echo "<div class='div-line'></div>";

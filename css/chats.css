@@ -219,7 +219,7 @@
 .chat__other-user-info {
     display: flex;
     align-items: center;
-    gap: 0.625rem;
+    gap: 0.5rem;
 }
 
 .chat__other-user-info img {
@@ -500,6 +500,19 @@
     width: 100%;
 }
 
+.user-name-and-status {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.user-name-and-status .status {
+    min-width: 19px;
+    min-height: 19px;
+    max-width: 19px;
+    max-height: 19px;
+}
+
 .date-and-message-counter {
     display: flex;
     flex-direction: column;
@@ -522,7 +535,8 @@
     min-width: 19px;
 }
 
-.chats_important-chats {
+.chats_important-chats,
+.chats_recent-chats {
     margin: 0;
     margin-top: 0px;
     margin-top: 0px;
@@ -531,7 +545,8 @@
     margin-top: 1.6rem;
 }
 
-.important-chat {
+.important-chat,
+.recent-chat {
     display: flex;
     align-items: center;
     gap: 1.1rem;
@@ -542,41 +557,82 @@
     background-color: var(--block-color);
 }
 
-.chats_important-chats li {
+.chats_important-chats li,
+.chats_recent-chats li {
     overflow: hidden;
 }
 
-.chats_important-chats li:first-child {
+.chats_important-chats li:first-child,
+.chats_recent-chats li:first-child {
     border-top-left-radius: 1rem;
     border-top-right-radius: 1rem;
 }
 
-.chats_important-chats li:last-child {
+.chats_important-chats li:last-child,
+.chats_recent-chats li:last-child {
     border-bottom-left-radius: 1rem;
     border-bottom-right-radius: 1rem;
 }
 
-.important-chat:hover {
+.important-chat:hover,
+.recent-chat:hover {
     background-color: var(--block-accent-color-06);
 }
 
-.important-chat img {
-    min-width: 50px;
-    min-height: 50px;
-    max-width: 50px;
-    max-height: 50px;
+.recent-chat.current {
+    background-color: var(--block-accent-color-210);
+}
+
+.recent-chat.current .recent-main-name {
+    color: var(--main-accent-color);
+}
+
+.important-chat img,
+.recent-chat img {
+    min-width: 40px;
+    min-height: 40px;
+    max-width: 40px;
+    max-height: 40px;
     border-radius: 50%;
     object-fit: cover;
 }
 
-.important-chat__user-info {
+.important-chat__user-info,
+.recent-chat__user-info {
     display: flex;
     flex-direction: column;
     gap: 0.39rem;
 }
 
+.recent-chat__user-name-and-status {
+    display: flex;
+    align-items: center;
+    gap: 0.39rem;
+}
+
+.recent-chat__user-name-and-status .status {
+    min-width: 19px;
+    min-height: 19px;
+    max-width: 19px;
+    max-height: 19px;
+}
+
 .important-chat__user-info .main-name {
     font-size: var(--font-size-2);
     font-weight: 600;
+    color: var(--main-accent-color);
+}
+
+.recent-main-name {
+    font-size: var(--font-size-2);
+    font-weight: 600;
+    color: var(--main-text-color);
+    text-overflow: ellipsis;
+    max-width: calc(25rem - 40px - 1.6rem*2 - 1.1rem - 19px - 3.2rem - 0.625rem);
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.recent-main-name.trust {
     color: var(--main-accent-color);
 }

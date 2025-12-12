@@ -1,12 +1,13 @@
 <?php
 session_start();
 require_once('connect.php');
-
+require('friends/get-friend-status.php');
 $user_id_from = $_SESSION['user']['id'];
 if (isset($_POST['user_id_to'])) $user_id_to = $_POST['user_id_to'];
 if (isset($_POST['message'])) $message = $_POST['message'];
+$friend_status = getFriendStatus($user_id_to, $connect);
 
-if ($user_id_to) {
+if ($user_id_to && $message && $friend_status == 'friends') {
     $user_id_from = mysqli_real_escape_string($connect, $user_id_from);
     $user_id_to = mysqli_real_escape_string($connect, $user_id_to);
 
@@ -15,9 +16,7 @@ if ($user_id_to) {
     WHERE NOT EXISTS (
     SELECT 1 FROM chats WHERE (user_id_1 = $user_id_from AND user_id_2 = $user_id_to) OR (user_id_1 = $user_id_to AND user_id_2 = $user_id_from))";
     $result = mysqli_query($connect, $sql);
-}
 
-if ($message) {
     $user_id_from = mysqli_real_escape_string($connect, $user_id_from);
     $user_id_to = mysqli_real_escape_string($connect, $user_id_to);
     $message = mysqli_real_escape_string($connect, $message);
