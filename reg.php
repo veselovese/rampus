@@ -30,9 +30,6 @@ session_start();
                     <div class="auth__notify" id="reg__notify">
                         <p><span id="reg__notify-label">Вы авторизировались под пользователем </span><span id="reg__notify-username"></span></p>
                     </div>
-                    <!-- <div>
-                        <img src="pics/RampusLogo.svg">
-                    </div> -->
                     <form method="" class="reg__form" action="" autocomplete="off">
                         <legend class="title">Регистрация Rampus</legend>
                         <div class="reg__input-div">
