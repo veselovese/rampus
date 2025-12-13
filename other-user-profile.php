@@ -2,7 +2,6 @@
 session_start();
 
 require_once('back-files/connect.php');
-require('back-files/render-posts_other-profile.php');
 
 $username = $_GET['username'];
 
@@ -387,12 +386,27 @@ $posts_counter = $connect->query("SELECT * FROM posts WHERE user_id = $other_use
                                         </div>
                                     </div>
                                 </div>
-                                <div class="profile__user-posts">
+                                <div class="profile__other-user-posts">
                                     <div>
-                                        <p>Посты<span><?= $posts_counter ?></span></p>
+                                        <fieldset class="show-user-posts-mode-fieldset" id="watch-user-posts-mode-fieldset">
+                                            <legend>Режим отображения постов</legend>
+                                            <div>
+                                                <input type="radio" id="show-other-posts" name="watch-user-posts-mode-fieldset" value="show-posts" checked="">
+                                                <label for="show-other-posts" id="mode__show-posts"><svg width="23" height="19" viewBox="0 0 23 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                        <path d="M4 1.25L19 1.25C20.5188 1.25 21.75 2.48122 21.75 4L21.75 17.75L4 17.75C2.48122 17.75 1.25 16.5188 1.25 15L1.25 4C1.25 2.48122 2.48122 1.25 4 1.25Z" stroke-width="2.5"></path>
+                                                    </svg>
+                                                    Посты</label>
+                                            </div>
+                                            <div>
+                                                <input type="radio" id="show-other-reposts" name="watch-user-posts-mode-fieldset" value="show-reposts">
+                                                <label for="show-other-reposts" id="mode__show-reposts"><svg width="27" height="22" viewBox="0 0 27 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                        <path d="M22.2501 4.41667V2.30556C22.2501 2.0256 22.0921 1.75712 21.8108 1.55917C21.5295 1.36121 21.1479 1.25 20.7501 1.25H5.75013C5.3523 1.25 4.97077 1.36121 4.68947 1.55917C4.40816 1.75712 4.25013 2.0256 4.25013 2.30556V12.8611M4.25013 12.8611L7.25012 10.75M4.25013 12.8611L1.25012 10.75M4.25012 17.0833V19.1944C4.25012 19.4744 4.40816 19.7429 4.68946 19.9408C4.97077 20.1388 5.3523 20.25 5.75012 20.25H20.7501C21.1479 20.25 21.5295 20.1388 21.8108 19.9408C22.0921 19.7429 22.2501 19.4744 22.2501 19.1944V8.63889M22.2501 8.63889L19.2501 10.75M22.2501 8.63889L25.2501 10.75" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+                                                    </svg>
+                                                    Репосты</label>
+                                            </div>
+                                        </fieldset>
                                     </div>
                                     <div id="success-render-other-posts">
-                                        <?= renderOtherPosts($other_username, $connect) ?>
                                     </div>
                                 </div>
                                 <nav class="first-part-mobile">
@@ -429,7 +443,7 @@ $posts_counter = $connect->query("SELECT * FROM posts WHERE user_id = $other_use
                                             <path fill-rule="evenodd" clip-rule="evenodd" d="M8.03709 11.3334C6.58858 12.0152 5.25423 12.9468 4.10051 14.1005C1.475 16.726 0 20.287 0 24L14 24H28C28 20.287 26.525 16.726 23.8995 14.1005C22.7458 12.9468 21.4114 12.0152 19.9629 11.3334C18.4981 12.97 16.3693 14 14 14C11.6307 14 9.50195 12.97 8.03709 11.3334Z" />
                                             <circle cx="14" cy="6" r="6" />
                                         </svg> -->
-                                                <img class="menu-avatar" src="../uploads/avatar/thin_<?= $current_avatar ?>">
+                                                <img class="menu-avatar" src="../uploads/avatar/thin_<?= $current_user_avatar ?>">
                                                 Профиль
                                             </a>
                                         </li>

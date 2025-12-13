@@ -68,7 +68,7 @@ FROM
                 <div class="second-and-third-parts">
                     <div class="second-part">
                         <div class="friends__users">
-                            <p>Друзья <span>@<?= $other_username ?></span></p>
+                            <p>Друзья<span>@<?= $other_username ?></span></p>
                             <?php if ($result_friend->num_rows > 0) {
                                 echo "<ul>";
                                 $counter = $result_friend->num_rows;

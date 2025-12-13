@@ -228,37 +228,23 @@ if (isset($_SESSION['user'])) {
                                     echo "<div class='friends'>";
                                     if ($result_friend->num_rows > 0) {
                                         while ($row_friend = $result_friend->fetch_assoc()) {
-                                            $friend_id = $row_friend["user_id"];
-                                            $friend_in_top = findUserPositionInTop($friend_id, $connect);
-                                            $friend_username = $row_friend["user_username"];
-                                            $friend_first_name = $row_friend["user_first_name"];
-                                            $friend_second_name = $row_friend["user_second_name"];
-                                            $friend_avatar = $row_friend["user_avatar"];
-                                            echo "<a class='current-friend' href='./user/$friend_username'>";
-                                            echo "<img class='friend-avatar' src='uploads/avatar/thin_$friend_avatar'>";
+                                            $other_user_id = $row_friend["user_id"];
+                                            $other_user_in_top = findUserPositionInTop($other_user_id, $connect);
+                                            $other_user_username = $row_friend["user_username"];
+                                            $other_user_first_name = $row_friend["user_first_name"];
+                                            $other_user_second_name = $row_friend["user_second_name"];
+                                            $other_user_avatar = $row_friend["user_avatar"];
+                                            echo "<a class='current-friend' href='./user/$other_user_username'>";
+                                            echo "<img class='friend-avatar' src='uploads/avatar/thin_$other_user_avatar'>";
                                             echo "<div class='friend-name-and-status'>";
-                                            if ($friend_first_name) {
-                                                echo $friend_username == 'rampus' || $friend_username == 'help' ? "<p class='rampus'>$friend_first_name</p>" : "<p>$friend_first_name</p>";
-                                            } else if ($friend_second_name) {
-                                                echo $friend_username == 'rampus' || $friend_username == 'help' ? "<p class='rampus'>$friend_second_name</p>" : "<p>$friend_second_name</p>";
-                                            } else if ($friend_username) {
-                                                echo $friend_username == 'rampus' || $friend_username == 'help' ? "<p class='rampus'>@$friend_username</p>" : "<p>@$friend_username</p>";
+                                            if ($other_user_first_name) {
+                                                echo $other_user_username == 'rampus' || $other_user_username == 'help' ? "<p class='rampus'>$other_user_first_name</p>" : "<p>$other_user_first_name</p>";
+                                            } else if ($other_user_second_name) {
+                                                echo $other_user_username == 'rampus' || $other_user_username == 'help' ? "<p class='rampus'>$other_user_second_name</p>" : "<p>$friend_second_name</p>";
+                                            } else if ($other_user_username) {
+                                                echo $other_user_username == 'rampus' || $other_user_username == 'help' ? "<p class='rampus'>@$other_user_username</p>" : "<p>@$other_user_username</p>";
                                             }
-                                            if ($friend_username == 'rampus' || $friend_username == 'help') { ?>
-                                                <img class='status' src="pics/SuperUserIcon.svg">
-                                    <?php } else {
-                                                switch ($friend_in_top) {
-                                                    case 1:
-                                                        echo "<img class='status' src='pics/BlossomFirstIcon.svg'>";
-                                                        break;
-                                                    case 2:
-                                                        echo "<img class='status' src='pics/BlossomSecondIcon.svg'>";
-                                                        break;
-                                                    case 3:
-                                                        echo "<img class='status' src='pics/BlossomThirdIcon.svg'>";
-                                                        break;
-                                                }
-                                            }
+                                            require('components/other-users-status.php');
                                             echo "</div>";
                                             echo "</a>";
                                         }
@@ -305,7 +291,6 @@ if (isset($_SESSION['user'])) {
                             </div>
                             <div class="profile__user-posts">
                                 <div id="yours-posts-div">
-                                    <!-- <p>Ваши посты<span><?= $posts_counter ?></span></p> -->
                                     <fieldset class="show-user-posts-mode-fieldset" id="watch-user-posts-mode-fieldset">
                                         <legend>Режим отображения постов</legend>
                                         <div>

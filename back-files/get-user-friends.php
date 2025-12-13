@@ -9,10 +9,11 @@ FROM
             CASE 
                 WHEN user_id_1 = $current_user_id THEN user_id_2
                 ELSE user_id_1
-            END AS friend_id
+            END AS friend_id, friend_date
         FROM friends
         WHERE user_id_1 = $current_user_id OR user_id_2 = $current_user_id
     ) friends   
-    JOIN users u ON u.id = friends.friend_id");
+    JOIN users u ON u.id = friends.friend_id
+    ORDER BY friends.friend_date DESC");
 
 $result_request_to = $connect->query("SELECT * FROM requests JOIN users ON requests.user_id_from = users.id WHERE user_id_to = $current_user_id ORDER BY req_date DESC");

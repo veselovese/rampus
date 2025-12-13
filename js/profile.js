@@ -1,6 +1,7 @@
 $(document).ready(function () {
-    renderPosts('all');
+    const usrnm = window.location.pathname.split('/')[3];
 
+    renderPosts('all');
     function renderPosts(query) {
         $.ajax({
             url: "back-files/render-posts_profile",
@@ -10,6 +11,21 @@ $(document).ready(function () {
             },
             success: function (data) {
                 $('#success-render-posts').html(data);
+            }
+        });
+    }
+
+    renderOtherPosts('all');
+    function renderOtherPosts(query) {
+        $.ajax({
+            url: "../back-files/render-posts_other-profile",
+            method: "POST",
+            data: {
+                'filter': query,
+                'username': usrnm
+            },
+            success: function (data) {
+                $('#success-render-other-posts').html(data);
             }
         });
     }
@@ -105,11 +121,94 @@ $(document).ready(function () {
         })
     })
 
+    $('.profile__other-user-posts').on('click', '.unliked', function () {
+        const postId = $(this).attr('id');
+        $post = $(this);
+        $.ajax({
+            url: '../wall',
+            type: 'post',
+            data: {
+                'liked': 1,
+                'postId': postId
+            },
+            success: function (response) {
+                $post.find('.like-counter').text(response);
+                $post.siblings().find('.like-counter').text(response);
+                $post.addClass('hide');
+                $post.siblings('.like-button').removeClass('hide');
+            }
+        })
+    })
+
+    $('.profile__other-user-posts').on('click', '.liked', function () {
+        const postId = $(this).attr('id');
+        $post = $(this);
+        $.ajax({
+            url: '../wall',
+            type: 'post',
+            data: {
+                'unliked': 1,
+                'postId': postId
+            },
+            success: function (response) {
+                $post.find('.like-counter').text(response);
+                $post.siblings().find('.like-counter').text(response);
+                $post.addClass('hide');
+                $post.siblings('.like-button').removeClass('hide');
+            }
+        })
+    })
+
+    $('.profile__other-user-posts').on('click', '.unreposted', function () {
+        const postId = $(this).attr('id').split('-')[1];
+        $post = $(this);
+        $.ajax({
+            url: '../wall',
+            type: 'post',
+            data: {
+                'reposted': 1,
+                'postId': postId
+            },
+            success: function (response) {
+                $post.find('.repost-counter').text(response);
+                $post.siblings().find('.repost-counter').text(response);
+                $post.addClass('hide');
+                $post.siblings('.repost-button').removeClass('hide');
+            }
+        })
+    })
+
+    $('.profile__other-user-posts').on('click', '.reposted', function () {
+        const postId = $(this).attr('id').split('-')[1];
+        $post = $(this);
+        $.ajax({
+            url: '../wall',
+            type: 'post',
+            data: {
+                'unreposted': 1,
+                'postId': postId
+            },
+            success: function (response) {
+                $post.find('.repost-counter').text(response);
+                $post.siblings().find('.repost-counter').text(response);
+                $post.addClass('hide');
+                $post.siblings('.repost-button').removeClass('hide');
+            }
+        })
+    })
+
     $('#show-reposts').click(() => {
         renderPosts('reposts');
     })
     $('#show-posts').click(() => {
         renderPosts('all');
+    })
+
+    $('#show-other-reposts').click(() => {
+        renderOtherPosts('reposts');
+    })
+    $('#show-other-posts').click(() => {
+        renderOtherPosts('all');
     })
 })
 

@@ -90,21 +90,7 @@ if ($result_chats->num_rows > 0) {
                 echo "<p class='chat__user-info'>@<span>$username</span></p>";
             }
         }
-        if ($username == 'rampus' || $username == 'help') { ?>
-            <img class='status' src="pics/SuperUserIcon.svg">
-<?php } else {
-            switch ($user_in_top) {
-                case 1:
-                    echo "<img class='status' src='pics/BlossomFirstIcon.svg'>";
-                    break;
-                case 2:
-                    echo "<img class='status' src='pics/BlossomSecondIcon.svg'>";
-                    break;
-                case 3:
-                    echo "<img class='status' src='pics/BlossomThirdIcon.svg'>";
-                    break;
-            }
-        }
+        require('../components/other-users-status.php');
         echo "</div>";
         if ($last_message) {
             $massage_date_db = date_format(date_create($last_message_date), 'Y-m-d');

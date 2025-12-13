@@ -441,12 +441,14 @@
     left: -9999px;
 }
 
-.profile__user-posts {
+.profile__user-posts,
+.profile__other-user-posts {
     margin-top: 4.1rem;
     position: relative;
 }
 
-.profile__user-posts>div:first-child {
+.profile__user-posts>div:first-child,
+.profile__other-user-posts>div:first-child {
     display: flex;
     align-items: center;
     gap: 1.6rem;
@@ -456,17 +458,12 @@
     transition: 0.2s 0.2s;
 }
 
-.profile__user-posts>div.creating-new-post {
+.creating-new-post {
     margin-bottom: calc(1.6rem + 4rem + 2.6rem);
     transition: 0.2s;
 }
 
-.profile__user-posts>div:first-child span {
-    color: var(--else-text-color-50);
-    margin-left: 1rem;
-}
-
-.profile__user-posts>div:first-child .create-new-post {
+.create-new-post {
     border: none;
     display: flex;
     align-items: center;
@@ -477,34 +474,34 @@
     margin-left: auto;
 }
 
-.profile__user-posts>div:first-child .create-new-post.close {
+.create-new-post.close {
     background-color: var(--like-button-accent-color);
 }
 
-.profile__user-posts>div:first-child .create-new-post.close svg {
+.create-new-post.close svg {
     fill: var(--error-accent-color);
     rotate: 45deg;
 }
 
-.profile__user-posts>div:first-child .create-new-post.close span {
+.create-new-post.close span {
     color: var(--error-accent-color);
 }
 
-.profile__user-posts>div:first-child .create-new-post span {
+.create-new-post span {
     font-size: var(--font-size-2);
     color: var(--main-accent-color);
     margin: 0;
     transition: 0.2s;
 }
 
-.profile__user-posts>div:first-child .create-new-post svg {
+.create-new-post svg {
     fill: var(--main-accent-color);
     height: 13px;
     width: 13px;
     transition: 0.2s;
 }
 
-.profile__user-posts>div:first-child .create-new-post:hover {
+.create-new-post:hover {
     opacity: 80%;
 }
 
@@ -535,7 +532,7 @@
     color: var(--main-accent-color);
 }
 
-.profile__user-posts .user-post {
+.user-post {
     background-color: var(--block-color);
     box-shadow: var(--shadow-small);
     border-radius: 2rem;
@@ -545,7 +542,12 @@
     position: relative;
 }
 
-.profile__user-posts div.for-friends {
+.no-posts-yet {
+    margin: 0 auto;
+    color: var(--else-text-color-50);
+}
+
+div.for-friends {
     display: flex;
     flex-direction: row;
     background: var(--block-accent-color-210);
@@ -566,20 +568,20 @@ div.for-friends svg {
     max-height: 16px;
 }
 
-.profile__user-posts span.for-friends {
+span.for-friends {
     font-size: var(--font-size-1);
     color: var(--main-accent-color);
     display: flex;
     gap: 0.39rem;
 }
 
-.profile__user-posts .extra-post-info {
+.extra-post-info {
     display: flex;
 }
 
 
-.profile__user-posts .user-post.hide,
-.profile__user-posts .user-post.deleted {
+.user-post.hide,
+.user-post.deleted {
     display: none;
 }
 
@@ -1578,7 +1580,7 @@ div.for-friends svg {
         font-size: var(--font-size-3);
     }
 
-    .profile__user-posts>div:first-child .create-new-post span {
+    .create-new-post span {
         display: none;
     }
 
