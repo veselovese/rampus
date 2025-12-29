@@ -146,25 +146,26 @@
     cursor: pointer;
 }
 
-.current-user-info p.rampus {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
+.current-user-info p.trust {
     color: var(--main-accent-color);
 }
 
-.current-user-info p.rampus img {
-    max-width: 16px;
-    max-height: 16px;
-    min-height: 16px;
-    min-width: 16px;
+.current-user-info .status {
+    position: absolute;
+    top: calc(5.3rem + 1.6rem);
+    left: calc(5.4rem + 2.6rem);
+    transform: rotate(4deg);
+    min-height: 24px;
+    max-height: 24px;
+    min-width: 24px;
+    max-width: 24px;
 }
 
 .requests .current-user-info p:hover {
     opacity: 80%;
 }
 
-.people__current-user img {
+.people__current-user .other-user-avatar {
     min-width: 75px;
     min-height: 75px;
     max-width: 75px;
@@ -173,7 +174,7 @@
     object-fit: cover;
 }
 
-.user img {
+.user .other-user-avatar {
     min-width: 75px;
     min-height: 75px;
     max-width: 75px;
@@ -576,22 +577,18 @@
 }
 
 .blossom-status {
-    margin-left: auto;
     font-weight: 600;
     background: linear-gradient(-135deg, var(--posts-color), var(--likes-color), var(--comments-color));
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
-}
-
-.blossom-status-mobile {
     align-items: center;
     margin-left: auto;
     gap: 0.625rem;
-    display: none;
+    display: flex;
 }
 
-.user .blossom-status-mobile span {
+.blossom-status span {
     font-weight: 600;
     background: linear-gradient(-135deg, var(--posts-color), var(--likes-color), var(--comments-color));
     -webkit-background-clip: text;
@@ -599,7 +596,7 @@
     -webkit-text-fill-color: transparent;
 }
 
-.user .blossom-status-mobile img {
+.blossom-status img {
     border-radius: 0;
     max-width: 24px;
     max-height: 24px;
@@ -958,8 +955,8 @@
         gap: 2.6rem;
     }
 
-    .people__current-user img,
-    .user img {
+    .people__current-user .other-user-avatar,
+    .user .other-user-avatar {
         min-width: 50px;
         min-height: 50px;
         max-width: 50px;
@@ -1022,14 +1019,6 @@
 @media (max-width: 480px) {
     .wrapper {
         max-width: calc(100% - 3.2rem);
-    }
-
-    .blossom-status {
-        display: none;
-    }
-
-    .blossom-status-mobile {
-        display: flex;
     }
 
     .people-filter-popup-li span {

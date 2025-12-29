@@ -1147,12 +1147,13 @@ span.for-friends {
 }
 
 .case .case-trophies {
+    margin-top: 1.6rem;
     display: flex;
-    gap: 1rem;
+    flex-wrap: wrap;
+    gap: 0.39rem 1rem;
 }
 
 .case .case-trophies .trophy {
-    margin-top: 1.6rem;
     position: relative;
     max-width: max-content;
     font-size: var(--font-size-1);

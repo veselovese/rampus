@@ -126,20 +126,35 @@ if (isset($_SESSION['user'])) {
                                 if ($result_friend->num_rows > 0) {
                                     while ($row_friend = $result_friend->fetch_assoc()) {
                                         $friends_counter -= 1;
-                                        $id = $row_friend['user_id'];
-                                        $username = $row_friend['user_username'];
+                                        $other_user_id = $row_friend['user_id'];
+                                        $other_user_in_top = findUserPositionInTop($other_user_id, $connect);
+                                        $other_user_username = $row_friend['user_username'];
                                         $avatar = $row_friend['user_avatar'];
-                                        $first_name = $row_friend['user_first_name'];
-                                        $second_name = $row_friend['user_second_name'];
-                                        echo "<li class='user' onclick='openOtherUserProfile(event, `$username`)'>";
-                                        echo "<img src='uploads/avatar/thin_$avatar'>";
+                                        $other_user_first_name = $row_friend['user_first_name'];
+                                        $other_user_second_name = $row_friend['user_second_name'];
+                                        echo "<li class='user' onclick='openOtherUserProfile(event, `$other_user_username`)'>";
+                                        echo "<img class='other-user-avatar' src='uploads/avatar/thin_$avatar'>";
                                         echo "<div class='current-user-info'>";
-                                        if ($username == 'rampus') {
-                                            echo "<p class='rampus'>$first_name $second_name<img src='pics/SuperUserIcon.svg'></p>";
-                                        } else {
-                                            echo "<p>$first_name $second_name</p>";
+                                        $trust_mark = $other_user_username == 'rampus' || $other_user_username == 'help' ? ' trust' : '';
+                                        if ($other_user_first_name || $other_user_second_name) {
+                                            echo "<p class='$trust_mark'>$other_user_first_name $other_user_second_name</p>";
                                         }
-                                        echo "<p>@$username</p>";
+                                        echo "<p class='$trust_mark'>@$username</p>";
+                                        if ($other_user_username == 'rampus' || $other_user_username == 'help') {
+                                            echo "<img class='status' src='pics/SuperUserIcon.svg'>";
+                                        } else {
+                                            switch ($other_user_in_top) {
+                                                case 1:
+                                                    echo "<img class='status' src='pics/BlossomFirstIcon.svg'>";
+                                                    break;
+                                                case 2:
+                                                    echo "<img class='status' src='pics/BlossomSecondIcon.svg'>";
+                                                    break;
+                                                case 3:
+                                                    echo "<img class='status' src='pics/BlossomThirdIcon.svg'>";
+                                                    break;
+                                            }
+                                        }
                                         echo "</div>";
                                         echo "</li>";
                                         if ($friends_counter > 0) {

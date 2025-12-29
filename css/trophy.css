@@ -152,6 +152,36 @@
     gap: 0.39rem;
 }
 
+.current-desc {
+    gap: 0.39rem;
+    width: 100%;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.current-desc span {
+    display: inline-block;
+    max-width: fit-content;
+    color: var(--main-accent-color);
+    border-radius: 1rem;
+    padding: 0.625em 1rem;
+    margin: 0.39rem 0;
+    background-color: var(--block-accent-color-210);
+
+}
+
+.current-desc a {
+    text-decoration: underline;
+    text-decoration-color: var(--else-text-color-50);
+    text-decoration-thickness: 0.1rem;
+    transition: 0.2s;
+}
+
+.current-desc a:hover {
+    opacity: 80%;
+    text-decoration: none;
+}
+
 .current-static img {
     min-width: 16px;
     min-height: 16px;

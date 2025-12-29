@@ -1,8 +1,5 @@
 <?php
-$current_user_placement = basename(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
-echo $current_user_placement;
 require('back-files/global.php');
-require('../back-files/global.php');
 
 if ($other_user_username == 'rampus' || $other_user_username == 'help') {
     echo "<img class='status' src='$global_url/pics/SuperUserIcon.svg'>";

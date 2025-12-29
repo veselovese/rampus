@@ -82,14 +82,15 @@ $users_counter = $connect->query("SELECT * FROM users")->num_rows;
                                     while ($row = $result_top->fetch_assoc()) {
                                         $counter -= 1;
                                         $counter_top += 1;
-                                        $id = $row['id'];
-                                        $first_name = $row['first_name'];
-                                        $second_name = $row['second_name'];
-                                        $username = $row['username'];
+                                        $other_user_id = $row['id'];
+                                        $other_user_first_name = $row['first_name'];
+                                        $other_user_second_name = $row['second_name'];
+                                        $other_user_username = $row['username'];
+                                        $other_user_in_top = findUserPositionInTop($other_user_id, $connect);
                                         $avatar = $row['avatar'];
                                         $blossom_level = $row['blossom_level'];
                                         $blossom_progress = $row['blossom_progress'];
-                                        echo "<li class='user' onclick='openOtherUserProfile(event, `$username`)'>";
+                                        echo "<li class='user' onclick='openOtherUserProfile(event, `$other_user_username`)'>";
                                         switch ($counter_top) {
                                             case 1:
                                                 echo "<svg width='28' height='28' viewBox='0 0 28 28' fill='none' xmlns='http://www.w3.org/2000/svg'>
@@ -110,17 +111,30 @@ $users_counter = $connect->query("SELECT * FROM users")->num_rows;
                                                 </svg>";
                                                 break;
                                         }
-                                        echo "<img src='uploads/avatar/thin_$avatar'>";
+                                        echo "<img class='other-user-avatar' src='uploads/avatar/thin_$avatar'>";
                                         echo "<div class='current-user-info'>";
-                                        if ($username == 'rampus') {
-                                            echo "<p class='rampus'>$first_name $second_name<img src=pics/SuperUserIcon.svg></p>";
-                                        } else {
-                                            echo "<p>$first_name $second_name</p>";
+                                        $trust_mark = $other_user_username == 'rampus' || $other_user_username == 'help' ? ' trust' : '';
+                                        if ($other_user_first_name || $other_user_second_name) {
+                                            echo "<p class='$trust_mark'>$other_user_first_name $other_user_second_name</p>";
                                         }
-                                        echo "<p>@$username</p>";
+                                        echo "<p class='$trust_mark'>@<span>$other_user_username</span></p>";
+                                        if ($other_user_username == 'rampus' || $other_user_username == 'help') {
+                                            echo "<img class='status' src='pics/SuperUserIcon.svg'>";
+                                        } else {
+                                            switch ($other_user_in_top) {
+                                                case 1:
+                                                    // echo "<img class='status' src='pics/BlossomFirstIcon.svg'>";
+                                                    break;
+                                                case 2:
+                                                    // echo "<img class='status' src='pics/BlossomSecondIcon.svg'>";
+                                                    break;
+                                                case 3:
+                                                    // echo "<img class='status' src='pics/BlossomThirdIcon.svg'>";
+                                                    break;
+                                            }
+                                        }
                                         echo "</div>";
-                                        echo "<p class='blossom-status'>$blossom_level уровень</p>";
-                                        echo "<div class='blossom-status-mobile'><span>$blossom_level</span><img src='pics/BlossomIcon.svg'></div>";
+                                        echo "<div class='blossom-status'><img src='pics/BlossomIcon.svg'>$blossom_level<span>уровень</span></div>";
                                         echo "</li>";
                                         if ($counter > 0) {
                                             echo "<div class='div-line'></div>";

@@ -507,10 +507,14 @@
 }
 
 .user-name-and-status .status {
-    min-width: 19px;
-    min-height: 19px;
-    max-width: 19px;
-    max-height: 19px;
+    position: absolute;
+    top: calc(5.3rem + 1.6rem);
+    left: calc(5.4rem + 2.6rem);
+    transform: rotate(4deg);
+    min-height: 24px;
+    max-height: 24px;
+    min-width: 24px;
+    max-width: 24px;
 }
 
 .date-and-message-counter {

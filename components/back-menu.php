@@ -5,7 +5,7 @@ switch ($current_user_placement) {
     case 'blossom':
         $back_url = 'profile';
         break;
-    case 'case':
+    case 'trophies':
         $back_url = 'profile';
         break;
     case 'edit':

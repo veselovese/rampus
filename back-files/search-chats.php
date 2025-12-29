@@ -66,9 +66,9 @@ if ($result_chats->num_rows > 0) {
     while ($row_chats = $result_chats->fetch_assoc()) {
         $counter -= 1;
         $user_id = $row_chats['user_id'];
-        $user_in_top = findUserPositionInTop($user_id, $connect);
+        $other_user_in_top = findUserPositionInTop($user_id, $connect);
         $chat_id = $row_chats['chat_id'];
-        $username = $row_chats['user_username'];
+        $other_user_username = $row_chats['user_username'];
         $avatar = $row_chats['user_avatar'];
         $first_name = $row_chats['user_first_name'];
         $second_name = $row_chats['user_second_name'];
@@ -76,21 +76,35 @@ if ($result_chats->num_rows > 0) {
         $read_status = $row_chats['last_message_read_status'];
         $last_message = $row_chats['last_message'];
         $last_message_date = $row_chats['last_message_date'];
-        echo "<li class='user' onclick='openChatWithUser(event, `$username`)'>";
-        echo "<img src='uploads/avatar/thin_$avatar'>";
+        echo "<li class='user' onclick='openChatWithUser(event, `$other_user_username`)'>";
+        echo "<img class='other-user-avatar' src='uploads/avatar/thin_$avatar'>";
         echo "<div class='current-chat-info'>";
         echo "<div class='current-user-info'>";
         echo "<div class='user-name-and-status'>";
-        if ($username == 'rampus') {
+        if ($other_user_username == 'rampus') {
             echo "<p class='rampus'>$first_name $second_name</p>";
         } else {
             if ($first_name || $second_name) {
                 echo "<p class='chat__user-info'>$first_name $second_name</p>";
             } else {
-                echo "<p class='chat__user-info'>@<span>$username</span></p>";
+                echo "<p class='chat__user-info'>@<span>$other_user_username</span></p>";
             }
         }
-        require('../components/other-users-status.php');
+        if ($other_user_username == 'rampus' || $other_user_username == 'help') {
+            echo "<img class='status' src='pics/SuperUserIcon.svg'>";
+        } else {
+            switch ($other_user_in_top) {
+                case 1:
+                    echo "<img class='status' src='pics/BlossomFirstIcon.svg'>";
+                    break;
+                case 2:
+                    echo "<img class='status' src='pics/BlossomSecondIcon.svg'>";
+                    break;
+                case 3:
+                    echo "<img class='status' src='pics/BlossomThirdIcon.svg'>";
+                    break;
+            }
+        }
         echo "</div>";
         if ($last_message) {
             $massage_date_db = date_format(date_create($last_message_date), 'Y-m-d');
