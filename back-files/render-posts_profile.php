@@ -8,6 +8,7 @@ $beforeyesterday = date('Y-m-d', mktime(0, 0, 0, date("m"), date("d") - 2, date(
 $month_list = array(1 => 'января', 2 => 'февраля', 3 => 'марта', 4 => 'апреля', 5 => 'мая', 6 => 'июня', 7 => 'июля', 8 => 'августа', 9 => 'сентября', 10 => 'октября', 11 => 'ноября', 12 => 'декабря');
 
 require_once('connect.php');
+require_once('reposts/check-repost-status.php');
 require('get-user-friends-id.php');
 
 $user_friends_id = implode(',', getUserFriendsId($current_user_id, $connect));
@@ -82,6 +83,7 @@ if ($result_post->num_rows > 0) {
         $content_image = $row_post["content_image"];
         $content_id = $row_post['content_id'];
         $content_repost_id = $row_post['repost_post_id'];
+        $check_repost_status = $content_type == 'repost' ? haveIMakeRepost($content_repost_id) : false;
         if ($posts_counter < 3) {
             echo "<div class='user-post' id='post-$content_id'>";
             echo "<div class='extra-post-info'>";
@@ -160,7 +162,7 @@ if ($result_post->num_rows > 0) {
             </svg>";
                 echo "<span class='comment-counter'>" . $rows_num_comment . "</span></button>";
             }
-            if (!$for_friends) {
+            if (!$for_friends && !($content_type == 'repost' && $content_author_id == $current_user_id) && !$check_repost_status) {
                 if ($result_repost->num_rows > 0) {
                     echo "<button id='repost-$content_id' class='repost-button reposted'><svg width='27' height='22' viewBox='0 0 27 22' fill='none' xmlns='http://www.w3.org/2000/svg'>
                     <path d='M22.2501 4.41667V2.30556C22.2501 2.0256 22.0921 1.75712 21.8108 1.55917C21.5295 1.36121 21.1479 1.25 20.7501 1.25H5.75013C5.3523 1.25 4.97077 1.36121 4.68947 1.55917C4.40816 1.75712 4.25013 2.0256 4.25013 2.30556V12.8611M4.25013 12.8611L7.25012 10.75M4.25013 12.8611L1.25012 10.75M4.25012 17.0833V19.1944C4.25012 19.4744 4.40816 19.7429 4.68946 19.9408C4.97077 20.1388 5.3523 20.25 5.75012 20.25H20.7501C21.1479 20.25 21.5295 20.1388 21.8108 19.9408C22.0921 19.7429 22.2501 19.4744 22.2501 19.1944V8.63889M22.2501 8.63889L19.2501 10.75M22.2501 8.63889L25.2501 10.75' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'/>
@@ -281,7 +283,7 @@ if ($result_post->num_rows > 0) {
             </svg>";
                 echo "<span class='comment-counter'>" . $rows_num_comment . "</span></button>";
             }
-            if (!$for_friends) {
+            if (!$for_friends && !($content_type == 'repost' && $content_author_id == $current_user_id) && !$check_repost_status) {
                 if ($result_repost->num_rows > 0) {
                     echo "<button id='repost-$content_id' class='repost-button reposted'><svg width='27' height='22' viewBox='0 0 27 22' fill='none' xmlns='http://www.w3.org/2000/svg'>
                     <path d='M22.2501 4.41667V2.30556C22.2501 2.0256 22.0921 1.75712 21.8108 1.55917C21.5295 1.36121 21.1479 1.25 20.7501 1.25H5.75013C5.3523 1.25 4.97077 1.36121 4.68947 1.55917C4.40816 1.75712 4.25013 2.0256 4.25013 2.30556V12.8611M4.25013 12.8611L7.25012 10.75M4.25013 12.8611L1.25012 10.75M4.25012 17.0833V19.1944C4.25012 19.4744 4.40816 19.7429 4.68946 19.9408C4.97077 20.1388 5.3523 20.25 5.75012 20.25H20.7501C21.1479 20.25 21.5295 20.1388 21.8108 19.9408C22.0921 19.7429 22.2501 19.4744 22.2501 19.1944V8.63889M22.2501 8.63889L19.2501 10.75M22.2501 8.63889L25.2501 10.75' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'/>
