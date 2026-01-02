@@ -4,11 +4,11 @@ require_once('connect.php');
 
 $email_or_username = mysqli_real_escape_string($connect, $_POST['email_or_username']);
 $password = md5(mysqli_real_escape_string($connect, $_POST['password']));
-$request = $_GET['request'];
+$request = mysqli_real_escape_string($connect, $_GET['request']);
 
 if (mysqli_query($connect, "SELECT id FROM `users` LIMIT 1")) {
-    $check_user_by_email = mysqli_query($connect, "SELECT id, username, first_name, second_name, avatar, unread_posts, last_auth_date FROM `users` WHERE `email` = '$email_or_username' AND `password` = '$password'");
-    $check_user_by_username = mysqli_query($connect, "SELECT id, username, first_name, second_name, avatar, unread_posts, last_auth_date FROM `users` WHERE `username` = '$email_or_username' AND `password` = '$password'");
+    $check_user_by_email = mysqli_query($connect, "SELECT id, username, first_name, second_name, description, avatar, unread_posts, last_auth_date FROM `users` WHERE `email` = '$email_or_username' AND `password` = '$password'");
+    $check_user_by_username = mysqli_query($connect, "SELECT id, username, first_name, second_name, description, avatar, unread_posts, last_auth_date FROM `users` WHERE `username` = '$email_or_username' AND `password` = '$password'");
 } else {
     echo '@@@';
     exit();
@@ -23,6 +23,7 @@ if (mysqli_num_rows($check_user_by_email) > 0 || mysqli_num_rows($check_user_by_
     $id = $user['id'];
     $first_name = $user['first_name'];
     $second_name = $user['second_name'];
+    $description = $user['description'];
     $username = $user['username'];
     $avatar = $user['avatar'];
     $last_auth_date = $user['last_auth_date'];
@@ -34,6 +35,7 @@ if (mysqli_num_rows($check_user_by_email) > 0 || mysqli_num_rows($check_user_by_
         "id" => $id,
         "first_name" => $first_name,
         "second_name" => $second_name,
+        "description" => $description,
         "username" => $username,
         "avatar" => $avatar,
         "unread_posts" => $unread_posts

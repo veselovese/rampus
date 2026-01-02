@@ -1170,6 +1170,62 @@ input.auth-and-reg::placeholder {
     opacity: 100%;
 }
 
+.request-buttons {
+    display: flex;
+    gap: 0.39rem;
+}
+
+.not-friend .request {
+    border: none;
+    font-size: var(--font-size-2);
+    width: 100%;
+    max-width: fit-content;
+    min-height: 4rem;
+    border-radius: 1rem;
+    padding: 1rem 1.6rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.not-friend .hide {
+    display: none;
+}
+
+.not-friend .request.to-friends {
+    background-color: var(--main-accent-color);
+    color: var(--block-color);
+}
+
+.not-friend .request.sended {
+    color: var(--main-accent-color);
+    background-color: var(--block-accent-color-210);
+}
+
+.not-friend .request.un-to-friends {
+    background-color: var(--like-button-accent-color);
+    padding: 0;
+    min-width: 4rem;
+    max-width: 4rem;
+    max-height: 4rem;
+}
+
+.not-friend .request.un-to-friends svg {
+    fill: var(--error-accent-color);
+    height: 11px;
+    width: 11px;
+}
+
+.not-friend button:hover {
+    opacity: 80%;
+}
+
+.not-friend button:active {
+    transform: scale(95%);
+}
+
+
 @media (max-width: 1320px) {
     .wrapper {
         max-width: calc(100% - 5rem);

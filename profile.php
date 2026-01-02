@@ -4,79 +4,47 @@ session_start();
 require_once('back-files/connect.php');
 
 if (isset($_SESSION['user'])) {
-    require('back-files/like-or-dislike.php');
     require('back-files/rating-trophies.php');
-    require('back-files/find-user-position-in-top.php');
-    require('back-files/get-user-friends.php');
 
-    $id = $_SESSION['user']['id'];
-    $result = $connect->query("SELECT * FROM users WHERE id = $id");
-    if ($result->num_rows > 0) {
-        while ($row = $result->fetch_assoc()) {
-            $username = $row["username"];
-            $email = $row["email"];
-            $description = $row["description"];
-            $first_name = $row["first_name"];
-            $second_name = $row["second_name"];
-            $current_avatar = $row["avatar"];
-        }
+    require_once('back-files/like-or-dislike.php');
+    require_once('back-files/find-user-position-in-top.php');
+    require_once('back-files/get-user-friends.php');
+
+    $current_user_id = $_SESSION['user']['id'];
+    $current_user_username = $_SESSION['user']['username'];
+    $current_user_description = $_SESSION['user']['description'];
+    $current_user_first_name = $_SESSION['user']['first_name'];
+    $current_user_second_name = $_SESSION['user']['second_name'];
+    $current_user_avatar = $_SESSION['user']['avatar'];
+
+    $result_current_user_blossom = $connect->query("SELECT blossom_level, blossom_progress FROM users WHERE id = $current_user_id LIMIT 1");
+    if ($result_current_user_blossom->num_rows > 0) {
+        $row_current_user_blossom = $result_current_user_blossom->fetch_assoc();
+        $current_user_blossom_level = $row_current_user_blossom["blossom_level"];
+        $current_user_blossom_progress = $row_current_user_blossom["blossom_progress"];
     }
 
-    $sql = "SELECT posts.likes AS post_likes
+    $sql_current_user_posts_and_likes_counter = "SELECT SUM(posts.likes) AS current_user_likes_counter, COUNT(*) AS current_user_posts_counter
                     FROM posts
                     JOIN users ON posts.user_id = users.id
-                    WHERE posts.user_id = $id";
-    $sql_comment_counter = "SELECT comments.id
+                    WHERE posts.user_id = $current_user_id";
+    $result_current_user_posts_and_likes_counter = $connect->query($sql_current_user_posts_and_likes_counter);
+    if ($result_current_user_posts_and_likes_counter->num_rows > 0) {
+        $row_current_user_posts_and_likes_counter = $result_current_user_posts_and_likes_counter->fetch_assoc();
+        $current_user_posts_counter = $row_current_user_posts_and_likes_counter["current_user_posts_counter"];
+        $current_user_likes_counter = $row_current_user_posts_and_likes_counter["current_user_likes_counter"];
+    }
+
+    $sql_current_user_comments_counter = "SELECT 1
                     FROM comments 
                     JOIN posts ON comments.post_id = posts.id    
-                    JOIN users ON users.id = posts.user_id
-                    WHERE posts.user_id = $id";
-    $sql_commented_counter = "SELECT comments.id
-                    FROM comments
-                    WHERE comments.user_id = $id";
-    $sql_liked_counter = "SELECT likes_on_posts.id
-                    FROM likes_on_posts
-                    WHERE likes_on_posts.user_id = $id";
-    $result = $connect->query($sql);
-    $posts_count = $result->num_rows;
-    $comment_count = $connect->query($sql_comment_counter)->num_rows;
-    $commented_count = $connect->query($sql_commented_counter)->num_rows;
-    $liked_count = $connect->query($sql_liked_counter)->num_rows;
-    $likes_count = 0;
-    if ($posts_count > 0) {
-        while ($row = $result->fetch_assoc()) {
-            $post_likes = $row["post_likes"];
-            $likes_count += $post_likes;
-        }
-    }
+                    WHERE posts.user_id = $current_user_id";
+    $current_user_comments_counter = $connect->query($sql_current_user_comments_counter)->num_rows;
 
-    $blossom_level = $connect->query("SELECT blossom_level FROM users WHERE id = $id")->fetch_assoc()['blossom_level'];
-    $blossom_progress = $connect->query("SELECT blossom_progress FROM users WHERE id = $id")->fetch_assoc()['blossom_progress'];
-    $blossom = $blossom_level + $blossom_progress / 100;
-    $user_level = intval($blossom);
-    $user_progress = round($blossom - $user_level, 2) * 100;
-
-    $sql_top = "SELECT id FROM users ORDER BY blossom_level DESC, blossom_progress DESC";
-    $result_top = $connect->query($sql_top);
-    $top_count = 0;
-    if ($result_top->num_rows > 0) {
-        while ($row = $result_top->fetch_assoc()) {
-            $current_id = $row["id"];
-            $top_count += 1;
-            if ($current_id == $id) {
-                break;
-            }
-        }
-    }
-
-    $sql_trophies = "SELECT * FROM trophies WHERE user_id_to = $id";
-    $result_trophies = $connect->query($sql_trophies);
-    $result_trophies_m = $connect->query($sql_trophies);
-
-    $unread_posts = $_SESSION['user']['unread_posts'];
-    $posts_counter = $connect->query("SELECT * FROM posts WHERE user_id = $id")->num_rows;
+    $sql_current_user_trophies_list = "SELECT name, description, image FROM trophies WHERE user_id_to = $current_user_id";
+    $result_current_user_trophies_list = $connect->query($sql_current_user_trophies_list);
+    $result_current_user_trophies_list_mobile = $connect->query($sql_current_user_trophies_list);
 }
-
 ?>
 
 <!DOCTYPE html>
@@ -108,54 +76,46 @@ if (isset($_SESSION['user'])) {
                     <div class="second-part">
                         <div class="profile__user-info">
                             <div class="profile-back">
-                                <svg width="100%" height="100%" overflow='visible' xmlns:xlink='http://www.w3.org/1999/xlink'>
-                                    <defs overflow='visible'>
-                                        <pattern id="pattern-bg-user" x="0" y="0" width="42" height="42" overflow='visible' viewBox="0 0 42 56" patternUnits="userSpaceOnUse">
-                                            <path d="M3.66912 5.18399C3.45697 4.27252 4.27252 3.45697 5.18399 3.66912L5.49178 3.74076C6.23299 3.91328 6.95574 3.3978 7.03307 2.64147L7.06517 2.32741C7.16026 1.39736 8.19726 0.891631 8.99138 1.38803L9.25954 1.55565C9.90532 1.95932 10.757 1.70697 11.0758 1.0175L11.2082 0.731195C11.6002 -0.116648 12.7463 -0.257751 13.337 0.469097L13.5365 0.714542C14.0168 1.30562 14.9052 1.34374 15.4309 0.795834L15.6492 0.568316C16.2957 -0.105444 17.4266 0.13337 17.7499 1.01191L17.8591 1.30857C18.122 2.02301 18.9507 2.34747 19.6264 2.0005L19.9069 1.85642C20.7378 1.42976 21.7311 2.02261 21.7519 2.95763L21.7589 3.27337C21.7759 4.03375 22.4552 4.60939 23.2076 4.50096L23.52 4.45594C24.4452 4.3226 25.1932 5.20524 24.9093 6.09543L24.8135 6.39603C24.5826 7.11994 25.0389 7.88438 25.7865 8.02624L26.0969 8.08515C27.0162 8.25959 27.4378 9.33638 26.88 10.0853L26.6916 10.3381C26.238 10.9471 26.4218 11.8176 27.0836 12.1943L27.3584 12.3508C28.1722 12.8141 28.2217 13.9684 27.4504 14.4948L27.1899 14.6725C26.5627 15.1006 26.4541 15.9827 26.9583 16.5535L27.1677 16.7906C27.7878 17.4926 27.4599 18.5992 26.5587 18.8461L26.2544 18.9295C25.5215 19.1303 25.1322 19.9284 25.4243 20.6315L25.5456 20.9235C25.9048 21.788 25.235 22.7271 24.3015 22.6678L23.9863 22.6477C23.2272 22.5995 22.5995 23.2272 22.6477 23.9863L22.6678 24.3015C22.7271 25.235 21.788 25.9048 20.9235 25.5456L20.6315 25.4243C19.9284 25.1322 19.1303 25.5215 18.9295 26.2544L18.8461 26.5587C18.5992 27.4599 17.4926 27.7878 16.7906 27.1677L16.5535 26.9583C15.9827 26.4541 15.1006 26.5627 14.6725 27.1899L14.4948 27.4504C13.9684 28.2217 12.8141 28.1722 12.3508 27.3584L12.1943 27.0836C11.8176 26.4218 10.9471 26.238 10.3381 26.6916L10.0853 26.88C9.33638 27.4378 8.25959 27.0162 8.08515 26.0969L8.02624 25.7865C7.88438 25.0389 7.11994 24.5826 6.39603 24.8135L6.09543 24.9093C5.20524 25.1932 4.3226 24.4452 4.45594 23.52L4.50096 23.2076C4.60939 22.4552 4.03375 21.7759 3.27337 21.7589L2.95763 21.7519C2.02261 21.7311 1.42976 20.7378 1.85643 19.9069L2.0005 19.6264C2.34747 18.9507 2.02301 18.122 1.30857 17.8591L1.01191 17.7499C0.133369 17.4266 -0.105444 16.2957 0.568316 15.6492L0.795833 15.4309C1.34374 14.9052 1.30562 14.0168 0.714542 13.5365L0.469098 13.337C-0.257751 12.7463 -0.116648 11.6002 0.731195 11.2082L1.0175 11.0758C1.70697 10.757 1.95933 9.90532 1.55565 9.25953L1.38803 8.99137C0.891633 8.19726 1.39736 7.16026 2.32741 7.06517L2.64147 7.03306C3.3978 6.95574 3.91328 6.23299 3.74076 5.49177L3.66912 5.18399Z" fill="#D5A021" />
-                                            <path d="M11.2175 8.3326L19.4602 16.5753L17.8312 18.2043L11.3313 11.7044L10.6793 15.0176L8.53278 14.7148L9.4875 10.0626L11.2175 8.3326Z" fill="white" />
-                                        </pattern>
-                                    </defs>
-                                    <rect x="0" y="0" width="100%" height="100%" fill="url(#pattern-bg-user)"></rect>
-                                </svg>
+                                <?php require_once('components/profile-back.php'); ?>
                             </div>
                             <div class="profile-userinfo">
-                                <img class="avatar" src="uploads/avatar/small_<?= $current_avatar ?>">
+                                <img class="avatar" src="uploads/avatar/small_<?= $current_user_avatar ?>">
                                 <div class="textinfo">
-                                    <?php if ($first_name && $second_name) { ?>
-                                        <p class='first-and-second-names'><?= $first_name . " " . $second_name ?></p>
+                                    <?php if ($current_user_first_name && $current_user_second_name) { ?>
+                                        <p class='first-and-second-names'><?= $current_user_first_name . " " . $current_user_second_name ?></p>
                                         <div>
-                                            <p class="username" onclick='copyLinkToUserAddReturnMessage("<?= $username ?>")'>@<?= $username ?></p>
+                                            <p class="username" onclick='copyLinkToUserAddReturnMessage("<?= $current_user_username ?>")'>@<?= $current_user_username ?></p>
                                             <span id="copy-link-status">Копировать ссылку</span>
                                         </div>
-                                    <?php } else if ($first_name) { ?>
-                                        <p class='first-and-second-names'><?= $first_name ?></p>
+                                    <?php } else if ($current_user_first_name) { ?>
+                                        <p class='first-and-second-names'><?= $current_user_first_name ?></p>
                                         <div>
-                                            <p class="username" onclick='copyLinkToUserAddReturnMessage("<?= $username ?>")'>@<?= $username ?></p>
+                                            <p class="username" onclick='copyLinkToUserAddReturnMessage("<?= $current_user_username ?>")'>@<?= $current_user_username ?></p>
                                             <span id="copy-link-status">Копировать ссылку</span>
                                         </div>
-                                    <?php } else if ($second_name) { ?>
-                                        <p class='first-and-second-names'><?= $second_name ?></p>
+                                    <?php } else if ($current_user_second_name) { ?>
+                                        <p class='first-and-second-names'><?= $current_user_second_name ?></p>
                                         <div>
-                                            <p class="username" onclick='copyLinkToUserAddReturnMessage("<?= $username ?>")'>@<?= $username ?></p>
+                                            <p class="username" onclick='copyLinkToUserAddReturnMessage("<?= $current_user_username ?>")'>@<?= $current_user_username ?></p>
                                             <span id="copy-link-status">Копировать ссылку</span>
                                         </div>
                                     <?php } else { ?>
                                         <div>
-                                            <p class="username without-first-and-second-names" onclick='copyLinkToUserAddReturnMessage("<?= $username ?>")'>@<span><?= $username ?></span></p>
+                                            <p class="username without-first-and-second-names" onclick='copyLinkToUserAddReturnMessage("<?= $current_user_username ?>")'>@<span><?= $current_user_username ?></span></p>
                                             <span id="copy-link-status">Копировать ссылку</span>
                                         </div>
                                     <?php } ?>
-                                    <?php if ($description != '') { ?>
-                                        <p class="description"><?= $description ?></p>
+                                    <?php if ($current_user_description != '') { ?>
+                                        <p class="description"><?= $current_user_description ?></p>
                                     <?php } else { ?>
                                         <a class="description" href="./edit">Добавить описание</a>
                                     <?php } ?>
                                 </div>
-                                <div class='div-show-three-dots-popup main-in-profile' onclick='showPopupUserInfo(<?= $id ?>)' id='div-show-three-dots-popup_<?= $id ?>'>
+                                <div class='div-show-three-dots-popup main-in-profile' onclick='showPopupUserInfo(<?= $current_user_id ?>)' id='div-show-three-dots-popup_<?= $current_user_id ?>'>
                                     <img src='pics/ThreeDotsIcon.svg' class='show-three-dots-popup'>
                                 </div>
                                 <div class='three-dots-popup' id='three-dots-popup_user-info'>
-                                    <span class='three-dots-popup-li copy-link' onclick='copyLinkToUser("<?= $username ?>")'>Копировать ссылку</span>
+                                    <span class='three-dots-popup-li copy-link' onclick='copyLinkToUser("<?= $current_user_username ?>")'>Копировать ссылку</span>
                                     <a class='three-dots-popup-li edit-profile' href='edit'>Редактировать</a>
                                     <a class='three-dots-popup-li exit-profile' href='exit'>Выйти</a>
                                 </div>
@@ -179,15 +139,15 @@ if (isset($_SESSION['user'])) {
                                 </svg>
                             </div>
                             <div class="progress-div">
-                                <progress value="<?= $user_progress ?>" max="100"></progress>
-                                <span class="progress" style="--r:<?= $user_progress ?>%"><?= $user_progress ?>%</span>
+                                <progress value="<?= $current_user_blossom_progress ?>" max="100"></progress>
+                                <span class="progress" style="--r:<?= $current_user_blossom_progress ?>%"><?= $current_user_blossom_progress ?>%</span>
                             </div>
                             <div class="level">
-                                <span><?= $user_level ?> уровень</span>
-                                <span><?= $user_level + 1 ?></span>
+                                <span><?= $current_user_blossom_level ?> уровень</span>
+                                <span><?= $current_user_blossom_level + 1 ?></span>
                             </div>
                         </a>
-                        <a href="./case" class="case mobile">
+                        <a href="./trophies" class="case mobile">
                             <div class="case-title">
                                 <img src="pics/CaseIcon.svg">
                                 Трофеи
@@ -196,8 +156,8 @@ if (isset($_SESSION['user'])) {
                                 </svg>
                             </div>
                             <div class="case-trophies">
-                                <?php if ($result_trophies_m->num_rows > 0) {
-                                    while ($row = $result_trophies_m->fetch_assoc()) {
+                                <?php if ($result_current_user_trophies_list_mobile->num_rows > 0) {
+                                    while ($row = $result_current_user_trophies_list_mobile->fetch_assoc()) {
                                         $trophy_name_m = $row["name"];
                                         $trophy_description_m = $row["description"];
                                         $trophy_image_m = $row["image"];
@@ -274,17 +234,17 @@ if (isset($_SESSION['user'])) {
                                     <div class="profile__counters-div">
                                         <div class="profile__posts">
                                             Посты
-                                            <span> <?= $posts_count ?></span>
+                                            <span> <?= $current_user_posts_counter ?></span>
                                         </div>
                                         <div class="div-line"></div>
                                         <div class="profile__likes">
                                             Лайки
-                                            <span><?= $likes_count ?></span>
+                                            <span><?= $current_user_likes_counter ?></span>
                                         </div>
                                         <div class="div-line"></div>
                                         <div class="profile__comments">
                                             Комментарии
-                                            <span><?= $comment_count ?></span>
+                                            <span><?= $current_user_comments_counter ?></span>
                                         </div>
                                     </div>
                                 </div>
@@ -361,7 +321,7 @@ if (isset($_SESSION['user'])) {
                                             <path fill-rule="evenodd" clip-rule="evenodd" d="M8.03709 11.3334C6.58858 12.0152 5.25423 12.9468 4.10051 14.1005C1.475 16.726 0 20.287 0 24L14 24H28C28 20.287 26.525 16.726 23.8995 14.1005C22.7458 12.9468 21.4114 12.0152 19.9629 11.3334C18.4981 12.97 16.3693 14 14 14C11.6307 14 9.50195 12.97 8.03709 11.3334Z" />
                                             <circle cx="14" cy="6" r="6" />
                                         </svg> -->
-                                            <img class="menu-avatar" src="uploads/avatar/thin_<?= $current_avatar ?>">
+                                            <img class="menu-avatar" src="uploads/avatar/thin_<?= $current_user_avatar ?>">
                                             Профиль
                                         </a>
                                     </li>
@@ -379,15 +339,15 @@ if (isset($_SESSION['user'])) {
                                         </svg>
                                     </div>
                                     <div class="progress-div">
-                                        <progress value="<?= $user_progress ?>" max="100"></progress>
-                                        <span class="progress" style="--r:<?= $user_progress ?>%"><?= $user_progress ?>%</span>
+                                        <progress value="<?= $current_user_blossom_progress ?>" max="100"></progress>
+                                        <span class="progress" style="--r:<?= $current_user_blossom_progress ?>%"><?= $current_user_blossom_progress ?>%</span>
                                     </div>
                                     <div class="level">
-                                        <span><?= $user_level ?> уровень</span>
-                                        <span><?= $user_level + 1 ?></span>
+                                        <span><?= $current_user_blossom_level ?> уровень</span>
+                                        <span><?= $current_user_blossom_level + 1 ?></span>
                                     </div>
                                 </a>
-                                <a href="./case" class="case">
+                                <a href="./trophies" class="case">
                                     <div class="case-title">
                                         <img src="pics/CaseIcon.svg">
                                         Трофеи
@@ -396,8 +356,8 @@ if (isset($_SESSION['user'])) {
                                         </svg>
                                     </div>
                                     <div class="case-trophies">
-                                        <?php if ($result_trophies->num_rows > 0) {
-                                            while ($row = $result_trophies->fetch_assoc()) {
+                                        <?php if ($result_current_user_trophies_list->num_rows > 0) {
+                                            while ($row = $result_current_user_trophies_list->fetch_assoc()) {
                                                 $trophy_name = $row["name"];
                                                 $trophy_description = $row["description"];
                                                 $trophy_image = $row["image"];
@@ -420,17 +380,17 @@ if (isset($_SESSION['user'])) {
                                     <div class="profile__counters-div">
                                         <div class="profile__posts">
                                             Посты
-                                            <span> <?= $posts_count ?></span>
+                                            <span> <?= $current_user_posts_counter ?></span>
                                         </div>
                                         <div class="div-line"></div>
                                         <div class="profile__likes">
                                             Лайки
-                                            <span><?= $likes_count ?></span>
+                                            <span><?= $current_user_likes_counter ?></span>
                                         </div>
                                         <div class="div-line"></div>
                                         <div class="profile__comments">
                                             Комментарии
-                                            <span><?= $comment_count ?></span>
+                                            <span><?= $current_user_comments_counter ?></span>
                                         </div>
                                     </div>
                                 </div>

@@ -15,7 +15,41 @@ $(document).ready(function () {
         })
     })
 
+    $('#other-user-friends-buttons').on('click', "button[id^='request-to-friends_']", () => {
+        const userIdTo = Number($("button[id^='request-to-friends_']").attr('id').split('_')[1]);
+        $.ajax({
+            url: '../back-files/request-to-friends',
+            type: 'post',
+            data: {
+                'user_id_to': userIdTo,
+            },
+            success: function (response) {
+                $('#request-to-friends_' + userIdTo).addClass('hide');
+                $('#request-sended_' + userIdTo).removeClass('hide');
+                $('.request-buttons').removeClass('hide');
+                $('#unsend-request-to-friends_' + userIdTo).removeClass('hide');
+            }
+        })
+    })
+
     $('#success-load-chat').on('click', "button[id^='unrequest-to-friends_']", () => {
+        $.ajax({
+            url: '../back-files/unrequest-to-friends',
+            type: 'post',
+            data: {
+                'user_id_2': userIdTo,
+            },
+            success: function (response) {
+                $('.request-buttons').addClass('hide');
+                $('#apply-request-to-friends_' + userIdTo).addClass('hide');
+                $('#unrequest-to-friends_' + userIdTo).addClass('hide');
+                $('#request-to-friends_' + userIdTo).removeClass('hide');
+            }
+        })
+    })
+
+    $('#other-user-friends-buttons').on('click', "button[id^='unrequest-to-friends_']", () => {
+        const userIdTo = Number($("button[id^='unrequest-to-friends_']").attr('id').split('_')[1]);
         $.ajax({
             url: '../back-files/unrequest-to-friends',
             type: 'post',
@@ -47,6 +81,23 @@ $(document).ready(function () {
         })
     })
 
+    $('#other-user-friends-buttons').on('click', "button[id^='unsend-request-to-friends_']", () => {
+        const userIdTo = Number($("button[id^='unsend-request-to-friends_']").attr('id').split('_')[1]);
+        $.ajax({
+            url: '../back-files/unrequest-to-friends',
+            type: 'post',
+            data: {
+                'user_id_2': userIdTo,
+            },
+            success: function (response) {
+                $('.request-buttons').addClass('hide');
+                $('#request-sended_' + userIdTo).addClass('hide');
+                $('#unrequest-to-friends_' + userIdTo).addClass('hide');
+                $('#request-to-friends_' + userIdTo).removeClass('hide');
+            }
+        })
+    })
+
     $('#success-load-chat').on('click', "button[id^='apply-request-to-friends_']", () => {
         $.ajax({
             url: '../back-files/add-to-friends',
@@ -59,6 +110,24 @@ $(document).ready(function () {
                 $('#apply-request-to-friends_' + userIdTo).addClass('hide');
                 $('#unrequest-to-friends_' + userIdTo).addClass('hide');
                 loadChat(usrnm);
+            }
+        })
+    })
+
+    $('#other-user-friends-buttons').on('click', "button[id^='apply-request-to-friends_']", () => {
+        const userIdTo = Number($("button[id^='apply-request-to-friends_']").attr('id').split('_')[1]);
+        $.ajax({
+            url: '../back-files/add-to-friends',
+            type: 'post',
+            data: {
+                'user_id_2': userIdTo,
+            },
+            success: function (response) {
+                $('.request-buttons').addClass('hide');
+                $('#apply-request-to-friends_' + userIdTo).addClass('hide');
+                $('#unrequest-to-friends_' + userIdTo).addClass('hide');
+                console.log($('#already-in-friends_' + userIdTo))
+                $('#already-in-friends_' + userIdTo).removeClass('hide');
             }
         })
     })
