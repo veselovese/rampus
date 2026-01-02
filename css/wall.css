@@ -183,7 +183,7 @@
 .user-post p a {
     color: var(--main-accent-color);
     line-height: 125%;
-    font-size: var(--font-size-2);
+    font-size: var(--font-size-3);
 }
 
 .user-post>div:first-child {
@@ -195,11 +195,12 @@
 .wall__new-post {
     display: flex;
     flex-direction: column;
-    position: sticky;
+    position: fixed;
+    width: calc(100% - 25rem - 25rem - 2.6rem - 2.6rem - 10rem - 2.6rem*2);
     max-width: 100%;
     z-index: 1;
     bottom: 2.6rem;
-    margin: 0 2.6rem;
+    margin: 1.6rem 2.6rem 0;
     background: linear-gradient(-135deg, var(--posts-color), var(--likes-color), var(--comments-color));
     box-shadow: var(--shadow-popup);
     border-radius: 2rem;

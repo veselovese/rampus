@@ -1,4 +1,3 @@
-const ws = new WebSocket('ws://localhost:2346');
 const currentUserId = $('#currentuserid_input').val();
 const chatId = $('#chatid-message_input').val();
 const userIdTo = $('#useridto-message_input').val();
@@ -8,7 +7,8 @@ function simpleStart() {
 }
 simpleStart();
 
-const usrnm = window.location.pathname.split('/')[3];
+let usrnm = window.location.pathname.split("/").filter(entry => entry !== "");
+usrnm = usrnm[usrnm.length - 1]
 loadChat(usrnm);
 
 function loadChat(query) {
@@ -92,7 +92,12 @@ function sendMessage(chatId, message, userIdTo) {
             'user_id_to': userIdTo
         },
         success: function (data) {
-            // $('#success-load-chat').html(data);
+            let sendedAfterData = {
+                action: 'message_has_sended',
+                chat_id: chatId,
+                user_id_to: userIdTo
+            }
+            ws.send(JSON.stringify(sendedAfterData))
         }
     });
     $('#textarea-message').text('')
@@ -115,10 +120,13 @@ function loadRecentChats() {
 
 ws.onmessage = async (response) => {
     let responsedData = JSON.parse(response.data)
+    console.log(responsedData)
     switch (responsedData.action) {
         case 'open_chat':
             if (responsedData.chat_id == chatId) {
                 reloadChat(usrnm)
+                loadRecentChats()
+                updateUnreadChats('../', responsedData.user_id_to)
             }
             break;
         case 'send_message':
@@ -143,6 +151,10 @@ ws.onmessage = async (response) => {
                 loadRecentChats()
             }
             break;
+        case 'message_has_sended':
+            const path = usrnm != 'chats' ? '../' : '';
+            updateUnreadChats(path, responsedData.user_id_to);
+            break
     }
 }
 

@@ -152,7 +152,7 @@ $result_other_user_trophies_list_mobile = $connect->query($sql_other_user_trophi
                                             echo "<button type='button' class='request to-friends hide' id='request-to-friends_$other_user_id'>Добавить в друзья</button>";
                                             break;
                                         case 'request_to':
-                                            echo "<button type='button' class='request to-friends hide' id='#already-in-friends_$other_user_id'>В друзьях</button>";
+                                            echo "<button type='button' class='request to-friends hide' id='already-in-friends_$other_user_id'>В друзьях</button>";
                                             echo "<div class='request-buttons'>";
                                             echo "<button type='button' class='request to-friends' id='apply-request-to-friends_$other_user_id'>Принять заявку</button>";
                                             echo "<button type='button' class='request un-to-friends' id='unrequest-to-friends_$other_user_id'><svg width='10' height='10' viewBox='0 0 10 10' fill='none' xmlns='http://www.w3.org/2000/svg'>
@@ -193,7 +193,7 @@ $result_other_user_trophies_list_mobile = $connect->query($sql_other_user_trophi
                                 <div class='three-dots-popup' id='three-dots-popup_user-info'>
                                     <span class='three-dots-popup-li copy-link' onclick='copyLinkToUser("<?= $other_user_username ?>")'>Копировать ссылку</span>
                                     <?php if ($result_other_user_friends_list->num_rows > 0) { ?>
-                                        <span class='three-dots-popup-li delete-from-friends delete-post' onclick='deleteFromFriends(<?= $current_user_id ?>, <?= $other_user_id ?>)'>Удалить из друзей</span>
+                                        <span class='three-dots-popup-li delete-from-friends delete-post' onclick='deleteFromFriends(<?= $other_user_id ?>)'>Удалить из друзей</span>
                                     <?php } ?>
                                 </div>
                             </div>

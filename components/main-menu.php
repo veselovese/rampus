@@ -1,14 +1,19 @@
 <?php
 require_once('back-files/global.php');
 require_once('back-files/find-user-position-in-top.php');
+require_once('back-files/get-user-friends.php');
+
 $current_user_id = $_SESSION['user']['id'];
 $current_user_username = $_SESSION['user']['username'];
 $current_user_first_name = $_SESSION['user']['first_name'];
 $current_user_second_name = $_SESSION['user']['second_name'];
 $current_user_avatar = $_SESSION['user']['avatar'];
-$current_user_unread_posts = $_SESSION['user']['unread_posts'];
 $current_user_in_top = findUserPositionInTop($current_user_id, $connect);
 $current_user_placement = basename(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
+
+$current_user_unread_posts = $_SESSION['user']['unread_posts'];
+$current_user_requests = $result_request_to->num_rows;
+$current_user_unread_chats = require_once('back-files/chats/get-user-unread-chats.php');
 ?>
 <nav class="first-part">
     <ul>
@@ -63,6 +68,7 @@ $current_user_placement = basename(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PA
                     <path d="M7 11C7 8.23858 9.23858 6 12 6H23C25.7614 6 28 8.23858 28 11V24H12C9.23858 24 7 21.7614 7 19V11Z" />
                 </svg>
                 Чаты
+                    <span class="notification-in-menu" id="notification__unread-chats"><?= $current_user_unread_chats > 0 ? $current_user_unread_chats : '' ?></span>
             </a>
         </li>
         <li id="<?php echo $current_user_placement == 'case' ? 'active' : '' ?>"><a href="<?= $global_url ?>/case"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -85,8 +91,8 @@ $current_user_placement = basename(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PA
                     <path d='M21.25 10.5001C21.25 12.5712 19.5711 14.2501 17.5 14.2501C15.4289 14.2501 13.75 12.5712 13.75 10.5001C13.75 8.42905 15.4289 6.75012 17.5 6.75012C19.5711 6.75012 21.25 8.42905 21.25 10.5001ZM10.6057 17.1058C11.2822 16.4293 12.0479 15.8625 12.8752 15.4168C14.0826 16.5528 15.7103 17.2501 17.5 17.2501C19.2897 17.2501 20.9174 16.5528 22.1248 15.4168C22.9521 15.8625 23.7177 16.4293 24.3943 17.1058C26.0452 18.7567 27.0429 20.9386 27.2211 23.2501H17.5L7.77887 23.2501C7.95711 20.9386 8.95483 18.7567 10.6057 17.1058Z' stroke-linejoin='round' />
                 </svg>
                 Друзья
-                <?php if ($result_request_to->num_rows > 0) { ?>
-                    <span class="notification-in-menu"><?= $result_request_to->num_rows ?></span>
+                <?php if ($current_user_requests > 0) { ?>
+                    <span class="notification-in-menu"><?= $current_user_requests ?></span>
                 <?php } ?>
             </a></li>
         <p class="menu-title">Возможности</p>
@@ -108,3 +114,6 @@ $current_user_placement = basename(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PA
         <?php } ?>
     </ul>
 </nav>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script id="menu-script" src="<?= $global_url ?>/js/main.js?v=250" data-who_is_me="<?= $current_user_id ?>"></script>
+<script src="<?= $global_url ?>/js/main-menu.js?v=250"></script>

@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    let url = window.location.pathname.split("/").filter(entry => entry !== "");
+    const url = window.location.pathname.split("/").filter(entry => entry !== "");
     renderCurrentPost(url[url.length -1]);
 
     function renderCurrentPost(postId) {

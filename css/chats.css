@@ -536,7 +536,7 @@
     color: var(--main-accent-color);
 }
 
-.important-chat,
+.important-chat img,
 .recent-chat img {
     min-width: 40px;
     min-height: 40px;

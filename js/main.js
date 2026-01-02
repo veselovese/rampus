@@ -1,3 +1,5 @@
+const ws = new WebSocket('ws://localhost:2346');
+
 $(document).ready(function () {
     $('.wall__user-posts.current-post').on('click', '.unliked', function () {
         const postId = $(this).attr('id');

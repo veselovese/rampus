@@ -1225,6 +1225,11 @@ input.auth-and-reg::placeholder {
     transform: scale(95%);
 }
 
+@media (min-width: 1900px) {
+    .wrapper {
+        max-width: 188rem;
+    }
+}
 
 @media (max-width: 1320px) {
     .wrapper {
