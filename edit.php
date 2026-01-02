@@ -4,18 +4,18 @@ session_start();
 require_once('back-files/connect.php');
 
 if (isset($_SESSION['user'])) {
-    $id = $_SESSION['user']['id'];
-    $result = $connect->query("SELECT * FROM users WHERE id = $id");
-    if ($result->num_rows > 0) {
-        while ($row = $result->fetch_assoc()) {
-            $username = $row["username"];
-            $email = $row["email"];
-            $description = $row["description"];
-            $first_name = $row["first_name"];
-            $second_name = $row["second_name"];
-            $current_avatar = $row["avatar"];
-            $level = $row["blossom_level"];
-        }
+    $current_user_id = $_SESSION['user']['id'];
+    $current_user_username = $_SESSION['user']['username'];
+    $current_user_first_name = $_SESSION['user']['first_name'];
+    $current_user_second_name = $_SESSION['user']['second_name'];
+    $current_user_description = $_SESSION['user']['description'];
+    $current_user_avatar = $_SESSION['user']['avatar'];
+
+    $result_current_user_blossom = $connect->query("SELECT blossom_level, blossom_progress FROM users WHERE id = $current_user_id LIMIT 1");
+    if ($result_current_user_blossom->num_rows > 0) {
+        $row_current_user_blossom = $result_current_user_blossom->fetch_assoc();
+        $current_user_blossom_level = $row_current_user_blossom["blossom_level"];
+        $current_user_blossom_progress = $row_current_user_blossom["blossom_progress"];
     }
 } ?>
 
@@ -50,7 +50,7 @@ if (isset($_SESSION['user'])) {
                         <div class="profile__user-info">
                             <form action="./back-files/edit-profile" method="post" enctype="multipart/form-data" class="edit__form" autocomplete='off'>
                                 <div class="edit__user-avatar">
-                                    <img class="avatar edit" id="current-avatar" src="uploads/avatar/small_<?= $avatar ?>">
+                                    <img class="avatar edit" id="current-avatar" src="uploads/avatar/small_<?= $current_user_avatar ?>">
                                     <div class="edit__upload-avatar">
                                         <input type="file" name="avatar" id="user-avatar">
                                     </div>
@@ -60,28 +60,28 @@ if (isset($_SESSION['user'])) {
                                     <div class="user-first-and-second-names">
                                         <label>
                                             Имя
-                                            <input type="text" class="" name="first-name" value="<?= $first_name ?>" require>
+                                            <input type="text" class="" name="first-name" value="<?= $current_user_first_name ?>" require>
                                         </label>
                                         <label>
                                             Фамилия
-                                            <input type="text" class="" name="second-name" value="<?= $second_name ?>" require>
+                                            <input type="text" class="" name="second-name" value="<?= $current_user_second_name ?>" require>
                                         </label>
                                     </div>
                                     <label>
                                         Описание
-                                        <input type="text" class="" name="description" value="<?= $description ?>" require>
+                                        <input type="text" class="" name="description" value="<?= $current_user_description ?>" require>
                                     </label>
-                                    <?php if ($level >= 2) { ?>
+                                    <?php if ($current_user_blossom_level >= 2) { ?>
                                         <label id="reg__lable_id">
                                             ID (имя пользователя)
-                                            <input type="text" class="" name="username" value="<?= $username ?>" id="reg__id" data-username="<?= $username ?>" require>
+                                            <input type="text" class="" name="username" value="<?= $current_user_username ?>" id="reg__id" data-username="<?= $current_user_username ?>" require>
                                             <span class="at">@</span>
                                             <div><span id="reg__id_on-or-off">Такой ID свободен</span></div>
                                         </label>
                                     <?php } else { ?>
                                         <label id="reg__lable_id" class="blocked">
                                             ID (доступно со 2 уровня)
-                                            <input type="text" class="" value="<?= $username ?>" id="reg__id">
+                                            <input type="text" class="" value="<?= $current_user_username ?>" id="reg__id">
                                             <span class="at">@</span>
                                         </label>
                                     <?php } ?>

@@ -57,16 +57,21 @@ if (avatarSecurity($avatar)) {
         imagejpeg($tmp2, $new_uploadfile2, 100);
         $sql = "UPDATE users SET avatar = '$name' WHERE id = $userid";
         $result = $connect->query($sql);
+        $_SESSION['user']['avatar'] = $name;
     }
 }
 
 if (isset($_POST['username'])) {
     $sql = "UPDATE users SET first_name = '$first_name', second_name = '$second_name', description = '$description', username = '$username' WHERE id = $userid";
-    $result = $connect->query($sql);
 } else {
     $sql = "UPDATE users SET first_name = '$first_name', second_name = '$second_name', description = '$description' WHERE id = $userid";
-    $result = $connect->query($sql);
 }
+
+$result = $connect->query($sql);
+$_SESSION['user']['first_name'] = $first_name;
+$_SESSION['user']['second_name'] = $second_name;
+$_SESSION['user']['username'] = $username;
+$_SESSION['user']['description'] = $description;
 
 header('Location: ../profile');
 exit();
