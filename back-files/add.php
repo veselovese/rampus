@@ -5,10 +5,10 @@ require('blossoming.php');
 
 $user_id = $_SESSION['user']['id'];
 
-if (isset($_POST['post'])) $text_post = $_POST['post'];
-if (isset($_POST['post-mode'])) $post_mode = $_POST['post-mode'];
-if (isset($_POST['post-source'])) $post_source = $_POST['post-source'];
-if (isset($_POST['post-search'])) $post_search = $_POST['post-search'];
+if (isset($_POST['post'])) $text_post = mysqli_real_escape_string($connect, $_POST['post']);
+if (isset($_POST['post-mode'])) $post_mode = mysqli_real_escape_string($connect, $_POST['post-mode']);
+if (isset($_POST['post-source'])) $post_source = mysqli_real_escape_string($connect, $_POST['post-source']);
+if (isset($_POST['post-search'])) $post_search = mysqli_real_escape_string($connect, $_POST['post-search']);
 if (isset($_FILES['post-image']) && $_FILES['post-image']['name'] != '') {
     $post_image = $_FILES['post-image'];
     $type = $post_image['type'];
@@ -56,8 +56,8 @@ if (isset($_FILES['post-image']) && $_FILES['post-image']['name'] != '' && isset
 
             $result = mysqli_query($connect, "INSERT INTO posts (hashtag_id, text, user_id, for_friends, img) VALUES ($hashtag_id, '$text_without_hashtags', $user_id, '$for_friends', '$name');");
             $current_id = $connect->query("SELECT @@IDENTITY AS id")->fetch_assoc()['id'];
-            
-            blossoming($user_id, 'add-post', $connect);
+
+            blossoming('add-post', $user_id, $connect);
 
             if (!$result) {
                 echo "Error: " . mysqli_error($connect);
@@ -131,8 +131,8 @@ if ((!isset($_FILES['post-image']) || $_FILES['post-image']['name'] == '') && is
 
         $result = mysqli_query($connect, "INSERT INTO posts (hashtag_id, text, user_id, for_friends, img) VALUES ($hashtag_id, '$text_without_hashtags', $user_id, '$for_friends', '$name');");
         $current_id = $connect->query("SELECT @@IDENTITY AS id")->fetch_assoc()['id'];
-        
-        blossoming($user_id, 'add-post', $connect);
+
+        blossoming('add-post', $user_id, $connect);
 
         if (!$result) {
             echo "Error: " . mysqli_error($connect);

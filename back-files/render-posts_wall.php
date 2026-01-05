@@ -30,6 +30,7 @@ $sql_post = "SELECT
     users.second_name AS author_second_name,
     users.avatar AS author_avatar,
     users.username AS author_username,
+    users.plat_status AS author_plat_status,
     posts.img AS content_image,
     posts.for_friends AS for_friends,
 
@@ -77,6 +78,7 @@ if ($result_post->num_rows > 0) {
             $content_likes = $row_post["content_likes"];
             $content_reposts = $row_post["content_reposts"];
             $content_username = $row_post["author_username"];
+            $other_user_plat_status = $row_post["author_plat_status"];
             $content_first_name = $row_post["author_first_name"];
             $content_second_name = $row_post["author_second_name"];
             $content_avatar = $row_post["author_avatar"];
@@ -95,18 +97,17 @@ if ($result_post->num_rows > 0) {
             echo "<a href='./user/$content_username'><img class='avatar' src='uploads/avatar/thin_" . $content_avatar . "'></a>";
             if ($content_type == 'repost') echo "<a href='./user/$content_repost_username' class='avatar-repost-link'><img class='avatar repost' src='uploads/avatar/thin_" . $content_repost_avatar . "'></a>";
             echo "<div class='name-and-date'>";
+            $trust_mark = $content_username == 'rampus' || $content_username == 'help' ? ' trust' : '';
             if ($content_first_name || $content_second_name) {
-                if ($content_username == 'rampus') {
-                    echo "<a href='./user/$content_username' class='first-and-second-names rampus'>" . $content_first_name . " " . $content_second_name . "</a>";
-                } else {
-                    echo "<a href='./user/$content_username' class='first-and-second-names'>" . $content_first_name . " " . $content_second_name . "</a>";
-                }
+                echo "<div class='f-and-s-names-and-plat'>";
+                echo "<a href='./user/$content_username' class='first-and-second-names $trust_mark'>" . $content_first_name . " " . $content_second_name . "</a>";
+                require('../components/plat-status.php');
+                echo "</div>";
             } else {
-                if ($content_username == 'rampus') {
-                    echo "<a href='./user/$content_username' class='first-and-second-names rampus'>@" . $content_username . "</a>";
-                } else {
-                    echo "<a href='./user/$content_username' class='first-and-second-names'>@" . $content_username . "</a>";
-                }
+                echo "<div class='f-and-s-names-and-plat '>";
+                echo "<a href='./user/$content_username' class='first-and-second-names $trust_mark'>@" . $content_username . "</a>";
+                require('../components/plat-status.php');
+                echo "</div>";
             }
             echo "<div class='extra-post-info'>";
             echo "<span>" . $content_date . "</span>";

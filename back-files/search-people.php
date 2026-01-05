@@ -6,10 +6,10 @@ require('find-user-position-in-top.php');
 $current_user_id = $_SESSION['user']['id'];
 
 if (isset($_POST["people"])) {
-    $sql_people = "SELECT *
+    $sql_people = "SELECT id, username, first_name, second_name, avatar, plat_status
     FROM users WHERE users.username LIKE '%" . $_POST["people"] . "%' OR users.first_name LIKE '%" . $_POST["people"] . "%' OR users.second_name LIKE '%" . $_POST["people"] . "%' ORDER BY first_name";
 } else {
-    $sql_people = "SELECT *
+    $sql_people = "SELECT id, username, first_name, second_name, avatar, plat_status
     FROM users ORDER BY first_name";
 }
 
@@ -37,6 +37,7 @@ if ($result_people->num_rows > 0) {
             $other_user_in_top = findUserPositionInTop($other_user_id, $connect);
             $other_user_username = $row_people['username'];
             $other_user_avatar = $row_people['avatar'];
+            $other_user_plat_status = $row_people['plat_status'];
             $other_user_first_name = $row_people['first_name'];
             $other_user_second_name = $row_people['second_name'];
             echo "<li class='user' onclick='openOtherUserProfile(event, `$other_user_username`)'>";
@@ -44,9 +45,17 @@ if ($result_people->num_rows > 0) {
             echo "<div class='current-user-info'>";
             $trust_mark = $other_user_username == 'rampus' || $other_user_username == 'help' ? ' trust' : '';
             if ($other_user_first_name || $other_user_second_name) {
+                echo "<div class='f-and-s-names-and-plat'>";
                 echo "<p class='$trust_mark'>$other_user_first_name $other_user_second_name</p>";
+                require('../components/plat-status.php');
+                echo "</div>";
+                echo "<p class='$trust_mark'>@<span>$other_user_username</span></p>";
+            } else {
+                echo "<div class='f-and-s-names-and-plat'>";
+                echo "<p class='$trust_mark'>@<span>$other_user_username</span></p>";
+                require('../components/plat-status.php');
+                echo "</div>";
             }
-            echo "<p class='$trust_mark'>@<span>$other_user_username</span></p>";
             if ($other_user_username == 'rampus' || $other_user_username == 'help') {
                 echo "<img class='status' src='pics/SuperUserIcon.svg'>";
             } else {

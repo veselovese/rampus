@@ -2,9 +2,9 @@
 require_once('blossoming.php');
 
 if (isset($_POST['reposted'])) {
-    $post_id = $_POST['postId'];
+    $post_id = mysqli_real_escape_string($connect, $_POST['postId']);
     $user_id = $_SESSION['user']['id'];
-    $sql_reposted = "SELECT * FROM posts WHERE id = $post_id";
+    $sql_reposted = "SELECT user_id, for_friends, text, img, hashtag_id, repost_user_id, repost_post_id, reposts FROM posts WHERE id = $post_id LIMIT 1";
     $result_reposted = $connect->query($sql_reposted);
     $row_reposted = $result_reposted->fetch_array();
     $reposts = $row_reposted['reposts'];
@@ -38,10 +38,9 @@ if (isset($_POST['reposted'])) {
                 $connect->query("UPDATE posts SET reposts = reposts + 1 WHERE id = $post_id");
                 $connect->query("UPDATE posts SET reposts = reposts + 1 WHERE id = $repost_repost_post_id");
 
-                // $other_id = $connect->query("SELECT user_id FROM posts WHERE id = $post_id")->fetch_assoc()['user_id'];
-
-                // blossoming($user_id, 'liked-post', $connect);
-                // blossoming($other_id, 'is-liked-by', $connect);
+                blossoming('repost-post', $user_id,  $connect);
+                blossoming('is-reposted-by', $repost_user_id, $connect);
+                blossoming('is-reposted-by', $repost_repost_user_id, $connect);
 
                 echo $reposts + 1;
             } else {
@@ -64,10 +63,8 @@ if (isset($_POST['reposted'])) {
 
                 $connect->query("UPDATE posts SET reposts = $reposts + 1 WHERE id = $post_id");
 
-                // $other_id = $connect->query("SELECT user_id FROM posts WHERE id = $post_id")->fetch_assoc()['user_id'];
-
-                // blossoming($user_id, 'liked-post', $connect);
-                // blossoming($other_id, 'is-liked-by', $connect);
+                blossoming('repost-post', $user_id, $connect);
+                blossoming('is-reposted-by', $repost_user_id, $connect);
 
                 echo $reposts + 1;
             } else {
@@ -82,7 +79,7 @@ if (isset($_POST['reposted'])) {
 if (isset($_POST['unreposted'])) {
     $post_id = $_POST['postId'];
     $user_id = $_SESSION['user']['id'];
-    $sql_reposted = "SELECT * FROM posts WHERE id = $post_id";
+    $sql_reposted = "SELECT user_id, for_friends, text, img, hashtag_id, repost_user_id, repost_post_id, reposts FROM posts WHERE id = $post_id LIMIT 1";
     $result_reposted = $connect->query($sql_reposted);
     $row_reposted = $result_reposted->fetch_array();
     $reposts = $row_reposted['reposts'];
@@ -112,10 +109,9 @@ if (isset($_POST['unreposted'])) {
                 $connect->query("UPDATE posts SET reposts = reposts - 1 WHERE id = $post_id");
                 $connect->query("UPDATE posts SET reposts = reposts - 1 WHERE id = $repost_repost_post_id");
 
-                // $other_id = $connect->query("SELECT user_id FROM posts WHERE id = $post_id")->fetch_assoc()['user_id'];
-
-                // blossoming($user_id, 'liked-post', $connect);
-                // blossoming($other_id, 'is-liked-by', $connect);
+                blossoming('unrepost-post', $user_id,  $connect);
+                blossoming('is-unreposted-by', $repost_user_id, $connect);
+                blossoming('is-unreposted-by', $repost_repost_user_id, $connect);
 
                 echo $reposts - 1;
             }
@@ -129,12 +125,14 @@ if (isset($_POST['unreposted'])) {
                 $row_repost_post_id = $result_repost_post_id->fetch_array();
                 $repost_post_id = $row_repost_post_id['id'];
 
-                $sql_check_another_repost = "SELECT id FROM posts WHERE repost_post_id = $post_id";
+                $sql_check_another_repost = "SELECT id, user_id FROM posts WHERE repost_post_id = $post_id";
                 $result_check_another_repost = $connect->query($sql_check_another_repost);
                 if ($result_check_another_repost->num_rows > 0) {
                     while ($row_repost_post_id = $result_check_another_repost->fetch_assoc()) {
                         $repost_id = $row_repost_post_id["id"];
+                        $repost_other_user_id = $row_repost_post_id["user_id"];
                         if ($connect->query("SELECT id FROM reposts WHERE user_id = $user_id AND post_id = $repost_id")->num_rows == 1) {
+                            blossoming('is-unreposted-by', $repost_other_user_id, $connect);
                             $connect->query("DELETE FROM reposts WHERE user_id = $user_id AND post_id = $repost_id");
                             if ($connect->query("SELECT id FROM reposts WHERE user_id = $user_id AND post_id = $repost_id")->num_rows == 0) {
                                 $connect->query("UPDATE posts SET reposts = reposts - 1 WHERE id = $repost_id");
@@ -146,10 +144,8 @@ if (isset($_POST['unreposted'])) {
                 $connect->query("UPDATE posts SET status = 1 WHERE id = $repost_post_id");
                 $connect->query("UPDATE posts SET reposts = reposts - 1 WHERE id = $post_id");
 
-                // $other_id = $connect->query("SELECT user_id FROM posts WHERE id = $post_id")->fetch_assoc()['user_id'];
-
-                // blossoming($user_id, 'liked-post', $connect);
-                // blossoming($other_id, 'is-liked-by', $connect);
+                blossoming('unrepost-post', $user_id,  $connect);
+                blossoming('is-unreposted-by', $repost_user_id, $connect);
 
                 echo $reposts - 1;
             }

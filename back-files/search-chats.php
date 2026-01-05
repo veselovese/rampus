@@ -17,7 +17,7 @@ if (isset($_POST["people"])) {
     $sql_chats = "SELECT 
         ch.id AS chat_id,
         friends.friend_id AS interlocutor_id,
-        u.id AS user_id, u.first_name AS user_first_name, u.second_name AS user_second_name, u.username AS user_username, u.avatar AS user_avatar, 
+        u.id AS user_id, u.first_name AS user_first_name, u.second_name AS user_second_name, u.username AS user_username, u.plat_status AS user_plat_status, u.avatar AS user_avatar, 
         lm.message AS last_message, lm.send_date AS last_message_date, lm.read_status AS last_message_read_status,
     IFNULL(SUM(CASE WHEN m.read_status = 0 AND m.user_id_to = $current_user_id THEN 1 END), 0) AS unread_messages,
     CASE WHEN ch.id IS NOT NULL THEN 1 ELSE 0 END AS chat_exists
@@ -70,8 +70,9 @@ if ($result_chats->num_rows > 0) {
         $chat_id = $row_chats['chat_id'];
         $other_user_username = $row_chats['user_username'];
         $avatar = $row_chats['user_avatar'];
-        $first_name = $row_chats['user_first_name'];
-        $second_name = $row_chats['user_second_name'];
+        $other_user_first_name = $row_chats['user_first_name'];
+        $other_user_second_name = $row_chats['user_second_name'];
+        $other_user_plat_status = $row_chats['user_plat_status'];
         $unread_messages = $row_chats['unread_messages'];
         $read_status = $row_chats['last_message_read_status'];
         $last_message = $row_chats['last_message'];
@@ -81,15 +82,15 @@ if ($result_chats->num_rows > 0) {
         echo "<div class='current-chat-info'>";
         echo "<div class='current-user-info'>";
         echo "<div class='user-name-and-status'>";
-        if ($other_user_username == 'rampus') {
-            echo "<p class='rampus'>$first_name $second_name</p>";
+        echo "<div class='f-and-s-names-and-plat'>";
+        $trust_mark = $other_user_username == 'rampus' || $other_user_username == 'help' ? ' trust' : '';
+        if ($other_user_first_name || $other_user_second_name) {
+            echo "<p class='$trust_mark'>$other_user_first_name $other_user_second_name</p>";
         } else {
-            if ($first_name || $second_name) {
-                echo "<p class='chat__user-info'>$first_name $second_name</p>";
-            } else {
-                echo "<p class='chat__user-info'>@<span>$other_user_username</span></p>";
-            }
+            echo "<p class='$trust_mark'>@<span>$other_user_username</span></p>";
         }
+        require('../components/plat-status.php');
+        echo "</div>";
         if ($other_user_username == 'rampus' || $other_user_username == 'help') {
             echo "<img class='status' src='pics/SuperUserIcon.svg'>";
         } else {

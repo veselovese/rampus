@@ -1238,6 +1238,52 @@ input.auth-and-reg::placeholder {
     transform: scale(95%);
 }
 
+.f-and-s-names-and-plat {
+    display: flex;
+    align-items: center;
+    gap: 0.625rem;
+    position: relative;
+    max-width: fit-content;
+}
+
+#plat-status {
+    font-family: 'Unbounded';
+    background: linear-gradient(45deg, #050310, #5a1f8c, #083a8c);
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--block-color);
+    border-radius: 0.625rem;
+    padding: 0.39rem 0.625rem;
+    text-align: center;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+#plat-status-desc {
+    position: absolute;
+    min-width: max-content;
+    top: 0;
+    right: calc(-28.7rem - 0.39rem);
+    background: linear-gradient(45deg, #050310, #5a1f8c, #083a8c);
+    padding: 1rem 1.6rem;
+    border-radius: calc(1rem);
+    box-shadow: var(--shadow-popup);
+    cursor: default;
+    pointer-events: none;
+    opacity: 0;
+    transition: 0.2s;
+    font-size: 1.1rem;
+    color: var(--block-color);
+}
+
+#plat-status:hover {
+    opacity: 80%;
+}
+
+#plat-status:hover~#plat-status-desc {
+    opacity: 1;
+}
+
 @media (min-width: 1900px) {
     .wrapper {
         max-width: 188rem;

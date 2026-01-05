@@ -25,7 +25,7 @@ if (!isset($_SESSION['user'])) {
     }
 }
 
-$result_other_user = $connect->query("SELECT id, first_name, second_name, description, avatar, blossom_level, blossom_progress FROM users WHERE username = '$other_user_username' LIMIT 1");
+$result_other_user = $connect->query("SELECT id, first_name, second_name, description, avatar, plat_status, blossom_level, blossom_progress FROM users WHERE username = '$other_user_username' LIMIT 1");
 
 if ($result_other_user->num_rows > 0) {
     $row_other_user = $result_other_user->fetch_assoc();
@@ -34,6 +34,7 @@ if ($result_other_user->num_rows > 0) {
     $other_user_first_name = $row_other_user["first_name"];
     $other_user_second_name = $row_other_user["second_name"];
     $other_user_avatar = $row_other_user["avatar"];
+    $other_user_plat_status = $row_other_user["plat_status"];
     $other_user_blossom_level = $row_other_user["blossom_level"];
     $other_user_blossom_progress = $row_other_user["blossom_progress"];
 } else {
@@ -112,27 +113,21 @@ $result_other_user_trophies_list_mobile = $connect->query($sql_other_user_trophi
                             <div class="profile-userinfo">
                                 <img class="avatar" src="../uploads/avatar/small_<?= $other_user_avatar ?>">
                                 <div class="textinfo">
-                                    <?php if ($other_user_first_name && $other_user_second_name) { ?>
-                                        <p class='first-and-second-names'><?= $other_user_first_name . " " . $other_user_second_name ?></p>
-                                        <div>
-                                            <p class="username" onclick='copyLinkToUserAddReturnMessage("<?= $other_user_username ?>")'>@<?= $other_user_username ?></p>
-                                            <span id="copy-link-status">Копировать ссылку</span>
+                                    <?php if ($other_user_first_name || $other_user_second_name) { ?>
+                                        <div class="f-and-s-names-and-plat">
+                                            <p class='first-and-second-names'><?= $other_user_first_name . " " . $other_user_second_name ?></p>
+                                            <?php require('components/plat-status.php'); ?>
                                         </div>
-                                    <?php } else if ($other_user_first_name) { ?>
-                                        <p class='first-and-second-names'><?= $other_user_first_name ?></p>
-                                        <div>
-                                            <p class="username" onclick='copyLinkToUserAddReturnMessage("<?= $other_user_username ?>")'>@<?= $other_user_username ?></p>
-                                            <span id="copy-link-status">Копировать ссылку</span>
-                                        </div>
-                                    <?php } else if ($other_user_second_name) { ?>
-                                        <p class='first-and-second-names'><?= $other_user_second_name ?></p>
                                         <div>
                                             <p class="username" onclick='copyLinkToUserAddReturnMessage("<?= $other_user_username ?>")'>@<?= $other_user_username ?></p>
                                             <span id="copy-link-status">Копировать ссылку</span>
                                         </div>
                                     <?php } else { ?>
                                         <div>
-                                            <p class="username without-first-and-second-names" onclick='copyLinkToUserAddReturnMessage("<?= $other_user_username ?>")'>@<span><?= $other_user_username ?></span></p>
+                                            <div class="f-and-s-names-and-plat">
+                                                <p class="username without-first-and-second-names" onclick='copyLinkToUserAddReturnMessage("<?= $other_user_username ?>")'>@<span><?= $other_user_username ?></span></p>
+                                                <?php require('components/plat-status.php'); ?>
+                                            </div>
                                             <span id="copy-link-status">Копировать ссылку</span>
                                         </div>
                                     <?php } ?>

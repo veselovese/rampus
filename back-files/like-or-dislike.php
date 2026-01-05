@@ -2,7 +2,7 @@
 require_once('blossoming.php');
 
 if (isset($_POST['liked'])) {
-    $post_id = $_POST['postId'];
+    $post_id = mysqli_real_escape_string($connect, $_POST['postId']);
     $user_id = $_SESSION['user']['id'];
     $sql_liked = "SELECT * FROM posts WHERE id = $post_id";
     $result_liked = $connect->query($sql_liked);
@@ -15,8 +15,8 @@ if (isset($_POST['liked'])) {
 
         $other_id = $connect->query("SELECT user_id FROM posts WHERE id = $post_id")->fetch_assoc()['user_id'];
 
-        blossoming($user_id, 'liked-post', $connect);
-        blossoming($other_id, 'is-liked-by', $connect);
+        blossoming('like-post', $user_id, $connect);
+        blossoming('is-liked-by', $other_id,  $connect);
 
         echo $likes + 1;
     }
@@ -25,7 +25,7 @@ if (isset($_POST['liked'])) {
 }
 
 if (isset($_POST['unliked'])) {
-    $post_id = $_POST['postId'];
+    $post_id = mysqli_real_escape_string($connect, $_POST['postId']);
     $user_id = $_SESSION['user']['id'];
     $sql_liked = "SELECT * FROM posts WHERE id = $post_id";
     $result_liked = $connect->query($sql_liked);
@@ -35,12 +35,12 @@ if (isset($_POST['unliked'])) {
     if ($connect->query("SELECT id FROM likes_on_posts WHERE post_id = $post_id AND user_id = $user_id")->num_rows != 0) {
         $connect->query("DELETE FROM likes_on_posts WHERE post_id = $post_id AND user_id = $user_id");
         $connect->query("UPDATE posts SET likes = $likes - 1 WHERE id = $post_id");
-        
+
         $other_id = $connect->query("SELECT user_id FROM posts WHERE id = $post_id")->fetch_assoc()['user_id'];
 
-        blossoming($user_id, 'disliked-post', $connect);
-        blossoming($other_id, 'is-disliked-by', $connect);
-        
+        blossoming('dislike-post', $user_id,  $connect);
+        blossoming('is-disliked-by', $other_id, $connect);
+
         echo $likes - 1;
     }
 

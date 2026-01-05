@@ -16,6 +16,7 @@ if (isset($_SESSION['user'])) {
     $current_user_first_name = $_SESSION['user']['first_name'];
     $current_user_second_name = $_SESSION['user']['second_name'];
     $current_user_avatar = $_SESSION['user']['avatar'];
+    $other_user_plat_status = $_SESSION['user']['plat_status'];
 
     $result_current_user_blossom = $connect->query("SELECT blossom_level, blossom_progress FROM users WHERE id = $current_user_id LIMIT 1");
     if ($result_current_user_blossom->num_rows > 0) {
@@ -81,27 +82,21 @@ if (isset($_SESSION['user'])) {
                             <div class="profile-userinfo">
                                 <img class="avatar" src="uploads/avatar/small_<?= $current_user_avatar ?>">
                                 <div class="textinfo">
-                                    <?php if ($current_user_first_name && $current_user_second_name) { ?>
-                                        <p class='first-and-second-names'><?= $current_user_first_name . " " . $current_user_second_name ?></p>
-                                        <div>
-                                            <p class="username" onclick='copyLinkToUserAddReturnMessage("<?= $current_user_username ?>")'>@<?= $current_user_username ?></p>
-                                            <span id="copy-link-status">Копировать ссылку</span>
+                                    <?php if ($current_user_first_name || $current_user_second_name) { ?>
+                                        <div class="f-and-s-names-and-plat">
+                                            <p class='first-and-second-names'><?= $current_user_first_name . " " . $current_user_second_name ?></p>
+                                            <?php require('components/plat-status.php'); ?>
                                         </div>
-                                    <?php } else if ($current_user_first_name) { ?>
-                                        <p class='first-and-second-names'><?= $current_user_first_name ?></p>
-                                        <div>
-                                            <p class="username" onclick='copyLinkToUserAddReturnMessage("<?= $current_user_username ?>")'>@<?= $current_user_username ?></p>
-                                            <span id="copy-link-status">Копировать ссылку</span>
-                                        </div>
-                                    <?php } else if ($current_user_second_name) { ?>
-                                        <p class='first-and-second-names'><?= $current_user_second_name ?></p>
                                         <div>
                                             <p class="username" onclick='copyLinkToUserAddReturnMessage("<?= $current_user_username ?>")'>@<?= $current_user_username ?></p>
                                             <span id="copy-link-status">Копировать ссылку</span>
                                         </div>
                                     <?php } else { ?>
                                         <div>
-                                            <p class="username without-first-and-second-names" onclick='copyLinkToUserAddReturnMessage("<?= $current_user_username ?>")'>@<span><?= $current_user_username ?></span></p>
+                                            <div class="f-and-s-names-and-plat">
+                                                <p class="username without-first-and-second-names" onclick='copyLinkToUserAddReturnMessage("<?= $current_user_username ?>")'>@<span><?= $current_user_username ?></span></p>
+                                                <?php require('components/plat-status.php'); ?>
+                                            </div>
                                             <span id="copy-link-status">Копировать ссылку</span>
                                         </div>
                                     <?php } ?>

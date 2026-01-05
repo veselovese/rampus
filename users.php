@@ -11,7 +11,7 @@ if (isset($_SESSION['user'])) {
     $current_user_in_top = findUserPositionInTop($current_user_id, $connect);
     $current_user_blossom_level = $connect->query("SELECT blossom_level FROM users WHERE id = '$current_user_id'")->fetch_assoc()['blossom_level'];
 
-    $sql_top = "SELECT username, first_name, second_name, avatar, blossom_level FROM users ORDER BY blossom_level DESC, blossom_progress DESC";
+    $sql_top = "SELECT username, first_name, second_name, avatar, plat_status, blossom_level FROM users ORDER BY blossom_level DESC, blossom_progress DESC";
     $result_top = $connect->query($sql_top);
     $users_counter = $connect->query("SELECT 1 FROM users")->num_rows;
 }
@@ -73,6 +73,7 @@ if (isset($_SESSION['user'])) {
                                         $other_user_first_name = $row['first_name'];
                                         $other_user_second_name = $row['second_name'];
                                         $other_user_username = $row['username'];
+                                        $other_user_plat_status = $row['plat_status'];
                                         $other_user_avatar = $row['avatar'];
                                         $other_user_blossom_level = $row['blossom_level'];
                                         echo "<li class='user' onclick='openOtherUserProfile(event, `$other_user_username`)'>";
@@ -100,9 +101,17 @@ if (isset($_SESSION['user'])) {
                                         echo "<div class='current-user-info'>";
                                         $trust_mark = $other_user_username == 'rampus' || $other_user_username == 'help' ? ' trust' : '';
                                         if ($other_user_first_name || $other_user_second_name) {
+                                            echo "<div class='f-and-s-names-and-plat'>";
                                             echo "<p class='$trust_mark'>$other_user_first_name $other_user_second_name</p>";
+                                            require('components/plat-status.php');
+                                            echo "</div>";
+                                            echo "<p class='$trust_mark'>@<span>$other_user_username</span></p>";
+                                        } else {
+                                            echo "<div class='f-and-s-names-and-plat'>";
+                                            echo "<p class='$trust_mark'>@<span>$other_user_username</span></p>";
+                                            require('components/plat-status.php');
+                                            echo "</div>";
                                         }
-                                        echo "<p class='$trust_mark'>@<span>$other_user_username</span></p>";
                                         if ($other_user_username == 'rampus' || $other_user_username == 'help') {
                                             echo "<img class='status' src='pics/SuperUserIcon.svg'>";
                                         }
