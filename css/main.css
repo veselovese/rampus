@@ -1294,6 +1294,20 @@ input.auth-and-reg::placeholder {
     .reg__buttons span {
         display: none;
     }
+
+    .not-friend .request {
+        font-size: var(--font-size-1);
+        padding: 0.625rem 1rem;
+        min-height: 3rem;
+    }
+
+    .not-friend .request.un-to-friends {
+        background-color: var(--like-button-accent-color);
+        padding: 0;
+        min-width: 3rem;
+        max-width: 3rem;
+        max-height: 3rem;
+    }
 }
 
 @media (max-width: 720px) {

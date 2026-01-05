@@ -22,7 +22,7 @@ session_start();
         header("Location: profile");
         exit();
     } ?>
-    <?php require('header.php'); ?>
+    <?php require_once('components/header.php'); ?>
     <main>
         <section class="wrapper">
             <div class="auth__center">
@@ -59,7 +59,7 @@ session_start();
             </div>
         </section>
     </main>
-    <?php require('footer.php'); ?>
+    <?php require_once('components/footer.php'); ?>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="js/auth.js?v=250"></script>
 </body>

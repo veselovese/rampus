@@ -1,5 +1,9 @@
+<?php
+require_once('back-files/global.php');
+?>
+
 <header>
-    <a class="phone-link" href="http://localhost/rampus/wall"><img src="http://localhost/rampus/pics/RampusLogo.svg"><span>Рампус</span></a>
+    <a class="phone-link" href="<?= $global_url ?>/wall"><img src="<?= $global_url ?>/pics/RampusLogo.svg"><span>Рампус</span></a>
     <div class="third-part-in-header">
         <div>
             <input type="text" name="search-hashtag" id="search-hashtag-in-header" placeholder="Поиск">
@@ -8,7 +12,7 @@
                                                                             } else {
                                                                                 echo null;
                                                                             } ?>">
-            <img id="icon-search-hashtag-in-header" src="http://localhost/rampus/pics/SearchIcon.svg">
+            <img id="icon-search-hashtag-in-header" src="<?= $global_url ?>/pics/SearchIcon.svg">
         </div>
         <ul id="success-search-hashtag-in-header">
         </ul>

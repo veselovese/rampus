@@ -75,7 +75,7 @@ if (!isset($_SESSION['user'])) {
 </head>
 
 <body>
-    <?php require('header.php'); ?>
+    <?php require_once('components/header.php'); ?>
     <main>
         <h1 class="title">Чат с пользователем в Рампус</h1>
         <?php if (!isset($_SESSION['user'])) {

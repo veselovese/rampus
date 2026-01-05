@@ -1,32 +1,20 @@
 <?php
 session_start();
 
-require_once('back-files/connect.php');
 
 if (isset($_SESSION['user'])) {
-    require('back-files/rating-trophies.php');
+    require_once('back-files/connect.php');
     require('back-files/find-user-position-in-top.php');
     require('back-files/get-user-friends.php');
 
-    $user_id = $_SESSION['user']['id'];
-    $result = $connect->query("SELECT * FROM users WHERE id = $user_id");
-    if ($result->num_rows > 0) {
-        while ($row = $result->fetch_assoc()) {
-            $current_username = $row["username"];
-            $current_first_name = $row["first_name"];
-            $current_second_name = $row["second_name"];
-            $current_avatar = $row["avatar"];
-        }
-    }
+    $current_user_id = $_SESSION['user']['id'];
+    $current_user_in_top = findUserPositionInTop($current_user_id, $connect);
+    $current_user_blossom_level = $connect->query("SELECT blossom_level FROM users WHERE id = '$current_user_id'")->fetch_assoc()['blossom_level'];
 
-    $user_in_top = findUserPositionInTop($user_id, $connect);
-    $unread_posts = $_SESSION['user']['unread_posts'];
-    $user_level = $connect->query("SELECT blossom_level FROM users WHERE id = '$user_id'")->fetch_assoc()['blossom_level'];
+    $sql_top = "SELECT username, first_name, second_name, avatar, blossom_level FROM users ORDER BY blossom_level DESC, blossom_progress DESC";
+    $result_top = $connect->query($sql_top);
+    $users_counter = $connect->query("SELECT 1 FROM users")->num_rows;
 }
-
-$sql_top = "SELECT * FROM users ORDER BY blossom_level DESC, blossom_progress DESC";
-$result_top = $connect->query($sql_top);
-$users_counter = $connect->query("SELECT * FROM users")->num_rows;
 ?>
 
 <!DOCTYPE html>
@@ -45,7 +33,7 @@ $users_counter = $connect->query("SELECT * FROM users")->num_rows;
 </head>
 
 <body>
-    <?php require('header.php'); ?>
+    <?php require_once('components/header.php'); ?>
     <main>
         <h1 class="title">Все пользователи в Рампус</h1>
         <?php if (!isset($_SESSION['user'])) {
@@ -64,8 +52,8 @@ $users_counter = $connect->query("SELECT * FROM users")->num_rows;
                             <div class="user-in-top">
                                 <a href="blossom" class="user-in-top-info">
                                     <div>
-                                        <span><?= $user_in_top ?> место</span>
-                                        <span>Cейчас на <?= $user_level ?> уровне</span>
+                                        <span><?= $current_user_in_top ?> место</span>
+                                        <span>Cейчас на <?= $current_user_blossom_level ?> уровне</span>
                                     </div>
                                     <svg class='pointer' width='8' height='13' viewBox='0 0 8 13' fill='none' xmlns='http://www.w3.org/2000/svg'>
                                         <path d='M6.96771 6.03603L1.12165 0.191904C0.865127 -0.0639698 0.449521 -0.0639698 0.192352 0.191904C-0.0641698 0.447777 -0.0641699 0.863383 0.192352 1.11926L5.57471 6.49968L0.192999 11.8801C-0.0635223 12.136 -0.0635224 12.5516 0.192999 12.8081C0.44952 13.064 0.865774 13.064 1.1223 12.8081L6.96836 6.96403C7.22094 6.7108 7.22094 6.28866 6.96771 6.03603Z' />
@@ -82,14 +70,11 @@ $users_counter = $connect->query("SELECT * FROM users")->num_rows;
                                     while ($row = $result_top->fetch_assoc()) {
                                         $counter -= 1;
                                         $counter_top += 1;
-                                        $other_user_id = $row['id'];
                                         $other_user_first_name = $row['first_name'];
                                         $other_user_second_name = $row['second_name'];
                                         $other_user_username = $row['username'];
-                                        $other_user_in_top = findUserPositionInTop($other_user_id, $connect);
-                                        $avatar = $row['avatar'];
-                                        $blossom_level = $row['blossom_level'];
-                                        $blossom_progress = $row['blossom_progress'];
+                                        $other_user_avatar = $row['avatar'];
+                                        $other_user_blossom_level = $row['blossom_level'];
                                         echo "<li class='user' onclick='openOtherUserProfile(event, `$other_user_username`)'>";
                                         switch ($counter_top) {
                                             case 1:
@@ -111,7 +96,7 @@ $users_counter = $connect->query("SELECT * FROM users")->num_rows;
                                                 </svg>";
                                                 break;
                                         }
-                                        echo "<img class='other-user-avatar' src='uploads/avatar/thin_$avatar'>";
+                                        echo "<img class='other-user-avatar' src='uploads/avatar/thin_$other_user_avatar'>";
                                         echo "<div class='current-user-info'>";
                                         $trust_mark = $other_user_username == 'rampus' || $other_user_username == 'help' ? ' trust' : '';
                                         if ($other_user_first_name || $other_user_second_name) {
@@ -120,21 +105,9 @@ $users_counter = $connect->query("SELECT * FROM users")->num_rows;
                                         echo "<p class='$trust_mark'>@<span>$other_user_username</span></p>";
                                         if ($other_user_username == 'rampus' || $other_user_username == 'help') {
                                             echo "<img class='status' src='pics/SuperUserIcon.svg'>";
-                                        } else {
-                                            switch ($other_user_in_top) {
-                                                case 1:
-                                                    // echo "<img class='status' src='pics/BlossomFirstIcon.svg'>";
-                                                    break;
-                                                case 2:
-                                                    // echo "<img class='status' src='pics/BlossomSecondIcon.svg'>";
-                                                    break;
-                                                case 3:
-                                                    // echo "<img class='status' src='pics/BlossomThirdIcon.svg'>";
-                                                    break;
-                                            }
                                         }
                                         echo "</div>";
-                                        echo "<div class='blossom-status'><img src='pics/BlossomIcon.svg'>$blossom_level<span>уровень</span></div>";
+                                        echo "<div class='blossom-status'><img src='pics/BlossomIcon.svg'>$other_user_blossom_level<span>уровень</span></div>";
                                         echo "</li>";
                                         if ($counter > 0) {
                                             echo "<div class='div-line'></div>";
@@ -152,7 +125,7 @@ $users_counter = $connect->query("SELECT * FROM users")->num_rows;
                             <ul id="success-search-people">
                             </ul>
                         </div>
-                        <?php require_once('components/mobile-main-menu.php')?>
+                        <?php require_once('components/mobile-main-menu.php') ?>
                     </div>
                     <div class="third-part">
                         <div>
@@ -167,8 +140,8 @@ $users_counter = $connect->query("SELECT * FROM users")->num_rows;
                                 <p class="third-part-title">Ваша позиция</p>
                                 <a href="blossom" class="user-in-top-info">
                                     <div>
-                                        <span><?= $user_in_top ?> место</span>
-                                        <span>Cейчас на <?= $user_level ?> уровне</span>
+                                        <span><?= $current_user_in_top ?> место</span>
+                                        <span>Cейчас на <?= $current_user_blossom_level ?> уровне</span>
                                     </div>
                                     <svg class="pointer" width="8" height="13" viewBox="0 0 8 13" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <path d="M6.96771 6.03603L1.12165 0.191904C0.865127 -0.0639698 0.449521 -0.0639698 0.192352 0.191904C-0.0641698 0.447777 -0.0641699 0.863383 0.192352 1.11926L5.57471 6.49968L0.192999 11.8801C-0.0635223 12.136 -0.0635224 12.5516 0.192999 12.8081C0.44952 13.064 0.865774 13.064 1.1223 12.8081L6.96836 6.96403C7.22094 6.7108 7.22094 6.28866 6.96771 6.03603Z" />
@@ -179,7 +152,7 @@ $users_counter = $connect->query("SELECT * FROM users")->num_rows;
                     </div>
             </section>
     </main>
-<?php require('footer.php');
+<?php require_once('components/footer.php');
         } ?>
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script src="js/main.js?v=250"></script>

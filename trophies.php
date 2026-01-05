@@ -1,21 +1,12 @@
 <?php
 session_start();
 
-require_once('back-files/connect.php');
-
 if (isset($_SESSION['user'])) {
-    $id = $_SESSION['user']['id'];
-    $result = $connect->query("SELECT * FROM users WHERE id = $id");
-    if ($result->num_rows > 0) {
-        while ($row = $result->fetch_assoc()) {
-            $username = $row["username"];
-            $first_name = $row["first_name"];
-            $second_name = $row["second_name"];
-            $current_avatar = $row["avatar"];
-        }
-    }
+    require_once('back-files/connect.php');
 
-    $sql_trophies = "SELECT id, name, short_description, image, stat_number, DATE_FORMAT(get_date, '%e %M') AS get_date FROM trophies WHERE user_id_to = $id";
+    $current_user_id = $_SESSION['user']['id'];
+
+    $sql_trophies = "SELECT id, name, short_description, image, stat_number, DATE_FORMAT(get_date, '%e %M') AS get_date FROM trophies WHERE user_id_to = $current_user_id";
     $result_trophies = $connect->query($sql_trophies);
 }
 
@@ -37,11 +28,11 @@ if (isset($_SESSION['user'])) {
 </head>
 
 <body>
-    <?php require('header.php'); ?>
+    <?php require_once('components/header.php'); ?>
     <main>
         <h1 class="title">Трофеи пользователя в Рампус</h1>
         <?php if (!isset($_SESSION['user'])) {
-            header("Location: auth?request=people");
+            header("Location: auth?request=profile");
             exit();
         } else { ?>
             <section class="wrapper main-section">
@@ -113,7 +104,7 @@ if (isset($_SESSION['user'])) {
                     </div>
             </section>
     </main>
-<?php require('footer.php');
+<?php require_once('components/footer.php');
         } ?>
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script src="js/main.js?v=250"></script>

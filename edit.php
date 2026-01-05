@@ -36,7 +36,7 @@ if (isset($_SESSION['user'])) {
 </head>
 
 <body>
-    <?php require('header.php'); ?>
+    <?php require_once('components/header.php'); ?>
     <main>
         <h1 class="title">Редактирование профиля пользователя в Рампус</h1>
         <?php if (!isset($_SESSION['user'])) {
@@ -102,7 +102,7 @@ if (isset($_SESSION['user'])) {
                 </div>
             </section>
     </main>
-<?php require('footer.php');
+<?php require_once('components/footer.php');
         } ?>
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script src="js/main.js?v=250"></script>

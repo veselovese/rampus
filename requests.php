@@ -1,23 +1,13 @@
 <?php
 session_start();
 
-require_once('back-files/connect.php');
-require('back-files/rating-trophies.php');
-require_once('back-files/find-user-position-in-top.php');
-
-
 if (isset($_SESSION['user'])) {
+    require_once('back-files/connect.php');
+    require_once('back-files/find-user-position-in-top.php');
+
     $current_user_id = $_SESSION['user']['id'];
-    $result = $connect->query("SELECT * FROM users WHERE id = $current_user_id");
-    if ($result->num_rows > 0) {
-        while ($row = $result->fetch_assoc()) {
-            $username = $row["username"];
-            $first_name = $row["first_name"];
-            $second_name = $row["second_name"];
-            $avatar = $row["avatar"];
-        }
-    }
-    $result_request_to = $connect->query("SELECT * FROM requests JOIN users ON requests.user_id_from = users.id WHERE user_id_to = $current_user_id");
+
+    $result_request_to = $connect->query("SELECT u.id, u.username, u.first_name, u.second_name, u.avatar FROM requests r JOIN users u ON r.user_id_from = u.id WHERE user_id_to = $current_user_id");
 }
 ?>
 
@@ -50,7 +40,7 @@ if (isset($_SESSION['user'])) {
 </head>
 
 <body>
-    <?php require('header.php'); ?>
+    <?php require_once('components/header.php'); ?>
     <main>
         <h1 class="title">Заявки в друзья в Рампус</h1>
         <?php if (!isset($_SESSION['user'])) {
@@ -101,16 +91,16 @@ if (isset($_SESSION['user'])) {
                                     echo "<div class='answer-to-request-div not-friend' id='other-user-friends-buttons'>";
                                     echo "<button type='button' class='request to-friends hide' id='already-in-friends_$other_user_id'>В друзьях</button>";
                                     echo "<div class='request-buttons'>";
-                                    echo "<button type='button' class='request to-friends' id='apply-request-to-friends_$other_user_id'>Принять заявку</button>";
+                                    echo "<button type='button' class='request to-friends' id='apply-request-to-friends_$other_user_id'>Принять</button>";
                                     echo "<button type='button' class='request un-to-friends' id='unrequest-to-friends_$other_user_id'><svg width='10' height='10' viewBox='0 0 10 10' fill='none' xmlns='http://www.w3.org/2000/svg'>
                 <path d='M0.191016 8.88671C-0.0636719 9.14141 -0.0636719 9.55428 0.191016 9.80898C0.445703 10.0637 0.858643 10.0637 1.11333 9.80898L0.191016 8.88671ZM5.46114 5.46114C5.71584 5.20644 5.71584 4.79357 5.46114 4.53888C5.20644 4.28418 4.79357 4.28418 4.53888 4.53888L5.46114 5.46114ZM4.53888 4.53888C4.28418 4.79357 4.28418 5.20644 4.53888 5.46114C4.79357 5.71584 5.20644 5.71584 5.46114 5.46114L4.53888 4.53888ZM9.80898 1.11333C10.0637 0.858644 10.0637 0.445703 9.80898 0.191016C9.55428 -0.0636719 9.14141 -0.0636719 8.88671 0.191016L9.80898 1.11333ZM5.46114 4.53888C5.20644 4.28418 4.79357 4.28418 4.53888 4.53888C4.28418 4.79357 4.28418 5.20644 4.53888 5.46114L5.46114 4.53888ZM8.88671 9.80898C9.14141 10.0637 9.55428 10.0637 9.80898 9.80898C10.0637 9.55428 10.0637 9.14141 9.80898 8.88671L8.88671 9.80898ZM4.53888 5.46114C4.79357 5.71584 5.20644 5.71584 5.46114 5.46114C5.71584 5.20644 5.71584 4.79357 5.46114 4.53888L4.53888 5.46114ZM1.11333 0.191016C0.858643 -0.0636719 0.445703 -0.0636719 0.191016 0.191016C-0.0636719 0.445703 -0.0636719 0.858644 0.191016 1.11333L1.11333 0.191016ZM1.11333 9.80898L5.46114 5.46114L4.53888 4.53888L0.191016 8.88671L1.11333 9.80898ZM5.46114 5.46114L9.80898 1.11333L8.88671 0.191016L4.53888 4.53888L5.46114 5.46114ZM4.53888 5.46114L8.88671 9.80898L9.80898 8.88671L5.46114 4.53888L4.53888 5.46114ZM5.46114 4.53888L1.11333 0.191016L0.191016 1.11333L4.53888 5.46114L5.46114 4.53888Z' />
                 </svg></button>";
-                                    echo "<button type='button' class='request sended hide' id='request-sended_$other_user_id'>Заявка отправлена</button>";
+                                    echo "<button type='button' class='request sended hide' id='request-sended_$other_user_id'>Отправлена</button>";
                                     echo "<button type='button' class='request un-to-friends hide' id='unsend-request-to-friends_$other_user_id'><svg width='10' height='10' viewBox='0 0 10 10' fill='none' xmlns='http://www.w3.org/2000/svg'>
                         <path d='M0.191016 8.88671C-0.0636719 9.14141 -0.0636719 9.55428 0.191016 9.80898C0.445703 10.0637 0.858643 10.0637 1.11333 9.80898L0.191016 8.88671ZM5.46114 5.46114C5.71584 5.20644 5.71584 4.79357 5.46114 4.53888C5.20644 4.28418 4.79357 4.28418 4.53888 4.53888L5.46114 5.46114ZM4.53888 4.53888C4.28418 4.79357 4.28418 5.20644 4.53888 5.46114C4.79357 5.71584 5.20644 5.71584 5.46114 5.46114L4.53888 4.53888ZM9.80898 1.11333C10.0637 0.858644 10.0637 0.445703 9.80898 0.191016C9.55428 -0.0636719 9.14141 -0.0636719 8.88671 0.191016L9.80898 1.11333ZM5.46114 4.53888C5.20644 4.28418 4.79357 4.28418 4.53888 4.53888C4.28418 4.79357 4.28418 5.20644 4.53888 5.46114L5.46114 4.53888ZM8.88671 9.80898C9.14141 10.0637 9.55428 10.0637 9.80898 9.80898C10.0637 9.55428 10.0637 9.14141 9.80898 8.88671L8.88671 9.80898ZM4.53888 5.46114C4.79357 5.71584 5.20644 5.71584 5.46114 5.46114C5.71584 5.20644 5.71584 4.79357 5.46114 4.53888L4.53888 5.46114ZM1.11333 0.191016C0.858643 -0.0636719 0.445703 -0.0636719 0.191016 0.191016C-0.0636719 0.445703 -0.0636719 0.858644 0.191016 1.11333L1.11333 0.191016ZM1.11333 9.80898L5.46114 5.46114L4.53888 4.53888L0.191016 8.88671L1.11333 9.80898ZM5.46114 5.46114L9.80898 1.11333L8.88671 0.191016L4.53888 4.53888L5.46114 5.46114ZM4.53888 5.46114L8.88671 9.80898L9.80898 8.88671L5.46114 4.53888L4.53888 5.46114ZM5.46114 4.53888L1.11333 0.191016L0.191016 1.11333L4.53888 5.46114L5.46114 4.53888Z' />
                         </svg></button>";
                                     echo "</div>";
-                                    echo "<button type='button' class='request to-friends hide' id='request-to-friends_$other_user_id'>Добавить в друзья</button>";
+                                    echo "<button type='button' class='request to-friends hide' id='request-to-friends_$other_user_id'>Отклонена</button>";
                                     echo "</div>";
                                     echo "</li>";
                                     if ($counter > 0) {
@@ -128,7 +118,7 @@ if (isset($_SESSION['user'])) {
                     </div>
             </section>
     </main>
-<?php require('footer.php');
+<?php require_once('components/footer.php');
         } ?>
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script src="js/main.js?v=250"></script>

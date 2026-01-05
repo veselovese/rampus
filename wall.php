@@ -1,31 +1,19 @@
 <?php
 session_start();
 
-require_once('back-files/connect.php');
-
 if (isset($_SESSION['user'])) {
+    require_once('back-files/connect.php');
     require('back-files/like-or-dislike.php');
     require('back-files/repost-or-unrepost.php');
-    require('back-files/rating-trophies.php');
     require('back-files/find-user-position-in-top.php');
     require('back-files/get-user-friends.php');
 
-    $user_id = $_SESSION['user']['id'];
-    $result = $connect->query("SELECT * FROM users WHERE id = $user_id");
-    if ($result->num_rows > 0) {
-        while ($row = $result->fetch_assoc()) {
-            $username = $row["username"];
-            $email = $row["email"];
-            $description = $row["description"];
-            $first_name = $row["first_name"];
-            $second_name = $row["second_name"];
-            $current_avatar = $row["avatar"];
-        }
-    }
-    $user_in_top = findUserPositionInTop($user_id, $connect);
+    $current_user_id = $_SESSION['user']['id'];
+
+    $user_in_top = findUserPositionInTop($current_user_id, $connect);
 
     $_SESSION['user']['unread_posts'] = 0;
-    $connect->query("UPDATE users SET unread_posts = 0 WHERE id = $user_id");
+    $connect->query("UPDATE users SET unread_posts = 0 WHERE id = $current_user_id");
 }
 ?>
 
@@ -45,8 +33,7 @@ if (isset($_SESSION['user'])) {
 </head>
 
 <body>
-    <?php require('header.php'); ?>
-    <main>
+    <?php require_once('components/header.php'); ?> <main>
         <h1 class="title">Посты и репосты на стене в Рампус</h1>
         <?php if (!isset($_SESSION['user'])) {
             header("Location: auth?request=wall");
@@ -158,7 +145,7 @@ if (isset($_SESSION['user'])) {
                     </div>
             </section>
     </main>
-<?php require('footer.php');
+<?php require_once('components/footer.php');
         } ?>
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script src="js/main.js?v=250"></script>

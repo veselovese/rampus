@@ -44,7 +44,7 @@ $friends_counter = $result_friend->num_rows;
 </head>
 
 <body>
-    <?php require('header.php'); ?>
+    <?php require_once('components/header.php'); ?>
     <main>
         <h1 class="title">Чаты с пользователями в Рампус</h1>
         <?php if (!isset($_SESSION['user'])) {
@@ -97,7 +97,7 @@ $friends_counter = $result_friend->num_rows;
                     </div>
             </section>
     </main>
-<?php require('footer.php');
+<?php require_once('components/footer.php');
         } ?>
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script src="js/main.js?v=250"></script>

@@ -1,34 +1,19 @@
 <?php
 session_start();
 
-require_once('back-files/connect.php');
-require_once('back-files/like-or-dislike.php');
-require_once('back-files/find-user-position-in-top.php');
+if (isset($_SESSION['user'])) {
+    require_once('back-files/connect.php');
+    require_once('back-files/like-or-dislike.php');
+    require_once('back-files/find-user-position-in-top.php');
 
+    $current_user_id = $_SESSION['user']['id'];
 
-
-if (!isset($_SESSION['user'])) {
-    header("Location: ../auth");
-    exit();
-} else {
-    $id = $_SESSION['user']['id'];
-    $result = $connect->query("SELECT * FROM users WHERE id = $id");
-    if ($result->num_rows > 0) {
-        while ($row = $result->fetch_assoc()) {
-            $current_username = $row["username"];
-            $current_avatar = $row["avatar"];
-        }
+    $other_user_username = mysqli_real_escape_string($connect, $_GET['username']);
+    $result_other_user_id = $connect->query("SELECT id FROM users WHERE username = '$other_user_username' LIMIT 1");
+    if ($result_other_user_id->num_rows > 0) {
+        $other_user_id = $result_other_user_id->fetch_assoc()["id"];
     }
-}
-
-$other_username = $_GET['username'];
-$result = $connect->query("SELECT * FROM users WHERE username = '$other_username'");
-if ($result->num_rows > 0) {
-    while ($row = $result->fetch_assoc()) {
-        $other_user_id = $row["id"];
-    }
-}
-$result_friend = $connect->query("SELECT u.id AS user_id, u.username AS user_username, u.first_name AS user_first_name, u.second_name AS user_second_name, u.avatar AS user_avatar
+    $result_other_user_friends_list = $connect->query("SELECT u.id AS user_id, u.username AS user_username, u.first_name AS user_first_name, u.second_name AS user_second_name, u.avatar AS user_avatar
 FROM
 (
         SELECT 
@@ -40,6 +25,7 @@ FROM
         WHERE user_id_1 = $other_user_id OR user_id_2 = $other_user_id
     ) friends   
     JOIN users u ON u.id = friends.friend_id");
+}
 ?>
 
 <!DOCTYPE html>
@@ -58,11 +44,11 @@ FROM
 </head>
 
 <body>
-    <?php require('header.php'); ?>
+    <?php require_once('components/header.php'); ?>
     <main>
         <h1 class="title">Друзья пользователя в Рампус</h1>
         <?php if (!isset($_SESSION['user'])) {
-            header("Location: auth?request=people");
+            header("Location: ../auth?request=people");
             exit();
         } else { ?>
             <section class="wrapper main-section">
@@ -70,19 +56,19 @@ FROM
                 <div class="second-and-third-parts">
                     <div class="second-part">
                         <div class="friends__users">
-                            <p>Друзья<span>@<?= $other_username ?></span></p>
-                            <?php if ($result_friend->num_rows > 0) {
+                            <p>Друзья<span>@<?= $other_user_username ?></span></p>
+                            <?php if ($result_other_user_friends_list->num_rows > 0) {
                                 echo "<ul>";
-                                $counter = $result_friend->num_rows;
-                                if ($result_friend->num_rows > 0) {
-                                    while ($row_friend = $result_friend->fetch_assoc()) {
+                                $counter = $result_other_user_friends_list->num_rows;
+                                if ($result_other_user_friends_list->num_rows > 0) {
+                                    while ($row_other_user_friends_list = $result_other_user_friends_list->fetch_assoc()) {
                                         $counter -= 1;
-                                        $other_user_id = $row_friend['user_id'];
+                                        $other_user_id = $row_other_user_friends_list['user_id'];
                                         $other_user_in_top = findUserPositionInTop($other_user_id, $connect);
-                                        $other_user_username = $row_friend['user_username'];
-                                        $other_user_avatar = $row_friend['user_avatar'];
-                                        $other_user_first_name = $row_friend['user_first_name'];
-                                        $other_user_second_name = $row_friend['user_second_name'];
+                                        $other_user_username = $row_other_user_friends_list['user_username'];
+                                        $other_user_avatar = $row_other_user_friends_list['user_avatar'];
+                                        $other_user_first_name = $row_other_user_friends_list['user_first_name'];
+                                        $other_user_second_name = $row_other_user_friends_list['user_second_name'];
                                         echo "<li class='user' onclick='openOtherUserProfileFromOtherProfile(event, `$other_user_username`)'>";
                                         echo "<img class='other-user-avatar' src='../../uploads/avatar/thin_$other_user_avatar'>";
                                         echo "<div class='current-user-info'>";
@@ -124,7 +110,7 @@ FROM
                     </div>
             </section>
     </main>
-<?php require('footer.php');
+<?php require_once('components/footer.php');
         } ?>
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script src="../../js/main.js?v=250"></script>
