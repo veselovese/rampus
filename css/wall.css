@@ -165,6 +165,11 @@
     background-color: var(--like-button-accent-color);
 }
 
+.user-post .three-dots-popup .three-dots-popup-li.edit {
+    opacity: 50%;
+    pointer-events: none;
+}
+
 .user-post p {
     margin: 1.6rem 0 0 0;
     line-height: 100%;
@@ -570,6 +575,10 @@
     text-decoration-thickness: 0.1rem;
 }
 
+.wall__user-info .extra-post-info .repost-info.dot:hover {
+    text-decoration: none;
+}
+
 .wall__user-info div.for-friends {
     display: flex;
     flex-direction: row;
@@ -673,6 +682,10 @@ div.for-friends svg {
 
 .wall__user-info .first-and-second-names {
     font-size: var(--font-size-3);
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    max-width: calc(100vw - 25rem*2 - 10rem - 2.6rem*2 - 2.6rem*2 - 50px - 1.6rem*2 - 28px - 15rem - 1.6rem);
 }
 
 .user-post .first-and-second-names.rampus {
@@ -900,7 +913,7 @@ div.for-friends svg {
     align-items: center;
     position: relative;
     display: none;
-    margin-top: 2.6rem;
+    /* margin-top: 2.6rem; */
     width: 100%;
 
 }
@@ -1200,7 +1213,7 @@ div.for-friends svg {
 
 .only-for-friends-sorry a:hover {
     opacity: 80%;
-} 
+}
 
 @media (max-width: 1320px) {
     .third-part-in-header {
@@ -1231,6 +1244,18 @@ div.for-friends svg {
 
     .wall__user-posts {
         margin-top: 1.6rem;
+    }
+
+    .wall__user-posts.current-post {
+        margin-top: 0;
+    }
+
+    .wall__user-info .first-and-second-names {
+        max-width: calc(100vw - 25rem - 5rem - 2.6rem - 2.6rem*2 - 50px - 1.6rem*2 - 28px - 15rem - 1.6rem);
+    }
+
+    .wall__new-post {
+        width: calc(100% - 25rem - 2.6rem - 5rem - 2.6rem*2);
     }
 }
 
@@ -1268,13 +1293,10 @@ div.for-friends svg {
         display: none
     }
 
-    ;
-
     .wall__comments .other-users .user-comment .date.mobile {
         display: block;
     }
 
-    ;
 
     .wall__comments .other-users .user-comment .date,
     .wall__comments .other-users .user-comment .delete-comment {
@@ -1288,17 +1310,33 @@ div.for-friends svg {
     .third-part-in-header {
         width: 100%;
     }
+
+    .wall__user-info .first-and-second-names {
+        max-width: calc(100vw - 5rem - 2.6rem*2 - 50px - 1.6rem*2 - 28px - 5rem - 1.6rem);
+        font-size: var(--font-size-2);
+    }
+
+    .wall__user-info span.for-friends {
+        display: none;
+    }
+
+    .wall__user-posts {
+        gap: 1.1rem
+    }
+
+    .wall__new-post {
+        width: calc(100% - 5rem);
+        bottom: calc(8.7rem + 1rem + 0.39rem);
+        margin-left: 0;
+        margin-right: 0;
+    }
+
+    header .phone-link span {
+        display: none;
+    }
 }
 
 @media (max-width: 720px) {
-    :root {
-        --font-size-2: 1.6rem
-    }
-
-    .wrapper {
-        max-width: calc(100% - 5rem);
-    }
-
     header {
         justify-content: space-between;
     }
@@ -1315,17 +1353,9 @@ div.for-friends svg {
         margin: 1.6rem 0 1rem;
     }
 
-    .wall__comments .current-user {
-        margin-top: 1.6rem;
-    }
-
     .wall__comments .other-users {
         margin: 1.6rem 0 2.6rem;
         padding-left: 1rem;
-    }
-
-    .user-post img {
-        margin-top: 0.4rem;
     }
 
     .wall__user-info img {
@@ -1352,14 +1382,50 @@ div.for-friends svg {
         min-height: 14px;
         min-width: 14px;
     }
+
+    .wall__user-info div.for-friends {
+        margin-right: 1rem;
+    }
 }
 
 @media (max-width: 480px) {
-    .wrapper {
-        max-width: calc(100% - 3.2rem);
+    .wall__user-posts .user-post {
+        padding: 1rem 1.6rem;
+    }
+
+    .textarea-comment {
+        padding-top: 0.75rem;
+        font-size: var(--font-size-1);
+    }
+
+    .textarea-comment_label {
+        top: 0.75rem;
+        font-size: var(--font-size-1);
     }
 
     .wall-filter-popup-li span {
         display: none;
+    }
+
+    .wall__user-info .first-and-second-names {
+        max-width: calc(100vw - 1.6rem - 1.6rem*2 - 50px - 1.6rem*2 - 28px - 5rem - 1.6rem);
+    }
+
+    .wall__new-post {
+        width: calc(100% - 1.6rem);
+    }
+
+    .user-post .three-dots-popup {
+        top: 1rem;
+        right: calc(1.6rem + 28px + 0.625rem);
+    }
+
+    .wall__user-info .extra-post-info .repost-info.dot {
+        display: none;
+    }
+
+    .wall__user-info .extra-post-info {
+        flex-direction: column;
+        gap: 0;
     }
 }

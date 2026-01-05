@@ -72,6 +72,10 @@
     line-height: 1;
     font-size: var(--font-size-4);
     position: relative;
+    text-overflow: ellipsis;
+    max-width: calc(100%);
+    white-space: nowrap;
+    overflow: hidden;
 }
 
 .profile__user-info .first-and-second-names.rampus {
@@ -139,7 +143,7 @@
 
 .profile-userinfo div:has(.username) {
     position: relative;
-    max-width: max-content;
+    max-width: calc(100% - 250px - 1.6rem - 2.6rem);
 }
 
 #copy-link-status {
@@ -696,43 +700,6 @@ span.for-friends {
 
 .user-post div.post-buttons {
     margin: 0;
-}
-
-.first-part-mobile {
-    display: none;
-    position: sticky;
-    bottom: 1rem;
-    margin: 2.6rem 0 0;
-}
-
-.first-part-mobile ul {
-    list-style: none;
-    padding: 1rem;
-    margin: 0;
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    justify-content: space-around;
-    background-color: var(--block-color);
-    box-shadow: var(--shadow-small);
-    border-radius: 2rem;
-    min-height: 4rem;
-}
-
-.first-part-mobile li a {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 1rem;
-}
-
-.first-part-mobile li a svg {
-    fill: var(--else-text-color-33);
-}
-
-.first-part-mobile #active a svg {
-    fill: var(--main-accent-color);
-    opacity: 100%;
 }
 
 .profile__user-info .three-dots {
@@ -1423,6 +1390,10 @@ span.for-friends {
     .second-part .case {
         display: block;
     }
+
+    .user-post .post-date {
+        opacity: 1;
+    }
 }
 
 @media (max-width: 1080px) {
@@ -1469,6 +1440,20 @@ span.for-friends {
     .current-user-case .trophy {
         width: calc((100% - 1rem*2)/2);
     }
+
+    #success-render-posts,
+    #success-render-other-posts {
+        gap: 1.1rem;
+    }
+
+    .profile__user-posts>div:first-child,
+    .profile__other-user-posts>div:first-child {
+        margin-bottom: 1.6rem;
+    }
+
+    span.for-friends {
+        display: none;
+    }
 }
 
 @media (max-width: 720px) {
@@ -1477,11 +1462,24 @@ span.for-friends {
         --font-size-4: 2.4rem;
     }
 
-    .user-friends div.friends img {
+    .user-friends div.friends .friend-avatar {
         min-width: 50px;
         min-height: 50px;
         max-width: 50px;
         max-height: 50px;
+    }
+
+    .friends .current-friend p {
+        max-width: 5rem;
+    }
+
+    .friend-name-and-status .status {
+        top: 3.3rem;
+        left: 3.4rem;
+        min-height: 19px;
+        max-height: 19px;
+        min-width: 19px;
+        max-width: 19px;
     }
 
     .friends-info div svg,
@@ -1512,12 +1510,21 @@ span.for-friends {
     .profile-userinfo {
         min-height: calc(125px + 2.6rem);
     }
+
+    div.for-friends {
+        margin-right: 1rem;
+    }
 }
 
 @media (max-width: 580px) {
     .profile__user-info {
         flex-direction: column;
         align-items: center;
+    }
+
+    .profile-userinfo div:has(.username) {
+        max-width: 100%;
+
     }
 
     .profile__user-info .username {
@@ -1527,14 +1534,6 @@ span.for-friends {
     .profile__user-info .description,
     .profile__user-info a.description {
         margin-top: 1.6rem;
-    }
-
-    .user-post p {
-        margin-top: 2.8rem;
-    }
-
-    .user-post div.post-buttons {
-        margin: 0;
     }
 
     .profile__user-info .three-dots {
@@ -1566,20 +1565,12 @@ span.for-friends {
         align-items: center;
     }
 
-    .div-show-three-dots-popup.in-profile {
-        position: absolute;
-        right: 2.6rem;
-    }
-
     .profile-userinfo div:has(.username) span {
         top: calc(16px + 0.625rem + 1rem);
     }
 }
 
 @media (max-width: 480px) {
-    .wrapper {
-        max-width: calc(100% - 3.2rem);
-    }
 
     .user-menu-and-third-past-mobile .third-part-mobile .profile__posts p,
     .user-menu-and-third-past-mobile .third-part-mobile .profile__likes p {

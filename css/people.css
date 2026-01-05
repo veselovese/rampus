@@ -138,6 +138,10 @@
     font-weight: 600;
     color: var(--main-text-color);
     font-size: var(--font-size-3);
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    max-width: calc(100vw - 25rem*2 - 10rem - 2.6rem*2 - 2.6rem*2 - 75px - 1.6rem*2 - 15rem);
 }
 
 .requests .current-user-info p {
@@ -928,6 +932,10 @@
     .user-in-top {
         margin: 0 0 0 2.6rem;
     }
+
+    .current-user-info p:first-child {
+        max-width: calc(100vw - 25rem - 5rem - 2.6rem - 2.6rem*2 - 75px - 1.6rem*2 - 15rem);
+    }
 }
 
 @media (max-width: 920px) {
@@ -963,16 +971,16 @@
     .second-and-third-parts .second-part:has(#people-filter-top-mobile:checked) #users-filter-top {
         display: block;
     }
+
+    .current-user-info p:first-child {
+        max-width: calc(100vw - 5rem - 2.6rem*2 - 75px - 1.6rem*2 - 15rem);
+    }
 }
 
 @media (max-width: 720px) {
     :root {
         --font-size-3: 1.6rem;
         --font-size-4: 2.4rem;
-    }
-
-    .wrapper {
-        max-width: calc(100% - 5rem);
     }
 
     header {
@@ -1029,6 +1037,19 @@
         max-height: 24px;
         min-height: 24px;
     }
+
+    .current-user-info p:first-child {
+        max-width: calc(100vw - 5rem - 2.6rem*2 - 50px - 1.6rem*2 - 10rem);
+    }
+
+    .current-user-info .status {
+        top: calc(3.3rem + 1.6rem);
+        left: calc(3.4rem + 2.6rem);
+        min-height: 19px;
+        max-height: 19px;
+        min-width: 19px;
+        max-width: 19px;
+    }
 }
 
 @media (max-width: 580px) {
@@ -1042,10 +1063,6 @@
 }
 
 @media (max-width: 480px) {
-    .wrapper {
-        max-width: calc(100% - 3.2rem);
-    }
-
     .people-filter-popup-li span {
         display: none;
     }
@@ -1054,7 +1071,15 @@
         display: none;
     }
 
+    .blossom-status span:last-child {
+        display: none;
+    }
+
     .request-from-user {
         width: 100%;
+    }
+
+    .current-user-info p:first-child {
+        max-width: calc(100vw - 1.6rem - 2.6rem*2 - 50px - 1.6rem*2 - 8rem);
     }
 }

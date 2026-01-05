@@ -59,8 +59,11 @@
     padding: 1rem 1.6rem;
     border-radius: 2rem;
     min-width: min-content;
-    width: calc((100% - 1rem*2)/3);
     transition: 0.2s;
+    flex-grow: 1;
+    flex-shrink: 1;
+    flex-basis: calc(33.3% - (1rem*2 / 3));
+    min-width: 21rem;
     cursor: default;
 }
 
@@ -126,6 +129,12 @@
 .user-trophy-info a {
     color: var(--main-text-color);
     font-size: var(--font-size-2);
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    display: block;
+    width: min-content;
+    max-width: 13rem;
 }
 
 .user-trophy-info a:hover {
@@ -242,30 +251,13 @@
         display: none;
     }
 
-    .trophy-info {
-        flex-direction: column;
-    }
-
     .trophy-info>div {
         display: flex;
         flex-direction: column;
-        align-items: center;
-    }
-
-    .user-trophy-info {
-        margin-top: 0.625rem;
     }
 
     .user-trophy-info a {
         justify-content: center;
-    }
-
-    .current-trophy .date {
-        text-align: center;
-    }
-
-    .br-mobile {
-        display: block;
     }
 
     .current-trophy {

@@ -110,7 +110,7 @@ if ($result_post->num_rows > 0) {
             }
             echo "<div class='extra-post-info'>";
             echo "<span>" . $content_date . "</span>";
-            if ($content_type == 'repost') echo "<span class='repost-info'>•</span>";
+            if ($content_type == 'repost') echo "<span class='repost-info dot'>•</span>";
             if ($content_type == 'repost') echo "<a href='./post/$content_repost_id' class='repost-info'>репост @" . $content_repost_username . "</a>";
             echo "</div>";
             echo "</div>";
