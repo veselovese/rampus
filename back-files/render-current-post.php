@@ -1,16 +1,18 @@
 <?php
 session_start();
+require_once('connect.php');
+require('find-user-position-in-top.php');
+require('get-user-friends-id.php');
+
 date_default_timezone_set('Europe/Moscow');
 $today = date('Y-m-d', time());
 $yesterday = date('Y-m-d', mktime(0, 0, 0, date("m"), date("d") - 1, date("Y")));
 $beforeyesterday = date('Y-m-d', mktime(0, 0, 0, date("m"), date("d") - 2, date("Y")));
 $month_list = array(1 => 'января', 2 => 'февраля', 3 => 'марта', 4 => 'апреля', 5 => 'мая', 6 => 'июня', 7 => 'июля', 8 => 'августа', 9 => 'сентября', 10 => 'октября', 11 => 'ноября', 12 => 'декабря');
-$current_user_id = $_SESSION['user']['id'];
-if (isset($_POST['post-id'])) $post_id = $_POST['post-id'];
 
-require_once('connect.php');
-require('find-user-position-in-top.php');
-require('get-user-friends-id.php');
+
+$current_user_id = $_SESSION['user']['id'];
+if (isset($_POST['post-id'])) $post_id = mysqli_real_escape_string($connect, $_POST['post-id']);
 
 $user_friends_id = implode(',', getUserFriendsId($current_user_id, $connect));
 
@@ -103,7 +105,7 @@ if ($result_post->num_rows > 0) {
             }
             echo "<div class='extra-post-info'>";
             echo "<span>" . $content_date . "</span>";
-            if ($content_type == 'repost') echo "<span class='repost-info'>•</span>";
+            if ($content_type == 'repost') echo "<span class='repost-info dot'>•</span>";
             if ($content_type == 'repost') echo "<a href='../post/$content_repost_id' class='repost-info'>репост @" . $content_repost_username . "</a>";
             echo "</div>";
             echo "</div>";

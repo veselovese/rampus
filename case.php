@@ -1,29 +1,14 @@
 <?php
 session_start();
 
-require_once('back-files/connect.php');
-
 if (isset($_SESSION['user'])) {
+    require_once('back-files/connect.php');
     require('back-files/rating-trophies.php');
     require('back-files/find-user-position-in-top.php');
     require('back-files/get-user-friends.php');
     require('back-files/get-trophy-list.php');
 
-    $user_id = $_SESSION['user']['id'];
-    $result = $connect->query("SELECT * FROM users WHERE id = $user_id");
-    if ($result->num_rows > 0) {
-        while ($row = $result->fetch_assoc()) {
-            $username = $row["username"];
-            $first_name = $row["first_name"];
-            $second_name = $row["second_name"];
-            $current_avatar = $row["avatar"];
-        }
-    }
-
-    $user_in_top = findUserPositionInTop($user_id, $connect);
-
-    $unread_posts = $_SESSION['user']['unread_posts'];
-    $result_request_to_counter = $result_request_to->num_rows;
+    $current_user_id = $_SESSION['user']['id'];
 }
 ?>
 
@@ -47,7 +32,7 @@ if (isset($_SESSION['user'])) {
     <main>
         <h1 class="title">Полка с трофеяими и ачивками в Рампус</h1>
         <?php if (!isset($_SESSION['user'])) {
-            header("Location: auth?request=people");
+            header("Location: auth?request=case");
             exit();
         } else { ?>
             <section class="wrapper main-section">
@@ -71,13 +56,13 @@ if (isset($_SESSION['user'])) {
                                             $trophy_date = $row['get_date'];
                                             $user_first_name = $row['first_name'];
                                             $user_second_name = $row['second_name'];
-                                            $user_id = $row['user_id'];
+                                            $current_user_id = $row['user_id'];
                                             $user_username = $row['username'];
                                             $user_avatar = $row['avatar'];
                                             $user_level = $row['blossom_level'];
                                             if ($trophy_id < 4) {
-                                                $result = $connect->query("SELECT posts.likes AS post_likes FROM posts JOIN users ON posts.user_id = users.id WHERE posts.user_id = $user_id");
-                                                $comment_count = $connect->query("SELECT comments.id FROM comments JOIN posts ON comments.post_id = posts.id JOIN users ON users.id = posts.user_id WHERE posts.user_id = $user_id")->num_rows;
+                                                $result = $connect->query("SELECT posts.likes AS post_likes FROM posts JOIN users ON posts.user_id = users.id WHERE posts.user_id = $current_user_id");
+                                                $comment_count = $connect->query("SELECT comments.id FROM comments JOIN posts ON comments.post_id = posts.id JOIN users ON users.id = posts.user_id WHERE posts.user_id = $current_user_id")->num_rows;
                                                 $posts_count = $result->num_rows;
                                                 $likes_count = 0;
                                                 if ($posts_count > 0) {
@@ -159,7 +144,7 @@ if (isset($_SESSION['user'])) {
                                             $trophy_link = $row['link'];
                                             $user_first_name = $row['first_name'];
                                             $user_second_name = $row['second_name'];
-                                            $user_id = $row['user_id'];
+                                            $current_user_id = $row['user_id'];
                                             $user_username = $row['username'];
                                             $user_avatar = $row['avatar'];
                                             if ($trophy_id > 3) {

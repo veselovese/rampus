@@ -290,6 +290,7 @@
 .chat__new-message.disabled {
     pointer-events: none;
     opacity: 50%;
+    display: none;
 }
 
 .chat__new-message>p {

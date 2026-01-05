@@ -1,30 +1,16 @@
 <?php
 session_start();
 
-require_once('back-files/connect.php');
-
 if (isset($_SESSION['user'])) {
+    require_once('back-files/connect.php');
     require('back-files/rating-trophies.php');
     require('back-files/find-user-position-in-top.php');
     require('back-files/get-user-friends.php');
 
-    $user_id = $_SESSION['user']['id'];
-    $result = $connect->query("SELECT * FROM users WHERE id = $user_id");
-    if ($result->num_rows > 0) {
-        while ($row = $result->fetch_assoc()) {
-            $current_username = $row["username"];
-            $current_first_name = $row["first_name"];
-            $current_second_name = $row["second_name"];
-            $current_avatar = $row["avatar"];
-        }
-    }
+    $current_user_id = $_SESSION['user']['id'];
 
-    $user_in_top = findUserPositionInTop($user_id, $connect);
-    $unread_posts = $_SESSION['user']['unread_posts'];
-    $user_level = $connect->query("SELECT blossom_level FROM users WHERE id = '$user_id'")->fetch_assoc()['blossom_level'];
+    $friends_counter = $result_friend->num_rows;
 }
-
-$friends_counter = $result_friend->num_rows;
 ?>
 
 <!DOCTYPE html>

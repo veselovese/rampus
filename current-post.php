@@ -1,32 +1,14 @@
 <?php
 session_start();
 
-require_once('back-files/connect.php');
-$post_id = $_GET['postid'];
-
 if (isset($_SESSION['user'])) {
     require('back-files/like-or-dislike.php');
     require('back-files/rating-trophies.php');
     require('back-files/find-user-position-in-top.php');
     require('back-files/get-user-friends.php');
+    require_once('back-files/connect.php');
 
-    $user_id = $_SESSION['user']['id'];
-    $result = $connect->query("SELECT * FROM users WHERE id = $user_id");
-    if ($result->num_rows > 0) {
-        while ($row = $result->fetch_assoc()) {
-            $username = $row["username"];
-            $email = $row["email"];
-            $description = $row["description"];
-            $first_name = $row["first_name"];
-            $second_name = $row["second_name"];
-            $current_avatar = $row["avatar"];
-        }
-    }
-    $user_in_top = findUserPositionInTop($user_id, $connect);
-
-    $_SESSION['user']['unread_posts'] = 0;
-    $connect->query("UPDATE users SET unread_posts = 0 WHERE id = $user_id");
-}
+    $current_user_id = $_SESSION['user']['id'];}
 ?>
 
 <!DOCTYPE html>
@@ -58,7 +40,7 @@ if (isset($_SESSION['user'])) {
                     <div class="second-part">
                         <div class="wall__user-posts current-post" id="success-render-posts">
                         </div>
-                        <?php require_once('components/mobile-main-menu.php') ?> 
+                        <?php require_once('components/mobile-main-menu.php') ?>
                     </div>
                     <div class="third-part">
                         <div>

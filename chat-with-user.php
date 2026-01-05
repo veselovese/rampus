@@ -1,59 +1,45 @@
 <?php
 session_start();
 
-require_once('back-files/connect.php');
-
-$username = $_GET['username'];
-
-if (!isset($_SESSION['user'])) {
-    header("Location: ../auth");
-    exit();
-} else {
+if (isset($_SESSION['user'])) {
+    require_once('back-files/connect.php');
     require('back-files/rating-trophies.php');
     require('back-files/find-user-position-in-top.php');
     require('back-files/get-user-friends.php');
     require('back-files/get-chat_id.php');
     require('back-files/friends/get-friend-status.php');
 
-    $user_id = $_SESSION['user']['id'];
-    $result = $connect->query("SELECT * FROM users WHERE id = $user_id");
-    if ($result->num_rows > 0) {
-        while ($row = $result->fetch_assoc()) {
-            $current_username = $row["username"];
-            $current_first_name = $row["first_name"];
-            $current_second_name = $row["second_name"];
-            $current_avatar = $row["avatar"];
-        }
+    $current_user_id = $_SESSION['user']['id'];
+    $other_user_username = mysqli_real_escape_string($connect, $_GET['username']);
+
+    $result_user_username = $connect->query("SELECT username FROM users WHERE id = $current_user_id LIMIT 1");
+    if ($result_user_username->num_rows > 0) {
+        $current_user_username = $result_user_username->fetch_assoc()["username"];
+    } else {
+        header("Location: ../profile");
+        exit();
     }
-    if ($username == $current_username) {
+    if ($other_user_username == $current_user_username) {
         header("Location: ../profile");
         exit();
     }
 
-    $result = $connect->query("SELECT * FROM users WHERE username = '$username'");
-    if ($result->num_rows > 0) {
-        while ($row = $result->fetch_assoc()) {
-            $other_id = $row["id"];
-            $other_username = $row["username"];
-            $other_email = $row["email"];
-            $other_description = $row["description"];
-            $other_first_name = $row["first_name"];
-            $other_second_name = $row["second_name"];
-            $other_avatar = $row["avatar"];
-        }
+    $result_other_user = $connect->query("SELECT id, username, first_name, second_name, avatar FROM users WHERE username = '$other_user_username' LIMIT 1");
+    if ($result_other_user->num_rows > 0) {
+            $row_other_user = $result_other_user->fetch_assoc();
+            $other_user_id = $row_other_user["id"];
+            $other_user_username = $row_other_user["username"];
+            $other_user_first_name = $row_other_user["first_name"];
+            $other_user_second_name = $row_other_user["second_name"];
+            $other_user_avatar = $row_other_user["avatar"];
     } else {
         header("Location: ../profile");
         exit();
     }
 
-    $unread_posts = $_SESSION['user']['unread_posts'];
-
-    $chat_id = getChatId($user_id, $other_id);
-    $friend_status = getFriendStatus($other_id, $connect);
-    $user_in_top = findUserPositionInTop($user_id, $connect);
-    $other_user_in_top = findUserPositionInTop($other_id, $connect);
-    $unread_posts = $_SESSION['user']['unread_posts'];
-    $user_level = $connect->query("SELECT blossom_level FROM users WHERE id = '$user_id'")->fetch_assoc()['blossom_level'];
+    $chat_id = getChatId($current_user_id, $other_user_id);
+    $friend_status = getFriendStatus($other_user_id, $connect);
+    $other_user_in_top = findUserPositionInTop($other_user_id, $connect);
 }
 
 ?>
@@ -79,7 +65,7 @@ if (!isset($_SESSION['user'])) {
     <main>
         <h1 class="title">Чат с пользователем в Рампус</h1>
         <?php if (!isset($_SESSION['user'])) {
-            header("Location: auth?request=people");
+            header("Location: auth?request=chats");
             exit();
         } else { ?>
             <section class="wrapper main-section">
@@ -94,13 +80,13 @@ if (!isset($_SESSION['user'])) {
                                     Назад</a>
                                 <?php
                                 echo "<div class='chat__other-user-info'>";
-                                $trust_mark = $other_username == 'rampus' || $other_username == 'help' ? ' trust' : '';
-                                if ($other_first_name || $other_second_name) {
-                                    echo "<a href='../user/$other_username' class='chat__user-names$trust_mark'>$other_first_name $other_second_name</a>";
+                                $trust_mark = $other_user_username == 'rampus' || $other_user_username == 'help' ? ' trust' : '';
+                                if ($other_user_first_name || $other_user_second_name) {
+                                    echo "<a href='../user/$other_user_username' class='chat__user-names$trust_mark'>$other_user_first_name $other_user_second_name</a>";
                                 } else {
-                                    echo "<a href='../user/$other_username' class='chat__user-names$trust_mark'>@<span>$other_username</span></a>";
+                                    echo "<a href='../user/$other_user_username' class='chat__user-names$trust_mark'>@<span>$other_user_username</span></a>";
                                 }
-                                if ($other_username == 'rampus' || $other_username == 'help') { ?>
+                                if ($other_user_username == 'rampus' || $other_user_username == 'help') { ?>
                                     <img class='menu-status' src="../pics/SuperUserIcon.svg">
                                 <?php } else {
                                     switch ($other_user_in_top) {
@@ -116,7 +102,7 @@ if (!isset($_SESSION['user'])) {
                                     }
                                 }
                                 echo "</div>";
-                                echo "<a href='../user/$other_username'><img class='chat__user-avatar' src='../uploads/avatar/thin_$other_avatar'></a>"; ?>
+                                echo "<a href='../user/$other_user_username'><img class='chat__user-avatar' src='../uploads/avatar/thin_$other_user_avatar'></a>"; ?>
                             </div>
                             <div id="success-load-chat" class="loading">
                             </div>
@@ -137,8 +123,8 @@ if (!isset($_SESSION['user'])) {
                                     <label for="textarea-message" id="textarea-message_label">Чел, ты будешь в шоке..</label>
                                     <input type="hidden" required name="message" id="textarea-message_input" value="">
                                     <input type="hidden" required name="chat_id" id="chatid-message_input" value="<?= $chat_id ?>">
-                                    <input type="hidden" required name="user_id_to" id="useridto-message_input" value="<?= $other_id ?>">
-                                    <input type="hidden" required name="current-user-id" id="currentuserid_input" value="<?= $user_id ?>">
+                                    <input type="hidden" required name="user_id_to" id="useridto-message_input" value="<?= $other_user_id ?>">
+                                    <input type="hidden" required name="current-user-id" id="currentuserid_input" value="<?= $current_user_id ?>">
                                     <input type="file" name="message-image" id="message-image">
                                     <div class="messagearea-buttons">
                                         <div class="message-image-icon disabled">

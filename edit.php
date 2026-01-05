@@ -1,9 +1,9 @@
 <?php
 session_start();
 
-require_once('back-files/connect.php');
-
 if (isset($_SESSION['user'])) {
+    require_once('back-files/connect.php');
+
     $current_user_id = $_SESSION['user']['id'];
     $current_user_username = $_SESSION['user']['username'];
     $current_user_first_name = $_SESSION['user']['first_name'];
