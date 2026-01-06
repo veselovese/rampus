@@ -104,7 +104,6 @@ if (isset($_POST['unreposted'])) {
                 $row_repost_post_id = $result_repost_post_id->fetch_array();
                 $repost_post_id = $row_repost_post_id['id'];
 
-
                 $connect->query("UPDATE posts SET status = 1 WHERE id = $repost_post_id");
                 $connect->query("UPDATE posts SET reposts = reposts - 1 WHERE id = $post_id");
                 $connect->query("UPDATE posts SET reposts = reposts - 1 WHERE id = $repost_repost_post_id");

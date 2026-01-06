@@ -72,7 +72,7 @@ if (isset($_SESSION['user'])) {
                                             } else {
                                                 echo "<p>Вы нравитесь людям — " . $trophy_stat . " комментариев под одним постом</p>";
                                             }
-                                        } else if ($trophy_id == 10) {
+                                        } else if ($trophy_id == 13) {
                                             if (($trophy_stat[-1] == '1') && (!isset($trophy_stat[-2]) || $trophy_stat[-2] != '1')) {
                                                 echo "<p>Сколько же ушло времени, чтобы насписать " . $trophy_stat . " пост</p>";
                                             } else if (($trophy_stat[-1] == '2' || $trophy_stat[-1] == '3' || $trophy_stat[-1] == '4') && (!isset($trophy_stat[-2]) || $trophy_stat[-2] != '1')) {
@@ -80,7 +80,7 @@ if (isset($_SESSION['user'])) {
                                             } else {
                                                 echo "<p>Сколько же ушло времени, чтобы насписать " . $trophy_stat . " постов</p>";
                                             }
-                                        } else if ($trophy_id == 11) {
+                                        } else if ($trophy_id == 14) {
                                             if (($trophy_stat[-1] == '1') && (!isset($trophy_stat[-2]) || $trophy_stat[-2] != '1')) {
                                                 echo "<p>Кот Леопольд найден — у него " . $trophy_stat . " друг</p>";
                                             } else if (($trophy_stat[-1] == '2' || $trophy_stat[-1] == '3' || $trophy_stat[-1] == '4') && (!isset($trophy_stat[-2]) || $trophy_stat[-2] != '1')) {
