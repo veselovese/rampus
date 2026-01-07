@@ -163,6 +163,19 @@ $(document).ready(function () {
             $('#success-search-hashtag-in-header').removeClass('focus');
         }
     })
+
+    loadBlossomNotify();
+    function loadBlossomNotify() {
+        console.log('d')
+        $.ajax({
+            url: "back-files/blossom/render-blossom-notifications-widget",
+            method: "POST",
+            data: {},
+            success: function (data) {
+                $('#success-blossom-notifications-widget').html(data);
+            }
+        });
+    }
 })
 
 function copyLinkToPost(i) {

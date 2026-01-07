@@ -3,7 +3,6 @@ session_start();
 
 if (isset($_SESSION['user'])) {
     require_once('back-files/connect.php');
-    require('back-files/rating-trophies.php');
     require('back-files/find-user-position-in-top.php');
     require('back-files/get-user-friends.php');
 

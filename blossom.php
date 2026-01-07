@@ -126,6 +126,11 @@ if (isset($_SESSION['user'])) {
                         <?php require_once('components/mobile-main-menu.php') ?>
                     </div>
                     <div class="third-part">
+                        <div>
+                            <p class="third-part-title">Последние изменения</p>
+                            <ul class='chats_recent-chats' id="success-blossom-notifications-widget">
+                            </ul>
+                        </div>
                     </div>
             </section>
     </main>
@@ -133,7 +138,6 @@ if (isset($_SESSION['user'])) {
         } ?>
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script src="js/main.js?v=250"></script>
-<script src="js/people.js?v=250"></script>
 </body>
 
 </html>

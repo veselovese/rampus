@@ -4,8 +4,6 @@ session_start();
 require_once('back-files/connect.php');
 
 if (isset($_SESSION['user'])) {
-    require('back-files/rating-trophies.php');
-
     require_once('back-files/like-or-dislike.php');
     require_once('back-files/find-user-position-in-top.php');
     require_once('back-files/get-user-friends.php');

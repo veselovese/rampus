@@ -3,7 +3,6 @@ session_start();
 
 if (isset($_SESSION['user'])) {
     require_once('back-files/connect.php');
-    require('back-files/rating-trophies.php');
     require('back-files/find-user-position-in-top.php');
     require('back-files/get-user-friends.php');
     require('back-files/get-chat_id.php');
@@ -26,12 +25,12 @@ if (isset($_SESSION['user'])) {
 
     $result_other_user = $connect->query("SELECT id, username, first_name, second_name, avatar FROM users WHERE username = '$other_user_username' LIMIT 1");
     if ($result_other_user->num_rows > 0) {
-            $row_other_user = $result_other_user->fetch_assoc();
-            $other_user_id = $row_other_user["id"];
-            $other_user_username = $row_other_user["username"];
-            $other_user_first_name = $row_other_user["first_name"];
-            $other_user_second_name = $row_other_user["second_name"];
-            $other_user_avatar = $row_other_user["avatar"];
+        $row_other_user = $result_other_user->fetch_assoc();
+        $other_user_id = $row_other_user["id"];
+        $other_user_username = $row_other_user["username"];
+        $other_user_first_name = $row_other_user["first_name"];
+        $other_user_second_name = $row_other_user["second_name"];
+        $other_user_avatar = $row_other_user["avatar"];
     } else {
         header("Location: ../profile");
         exit();
@@ -146,7 +145,7 @@ if (isset($_SESSION['user'])) {
                     <div class="third-part">
                         <div>
                             <p class="third-part-title">Чаты</p>
-                            <ul class='chats_recent-chats' id="success-recent-chats-widget">
+                            <ul class='chats_recent-chats' id="success-blossom-notifications-widget">
                             </ul>
                         </div>
                     </div>

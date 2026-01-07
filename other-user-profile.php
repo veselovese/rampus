@@ -8,8 +8,6 @@ if (!isset($_SESSION['user'])) {
     header("Location: ../auth");
     exit();
 } else {
-    require('back-files/rating-trophies.php');
-
     require_once('back-files/like-or-dislike.php');
     require_once('back-files/get-user-friends.php');
     require_once('back-files/friends/get-friend-status.php');

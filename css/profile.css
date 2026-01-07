@@ -1374,6 +1374,70 @@ span.for-friends {
     }
 }
 
+#success-blossom-notifications-widget {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.blossom-notify {
+    padding: 1rem 1.6rem;
+    border-radius: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 1.6rem;
+    font-size: var(--font-size-2);
+    background-color: var(--block-color);
+    box-shadow: var(--shadow-small);
+    transition: 0.2s;
+    cursor: pointer;
+}
+
+.blossom-notify:hover {
+    transform: scale(105%);
+}
+
+/* .blossom-notify.plus {
+    background-color: var(--block-accent-color-210);
+}
+
+.blossom-notify.minus {
+    background-color: var(--like-button-accent-color);
+} */
+
+.blossom-notify__info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.39rem;
+}
+
+.blossom-notify__info p:first-child {
+    font-weight: 600;
+    color: var(--else-text-color-50);
+}
+
+.blossom-notify__info p:last-child {
+    font-size: var(--font-size-1);
+    color: var(--else-text-color-50);
+}
+
+.blossom-notify__blossom-change {
+    margin-left: auto;
+    font-size: var(--font-size-3);
+    font-weight: 600;
+}
+
+.blossom-notify__blossom-change.plus {
+    color: var(--main-accent-color);
+}
+
+.blossom-notify__blossom-change.minus {
+    color: var(--error-accent-color);
+}
+
 @media (max-width: 1320px) {
     .third-part-mobile {
         display: block;
