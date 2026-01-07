@@ -1246,6 +1246,12 @@ input.auth-and-reg::placeholder {
     max-width: fit-content;
 }
 
+.plat-status-div {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
 #plat-status {
     font-family: 'Unbounded';
     background: linear-gradient(45deg, #050310, #5a1f8c, #083a8c);
@@ -1263,7 +1269,7 @@ input.auth-and-reg::placeholder {
     position: absolute;
     min-width: max-content;
     top: 0;
-    right: calc(-28.7rem - 0.39rem);
+    right: calc(-19.4rem - 0.39rem);
     background: linear-gradient(45deg, #050310, #5a1f8c, #083a8c);
     padding: 1rem 1.6rem;
     border-radius: calc(1rem);
@@ -1274,6 +1280,7 @@ input.auth-and-reg::placeholder {
     transition: 0.2s;
     font-size: 1.1rem;
     color: var(--block-color);
+    z-index: 77;
 }
 
 #plat-status:hover {
@@ -1301,6 +1308,21 @@ input.auth-and-reg::placeholder {
 
     footer {
         padding: 2.275rem 2.5rem;
+    }
+
+    #plat-status:active {
+        opacity: 80%;
+    }
+
+    #plat-status:active~#plat-status-desc {
+        opacity: 1;
+    }
+
+    #plat-status-desc {
+        top: calc(1.6rem + 0.39rem);
+        right: 50%;
+        transform: translateX(50%);
+        text-align: center;
     }
 }
 
