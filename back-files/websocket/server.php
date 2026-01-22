@@ -4,7 +4,7 @@ use Workerman\Worker;
 require_once __DIR__ . '/../../vendor/autoload.php';
 
 $wsWorker = new Worker('websocket://0.0.0.0:2346');
-$wsWorker->count = 4;
+$wsWorker->count = 1;
 
 $wsWorker->onConnect = function ($connection) {
     echo "New connection\n";

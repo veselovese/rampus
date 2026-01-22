@@ -120,7 +120,6 @@ function loadRecentChats() {
 
 ws.onmessage = async (response) => {
     let responsedData = JSON.parse(response.data)
-    console.log(responsedData)
     switch (responsedData.action) {
         case 'open_chat':
             if (responsedData.chat_id == chatId) {

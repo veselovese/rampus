@@ -7,8 +7,8 @@ $password = md5(mysqli_real_escape_string($connect, $_POST['password']));
 $request = mysqli_real_escape_string($connect, $_GET['request']);
 
 if (mysqli_query($connect, "SELECT id FROM `users` LIMIT 1")) {
-    $check_user_by_email = mysqli_query($connect, "SELECT id, username, first_name, second_name, description, avatar, plat_status, unread_posts, last_auth_date FROM `users` WHERE `email` = '$email_or_username' AND `password` = '$password'");
-    $check_user_by_username = mysqli_query($connect, "SELECT id, username, first_name, second_name, description, avatar, plat_status, unread_posts, last_auth_date FROM `users` WHERE `username` = '$email_or_username' AND `password` = '$password'");
+    $check_user_by_email = mysqli_query($connect, "SELECT id, username, first_name, second_name, description, avatar, plat_status, unread_posts, last_auth_date FROM `users` WHERE `email` = '$email_or_username' AND `password` = '$password' LIMIT 1");
+    $check_user_by_username = mysqli_query($connect, "SELECT id, username, first_name, second_name, description, avatar, plat_status, unread_posts, last_auth_date FROM `users` WHERE `username` = '$email_or_username' AND `password` = '$password' LIMIT 1");
 } else {
     echo '@@@';
     exit();
@@ -29,7 +29,7 @@ if (mysqli_num_rows($check_user_by_email) > 0 || mysqli_num_rows($check_user_by_
     $plat_status = $user['plat_status'];
     $last_auth_date = $user['last_auth_date'];
     $unread_posts_db = $user['unread_posts'];
-    $unread_posts_now = mysqli_query($connect, "SELECT * FROM `posts` WHERE `content_date` >= '$last_auth_date'")->num_rows;
+    $unread_posts_now = $last_auth_date ? mysqli_query($connect, "SELECT 1 FROM `posts` WHERE `content_date` >= '$last_auth_date'")->num_rows : 0;
     $unread_posts = $unread_posts_now + $unread_posts_db;
 
     $_SESSION['user'] = [

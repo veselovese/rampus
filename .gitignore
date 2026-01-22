@@ -5,3 +5,4 @@ uploads/post-image
 vendor/
 composer.json
 composer.lock
+dev/

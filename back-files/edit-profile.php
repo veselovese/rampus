@@ -63,6 +63,7 @@ if (avatarSecurity($avatar)) {
 
 if (isset($_POST['username'])) {
     $sql = "UPDATE users SET first_name = '$first_name', second_name = '$second_name', description = '$description', username = '$username' WHERE id = $userid";
+    $_SESSION['user']['username'] = $username;
 } else {
     $sql = "UPDATE users SET first_name = '$first_name', second_name = '$second_name', description = '$description' WHERE id = $userid";
 }
@@ -70,7 +71,6 @@ if (isset($_POST['username'])) {
 $result = $connect->query($sql);
 $_SESSION['user']['first_name'] = $first_name;
 $_SESSION['user']['second_name'] = $second_name;
-$_SESSION['user']['username'] = $username;
 $_SESSION['user']['description'] = $description;
 
 header('Location: ../profile');

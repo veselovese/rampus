@@ -3,6 +3,7 @@ session_start();
 
 if (isset($_SESSION['user'])) {
     require_once('back-files/connect.php');
+    require_once('back-files/global.php');
     require('back-files/find-user-position-in-top.php');
     require('back-files/get-user-friends.php');
 
@@ -18,9 +19,9 @@ if (isset($_SESSION['user'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-    <link rel="stylesheet" href="css/main.css?v=250">
-    <link rel="stylesheet" href="css/people.css?v=250">
-    <link rel="stylesheet" href="css/chats.css?v=250">
+    <link rel="stylesheet" href="css/main.css?v=300beta">
+    <link rel="stylesheet" href="css/people.css?v=300beta">
+    <link rel="stylesheet" href="css/chats.css?v=300beta">
     <title>Чаты в Рампус</title>
     <link rel="apple-touch-icon" sizes="180x180" href="favicons/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="favicons/favicon-32x32.png">
@@ -58,8 +59,8 @@ if (isset($_SESSION['user'])) {
                                 <p class="third-part-title">Нужные чаты</p>
                                 <ul class='chats_important-chats'>
                                     <li>
-                                        <a class="important-chat" href="http://localhost/rampus/chat/rampus">
-                                            <img src="http://localhost/rampus/pics/RabbitRampusAvatar.png" alt="">
+                                        <a class="important-chat" href="<?= $global_url ?>/chat/rampus">
+                                            <img src="<?= $global_url ?>/pics/RabbitRampusAvatar.png" alt="">
                                             <div class="important-chat__user-info">
                                                 <p class="main-name">Кролик Рампус</p>
                                                 <span class="other-desc">Официальный аккаунт</span>
@@ -68,8 +69,8 @@ if (isset($_SESSION['user'])) {
                                     </li>
                                     <div class="div-line"></div>
                                     <li>
-                                        <a href="http://localhost/rampus/chat/help" class="important-chat">
-                                            <img src="http://localhost/rampus/pics/HelpAvatar.jpg" alt="">
+                                        <a href="<?= $global_url ?>/chat/help" class="important-chat">
+                                            <img src="<?= $global_url ?>/pics/HelpAvatar.jpg" alt="">
                                             <div class="important-chat__user-info">
                                                 <p class="main-name">Поддержка</p>
                                                 <span class="other-desc">По всем вопросам</span>
@@ -85,9 +86,9 @@ if (isset($_SESSION['user'])) {
 <?php require_once('components/footer.php');
         } ?>
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-<script src="js/main.js?v=250"></script>
-<script src="js/chats.js?v=250"></script>
-<script src="js/chat.js?v=250"></script>
+<script src="js/main.js?v=300beta"></script>
+<script src="js/chats.js?v=300beta"></script>
+<script src="js/chat.js?v=300beta"></script>
 </body>
 
 </html>

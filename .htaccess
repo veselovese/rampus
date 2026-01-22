@@ -1,4 +1,10 @@
 RewriteEngine on
+
+RewriteCond %{HTTP:X-Forwarded-Proto} =https [OR]
+RewriteCond %{HTTP:CF-Visitor} '"scheme":"https"' [OR]
+RewriteCond %{HTTPS} on
+RewriteRule ^ - [E=HTTPS:on]
+
 RewriteCond %{THE_REQUEST} /([^.]+)\.html [NC]
 RewriteRule ^ /%1 [NC,L,R]
 RewriteCond %{REQUEST_FILENAME}.html -f
@@ -9,22 +15,12 @@ RewriteRule ^ /%1 [NC,L,R]
 RewriteCond %{REQUEST_FILENAME}.php -f
 RewriteRule ^ %{REQUEST_URI}.php [NC,L]
 
-RewriteCond %{THE_REQUEST} ^[A-Z]{3,9}\ /index\.html\ HTTP/
-RewriteRule ^index\.html$ http://http://rampus.ru/ [R=301,L]
+RewriteRule ^post/([0-9]+)/?$ current-post.php?postid=$1 [L,QSA]
+RewriteRule ^user/([\w-]+)/?$ other-user-profile.php?username=$1 [L,QSA]
+RewriteRule ^user/([\w-]+)/friends/?$ other-user-friends.php?username=$1 [L,QSA]
+RewriteRule ^chat/([\w-]+)/?$ chat-with-user.php?username=$1 [L,QSA]
 
-RewriteCond %{THE_REQUEST} ^[A-Z]{3,9}\ /index\.php\ HTTP/
-RewriteRule ^index\.php$ http://http://rampus.ru/ [R=301,L]
-
-RewriteCond %{REQUEST_URI} ^(.*)/{2,}(.*)$
-RewriteRule ^(.*)$ %1/%2 [R=301,L]
-
-RewriteCond %{THE_REQUEST} ([^\s]*)\/{2,}(\?[^\s]*)?
-RewriteRule ^(.*)$ / [R=301,L]
-
-RewriteRule ^post/([0-9]+)$ current-post.php?postid=$1  
-
-RewriteRule ^user/([\w]+)$ other-user-profile.php?username=$1 
-
-RewriteRule ^user/([\w]+)/friends$ other-user-friends.php?username=$1 
-
-RewriteRule ^chat/([\w]+)$ chat-with-user.php?username=$1 
+RedirectMatch 404 /\.git
+RedirectMatch 404 /\.env
+RedirectMatch 404 /\.htaccess
+RedirectMatch 404 /\back-files

@@ -1,5 +1,6 @@
 $(document).ready(function () {
-    const usrnm = window.location.pathname.split('/')[3];
+    let usrnm = window.location.pathname.split("/").filter(entry => entry !== "");
+    usrnm = usrnm[usrnm.length - 1]
 
     renderPosts('all');
     function renderPosts(query) {

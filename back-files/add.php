@@ -7,7 +7,6 @@ $user_id = $_SESSION['user']['id'];
 
 if (isset($_POST['post'])) $text_post = mysqli_real_escape_string($connect, $_POST['post']);
 if (isset($_POST['post-mode'])) $post_mode = mysqli_real_escape_string($connect, $_POST['post-mode']);
-if (isset($_POST['post-source'])) $post_source = mysqli_real_escape_string($connect, $_POST['post-source']);
 if (isset($_POST['post-search'])) $post_search = mysqli_real_escape_string($connect, $_POST['post-search']);
 if (isset($_FILES['post-image']) && $_FILES['post-image']['name'] != '') {
     $post_image = $_FILES['post-image'];
@@ -17,7 +16,7 @@ if (isset($_FILES['post-image']) && $_FILES['post-image']['name'] != '') {
     $uploadfile = $dir . $name;
 }
 
-$for_friends = $post_mode == 'for-friends' ? true : false;
+$for_friends = $post_mode == 'for-friends' ? 1 : 0;
 
 function postImageSecurity($post_image)
 {
@@ -54,7 +53,7 @@ if (isset($_FILES['post-image']) && $_FILES['post-image']['name'] != '' && isset
                 $hashtag_id = $connect->query("SELECT id FROM hashtags WHERE name = '$hashtag'")->fetch_assoc()['id'];
             }
 
-            $result = mysqli_query($connect, "INSERT INTO posts (hashtag_id, text, user_id, for_friends, img) VALUES ($hashtag_id, '$text_without_hashtags', $user_id, '$for_friends', '$name');");
+            $result = mysqli_query($connect, "INSERT INTO posts (hashtag_id, text, user_id, for_friends, img) VALUES ($hashtag_id, '$text_without_hashtags', $user_id, $for_friends, '$name');");
             $current_id = $connect->query("SELECT @@IDENTITY AS id")->fetch_assoc()['id'];
 
             blossoming('add-post', $user_id, $connect);
@@ -67,6 +66,7 @@ if (isset($_FILES['post-image']) && $_FILES['post-image']['name'] != '' && isset
         }
 
         if (move_uploaded_file($post_image['tmp_name'], $uploadfile)) {
+
             $uploadfile2 = '../' . $uploadfile;
             $src = imagecreatefromjpeg($uploadfile);
             if (!$src) $src = imagecreatefrompng($uploadfile);
@@ -98,14 +98,6 @@ if (isset($_FILES['post-image']) && $_FILES['post-image']['name'] != '' && isset
         } else {
             $post_search = '';
         }
-
-        if ($post_source == 'source-profile') {
-            header('Location: ../profile' . '#post-' . $current_id);
-            exit();
-        } else if ($post_source == 'source-wall') {
-            header('Location: ../wall' . $post_search . '#post-' . $current_id);
-            exit();
-        }
     }
 }
 
@@ -128,9 +120,7 @@ if ((!isset($_FILES['post-image']) || $_FILES['post-image']['name'] == '') && is
             $connect->query("INSERT INTO hashtags (name) VALUES ('$hashtag')");
             $hashtag_id = $connect->query("SELECT id FROM hashtags WHERE name = '$hashtag'")->fetch_assoc()['id'];
         }
-
-        $result = mysqli_query($connect, "INSERT INTO posts (hashtag_id, text, user_id, for_friends, img) VALUES ($hashtag_id, '$text_without_hashtags', $user_id, '$for_friends', '$name');");
-        $current_id = $connect->query("SELECT @@IDENTITY AS id")->fetch_assoc()['id'];
+        $result = $connect->query("INSERT INTO posts (hashtag_id, text, user_id, for_friends, img) VALUES ($hashtag_id, '$text_without_hashtags', $user_id, $for_friends, '$name');");
 
         blossoming('add-post', $user_id, $connect);
 
@@ -146,12 +136,7 @@ if ((!isset($_FILES['post-image']) || $_FILES['post-image']['name'] == '') && is
     } else {
         $post_search = '';
     }
-
-    if ($post_source == 'source-profile') {
-        header('Location: ../profile' . '#post-' . $current_id);
-        exit();
-    } else if ($post_source == 'source-wall') {
-        header('Location: ../wall' . $post_search . '#post-' . $current_id);
-        exit();
-    }
 }
+
+header('Location: ../wall' . $post_search);
+exit();
