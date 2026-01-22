@@ -51,7 +51,7 @@
 }
 
 .chat-with-user {
-    height: calc(100vh - 2.6rem*2 - 7.2rem);
+    height:  calc(var(--vh, 1vh) * 100 - 2.6rem*2 - 7.2rem);
 }
 
 #success-load-chat {
@@ -597,10 +597,6 @@
 }
 
 @media (max-width: 820px) {
-    .chat-with-user {
-        height: calc(100vh - 2.6rem - 2.6rem - 7.2rem);
-    }
-
     #success-load-chat {
         height: calc(100% - 8.2rem - 8.8rem);
     }

@@ -1425,7 +1425,7 @@ div.for-friends svg {
     }
 
     .wall__user-info .extra-post-info {
-        flex-direction: column;
+        flex-direction: column-reverse;
         gap: 0;
     }
 }

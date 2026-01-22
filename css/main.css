@@ -30,30 +30,6 @@
     src: url('fonts/Cygre-Bold.woff') format('woff');
 }
 
-/* @font-face {
-    font-display: swap;
-    font-family: 'TTInterface';
-    font-style: normal;
-    font-weight: 400;
-    src: url('fonts/TTInterphasesProTrial-Regular.woff2') format('woff2');
-}
-
-@font-face {
-    font-display: swap;
-    font-family: 'TTInterface';
-    font-style: normal;
-    font-weight: 600;
-    src: url('fonts/TTInterphasesProTrial-Medium.woff2') format('woff2');
-}
-
-@font-face {
-    font-display: swap;
-    font-family: 'TTInterface';
-    font-style: normal;
-    font-weight: 700;
-    src: url('fonts/TTInterphasesProTrial-DemiBold.woff2') format('woff2');
-} */
-
 * {
     box-sizing: border-box;
 }
@@ -76,6 +52,7 @@
     --shadow-big: 0 0 15px #02020207;
     --shadow-small: 0 0 12px #02020205;
     --shadow-popup: 0 0 9px #02020211;
+    --font-size-0: 1.1rem;
     --font-size-1: 1.3rem;
     --font-size-2: 1.4rem;
     --font-size-3: 1.8rem;
@@ -275,7 +252,7 @@ textarea {
 .reg__center {
     display: flex;
     flex-direction: column;
-    min-height: calc(100vh - 7.2rem*2);
+    min-height: calc(var(--vh, 1vh) * 100 - 7.2rem*2);
     justify-content: center;
 }
 
@@ -864,10 +841,10 @@ input.auth-and-reg::placeholder {
 }
 
 .first-part-mobile .menu-avatar {
-    min-height: 24px;
-    min-width: 24px;
-    max-width: 24px;
-    max-height: 24px;
+    min-height: calc(5.375rem - 0.625rem*2);
+    min-width: calc(5.375rem - 0.625rem*2);
+    max-width: calc(5.375rem - 0.625rem*2);
+    max-height: calc(5.375rem - 0.625rem*2);
     object-fit: cover;
     border-radius: 50%;
 }
@@ -1132,7 +1109,7 @@ input.auth-and-reg::placeholder {
 
 .first-part-mobile ul {
     list-style: none;
-    padding: 1rem;
+    padding: 0.39rem;
     margin: 0;
     display: flex;
     align-items: center;
@@ -1149,7 +1126,6 @@ input.auth-and-reg::placeholder {
 
 .first-part-mobile li {
     width: 100%;
-    min-width: fit-content;
     overflow: hidden;
     flex-shrink: 1;
 }
@@ -1158,19 +1134,17 @@ input.auth-and-reg::placeholder {
     flex-shrink: 1;
 }
 
-
-.first-part-mobile #active a {
-    padding-left: 1rem;
-    padding-right: 1rem;
+.first-part-mobile a {
+    font-size: var(--font-size-0);
 }
 
 .first-part-mobile li a {
-    border-radius: 1rem;
+    border-radius: calc(2rem - 0.39rem);
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 1rem;
-    padding: 1rem 0;
+    gap: 0.625rem;
+    padding: 0.625rem 0;
     transition: 0.2s;
 }
 
@@ -1278,7 +1252,7 @@ input.auth-and-reg::placeholder {
     pointer-events: none;
     opacity: 0;
     transition: 0.2s;
-    font-size: 1.1rem;
+    font-size: var(--font-size-0);
     color: var(--block-color);
     z-index: 77;
 }

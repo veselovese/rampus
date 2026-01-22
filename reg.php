@@ -60,6 +60,7 @@ session_start();
     </main>
     <?php require_once('components/footer.php'); ?>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="js/main.js?v=300beta"></script>
     <script src="js/reg.js?v=300beta"></script>
 </body>
 
