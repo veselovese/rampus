@@ -5,12 +5,9 @@ require_once('back-files/get-user-friends.php');
 $current_user_id = $_SESSION['user']['id'];
 $current_user_avatar = $_SESSION['user']['avatar'];
 $current_user_placement = basename(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
-
-$current_user_unread_posts = $_SESSION['user']['unread_posts'];
-$current_user_requests = $result_request_to->num_rows;
-$current_user_unread_chats = require_once('back-files/chats/get-user-unread-chats.php');
 ?>
 
+<?php echo $current_user_placement != 'wall' ? "<div class='fixed-div-for-bottom'>" : ""; ?>
 <nav class="first-part-mobile">
     <ul>
         <li id="<?php echo $current_user_placement == 'wall' ? 'active' : '' ?>">
@@ -19,6 +16,9 @@ $current_user_unread_chats = require_once('back-files/chats/get-user-unread-chat
                     <path d="M0 5C0 2.23858 2.23858 0 5 0H23C25.7614 0 28 2.23858 28 5V24H5C2.23858 24 0 21.7614 0 19V5Z" />
                 </svg>
                 Стена
+                <?php if ($current_user_unread_posts > 0) { ?>
+                <span class="notification-in-menu-mobile"><?= $current_user_unread_posts  ?></span>
+                <?php } ?>
             </a>
         </li>
         <li id="<?php echo $current_user_placement == 'users' ? 'active' : '' ?>">
@@ -37,6 +37,9 @@ $current_user_unread_chats = require_once('back-files/chats/get-user-unread-chat
                     <path d="M7 11C7 8.23858 9.23858 6 12 6H23C25.7614 6 28 8.23858 28 11V24H12C9.23858 24 7 21.7614 7 19V11Z" />
                 </svg>
                 Чаты
+                <?php if ($current_user_unread_chats > 0) { ?>
+                    <span class="notification-in-menu-mobile" id="notification__unread-chats-mobile"><?= $current_user_unread_chats ?></span>
+                <?php } ?>
             </a>
         </li>
         <li id="<?php echo $current_user_placement == 'case' ? 'active' : '' ?>">
@@ -47,11 +50,9 @@ $current_user_unread_chats = require_once('back-files/chats/get-user-unread-chat
                 Полка
             </a>
         </li>
-        <li id="<?php echo $current_user_placement == 'profile' ? 'active-profile' : '' ?>">
-            <a href="<?= $global_url ?>/profile">
-                <img class="menu-avatar" src="<?= $global_url ?>/uploads/avatar/thin_<?= $current_user_avatar ?>">
-                <!-- Профиль -->
-            </a>
-        </li>
     </ul>
+    <a href="<?= $global_url ?>/profile" class="menu__link-profile" id="<?php echo $current_user_placement == 'profile' ? 'active' : '' ?>">
+        <img class="menu-avatar" src="<?= $global_url ?>/uploads/avatar/thin_<?= $current_user_avatar ?>">
+    </a>
 </nav>
+<?php echo $current_user_placement != 'wall' ? "</div>" : ""; ?>

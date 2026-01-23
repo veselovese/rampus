@@ -200,12 +200,6 @@
 .wall__new-post {
     display: flex;
     flex-direction: column;
-    position: fixed;
-    width: calc(100% - 25rem - 25rem - 2.6rem - 2.6rem - 10rem - 2.6rem*2);
-    max-width: 100%;
-    z-index: 1;
-    bottom: 2.6rem;
-    margin: 1.6rem 2.6rem 0;
     background: linear-gradient(-135deg, var(--posts-color), var(--likes-color), var(--comments-color));
     box-shadow: var(--shadow-popup);
     border-radius: 2rem;
@@ -1253,10 +1247,6 @@ div.for-friends svg {
     .wall__user-info .first-and-second-names {
         max-width: calc(100vw - 25rem - 5rem - 2.6rem - 2.6rem*2 - 50px - 1.6rem*2 - 28px - 15rem - 1.6rem);
     }
-
-    .wall__new-post {
-        width: calc(100% - 25rem - 2.6rem - 5rem - 2.6rem*2);
-    }
 }
 
 @media (max-width: 920px) {
@@ -1272,11 +1262,6 @@ div.for-friends svg {
 @media (max-width: 820px) {
     .first-part {
         display: none;
-    }
-
-    .first-part-mobile {
-        display: block;
-        z-index: 3;
     }
 
     .first-part:has(#wall-filter-all:checked)+.second-and-third-parts #posts-filter-all,
@@ -1322,13 +1307,6 @@ div.for-friends svg {
 
     .wall__user-posts {
         gap: 1.1rem
-    }
-
-    .wall__new-post {
-        width: calc(100% - 5rem);
-        bottom: calc(8.7rem + 1rem + 0.39rem);
-        margin-left: 0;
-        margin-right: 0;
     }
 
     header .phone-link span {
@@ -1409,10 +1387,6 @@ div.for-friends svg {
 
     .wall__user-info .first-and-second-names {
         max-width: calc(100vw - 1.6rem - 1.6rem*2 - 50px - 1.6rem*2 - 28px - 5rem - 1.6rem);
-    }
-
-    .wall__new-post {
-        width: calc(100% - 1.6rem);
     }
 
     .user-post .three-dots-popup {

@@ -51,7 +51,7 @@
 }
 
 .chat-with-user {
-    height:  calc(var(--vh, 1vh) * 100 - 2.6rem*2 - 7.2rem);
+    height: calc(var(--vh, 1vh) * 100 - 2.6rem*2 - 7.2rem);
 }
 
 #success-load-chat {
@@ -607,6 +607,15 @@
 
     .chat__user-back {
         font-size: var(--font-size-1);
+    }
+
+    .main-section.chat {
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+    }
+
+    .chat-with-user {
+        height: calc(var(--vh, 1vh) * 100 - 1rem*2 - 7.2rem);
     }
 }
 

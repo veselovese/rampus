@@ -91,15 +91,12 @@ body {
 }
 
 footer {
-    background-color: var(--block-color);
-    border-radius: 2rem 2rem 0 0;
     font-size: var(--font-size-1);
     flex: 0 0 auto;
     display: flex;
     justify-content: space-between;
     padding: 2.275rem 5rem;
     color: var(--else-text-color-33);
-    box-shadow: var(--shadow-big);
     align-items: center;
 }
 
@@ -840,15 +837,6 @@ input.auth-and-reg::placeholder {
     border-radius: 50%;
 }
 
-.first-part-mobile .menu-avatar {
-    min-height: calc(5.375rem - 0.625rem*2);
-    min-width: calc(5.375rem - 0.625rem*2);
-    max-width: calc(5.375rem - 0.625rem*2);
-    max-height: calc(5.375rem - 0.625rem*2);
-    object-fit: cover;
-    border-radius: 50%;
-}
-
 .menu-profile .menu-status {
     min-height: 24px;
     min-width: 24px;
@@ -1002,6 +990,23 @@ input.auth-and-reg::placeholder {
     color: var(--main-accent-color);
 }
 
+.notification-in-menu-mobile {
+    font-size: var(--font-size-0);
+    background-color: var(--main-accent-color);
+    border-radius: 50%;
+    padding: 0.39rem;
+    color: var(--block-color);
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 1.9rem;
+    min-width: 1.9rem;
+    position: absolute;
+    left: calc(50% + 0.425rem);
+    top: -0.015rem;
+}
+
 .show-three-dots-popup {
     max-width: 19px;
     max-height: 6px;
@@ -1102,14 +1107,15 @@ input.auth-and-reg::placeholder {
 
 .first-part-mobile {
     display: none;
-    position: sticky;
-    bottom: 1rem;
-    margin: 2.6rem 0 0;
+    width: 100%;
+    gap: 0.625rem;
 }
 
 .first-part-mobile ul {
+    flex-grow: 1;
     list-style: none;
     padding: 0.39rem;
+    gap: 0.39rem;
     margin: 0;
     display: flex;
     align-items: center;
@@ -1146,6 +1152,7 @@ input.auth-and-reg::placeholder {
     gap: 0.625rem;
     padding: 0.625rem 0;
     transition: 0.2s;
+    position: relative;
 }
 
 .first-part-mobile li a svg {
@@ -1155,6 +1162,25 @@ input.auth-and-reg::placeholder {
 .first-part-mobile #active a svg {
     fill: var(--main-accent-color);
     opacity: 100%;
+}
+
+.menu__link-profile {
+    display: flex;
+}
+
+.menu__link-profile .menu-avatar {
+    min-height: calc(6.155rem);
+    min-width: calc(6.155rem);
+    max-width: calc(6.155rem);
+    max-height: calc(6.155rem);
+    object-fit: cover;
+    border-radius: 50%;
+    border: 0.39rem solid var(--block-color);
+    transition: 0.2s;
+}
+
+.menu__link-profile:hover .menu-avatar {
+    border: 0.39rem solid var(--block-accent-color-06);
 }
 
 .request-buttons {
@@ -1265,6 +1291,18 @@ input.auth-and-reg::placeholder {
     opacity: 1;
 }
 
+.fixed-div-for-bottom {
+    position: fixed;
+    bottom: 2.6rem;
+    width: calc(100% - 25rem - 25rem - 2.6rem - 2.6rem - 10rem - 2.6rem*2);
+    max-width: 100%;
+    z-index: 1;
+    margin: 1.6rem 2.6rem 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.39rem;
+}
+
 @media (min-width: 1900px) {
     .wrapper {
         max-width: 188rem;
@@ -1297,6 +1335,10 @@ input.auth-and-reg::placeholder {
         right: 50%;
         transform: translateX(50%);
         text-align: center;
+    }
+
+    .fixed-div-for-bottom {
+        width: calc(100% - 25rem - 2.6rem - 5rem - 2.6rem*2);
     }
 }
 
@@ -1350,6 +1392,17 @@ input.auth-and-reg::placeholder {
         max-width: 3rem;
         max-height: 3rem;
     }
+
+    .first-part-mobile {
+        display: flex;
+    }
+
+    .fixed-div-for-bottom {
+        width: calc(100% - 5rem);
+        bottom: 1rem;
+        margin-left: 0;
+        margin-right: 0;
+    }
 }
 
 @media (max-width: 720px) {
@@ -1391,5 +1444,9 @@ input.auth-and-reg::placeholder {
 
     #reg__label_pass-2 {
         margin-top: 6.1rem;
+    }
+
+    .fixed-div-for-bottom {
+        width: calc(100% - 1.6rem);
     }
 }

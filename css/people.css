@@ -28,10 +28,6 @@
     display: none;
 }
 
-.second-part>div {
-    position: relative;
-}
-
 .search-people-div {
     position: relative;
 }
@@ -956,11 +952,6 @@
 @media (max-width: 820px) {
     .first-part {
         display: none;
-    }
-
-    .first-part-mobile {
-        display: block;
-        z-index: 998;
     }
 
     .friends__users {

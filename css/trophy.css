@@ -263,12 +263,6 @@
     .current-trophy {
         width: calc((100% - 1rem*2)/2);
     }
-
-    .first-part-mobile {
-        display: block;
-        z-index: 3;
-    }
-
 }
 
 @media (max-width: 720px) {

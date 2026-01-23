@@ -1492,11 +1492,6 @@ span.for-friends {
         display: none;
     }
 
-    .first-part-mobile {
-        display: block;
-        z-index: 3;
-    }
-
     .profile__edit {
         display: flex;
     }

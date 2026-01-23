@@ -67,7 +67,7 @@ if (isset($_SESSION['user'])) {
             header("Location: auth?request=chats");
             exit();
         } else { ?>
-            <section class="wrapper main-section">
+            <section class="wrapper main-section chat">
                 <?php require_once('components/main-menu.php'); ?>
                 <div class="second-and-third-parts">
                     <div class="second-part">
