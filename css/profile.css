@@ -824,7 +824,7 @@ span.for-friends {
     text-overflow: ellipsis;
     max-width: 75px;
     white-space: nowrap;
-    overflow: hidden;
+    overflow-x: hidden;
 }
 
 .friend-name-and-status {
@@ -1642,5 +1642,9 @@ span.for-friends {
 
     .current-user-case .trophy {
         width: calc((100% - 1rem*0)/1);
+    }
+
+    .user__blossom h2, .user__case h2 {
+        margin-left: 1.6rem;
     }
 }

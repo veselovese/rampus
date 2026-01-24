@@ -96,8 +96,9 @@ if ($result_post->num_rows > 0) {
             echo "<div class='wall__user-info'>";
             echo "<a href='./user/$content_username'><img class='avatar' src='uploads/avatar/thin_" . $content_avatar . "'></a>";
             if ($content_type == 'repost') echo "<a href='./user/$content_repost_username' class='avatar-repost-link'><img class='avatar repost' src='uploads/avatar/thin_" . $content_repost_avatar . "'></a>";
-            echo "<div class='name-and-date'>";
             $trust_mark = $content_username == 'rampus' || $content_username == 'help' ? ' trust' : '';
+            $repost_mark = $content_type == 'repost' ? 'repost' : '';
+            echo "<div class='name-and-date $repost_mark'>";
             if ($content_first_name || $content_second_name) {
                 echo "<div class='f-and-s-names-and-plat'>";
                 echo "<a href='./user/$content_username' class='first-and-second-names $trust_mark'>" . $content_first_name . " " . $content_second_name . "</a>";

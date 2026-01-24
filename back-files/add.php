@@ -32,7 +32,7 @@ function postImageSecurity($post_image)
     return true;
 }
 
-if (isset($_FILES['post-image']) && $_FILES['post-image']['name'] != '' && isset($_POST['post'])) {
+if (isset($_FILES['post-image']) && $_FILES['post-image']['name'] != '' && (isset($_POST['post']) && strlen(trim($text_post)) > 0)) {
     if (postImageSecurity($post_image)) {
         preg_match_all('/#\w+/u', $text_post, $matches);
         $hashtags = $matches[0];
@@ -101,7 +101,7 @@ if (isset($_FILES['post-image']) && $_FILES['post-image']['name'] != '' && isset
     }
 }
 
-if ((!isset($_FILES['post-image']) || $_FILES['post-image']['name'] == '') && isset($_POST['post'])) {
+if ((!isset($_FILES['post-image']) || $_FILES['post-image']['name'] == '') && (isset($_POST['post']) && strlen(trim($text_post)) > 0)) {
     preg_match_all('/#\w+/u', $text_post, $matches);
     $hashtags = $matches[0];
     if ($hashtags == null) {

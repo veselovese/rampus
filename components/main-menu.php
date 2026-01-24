@@ -13,7 +13,7 @@ $current_user_placement = basename(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PA
 
 $current_user_unread_posts = $_SESSION['user']['unread_posts'];
 $current_user_requests = $result_request_to->num_rows;
-$current_user_unread_chats = require_once('back-files/chats/get-user-unread-chats.php');
+$current_user_unread_chats = require('back-files/chats/get-user-unread-chats.php');
 ?>
 <nav class="first-part">
     <ul>

@@ -5,6 +5,10 @@ require_once('back-files/get-user-friends.php');
 $current_user_id = $_SESSION['user']['id'];
 $current_user_avatar = $_SESSION['user']['avatar'];
 $current_user_placement = basename(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
+
+$current_user_unread_posts = $_SESSION['user']['unread_posts'];
+$current_user_requests = $result_request_to->num_rows;
+$current_user_unread_chats = require('back-files/chats/get-user-unread-chats.php');
 ?>
 
 <?php echo $current_user_placement != 'wall' ? "<div class='fixed-div-for-bottom'>" : ""; ?>
@@ -17,7 +21,7 @@ $current_user_placement = basename(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PA
                 </svg>
                 Стена
                 <?php if ($current_user_unread_posts > 0) { ?>
-                <span class="notification-in-menu-mobile"><?= $current_user_unread_posts  ?></span>
+                    <span class="notification-in-menu-mobile"><?= $current_user_unread_posts  ?></span>
                 <?php } ?>
             </a>
         </li>
@@ -37,9 +41,7 @@ $current_user_placement = basename(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PA
                     <path d="M7 11C7 8.23858 9.23858 6 12 6H23C25.7614 6 28 8.23858 28 11V24H12C9.23858 24 7 21.7614 7 19V11Z" />
                 </svg>
                 Чаты
-                <?php if ($current_user_unread_chats > 0) { ?>
-                    <span class="notification-in-menu-mobile" id="notification__unread-chats-mobile"><?= $current_user_unread_chats ?></span>
-                <?php } ?>
+                <span class="notification-in-menu-mobile <?php echo $current_user_unread_chats > 0 ? 'active' : ''?>" id="notification__unread-chats-mobile"><?php echo $current_user_unread_chats > 0 ? $current_user_unread_chats : '' ?></span>
             </a>
         </li>
         <li id="<?php echo $current_user_placement == 'case' ? 'active' : '' ?>">

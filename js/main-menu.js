@@ -9,6 +9,7 @@ function updateUnreadChats(path = '', userIdTo = currentUserIdMenu) {
             success: function (data) {
                 $('#notification__unread-chats').text(data)
                 $('#notification__unread-chats-mobile').text(data)
+                $('#notification__unread-chats-mobile').addClass('active')
             }
         });
     }

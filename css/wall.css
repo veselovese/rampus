@@ -1400,6 +1400,10 @@ div.for-friends svg {
 
     .wall__user-info .extra-post-info {
         flex-direction: column-reverse;
+        gap: 0.39rem;
+    }
+
+    .wall__user-info .name-and-date.repost {
         gap: 0;
     }
 }

@@ -136,7 +136,7 @@
     font-size: var(--font-size-3);
     text-overflow: ellipsis;
     white-space: nowrap;
-    overflow: hidden;
+    overflow-x: hidden;
     max-width: calc(100vw - 25rem*2 - 10rem - 2.6rem*2 - 2.6rem*2 - 75px - 1.6rem*2 - 15rem);
 }
 
@@ -1081,5 +1081,31 @@
 
     .current-user-info p:first-child {
         max-width: calc(100vw - 1.6rem - 2.6rem*2 - 50px - 1.6rem*2 - 8rem);
+    }
+
+    .user {
+        padding: 1rem 1.6rem;
+    }
+
+    .people__top-users .user svg {
+        top: 0.5rem;
+        left: 1.1rem;
+    }
+
+    .current-user-info .status {
+        top: calc(3.3rem + 1rem);
+        left: calc(3.4rem + 1.6rem);
+    }
+
+    .people__top-users > p:first-child, .people__users > p:first-child {
+        margin-left: 1.6rem;
+    }
+
+    .friends__users > p:first-child {
+        margin-left: 1.6rem;
+    }
+
+    .friends-title.link {
+        margin-left: 1.6rem;
     }
 }

@@ -638,4 +638,13 @@
     .chat__user-names {
         max-width: 15rem;
     }
+
+    .user-name-and-status .status {
+        top: calc(3.3rem + 1rem);
+        left: calc(3.4rem + 1.6rem);
+    }
+
+    .all-chats > p:first-child {
+        margin-left: 1.6rem;
+    }
 }

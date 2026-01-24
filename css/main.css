@@ -992,7 +992,6 @@ input.auth-and-reg::placeholder {
 
 .notification-in-menu-mobile {
     font-size: var(--font-size-0);
-    background-color: var(--main-accent-color);
     border-radius: 50%;
     padding: 0.39rem;
     color: var(--block-color);
@@ -1005,6 +1004,10 @@ input.auth-and-reg::placeholder {
     position: absolute;
     left: calc(50% + 0.425rem);
     top: -0.015rem;
+}
+
+.notification-in-menu-mobile.active {
+    background-color: var(--main-accent-color);
 }
 
 .show-three-dots-popup {
@@ -1166,9 +1169,14 @@ input.auth-and-reg::placeholder {
 
 .menu__link-profile {
     display: flex;
+    background-color: var(--background-color);
+    border-radius: 50%;
+    transition: 0.2s;
+    box-shadow: var(--shadow-small);
 }
 
 .menu__link-profile .menu-avatar {
+    padding: 0.625rem;
     min-height: calc(6.155rem);
     min-width: calc(6.155rem);
     max-width: calc(6.155rem);
@@ -1179,8 +1187,8 @@ input.auth-and-reg::placeholder {
     transition: 0.2s;
 }
 
-.menu__link-profile:hover .menu-avatar {
-    border: 0.39rem solid var(--block-accent-color-06);
+.menu__link-profile:hover {
+    background-color: var(--block-accent-color-06);
 }
 
 .request-buttons {
@@ -1269,7 +1277,7 @@ input.auth-and-reg::placeholder {
     position: absolute;
     min-width: max-content;
     top: 0;
-    right: calc(-19.4rem - 0.39rem);
+    right: calc(-14.4rem - 0.39rem);
     background: linear-gradient(45deg, #050310, #5a1f8c, #083a8c);
     padding: 1rem 1.6rem;
     border-radius: calc(1rem);
@@ -1427,7 +1435,7 @@ input.auth-and-reg::placeholder {
 
 @media (max-width: 480px) {
     header {
-        padding: 2.1rem 1.6rem;
+        padding: 2.1rem 2.4rem;
     }
 
     .wrapper {
@@ -1435,7 +1443,7 @@ input.auth-and-reg::placeholder {
     }
 
     footer {
-        padding: 2.275rem 1.6rem;
+        padding: 2.275rem 2.4rem;
     }
 
     .reg__input-div div {
@@ -1448,5 +1456,13 @@ input.auth-and-reg::placeholder {
 
     .fixed-div-for-bottom {
         width: calc(100% - 1.6rem);
+    }
+
+    .main-title {
+        margin-left: 1.6rem;
+    }
+
+    .section-title {
+        margin-left: 1.6rem;
     }
 }
