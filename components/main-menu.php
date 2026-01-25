@@ -115,5 +115,5 @@ $current_user_unread_chats = require('back-files/chats/get-user-unread-chats.php
     </ul>
 </nav>
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-<script id="menu-script" src="<?= $global_url ?>/js/main.js?v=300beta" data-who_is_me="<?= $current_user_id ?>"></script>
-<script src="<?= $global_url ?>/js/main-menu.js?v=300beta"></script>
+<script id="menu-script" src="<?= $global_url ?>/js/main.js?v=300before" data-who_is_me="<?= $current_user_id ?>"></script>
+<script src="<?= $global_url ?>/js/main-menu.js?v=300before"></script>

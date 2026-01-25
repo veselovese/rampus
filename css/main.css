@@ -87,6 +87,7 @@ body {
     display: flex;
     flex-direction: column;
     min-height: 100%;
+    line-height: 1.2;
 }
 
 footer {
@@ -231,6 +232,10 @@ label {
 
 div {
     -webkit-tap-highlight-color: transparent;
+}
+
+span {
+    line-height: 1;
 }
 
 ::placeholder {

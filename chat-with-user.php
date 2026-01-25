@@ -49,9 +49,9 @@ if (isset($_SESSION['user'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-    <link rel="stylesheet" href="../css/main.css?v=300beta">
-    <link rel="stylesheet" href="../css/people.css?v=300beta">
-    <link rel="stylesheet" href="../css/chats.css?v=300beta">
+    <link rel="stylesheet" href="../css/main.css?v=300before">
+    <link rel="stylesheet" href="../css/people.css?v=300before">
+    <link rel="stylesheet" href="../css/chats.css?v=300before">
     <title>Чат с пользователем в Рампус</title>
     <link rel="apple-touch-icon" sizes="180x180" href="../favicons/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="../favicons/favicon-32x32.png">
@@ -153,9 +153,9 @@ if (isset($_SESSION['user'])) {
     </main>
 <?php } ?>
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-<script src="../js/main.js?v=300beta"></script>
-<script src="../js/chat.js?v=300beta"></script>
-<script src="../js/friends.js?v=300beta"></script>
+<script src="../js/main.js?v=300before"></script>
+<script src="../js/chat.js?v=300before"></script>
+<script src="../js/friends.js?v=300before"></script>
 </body>
 
 </html>
