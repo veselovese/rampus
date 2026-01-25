@@ -32,10 +32,34 @@ function avatarSecurity($avatar)
 if (avatarSecurity($avatar)) {
     if (move_uploaded_file($avatar['tmp_name'], $uploadfile)) {
         $uploadfile2 = '../' . $uploadfile;
-        $src = imagecreatefromjpeg($uploadfile);
-        if (!$src) $src = imagecreatefrompng($uploadfile);
-        if (!$src) $src = imagecreatefromgif($uploadfile);
+        $src = imagecreatefromstring(file_get_contents($uploadfile));
         list($old_width, $old_height) = getimagesize($uploadfile);
+
+        $exif_supported_types = ['image/jpeg', 'image/jpg', 'image/tiff'];
+        if (in_array($type, $exif_supported_types)) {
+            $exif = exif_read_data($uploadfile);
+            if ($exif && isset($exif['Orientation'])) {
+                $orientation = $exif['Orientation'];
+                switch ($orientation) {
+                    case 3:
+                        $src = imagerotate($src, 180, 0);
+                        break;
+                    case 6:
+                        $src = imagerotate($src, -90, 0);
+                        $i_old_width = $old_width;
+                        $old_width = $old_height;
+                        $old_height = $i_old_width;
+                        break;
+                    case 8:
+                        $src = imagerotate($src, 90, 0);
+                        $i_old_width = $old_width;
+                        $old_width = $old_height;
+                        $old_height = $i_old_width;
+                        break;
+                }
+            }
+        } 
+
         if ($old_width >= $old_height) {
             $k1 = $old_height / 96;
             $k2 = $old_height / 480;

@@ -38,7 +38,7 @@ $(document).ready(function () {
                     $('#auth__notify-label').text('Опа, это же ')
                     $('#auth__notify-username').text('@' + username)
                     setTimeout(() => {
-                        window.location.href = 'profile.php'
+                        window.location.href = 'profile'
                     }, 1500)
                 } else if (username === '') {
                     $('#auth__notify').addClass('reject')

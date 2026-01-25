@@ -183,7 +183,7 @@ $(document).ready(function () {
                     $('#reg__notify-username').text('')
                     $('#reg__notify').addClass('success')
                     setTimeout(() => {
-                        window.location.href = 'auth.php?reg=' + username
+                        window.location.href = 'auth?reg=' + username
                     }, 2000)
                 }
             },
