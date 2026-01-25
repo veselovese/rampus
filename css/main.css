@@ -83,7 +83,6 @@ body {
     font-size: var(--font-size-3);
     letter-spacing: 0.39px;
     color: var(--main-text-color);
-    line-height: 1;
     margin: 0;
     display: flex;
     flex-direction: column;
@@ -124,7 +123,6 @@ header .phone-link {
     display: flex;
     gap: 1rem;
     align-items: center;
-    line-height: 1;
     font-family: 'Unbounded';
     font-weight: 900;
     color: var(--main-text-color);
@@ -179,6 +177,7 @@ a {
     transition: 0.2s;
     line-height: 1;
     color: var(--else-text-color-50);
+    -webkit-tap-highlight-color: transparent;
 }
 
 .title {
@@ -200,6 +199,7 @@ button {
     color: var(--main-text-color);
     transition: 0.2s;
     cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
 }
 
 input {
@@ -209,6 +209,7 @@ input {
     color: var(--main-text-color);
     transition: 0.2s;
     line-height: 1;
+    -webkit-tap-highlight-color: transparent;
 }
 
 textarea {
@@ -218,13 +219,22 @@ textarea {
     color: var(--main-text-color);
     transition: 0.2s;
     line-height: 1;
+    -webkit-tap-highlight-color: transparent;
+}
+
+label {
+    -webkit-tap-highlight-color: transparent;
+}
+
+div {
+    -webkit-tap-highlight-color: transparent;
 }
 
 ::placeholder {
     font-family: 'Cygre';
     font-size: var(--font-size-1);
     color: var(--else-text-color-50);
-    line-height: var(--font-size-1);
+    line-height: 1;
     vertical-align: middle;
 }
 
@@ -773,7 +783,6 @@ input.auth-and-reg::placeholder {
 .like-button span,
 .comment-button span,
 .repost-button span {
-    line-height: 1.9rem;
     font-size: var(--font-size-2);
     font-weight: 700;
 }
@@ -1169,7 +1178,7 @@ input.auth-and-reg::placeholder {
 
 .menu__link-profile {
     display: flex;
-    background-color: var(--background-color);
+    background-color: var(--block-color);
     border-radius: 50%;
     transition: 0.2s;
     box-shadow: var(--shadow-small);

@@ -172,13 +172,12 @@
 
 .user-post p {
     margin: 1.6rem 0 0 0;
-    line-height: 100%;
     word-wrap: break-word;
     word-break: break-word;
 }
 
 .user-post p.main-text {
-    line-height: 125%;
+    line-height: 1.5;
 }
 
 .user-post p.comment-text {
@@ -187,7 +186,7 @@
 
 .user-post p a {
     color: var(--main-accent-color);
-    line-height: 125%;
+    line-height: 1.5;
     font-size: var(--font-size-3);
 }
 
@@ -346,7 +345,6 @@
 
 #textarea-post_label {
     font-size: var(--font-size-2);
-    line-height: var(--font-size-2);
     color: var(--else-text-color-50);
     position: absolute;
     left: 1.6rem;
@@ -357,7 +355,6 @@
 
 .textarea-comment_label {
     font-size: var(--font-size-2);
-    line-height: var(--font-size-1);
     color: var(--else-text-color-50);
     position: absolute;
     left: 0;

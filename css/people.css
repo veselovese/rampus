@@ -137,6 +137,7 @@
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow-x: hidden;
+    overflow-y: visible;
     max-width: calc(100vw - 25rem*2 - 10rem - 2.6rem*2 - 2.6rem*2 - 75px - 1.6rem*2 - 15rem);
 }
 
