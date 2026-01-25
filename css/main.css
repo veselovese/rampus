@@ -199,6 +199,7 @@ button {
     color: var(--main-text-color);
     transition: 0.2s;
     cursor: pointer;
+    line-height: 1;
     -webkit-tap-highlight-color: transparent;
 }
 
@@ -224,6 +225,8 @@ textarea {
 
 label {
     -webkit-tap-highlight-color: transparent;
+    line-height: 1;
+
 }
 
 div {
