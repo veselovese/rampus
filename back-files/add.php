@@ -79,6 +79,10 @@ if (isset($_FILES['post-image']) && $_FILES['post-image']['name'] != '' && (isse
                         case 3:
                             $src = imagerotate($src, 180, 0);
                             break;
+                        case 4:
+                            $src = imagerotate($src, 180, 0);
+                            imageflip($src, IMG_FLIP_HORIZONTAL);
+                            break;
                         case 6:
                             $src = imagerotate($src, -90, 0);
                             $i_old_width = $old_width;
@@ -151,6 +155,10 @@ if (isset($_FILES['post-image']) && $_FILES['post-image']['name'] != '' && (!iss
                 switch ($orientation) {
                     case 3:
                         $src = imagerotate($src, 180, 0);
+                        break;
+                    case 4:
+                        $src = imagerotate($src, 180, 0);
+                        imageflip($src, IMG_FLIP_HORIZONTAL);
                         break;
                     case 6:
                         $src = imagerotate($src, -90, 0);

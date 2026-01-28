@@ -21,7 +21,7 @@ $current_user_unread_chats = require('back-files/chats/get-user-unread-chats.php
                 </svg>
                 Стена
                 <?php if ($current_user_unread_posts > 0) { ?>
-                    <span class="notification-in-menu-mobile"><?= $current_user_unread_posts  ?></span>
+                    <span class="notification-in-menu-mobile active"><?= $current_user_unread_posts  ?></span>
                 <?php } ?>
             </a>
         </li>

@@ -15,76 +15,76 @@ function blossoming($action_type, $user_id, $connect)
             $connect->query("INSERT INTO blossom_notifications (action_type, user_id, blossom_change) VALUES ('$action_type', '$user_id', -11)");
             break;
         case 'add-to-friends':
-            $blossom += 0.18;
-            $connect->query("INSERT INTO blossom_notifications (action_type, user_id, blossom_change) VALUES ('$action_type', '$user_id', 18)");
+            $blossom += 0.16;
+            $connect->query("INSERT INTO blossom_notifications (action_type, user_id, blossom_change) VALUES ('$action_type', '$user_id', 16)");
             break;
         case 'delete-from-friends':
-            $blossom -= 0.18;
-            $connect->query("INSERT INTO blossom_notifications (action_type, user_id, blossom_change) VALUES ('$action_type', '$user_id', -18)");
+            $blossom -= 0.16;
+            $connect->query("INSERT INTO blossom_notifications (action_type, user_id, blossom_change) VALUES ('$action_type', '$user_id', -16)");
             break;
         case 'add-post':
-            $blossom += 0.26;
-            $connect->query("INSERT INTO blossom_notifications (action_type, user_id, blossom_change) VALUES ('$action_type', '$user_id', 26)");
+            $blossom += 0.13;
+            $connect->query("INSERT INTO blossom_notifications (action_type, user_id, blossom_change) VALUES ('$action_type', '$user_id', 13)");
             break;
         case 'delete-post':
-            $blossom -= 0.26;
-            $connect->query("INSERT INTO blossom_notifications (action_type, user_id, blossom_change) VALUES ('$action_type', '$user_id', -26)");
+            $blossom -= 0.13;
+            $connect->query("INSERT INTO blossom_notifications (action_type, user_id, blossom_change) VALUES ('$action_type', '$user_id', -13)");
             break;
         case 'has-commented':
-            $blossom += 0.19;
-            $connect->query("INSERT INTO blossom_notifications (action_type, user_id, blossom_change) VALUES ('$action_type', '$user_id', 19)");
+            $blossom += 0.09;
+            $connect->query("INSERT INTO blossom_notifications (action_type, user_id, blossom_change) VALUES ('$action_type', '$user_id', 9)");
             break;
         case 'delete-self-comment':
-            $blossom -= 0.19;
-            $connect->query("INSERT INTO blossom_notifications (action_type, user_id, blossom_change) VALUES ('$action_type', '$user_id', -19)");
+            $blossom -= 0.09;
+            $connect->query("INSERT INTO blossom_notifications (action_type, user_id, blossom_change) VALUES ('$action_type', '$user_id', -9)");
             break;
         case 'is-commented-by':
-            $blossom += 0.14;
-            $connect->query("INSERT INTO blossom_notifications (action_type, user_id, blossom_change) VALUES ('$action_type', '$user_id', 14)");
+            $blossom += 0.08;
+            $connect->query("INSERT INTO blossom_notifications (action_type, user_id, blossom_change) VALUES ('$action_type', '$user_id', 8)");
             break;
         case 'comment-deleted-under-post-by':
-            $blossom -= 0.14;
-            $connect->query("INSERT INTO blossom_notifications (action_type, user_id, blossom_change) VALUES ('$action_type', '$user_id', -14)");
+            $blossom -= 0.08;
+            $connect->query("INSERT INTO blossom_notifications (action_type, user_id, blossom_change) VALUES ('$action_type', '$user_id', -8)");
             break;
         case 'like-post':
-            $blossom += 0.15;
-            $connect->query("INSERT INTO blossom_notifications (action_type, user_id, blossom_change) VALUES ('$action_type', '$user_id', 15)");
+            $blossom += 0.07;
+            $connect->query("INSERT INTO blossom_notifications (action_type, user_id, blossom_change) VALUES ('$action_type', '$user_id', 7)");
             break;
         case 'dislike-post':
-            $blossom -= 0.15;
-            $connect->query("INSERT INTO blossom_notifications (action_type, user_id, blossom_change) VALUES ('$action_type', '$user_id', -15)");
+            $blossom -= 0.07;
+            $connect->query("INSERT INTO blossom_notifications (action_type, user_id, blossom_change) VALUES ('$action_type', '$user_id', -7)");
             break;
         case 'is-liked-by':
-            $blossom += 0.12;
-            $connect->query("INSERT INTO blossom_notifications (action_type, user_id, blossom_change) VALUES ('$action_type', '$user_id', 12)");
+            $blossom += 0.06;
+            $connect->query("INSERT INTO blossom_notifications (action_type, user_id, blossom_change) VALUES ('$action_type', '$user_id', 6)");
             break;
         case 'is-disliked-by':
-            $blossom -= 0.12;
-            $connect->query("INSERT INTO blossom_notifications (action_type, user_id, blossom_change) VALUES ('$action_type', '$user_id', -12)");
+            $blossom -= 0.06;
+            $connect->query("INSERT INTO blossom_notifications (action_type, user_id, blossom_change) VALUES ('$action_type', '$user_id', -6)");
             break;
         case 'repost-post':
-            $blossom += 0.18;
-            $connect->query("INSERT INTO blossom_notifications (action_type, user_id, blossom_change) VALUES ('$action_type', '$user_id', 18)");
+            $blossom += 0.09;
+            $connect->query("INSERT INTO blossom_notifications (action_type, user_id, blossom_change) VALUES ('$action_type', '$user_id', 9)");
             break;
         case 'unrepost-post':
-            $blossom -= 0.18;
-            $connect->query("INSERT INTO blossom_notifications (action_type, user_id, blossom_change) VALUES ('$action_type', '$user_id', -18)");
+            $blossom -= 0.09;
+            $connect->query("INSERT INTO blossom_notifications (action_type, user_id, blossom_change) VALUES ('$action_type', '$user_id', -9)");
             break;
         case 'is-reposted-by':
-            $blossom += 0.14;
-            $connect->query("INSERT INTO blossom_notifications (action_type, user_id, blossom_change) VALUES ('$action_type', '$user_id', 14)");
+            $blossom += 0.07;
+            $connect->query("INSERT INTO blossom_notifications (action_type, user_id, blossom_change) VALUES ('$action_type', '$user_id', 7)");
             break;
         case 'is-unreposted-by':
-            $blossom -= 0.14;
-            $connect->query("INSERT INTO blossom_notifications (action_type, user_id, blossom_change) VALUES ('$action_type', '$user_id', -14)");
+            $blossom -= 0.07;
+            $connect->query("INSERT INTO blossom_notifications (action_type, user_id, blossom_change) VALUES ('$action_type', '$user_id', -7)");
             break;
         case 'grab-trophy':
-            $blossom += 0.51;
-            $connect->query("INSERT INTO blossom_notifications (action_type, user_id, blossom_change) VALUES ('$action_type', '$user_id', 51)");
+            $blossom += 0.37;
+            $connect->query("INSERT INTO blossom_notifications (action_type, user_id, blossom_change) VALUES ('$action_type', '$user_id', 37)");
             break;
         case 'lose-trophy':
-            $blossom -= 0.51;
-            $connect->query("INSERT INTO blossom_notifications (action_type, user_id, blossom_change) VALUES ('$action_type', '$user_id', -51)");
+            $blossom -= 0.37;
+            $connect->query("INSERT INTO blossom_notifications (action_type, user_id, blossom_change) VALUES ('$action_type', '$user_id', -37)");
             break;
     }
 
