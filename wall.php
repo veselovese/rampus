@@ -11,6 +11,7 @@ if (isset($_SESSION['user'])) {
     $current_user_id = $_SESSION['user']['id'];
 
     $user_in_top = findUserPositionInTop($current_user_id, $connect);
+    $friends_counter = $result_friend->num_rows;
 
     $_SESSION['user']['unread_posts'] = 0;
     $connect->query("UPDATE users SET unread_posts = 0 WHERE id = $current_user_id");
@@ -45,10 +46,9 @@ if (isset($_SESSION['user'])) {
                     <div class="second-part">
                         <div class="wall-filter-mobile" id="wall-filter-mobile">
                             <div class="wall-filter__choice">
-                                <label class="wall-filter-popup-li">Все<span>Посты всех пользователей</span><input checked name="wall-filter__mobile" id="wall-filter-all__mobile" type="radio" value=""></label>
-                                <label class="wall-filter-popup-li <?php if ($result_friend->num_rows == 0) {
-                                                                        echo "no-friends";
-                                                                    } ?>">Друзья<span>Посты ваших друзей</span><input name="wall-filter__mobile" id="wall-filter-friends__mobile" type="radio" value=""></label>
+                                <label class="wall-filter-popup-li">Основное<span>Вы и ваши друзья</span><input checked name="wall-filter__mobile" id="wall-filter-main__mobile" type="radio" value=""></label>
+                                <label class="wall-filter-popup-li">Расписание<span>Для Тридцать седьмой</span><input name="wall-filter__mobile" id="wall-filter-timetable__mobile" type="radio" value=""></label>
+                                <label class="wall-filter-popup-li">Глобал<span>Посты всех пользователей</span><input name="wall-filter__mobile" id="wall-filter-all__mobile" type="radio" value=""></label>
                             </div>
                         </div>
                         <!-- <div class="wall__user-posts" id="new-posts"></div> -->
@@ -116,10 +116,9 @@ if (isset($_SESSION['user'])) {
                             <div>
                                 <p class="third-part-title">Фильтры</p>
                                 <div class="wall-filter__choice">
-                                    <label class="wall-filter-popup-li">Все<span>Посты всех пользователей</span><input checked name="wall-filter" id="wall-filter-all" type="radio" value=""></label>
-                                    <label class="wall-filter-popup-li <?php if ($result_friend->num_rows == 0) {
-                                                                            echo "no-friends";
-                                                                        } ?>">Друзья<span>Посты ваших друзей</span><input name="wall-filter" id="wall-filter-friends" type="radio" value=""></label>
+                                    <label class="wall-filter-popup-li">Основное<span>Вы и ваши друзья</span><input checked name="wall-filter" id="wall-filter-main" type="radio" value=""></label>
+                                    <label class="wall-filter-popup-li">Расписание<span>Для Тридцать седьмой</span><input name="wall-filter" id="wall-filter-timetable" type="radio" value=""></label>
+                                    <label class="wall-filter-popup-li">Глобал<span>Посты всех пользователей</span><input name="wall-filter" id="wall-filter-all" type="radio" value=""></label>
                                 </div>
                             </div>
                             <div>

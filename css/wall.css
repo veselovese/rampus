@@ -1231,6 +1231,7 @@ div.for-friends svg {
 
     .wall-filter-popup-li {
         max-width: max-content;
+        flex-basis: content;
     }
 
     .wall__user-posts {
@@ -1308,6 +1309,11 @@ div.for-friends svg {
 
     header .phone-link span {
         display: none;
+    }
+
+    .wall-filter-mobile .wall-filter__choice {
+        gap: 0.39rem;
+        width: 100%;
     }
 }
 

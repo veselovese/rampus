@@ -12,9 +12,17 @@ require_once('reposts/check-repost-status.php');
 require_once('find-user-position-in-top.php');
 require_once('get-user-friends-id.php');
 
-$user_friends_id = implode(',', getUserFriendsId($current_user_id, $connect));
+$user_with_friends_id_array = getUserFriendsId($current_user_id, $connect);
+$user_with_friends_id_array[] = $current_user_id;
+$user_friends_id = implode(',', $user_with_friends_id_array);
 
-$filter = $_POST['filter'] === 'friends' ? "AND posts.user_id IN ($user_friends_id)" : "";
+if ($_POST['filter'] === 'main') {
+    $filter = "AND posts.user_id IN ($user_friends_id) AND NOT users.username = 'Thirty_seventh'";
+} else if ($_POST['filter'] === 'timetable') {
+    $filter = "AND users.username = 'Thirty_seventh'";
+} else {
+    $filter = "AND NOT users.username = 'Thirty_seventh'";
+}
 $search = $_POST['search'];
 $search = $search != null ? "AND hashtags.name = '$search'" : '';
 

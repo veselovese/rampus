@@ -1,7 +1,7 @@
 $(document).ready(function () {
     let params = new URLSearchParams(document.location.search);
     let search = params.get('search');
-    renderPosts('all', search);
+    renderPosts('main', search);
 
     function renderPosts(query, search) {
         $.ajax({
@@ -123,17 +123,23 @@ $(document).ready(function () {
         })
     })
 
-    $('#wall-filter-friends').click(() => {
-        renderPosts('friends', search);
+    $('#wall-filter-main').click(() => {
+        renderPosts('main', search);
     })
     $('#wall-filter-all').click(() => {
         renderPosts('all', search);
     })
-    $('#wall-filter-friends__mobile').click(() => {
-        renderPosts('friends', search);
+    $('#wall-filter-timetable').click(() => {
+        renderPosts('timetable', search);
+    })
+    $('#wall-filter-main__mobile').click(() => {
+        renderPosts('main', search);
     })
     $('#wall-filter-all__mobile').click(() => {
         renderPosts('all', search);
+    })
+    $('#wall-filter-timetable__mobile').click(() => {
+        renderPosts('timetable', search);
     })
 })
 
