@@ -11,9 +11,14 @@ if (isset($_POST['reposted'])) {
 
     $repost_user_id = $row_reposted['user_id'];
     $repost_for_frineds = $row_reposted['for_friends'];
-    $repost_text = $row_reposted['text'];
-    $repost_img = $row_reposted['img'];
-    $repost_hashtag_id = $row_reposted['hashtag_id'];
+    $repost_text = $row_reposted['text'] ?? "";
+    $repost_img = $row_reposted['img'] ?? "";
+    $repost_hashtag_id = $row_reposted['hashtag_id'] ?? NULL;
+    if ($repost_hashtag_id === '' || $repost_hashtag_id === NULL) {
+        $hashtag_id_value = "NULL";
+    } else {
+        $hashtag_id_value = "'" . $connect->real_escape_string($repost_hashtag_id) . "'";
+    }
     $repost_repost_user_id = $row_reposted['repost_user_id'];
     $repost_repost_post_id = $row_reposted['repost_post_id'];
 
@@ -32,7 +37,7 @@ if (isset($_POST['reposted'])) {
                     $repost_post_id = $row_repost_post_id['id'];
                     $connect->query("UPDATE posts SET status = 0 WHERE id = $repost_post_id");
                 } else {
-                    $connect->query("INSERT INTO posts (user_id, hashtag_id, text, img, repost_post_id, repost_user_id) VALUES ('$user_id', '$repost_hashtag_id', '$repost_text', '$repost_img', '$repost_repost_post_id', '$repost_repost_user_id')");
+                    $connect->query("INSERT INTO posts (user_id, hashtag_id, text, img, repost_post_id, repost_user_id) VALUES ('$user_id', $hashtag_id_value, '$repost_text', '$repost_img', '$repost_repost_post_id', '$repost_repost_user_id')");
                 }
 
                 $connect->query("UPDATE posts SET reposts = reposts + 1 WHERE id = $post_id");
@@ -58,7 +63,7 @@ if (isset($_POST['reposted'])) {
                     $repost_post_id = $row_repost_post_id['id'];
                     $connect->query("UPDATE posts SET status = 0 WHERE id = $repost_post_id");
                 } else {
-                    $connect->query("INSERT INTO posts (user_id, hashtag_id, text, img, repost_post_id, repost_user_id) VALUES ('$user_id', '$repost_hashtag_id', '$repost_text', '$repost_img', '$post_id', '$repost_user_id')");
+                    $connect->query("INSERT INTO posts (user_id, hashtag_id, text, img, repost_post_id, repost_user_id) VALUES ('$user_id', $repost_hashtag_id, '$repost_text', '$repost_img', '$post_id', '$repost_user_id')");
                 }
 
                 $connect->query("UPDATE posts SET reposts = $reposts + 1 WHERE id = $post_id");
@@ -86,9 +91,14 @@ if (isset($_POST['unreposted'])) {
 
     $repost_user_id = $row_reposted['user_id'];
     $repost_for_frineds = $row_reposted['for_friends'];
-    $repost_text = $row_reposted['text'];
-    $repost_img = $row_reposted['img'];
-    $repost_hashtag_id = $row_reposted['hashtag_id'];
+    $repost_text = $row_reposted['text'] ?? "";
+    $repost_img = $row_reposted['img'] ?? "";
+    $repost_hashtag_id = $row_reposted['hashtag_id'] ?? NULL;
+    if ($repost_hashtag_id === '' || $repost_hashtag_id === NULL) {
+        $hashtag_id_value = "NULL";
+    } else {
+        $hashtag_id_value = "'" . $connect->real_escape_string($repost_hashtag_id) . "'";
+    }
     $repost_repost_user_id = $row_reposted['repost_user_id'];
     $repost_repost_post_id = $row_reposted['repost_post_id'];
 

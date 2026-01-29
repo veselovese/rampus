@@ -6,7 +6,7 @@ date_default_timezone_set('Europe/Moscow');
 $today = date('Y-m-d', time());
 $yesterday = date('Y-m-d', mktime(0, 0, 0, date("m"), date("d") - 1, date("Y")));
 $beforeyesterday = date('Y-m-d', mktime(0, 0, 0, date("m"), date("d") - 2, date("Y")));
-$month_list = array(1 => '01', 2 => '02', 3 => '03', 4 => '04', 5 => '05', 6 => '06', 7 => '07', 8 => '08', 9 => '09', 10 => '10', 11 => '11', 12 => '12');
+$month_list = array(1 => 'января', 2 => 'февраля', 3 => 'марта', 4 => 'апреля', 5 => 'мая', 6 => 'июня', 7 => 'июля', 8 => 'августа', 9 => 'сентября', 10 => 'октября', 11 => 'ноября', 12 => 'декабря');
 $weeks_list = array(0 => 'вс', 1 => 'пн', 2 => 'вт', 3 => 'ср', 4 => 'чт', 5 => 'пт', 6 => 'сб');
 
 $current_user_id = $_SESSION['user']['id'];
@@ -31,7 +31,7 @@ if ($result_blossom_notifications->num_rows > 0) {
                 $notify_date = $weeks_list[date_format(date_create($notify_date), 'позавчера в G:i')];
                 break;
             default:
-                $notify_date = date_format(date_create($content_date), 'j ') . $month_list[date_format(date_create($content_date), 'n')] . date_format(date_create($content_date), ' в G:i');
+                $notify_date = date_format(date_create($notify_date), 'j ') . $month_list[date_format(date_create($notify_date), 'n')] . date_format(date_create($notify_date), ' в G:i');
                 break;
         }
         switch ($notify_action_type) {

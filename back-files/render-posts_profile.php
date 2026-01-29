@@ -152,16 +152,11 @@ if ($result_post->num_rows > 0) {
             </svg>";
                 echo "<span class='like-counter'>" . $content_likes . "</span></button>";
             }
-            if ($rows_num_comment == 0) {
-                echo "<button onclick='commentButtonClick($content_id)' class='comment-button comment'><svg width='23' height='19' viewBox='0 0 23 19' fill='none' xmlns='http://www.w3.org/2000/svg'>
-            <path d='M4 1.25L19 1.25C20.5188 1.25 21.75 2.48122 21.75 4L21.75 17.75L4 17.75C2.48122 17.75 1.25 16.5188 1.25 15L1.25 4C1.25 2.48122 2.48122 1.25 4 1.25Z' />
-            </svg>";
-            } else {
-                echo "<button onclick='commentButtonClick($content_id)' class='comment-button comment'><svg width='23' height='19' viewBox='0 0 23 19' fill='none' xmlns='http://www.w3.org/2000/svg'>
-            <path d='M4 1.25L19 1.25C20.5188 1.25 21.75 2.48122 21.75 4L21.75 17.75L4 17.75C2.48122 17.75 1.25 16.5188 1.25 15L1.25 4C1.25 2.48122 2.48122 1.25 4 1.25Z' />
-            </svg>";
-                echo "<span class='comment-counter'>" . $rows_num_comment . "</span></button>";
-            }
+            echo "<a href='./post/$content_id' class='comment-button comment'><svg width='23' height='19' viewBox='0 0 23 19' fill='none' xmlns='http://www.w3.org/2000/svg'>
+        <path d='M4 1.25L19 1.25C20.5188 1.25 21.75 2.48122 21.75 4L21.75 17.75L4 17.75C2.48122 17.75 1.25 16.5188 1.25 15L1.25 4C1.25 2.48122 2.48122 1.25 4 1.25Z' />
+        </svg>";
+            echo $rows_num_comment != 0 ? "<span class='comment-counter'>" . $rows_num_comment . "</span>" : "";
+            echo "</a>";
             if (!$for_friends && !($content_type == 'repost' && $content_author_id == $current_user_id) && !$check_repost_status) {
                 if ($result_repost->num_rows > 0) {
                     echo "<button id='repost-$content_id' class='repost-button reposted'><svg width='27' height='22' viewBox='0 0 27 22' fill='none' xmlns='http://www.w3.org/2000/svg'>
@@ -273,16 +268,11 @@ if ($result_post->num_rows > 0) {
             </svg>";
                 echo "<span class='like-counter'>" . $content_likes . "</span></button>";
             }
-            if ($rows_num_comment == 0) {
-                echo "<button onclick='commentButtonClick($content_id)' class='comment-button comment'><svg width='23' height='19' viewBox='0 0 23 19' fill='none' xmlns='http://www.w3.org/2000/svg'>
-            <path d='M4 1.25L19 1.25C20.5188 1.25 21.75 2.48122 21.75 4L21.75 17.75L4 17.75C2.48122 17.75 1.25 16.5188 1.25 15L1.25 4C1.25 2.48122 2.48122 1.25 4 1.25Z' />
-            </svg>";
-            } else {
-                echo "<button onclick='commentButtonClick($content_id)' class='comment-button comment'><svg width='23' height='19' viewBox='0 0 23 19' fill='none' xmlns='http://www.w3.org/2000/svg'>
-            <path d='M4 1.25L19 1.25C20.5188 1.25 21.75 2.48122 21.75 4L21.75 17.75L4 17.75C2.48122 17.75 1.25 16.5188 1.25 15L1.25 4C1.25 2.48122 2.48122 1.25 4 1.25Z' />
-            </svg>";
-                echo "<span class='comment-counter'>" . $rows_num_comment . "</span></button>";
-            }
+            echo "<a href='./post/$content_id' class='comment-button comment'><svg width='23' height='19' viewBox='0 0 23 19' fill='none' xmlns='http://www.w3.org/2000/svg'>
+        <path d='M4 1.25L19 1.25C20.5188 1.25 21.75 2.48122 21.75 4L21.75 17.75L4 17.75C2.48122 17.75 1.25 16.5188 1.25 15L1.25 4C1.25 2.48122 2.48122 1.25 4 1.25Z' />
+        </svg>";
+            echo $rows_num_comment != 0 ? "<span class='comment-counter'>" . $rows_num_comment . "</span>" : "";
+            echo "</a>";
             if (!$for_friends && !($content_type == 'repost' && $content_author_id == $current_user_id) && !$check_repost_status) {
                 if ($result_repost->num_rows > 0) {
                     echo "<button id='repost-$content_id' class='repost-button reposted'><svg width='27' height='22' viewBox='0 0 27 22' fill='none' xmlns='http://www.w3.org/2000/svg'>
