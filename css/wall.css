@@ -194,6 +194,10 @@
     font-size: var(--font-size-3);
 }
 
+.user-post p a:hover {
+    opacity: 80%;
+}
+
 .user-post>div:first-child {
     display: flex;
     justify-content: space-between;
@@ -895,8 +899,8 @@ div.for-friends svg {
 
 .wall-filter-popup-li:has([type='radio']:checked) {
     color: var(--main-accent-color);
-    background-color: var(--block-accent-color-210);
     box-shadow: var(--shadow-small);
+    background-color: var(--block-accent-color-210);
 }
 
 .first-part:has(#wall-filter-all:checked)+.second-and-third-parts #posts-filter-all,
@@ -1228,16 +1232,6 @@ div.for-friends svg {
         display: none;
     }
 
-    header {
-        justify-content: left;
-        padding-top: 1.6rem;
-        padding-bottom: 1.6rem;
-    }
-
-    header div:last-child {
-        margin-left: auto;
-    }
-
     .wall-filter-mobile {
         display: flex;
     }
@@ -1263,10 +1257,6 @@ div.for-friends svg {
 @media (max-width: 920px) {
     main {
         padding: 0;
-    }
-
-    header {
-        gap: 2.6rem;
     }
 }
 
@@ -1299,10 +1289,6 @@ div.for-friends svg {
         opacity: 1;
     }
 
-    header div:last-child {
-        margin-left: 0;
-    }
-
     .third-part-in-header {
         width: 100%;
     }
@@ -1320,10 +1306,6 @@ div.for-friends svg {
         gap: 1.1rem
     }
 
-    header .phone-link span {
-        display: none;
-    }
-
     .wall-filter-mobile .wall-filter__choice {
         gap: 0.39rem;
         width: 100%;
@@ -1335,10 +1317,6 @@ div.for-friends svg {
 }
 
 @media (max-width: 720px) {
-    header {
-        justify-content: space-between;
-    }
-
     .third-part-in-header li a {
         display: block;
     }

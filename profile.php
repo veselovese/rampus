@@ -23,7 +23,7 @@ if (isset($_SESSION['user'])) {
         $current_user_blossom_progress = $row_current_user_blossom["blossom_progress"];
     }
 
-    $sql_current_user_posts_and_likes_counter = "SELECT SUM(posts.likes) AS current_user_likes_counter, COUNT(*) AS current_user_posts_counter
+    $sql_current_user_posts_and_likes_counter = "SELECT IF(SUM(posts.likes), SUM(posts.likes), 0) AS current_user_likes_counter, COUNT(*) AS current_user_posts_counter
                     FROM posts
                     JOIN users ON posts.user_id = users.id
                     WHERE posts.user_id = $current_user_id";

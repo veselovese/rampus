@@ -2,8 +2,11 @@
 session_start();
 require_once('connect.php');
 require('find-user-position-in-top.php');
+require('get-user-friends-id.php');
 
 $current_user_id = $_SESSION['user']['id'];
+
+$friends_id = getUserFriendsId($current_user_id, $connect);
 
 if (isset($_POST["people"])) {
     $sql_people = "SELECT id, username, first_name, second_name, avatar, plat_status, verify_status
@@ -11,20 +14,6 @@ if (isset($_POST["people"])) {
 } else {
     $sql_people = "SELECT id, username, first_name, second_name, avatar, plat_status, verify_status
     FROM users ORDER BY first_name";
-}
-
-$result_friend_1 = $connect->query("SELECT user_id_1 FROM friends JOIN users ON friends.user_id_1 = users.id WHERE user_id_2 = $current_user_id");
-$result_friend_2 = $connect->query("SELECT user_id_2 FROM friends JOIN users ON friends.user_id_2 = users.id WHERE user_id_1 = $current_user_id");
-$friends_id = array();
-if ($result_friend_1->num_rows > 0) {
-    while ($row_friend = $result_friend_1->fetch_assoc()) {
-        $friends_id[] = $row_friend['user_id_1'];
-    }
-}
-if ($result_friend_2->num_rows > 0) {
-    while ($row_friend = $result_friend_2->fetch_assoc()) {
-        $friends_id[] = $row_friend['user_id_2'];
-    }
 }
 
 $result_people = $connect->query($sql_people);
@@ -73,7 +62,7 @@ if ($result_people->num_rows > 0) {
                 }
             }
             echo "</div>";
-            if (in_array($other_user_in_top, $friends_id)) {
+            if (in_array($other_user_id, $friends_id)) {
                 echo "<svg class='friend-status' width='28' height='24' viewBox='0 0 28 24' fill='none' xmlns='http://www.w3.org/2000/svg'>
                                     <path d='M20.8526 4.93034C20.7754 4.57556 20.6682 4.22744 20.5318 3.89002C20.2227 3.12549 19.7696 2.43082 19.1985 1.84567C18.6273 1.26053 17.9493 0.796361 17.203 0.47968C16.4568 0.162998 15.6569 3.10145e-06 14.8492 0C14.0415 -3.0333e-06 13.2417 0.162987 12.4954 0.479662C11.7496 0.796168 11.0719 1.26 10.5009 1.8447L10.4995 1.84326L10.4985 1.84432C9.92762 1.25991 9.25011 0.7963 8.50454 0.479903C7.75829 0.163222 6.95847 0.000225794 6.15074 0.000222625C5.34301 0.000219592 4.54319 0.163209 3.79695 0.479885C3.0507 0.79656 2.37265 1.26072 1.8015 1.84586C1.23035 2.43101 0.777293 3.12567 0.468191 3.8902C0.159089 4.65473 -2.36435e-06 5.47415 0 6.30167C3.3586e-06 7.12919 0.1591 7.94861 0.468208 8.71314C0.777315 9.47767 1.23038 10.1723 1.80153 10.7575L7.45977 16.554C7.82333 16.0637 8.22442 15.598 8.66116 15.1613C9.51192 14.3105 10.4728 13.595 11.5102 13.0287C11.1816 12.2514 11 11.397 11 10.5001C11 6.91027 13.9101 4.00012 17.5 4.00012C18.7265 4.00012 19.8737 4.33985 20.8526 4.93034Z' />
                                     <path d='M21.25 10.5001C21.25 12.5712 19.5711 14.2501 17.5 14.2501C15.4289 14.2501 13.75 12.5712 13.75 10.5001C13.75 8.42905 15.4289 6.75012 17.5 6.75012C19.5711 6.75012 21.25 8.42905 21.25 10.5001ZM10.6057 17.1058C11.2822 16.4293 12.0479 15.8625 12.8752 15.4168C14.0826 16.5528 15.7103 17.2501 17.5 17.2501C19.2897 17.2501 20.9174 16.5528 22.1248 15.4168C22.9521 15.8625 23.7177 16.4293 24.3943 17.1058C26.0452 18.7567 27.0429 20.9386 27.2211 23.2501H17.5L7.77887 23.2501C7.95711 20.9386 8.95483 18.7567 10.6057 17.1058Z' stroke-linejoin='round' />

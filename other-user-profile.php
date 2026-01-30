@@ -54,7 +54,7 @@ FROM
     ) friends   
     JOIN users u ON u.id = friends.friend_id");
 
-$sql_other_user_posts_and_likes_counter = "SELECT SUM(posts.likes) AS other_user_likes_counter, COUNT(*) AS other_user_posts_counter
+$sql_other_user_posts_and_likes_counter = "SELECT IF(SUM(posts.likes), SUM(posts.likes), 0) AS other_user_likes_counter, COUNT(*) AS other_user_posts_counter
                     FROM posts
                     JOIN users ON posts.user_id = users.id
                     WHERE posts.user_id = $other_user_id";
