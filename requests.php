@@ -7,7 +7,7 @@ if (isset($_SESSION['user'])) {
 
     $current_user_id = $_SESSION['user']['id'];
 
-    $result_request_to = $connect->query("SELECT u.id, u.username, u.first_name, u.second_name, u.avatar FROM requests r JOIN users u ON r.user_id_from = u.id WHERE user_id_to = $current_user_id");
+    $result_request_to = $connect->query("SELECT u.id, u.username, u.first_name, u.second_name, u.avatar, u.verify_status FROM requests r JOIN users u ON r.user_id_from = u.id WHERE user_id_to = $current_user_id");
 }
 ?>
 
@@ -64,15 +64,16 @@ if (isset($_SESSION['user'])) {
                                     $other_user_avatar = $row_request['avatar'];
                                     $other_user_first_name = $row_request['first_name'];
                                     $other_user_second_name = $row_request['second_name'];
+                                    $other_user_verify_status = $row_request['verify_status'];
                                     echo "<li class='user requests' onclick='openOtherUserProfile(event, `$other_user_username`)'>";
                                     echo "<img class='other-user-avatar' src='uploads/avatar/thin_$other_user_avatar'>";
                                     echo "<div class='current-user-info'>";
-                                    $trust_mark = $other_user_username == 'rampus' || $other_user_username == 'help' ? ' trust' : '';
+                                    $trust_mark = $other_user_verify_status ? ' trust' : '';
                                     if ($other_user_first_name || $other_user_second_name) {
                                         echo "<p class='$trust_mark'>$other_user_first_name $other_user_second_name</p>";
                                     }
                                     echo "<p class='$trust_mark'>@$other_user_username</p>";
-                                    if ($other_user_username == 'rampus' || $other_user_username == 'help') {
+                                    if ($other_user_verify_status) {
                                         echo "<img class='status' src='pics/SuperUserIcon.svg'>";
                                     } else {
                                         switch ($other_user_in_top) {

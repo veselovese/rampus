@@ -42,7 +42,7 @@ if (isset($_SESSION['user'])) {
                 <div class="second-and-third-parts">
                     <div class="second-part">
                         <div class="chats all-chats">
-                            <p>Чаты<span><?= $friends_counter ?></span></p>
+                            <p>Чаты</p>
                             <div class="search-chats-div">
                                 <input type="text" name="search-chats" id="search-chats" placeholder="Рампус Кроликович">
                                 <input type="hidden" name="current-user-id" id="currentuserid_input" value="<?= $current_user_id ?>">

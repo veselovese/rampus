@@ -6,10 +6,10 @@ require('find-user-position-in-top.php');
 $current_user_id = $_SESSION['user']['id'];
 
 if (isset($_POST["people"])) {
-    $sql_people = "SELECT id, username, first_name, second_name, avatar, plat_status
+    $sql_people = "SELECT id, username, first_name, second_name, avatar, plat_status, verify_status
     FROM users WHERE users.username LIKE '%" . $_POST["people"] . "%' OR users.first_name LIKE '%" . $_POST["people"] . "%' OR users.second_name LIKE '%" . $_POST["people"] . "%' ORDER BY first_name";
 } else {
-    $sql_people = "SELECT id, username, first_name, second_name, avatar, plat_status
+    $sql_people = "SELECT id, username, first_name, second_name, avatar, plat_status, verify_status
     FROM users ORDER BY first_name";
 }
 
@@ -38,12 +38,13 @@ if ($result_people->num_rows > 0) {
             $other_user_username = $row_people['username'];
             $other_user_avatar = $row_people['avatar'];
             $other_user_plat_status = $row_people['plat_status'];
+            $other_user_verify_status = $row_people['verify_status'];
             $other_user_first_name = $row_people['first_name'];
             $other_user_second_name = $row_people['second_name'];
             echo "<li class='user' onclick='openOtherUserProfile(event, `$other_user_username`)'>";
             echo "<img class='other-user-avatar' src='uploads/avatar/thin_$other_user_avatar'>";
             echo "<div class='current-user-info'>";
-            $trust_mark = $other_user_username == 'rampus' || $other_user_username == 'help' ? ' trust' : '';
+            $trust_mark = $other_user_verify_status ? ' trust' : '';
             if ($other_user_first_name || $other_user_second_name) {
                 echo "<div class='f-and-s-names-and-plat'>";
                 echo "<p class='$trust_mark'>$other_user_first_name $other_user_second_name</p>";
@@ -56,7 +57,7 @@ if ($result_people->num_rows > 0) {
                 require('../components/plat-status.php');
                 echo "</div>";
             }
-            if ($other_user_username == 'rampus' || $other_user_username == 'help') {
+            if ($other_user_verify_status) {
                 echo "<img class='status' src='pics/SuperUserIcon.svg'>";
             } else {
                 switch ($other_user_in_top) {

@@ -1512,11 +1512,6 @@ span.for-friends {
 }
 
 @media (max-width: 720px) {
-    :root {
-        --font-size-3: 1.6rem;
-        --font-size-4: 2.4rem;
-    }
-
     .user-friends div.friends .friend-avatar {
         min-width: 50px;
         min-height: 50px;

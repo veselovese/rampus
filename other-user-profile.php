@@ -41,7 +41,7 @@ if ($result_other_user->num_rows > 0) {
 }
 
 $friend_status = getFriendStatus($other_user_id, $connect);
-$result_other_user_friends_list = $connect->query("SELECT u.id AS other_user_friend_id, u.username AS other_user_friend_username, u.first_name AS other_user_friend_first_name, u.second_name AS other_user_friend_second_name, u.avatar AS other_user_friend_avatar
+$result_other_user_friends_list = $connect->query("SELECT u.id AS other_user_friend_id, u.username AS other_user_friend_username, u.first_name AS other_user_friend_first_name, u.second_name AS other_user_friend_second_name, u.avatar AS other_user_friend_avatar, u.verify_status AS other_user_friend_verify_status
 FROM
 (
         SELECT 
@@ -249,17 +249,18 @@ $result_other_user_trophies_list_mobile = $connect->query($sql_other_user_trophi
                                             $friend_first_name = $row_friend["other_user_friend_first_name"];
                                             $friend_second_name = $row_friend["other_user_friend_second_name"];
                                             $friend_avatar = $row_friend["other_user_friend_avatar"];
+                                            $friend_verify_status = $row_friend["other_user_friend_verify_status"];
                                             echo "<a class='current-friend' href='../user/$friend_username'>";
                                             echo "<img class='friend-avatar' src='../uploads/avatar/thin_$friend_avatar'>";
                                             echo "<div class='friend-name-and-status'>";
                                             if ($friend_first_name) {
-                                                echo $friend_username == 'rampus' || $friend_username == 'help' ? "<p class='rampus'>$friend_first_name</p>" : "<p>$friend_first_name</p>";
+                                                echo $friend_verify_status ? "<p class='rampus'>$friend_first_name</p>" : "<p>$friend_first_name</p>";
                                             } else if ($friend_second_name) {
-                                                echo $friend_username == 'rampus' || $friend_username == 'help' ? "<p class='rampus'>$friend_second_name</p>" : "<p>$friend_second_name</p>";
+                                                echo $friend_verify_status ? "<p class='rampus'>$friend_second_name</p>" : "<p>$friend_second_name</p>";
                                             } else if ($friend_username) {
-                                                echo $friend_username == 'rampus' || $friend_username == 'help' ? "<p class='rampus'>@$friend_username</p>" : "<p>@$friend_username</p>";
+                                                echo $friend_verify_status ? "<p class='rampus'>@$friend_username</p>" : "<p>@$friend_username</p>";
                                             }
-                                            if ($friend_username == 'rampus' || $friend_username == 'help') { ?>
+                                            if ($friend_verify_status) { ?>
                                                 <img class='status' src="../pics/SuperUserIcon.svg">
                                 <?php } else {
                                                 switch ($friend_in_top) {

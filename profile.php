@@ -187,15 +187,16 @@ if (isset($_SESSION['user'])) {
                                             $other_user_first_name = $row_friend["user_first_name"];
                                             $other_user_second_name = $row_friend["user_second_name"];
                                             $other_user_avatar = $row_friend["user_avatar"];
+                                            $other_user_verify_status = $row_friend["user_verify_status"];
                                             echo "<a class='current-friend' href='./user/$other_user_username'>";
                                             echo "<img class='friend-avatar' src='uploads/avatar/thin_$other_user_avatar'>";
                                             echo "<div class='friend-name-and-status'>";
                                             if ($other_user_first_name) {
-                                                echo $other_user_username == 'rampus' || $other_user_username == 'help' ? "<p class='rampus'>$other_user_first_name</p>" : "<p>$other_user_first_name</p>";
+                                                echo $other_user_verify_status ? "<p class='rampus'>$other_user_first_name</p>" : "<p>$other_user_first_name</p>";
                                             } else if ($other_user_second_name) {
-                                                echo $other_user_username == 'rampus' || $other_user_username == 'help' ? "<p class='rampus'>$other_user_second_name</p>" : "<p>$friend_second_name</p>";
+                                                echo $other_user_verify_status ? "<p class='rampus'>$other_user_second_name</p>" : "<p>$friend_second_name</p>";
                                             } else if ($other_user_username) {
-                                                echo $other_user_username == 'rampus' || $other_user_username == 'help' ? "<p class='rampus'>@$other_user_username</p>" : "<p>@$other_user_username</p>";
+                                                echo $other_user_verify_status ? "<p class='rampus'>@$other_user_username</p>" : "<p>@$other_user_username</p>";
                                             }
                                             require('components/other-users-status.php');
                                             echo "</div>";

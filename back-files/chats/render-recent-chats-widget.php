@@ -12,29 +12,54 @@ $current_user_id = $_SESSION['user']['id'];
 if (isset($_POST['user_id_to'])) $user_id_to = $_POST['user_id_to'];
 
 $sql_chats = "SELECT 
-        ch.id AS chat_id,
-        friends.friend_id AS interlocutor_id,
-        u.id AS user_id, u.first_name AS user_first_name, u.second_name AS user_second_name, u.username AS user_username, u.avatar AS user_avatar, 
-        lm.message AS last_message, lm.send_date AS last_message_date, lm.read_status AS last_message_read_status,
+    ch.id AS chat_id,
+    CASE 
+        WHEN ch.user_id_1 = $current_user_id THEN ch.user_id_2
+        ELSE ch.user_id_1
+    END AS interlocutor_id,
+    u.id AS user_id, u.first_name AS user_first_name, u.second_name AS user_second_name, 
+    u.username AS user_username, u.plat_status AS user_plat_status, u.verify_status AS user_verify_status, u.avatar AS user_avatar, 
+    lm.message AS last_message, lm.send_date AS last_message_date, 
+    lm.read_status AS last_message_read_status,
     IFNULL(SUM(CASE WHEN m.read_status = 0 AND m.user_id_to = $current_user_id THEN 1 END), 0) AS unread_messages,
     CASE WHEN ch.id IS NOT NULL THEN 1 ELSE 0 END AS chat_exists
     FROM (
-        SELECT 
-            CASE 
-                WHEN user_id_1 = $current_user_id THEN user_id_2
-                ELSE user_id_1
-            END AS friend_id
-        FROM friends
-        WHERE user_id_1 = $current_user_id OR user_id_2 = $current_user_id
+        SELECT DISTINCT user_id FROM (
+            SELECT 
+                CASE 
+                    WHEN user_id_1 = $current_user_id THEN user_id_2
+                    ELSE user_id_1
+                END AS user_id
+            FROM friends
+            WHERE (user_id_1 = $current_user_id OR user_id_2 = $current_user_id)
+
+            UNION ALL
+
+            SELECT 
+                id AS user_id
+            FROM users
+            WHERE verify_status = true 
+                AND id != $current_user_id
+
+            UNION ALL
+
+            SELECT DISTINCT
+                CASE 
+                    WHEN m.user_id_from = $current_user_id THEN m.user_id_to
+                    ELSE m.user_id_from
+                END AS user_id
+            FROM messages m
+            WHERE m.user_id_from = $current_user_id OR m.user_id_to = $current_user_id
+        ) combined_ids
     ) friends   
-    JOIN users u ON u.id = friends.friend_id
+    JOIN users u ON u.id = friends.user_id
     LEFT JOIN chats ch ON 
-        (ch.user_id_1 = $current_user_id AND ch.user_id_2 = friends.friend_id) OR
-        (ch.user_id_2 = $current_user_id AND ch.user_id_1 = friends.friend_id)
+        (ch.user_id_1 = $current_user_id AND ch.user_id_2 = friends.user_id) OR
+        (ch.user_id_2 = $current_user_id AND ch.user_id_1 = friends.user_id)
     LEFT JOIN messages lm ON ch.last_message_id = lm.id
     LEFT JOIN messages m ON ch.id = m.chat_id
     GROUP BY 
-        friends.friend_id,
+        friends.user_id,
         u.id, u.first_name, u.second_name, u.username, u.avatar,
         ch.id, lm.message, lm.send_date, lm.read_status, lm.user_id_from
     ORDER BY 
@@ -65,6 +90,7 @@ if ($result_chats->num_rows > 0) {
         $user_in_top = findUserPositionInTop($user_id, $connect);
         $chat_id = $row_chats['chat_id'];
         $username = $row_chats['user_username'];
+        $verify_status = $row_chats['user_verify_status'];
         $avatar = $row_chats['user_avatar'];
         $first_name = $row_chats['user_first_name'];
         $second_name = $row_chats['user_second_name'];
@@ -79,16 +105,13 @@ if ($result_chats->num_rows > 0) {
         echo "<div class='current-chat-info'>";
         echo "<div class='recent-chat__user-info'>";
         echo "<div class='recent-chat__user-name-and-status'>";
-        if ($username == 'rampus' || $username == 'help') {
-            echo "<p class='trust recent-main-name'>$first_name $second_name</p>";
+        $trust_mark = $verify_status ? 'trust' : '';
+        if ($first_name || $second_name) {
+            echo "<p class='recent-main-name $trust_mark'>$first_name $second_name</p>";
         } else {
-            if ($first_name || $second_name) {
-                echo "<p class='recent-main-name'>$first_name $second_name</p>";
-            } else {
-                echo "<p class='recent-main-name'>@<span>$username</span></p>";
-            }
+            echo "<p class='recent-main-name $trust_mark'>@<span>$username</span></p>";
         }
-        if ($username == 'rampus' || $username == 'help') { ?>
+        if ($verify_status) { ?>
             <img class='status' src="../pics/SuperUserIcon.svg">
 <?php } else {
             switch ($user_in_top) {

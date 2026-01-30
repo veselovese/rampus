@@ -13,7 +13,7 @@ if (isset($_SESSION['user'])) {
     if ($result_other_user_id->num_rows > 0) {
         $other_user_id = $result_other_user_id->fetch_assoc()["id"];
     }
-    $result_other_user_friends_list = $connect->query("SELECT u.id AS user_id, u.username AS user_username, u.first_name AS user_first_name, u.second_name AS user_second_name, u.avatar AS user_avatar
+    $result_other_user_friends_list = $connect->query("SELECT u.id AS user_id, u.username AS user_username, u.first_name AS user_first_name, u.second_name AS user_second_name, u.avatar AS user_avatar, u.verify_status AS user_verify_status
 FROM
 (
         SELECT 
@@ -69,15 +69,16 @@ FROM
                                         $other_user_avatar = $row_other_user_friends_list['user_avatar'];
                                         $other_user_first_name = $row_other_user_friends_list['user_first_name'];
                                         $other_user_second_name = $row_other_user_friends_list['user_second_name'];
+                                        $other_user_verify_status = $row_other_user_friends_list['user_verify_status'];
                                         echo "<li class='user' onclick='openOtherUserProfileFromOtherProfile(event, `$other_user_username`)'>";
                                         echo "<img class='other-user-avatar' src='../../uploads/avatar/thin_$other_user_avatar'>";
                                         echo "<div class='current-user-info'>";
-                                        $trust_mark = $other_user_username == 'rampus' || $other_user_username == 'help' ? ' trust' : '';
+                                        $trust_mark = $other_user_verify_status ? ' trust' : '';
                                         if ($other_user_first_name || $other_user_second_name) {
                                             echo "<p class='$trust_mark'>$other_user_first_name $other_user_second_name</p>";
                                         }
                                         echo "<p class='$trust_mark'>@$other_user_username</p>";
-                                        if ($other_user_username == 'rampus' || $other_user_username == 'help') {
+                                        if ($other_user_verify_status) {
                                             echo "<img class='status' src='../../pics/SuperUserIcon.svg'>";
                                         } else {
                                             switch ($other_user_in_top) {

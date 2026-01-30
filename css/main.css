@@ -1434,6 +1434,10 @@ input.auth-and-reg::placeholder {
 }
 
 @media (max-width: 720px) {
+    :root {
+        --font-size-3: 1.6rem;
+        --font-size-4: 2.4rem;
+    }
 
     .auth__form legend,
     .reg__form legend {

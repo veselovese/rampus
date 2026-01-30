@@ -7,7 +7,7 @@ if (isset($_POST['user_id_to'])) $user_id_to = $_POST['user_id_to'];
 if (isset($_POST['message'])) $message = $_POST['message'];
 $friend_status = getFriendStatus($user_id_to, $connect);
 
-if ($user_id_to && $message && $friend_status == 'friends') {
+if ($user_id_to && $message) {
     $user_id_from = mysqli_real_escape_string($connect, $user_id_from);
     $user_id_to = mysqli_real_escape_string($connect, $user_id_to);
 

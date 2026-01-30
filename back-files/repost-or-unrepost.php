@@ -63,7 +63,7 @@ if (isset($_POST['reposted'])) {
                     $repost_post_id = $row_repost_post_id['id'];
                     $connect->query("UPDATE posts SET status = 0 WHERE id = $repost_post_id");
                 } else {
-                    $connect->query("INSERT INTO posts (user_id, hashtag_id, text, img, repost_post_id, repost_user_id) VALUES ('$user_id', $repost_hashtag_id, '$repost_text', '$repost_img', '$post_id', '$repost_user_id')");
+                    $connect->query("INSERT INTO posts (user_id, hashtag_id, text, img, repost_post_id, repost_user_id) VALUES ('$user_id', $hashtag_id_value, '$repost_text', '$repost_img', '$post_id', '$repost_user_id')");
                 }
 
                 $connect->query("UPDATE posts SET reposts = $reposts + 1 WHERE id = $post_id");

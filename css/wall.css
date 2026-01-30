@@ -33,6 +33,10 @@
     gap: 1.6rem;
 }
 
+.wall__user-posts:has(.no-found-wall) {
+    height: calc(100vh - 7.2rem - 2.6rem*2 - 9rem);
+}
+
 .wall__user-posts .user-post {
     width: 100%;
     background-color: var(--block-color);
@@ -919,9 +923,18 @@ div.for-friends svg {
     background-color: var(--like-button-accent-color);
     padding: 1rem 1.6rem;
     width: 100%;
-    text-align: center;
     border-radius: 1rem;
     cursor: default;
+}
+
+.no-found-wall {
+    text-align: center;
+    width: 100%;
+    align-self: center;
+    max-width: 60%;
+    color: var(--else-text-color-50);
+    cursor: default;
+    margin: auto 0;
 }
 
 #icon-search-hashtag {
@@ -1314,6 +1327,10 @@ div.for-friends svg {
     .wall-filter-mobile .wall-filter__choice {
         gap: 0.39rem;
         width: 100%;
+    }
+
+    .wall__user-posts:has(.no-found-wall) {
+        height: calc(100vh - 7.2rem - 2.6rem - 15.5rem - 5.1rem);
     }
 }
 

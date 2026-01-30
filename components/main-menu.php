@@ -8,6 +8,7 @@ $current_user_username = $_SESSION['user']['username'];
 $current_user_first_name = $_SESSION['user']['first_name'];
 $current_user_second_name = $_SESSION['user']['second_name'];
 $current_user_avatar = $_SESSION['user']['avatar'];
+$current_user_verify_status = $_SESSION['user']['verify_status'];
 $current_user_in_top = findUserPositionInTop($current_user_id, $connect);
 $current_user_placement = basename(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
 
@@ -18,7 +19,7 @@ $current_user_unread_chats = require('back-files/chats/get-user-unread-chats.php
 <nav class="first-part">
     <ul>
         <li><a href="<?= $global_url ?>/profile" class="menu-profile">
-                <?php if ($current_user_username == 'rampus' || $current_user_username == 'help') { ?>
+                <?php if ($current_user_verify_status) { ?>
                     <img class='menu-status' src="<?= $global_url ?>/pics/SuperUserIcon.svg">
                 <?php } else {
                     switch ($current_user_in_top) {

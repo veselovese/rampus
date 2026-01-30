@@ -779,6 +779,10 @@
     max-width: 15rem;
 }
 
+.request-from-user .user-info p:first-child.trust {
+    color: var(--main-accent-color);
+}
+
 .request-from-user .user-info p {
     transition: 0.2s;
 }
@@ -975,11 +979,6 @@
 }
 
 @media (max-width: 720px) {
-    :root {
-        --font-size-3: 1.6rem;
-        --font-size-4: 2.4rem;
-    }
-
     header {
         justify-content: space-between;
         gap: 2.6rem;

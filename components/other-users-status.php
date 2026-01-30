@@ -1,7 +1,7 @@
 <?php
 require('back-files/global.php');
 
-if ($other_user_username == 'rampus' || $other_user_username == 'help') {
+if ($other_user_verify_status) {
     echo "<img class='status' src='$global_url/pics/SuperUserIcon.svg'>";
 } else {
     switch ($other_user_in_top) {
