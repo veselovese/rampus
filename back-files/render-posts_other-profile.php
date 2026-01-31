@@ -71,6 +71,18 @@ if (isset($_POST["username"])) {
             if ((!$for_friends) || ($for_friends && in_array($content_author_id, getUserFriendsId($current_user_id, $connect)))) {
                 $hashtag_id = $row_post["hashtag_id"];
                 $content_text = preg_replace('/\xc2\xa0/', ' ', $row_post["content_text"]);
+                $content_text = preg_replace('/#(\w+)\s*/u', '<a href="../wall?search=$1">#$1</a> ', $content_text);
+                preg_match_all('/@(\w+)/u', $content_text, $matches);
+                $tags = $matches[1];
+                foreach ($tags as $tag) {
+                    $tag = $connect->real_escape_string($tag);
+                    $result = $connect->query("SELECT 1 FROM users WHERE username = '$tag'");
+                    if ($result && $result->num_rows > 0) {
+                        $pattern = '/' . preg_quote('@' . $tag, '/') . '/u';
+                        $replacement = '<a href="./' . htmlspecialchars($tag) . '">@' . htmlspecialchars($tag) . '</a>';
+                        $content_text = preg_replace($pattern, $replacement, $content_text);
+                    }
+                }
                 $content_date = $row_post["content_date"];
                 $content_date_db = date_format(date_create($content_date), 'Y-m-d');
                 switch ($content_date_db) {

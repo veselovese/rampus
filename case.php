@@ -60,17 +60,21 @@ if (isset($_SESSION['user'])) {
                                             $user_avatar = $row['avatar'];
                                             $user_level = $row['blossom_level'];
                                             if ($trophy_id < 4) {
-                                                $result = $connect->query("SELECT posts.likes AS post_likes FROM posts JOIN users ON posts.user_id = users.id WHERE posts.user_id = $current_user_id");
+                                                $result = $connect->query("SELECT posts.likes AS post_likes, posts.reposts AS post_repost FROM posts JOIN users ON posts.user_id = users.id WHERE posts.user_id = $current_user_id");
                                                 $comment_count = $connect->query("SELECT comments.id FROM comments JOIN posts ON comments.post_id = posts.id JOIN users ON users.id = posts.user_id WHERE posts.user_id = $current_user_id")->num_rows;
                                                 $posts_count = $result->num_rows;
                                                 $likes_count = 0;
+                                                $reposts_count = 0;
                                                 if ($posts_count > 0) {
                                                     while ($row = $result->fetch_assoc()) {
                                                         $post_likes = $row["post_likes"];
+                                                        $post_repost = $row["post_repost"];
                                                         $likes_count += $post_likes;
+                                                        $reposts_count += $post_repost;
                                                     }
                                                 }
                                                 $likes_count = (string)$likes_count;
+                                                $reposts_count = (string)$reposts_count;
                                                 $posts_count = (string)$posts_count;
                                                 $comment_count = (string)$comment_count;
                                                 echo "<div class='current-trophy'>
@@ -93,16 +97,23 @@ if (isset($_SESSION['user'])) {
                                                 if (($likes_count[-1] == '1') && (!isset($likes_count[-2]) || $likes_count[-2] != '1')) {
                                                     echo "<span class='current-static like'>" . $likes_count . " лайк</span>и";
                                                 } else if (($likes_count[-1] == '2' || $likes_count[-1] == '3' || $likes_count[-1] == '4') && (!isset($likes_count[-2]) || $likes_count[-2] != '1')) {
-                                                    echo "<span class='current-static like'>" . $likes_count . " лайка</span>и";
+                                                    echo "<span class='current-static like'>" . $likes_count . " лайка</span>,";
                                                 } else {
-                                                    echo "<span class='current-static like'>" . $likes_count . " лайков</span>и";
+                                                    echo "<span class='current-static like'>" . $likes_count . " лайков</span>,";
                                                 }
                                                 if (($comment_count[-1] == '1') && (!isset($comment_count[-2]) || $comment_count[-2] != '1')) {
                                                     echo "<span class='current-static comment'>" . $comment_count . " комментарий</span>";
                                                 } else if (($comment_count[-1] == '2' || $comment_count[-1] == '3' || $comment_count[-1] == '4') && (!isset($comment_count[-2]) || $comment_count[-2] != '1')) {
-                                                    echo "<span class='current-static comment'>" . $comment_count . " комментария</span>";
+                                                    echo "<span class='current-static comment'>" . $comment_count . " комментария</span>и";
                                                 } else {
-                                                    echo "<span class='current-static comment'>" . $comment_count . " комментариев</span>";
+                                                    echo "<span class='current-static comment'>" . $comment_count . " комментариев</span>и";
+                                                }
+                                                if (($reposts_count[-1] == '1') && (!isset($reposts_count[-2]) || $reposts_count[-2] != '1')) {
+                                                    echo "<span class='current-static repost'>" . $reposts_count . " репост</span>";
+                                                } else if (($reposts_count[-1] == '2' || $reposts_count[-1] == '3' || $reposts_count[-1] == '4') && (!isset($reposts_count[-2]) || $reposts_count[-2] != '1')) {
+                                                    echo "<span class='current-static repost'>" . $reposts_count . " репоста</span>";
+                                                } else {
+                                                    echo "<span class='current-static repost'>" . $reposts_count . " репостов</span>";
                                                 }
                                                 echo "</div>
                                                 <div class='user-trophy-info'>

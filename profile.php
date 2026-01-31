@@ -23,7 +23,7 @@ if (isset($_SESSION['user'])) {
         $current_user_blossom_progress = $row_current_user_blossom["blossom_progress"];
     }
 
-    $sql_current_user_posts_and_likes_counter = "SELECT IF(SUM(posts.likes), SUM(posts.likes), 0) AS current_user_likes_counter, COUNT(*) AS current_user_posts_counter
+    $sql_current_user_posts_and_likes_counter = "SELECT IF(SUM(posts.likes), SUM(posts.likes), 0) AS current_user_likes_counter, IF(SUM(posts.reposts), SUM(posts.reposts), 0) AS current_user_reposts_counter, COUNT(*) AS current_user_posts_counter
                     FROM posts
                     JOIN users ON posts.user_id = users.id
                     WHERE posts.user_id = $current_user_id";
@@ -32,6 +32,7 @@ if (isset($_SESSION['user'])) {
         $row_current_user_posts_and_likes_counter = $result_current_user_posts_and_likes_counter->fetch_assoc();
         $current_user_posts_counter = $row_current_user_posts_and_likes_counter["current_user_posts_counter"];
         $current_user_likes_counter = $row_current_user_posts_and_likes_counter["current_user_likes_counter"];
+        $current_user_reposts_counter = $row_current_user_posts_and_likes_counter["current_user_reposts_counter"];
     }
 
     $sql_current_user_comments_counter = "SELECT 1
@@ -240,6 +241,11 @@ if (isset($_SESSION['user'])) {
                                             Комментарии
                                             <span><?= $current_user_comments_counter ?></span>
                                         </div>
+                                        <div class="div-line"></div>
+                                        <div class="profile__comments">
+                                            Репосты
+                                            <span><?= $current_user_reposts_counter ?></span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -346,6 +352,11 @@ if (isset($_SESSION['user'])) {
                                         <div class="profile__comments">
                                             Комментарии
                                             <span><?= $current_user_comments_counter ?></span>
+                                        </div>
+                                        <div class="div-line"></div>
+                                        <div class="profile__comments">
+                                            Репосты
+                                            <span><?= $current_user_reposts_counter ?></span>
                                         </div>
                                     </div>
                                 </div>

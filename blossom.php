@@ -15,7 +15,7 @@ if (isset($_SESSION['user'])) {
         $current_user_blossom_progress = $row_current_user_blossom["blossom_progress"];
     }
 
-    $sql_current_user_posts_and_likes_counter = "SELECT SUM(posts.likes) AS current_user_likes_counter, COUNT(*) AS current_user_posts_counter
+    $sql_current_user_posts_and_likes_counter = "SELECT IF(SUM(posts.likes), SUM(posts.likes), 0) AS current_user_likes_counter, IF(SUM(posts.reposts), SUM(posts.reposts), 0) AS current_user_reposts_counter, COUNT(*) AS current_user_posts_counter
                     FROM posts
                     JOIN users ON posts.user_id = users.id
                     WHERE posts.user_id = $current_user_id";
@@ -24,6 +24,7 @@ if (isset($_SESSION['user'])) {
         $row_current_user_posts_and_likes_counter = $result_current_user_posts_and_likes_counter->fetch_assoc();
         $current_user_posts_counter = $row_current_user_posts_and_likes_counter["current_user_posts_counter"];
         $current_user_likes_counter = $row_current_user_posts_and_likes_counter["current_user_likes_counter"];
+        $current_user_reposts_counter = $row_current_user_posts_and_likes_counter["current_user_reposts_counter"];
     }
 
     $sql_current_user_comments_counter = "SELECT 1
@@ -43,6 +44,11 @@ if (isset($_SESSION['user'])) {
                     FROM likes_on_posts
                     WHERE likes_on_posts.user_id = $current_user_id";
     $current_user_liked_counter = $connect->query($sql_current_user_liked_counter)->num_rows;
+
+    $sql_current_user_reposted_counter = "SELECT 1
+                    FROM reposts
+                    WHERE reposts.user_id = $current_user_id";
+    $current_user_reposted_counter = $connect->query($sql_current_user_reposted_counter)->num_rows;
 
     $current_user_in_top = findUserPositionInTop($current_user_id, $connect);
 }
@@ -85,6 +91,10 @@ if (isset($_SESSION['user'])) {
                                     <div class="main-statistic"><span><?= $current_user_in_top ?></span><span>место в рейтинге</span></div>
                                     <div class="main-statistic"><span><?= 100 - $current_user_blossom_progress ?>%</span><span>до <?= $current_user_blossom_level + 1 ?> уровня</span></div>
                                 </div>
+                                <p class="section-title">Последние изменения</p>
+                                <ul class='chats_recent-chats mobile' id="success-blossom-notifications-widget-mobile">
+                                </ul>
+                                <p class="section-title">Ваши показатели</p>
                                 <div class="blossom-param">
                                     <div>
                                         <div class="current-param">
@@ -102,6 +112,11 @@ if (isset($_SESSION['user'])) {
                                             <p>Полученные комментарии</p>
                                             <span><?= $current_user_comments_counter ?></span>
                                         </div>
+                                        <div class="current-param">
+                                            <img src="pics/CommentsIcon.svg">
+                                            <p>Полученные репосты</p>
+                                            <span><?= $current_user_reposts_counter ?></span>
+                                        </div>
                                     </div>
                                     <div>
                                         <div class="current-param">
@@ -118,6 +133,11 @@ if (isset($_SESSION['user'])) {
                                             <img src="pics/CommentedIcon.svg">
                                             <p>Оставленные комментарии</p>
                                             <span><?= $current_user_commented_counter ?></span>
+                                        </div>
+                                        <div class="current-param">
+                                            <img src="pics/CommentedIcon.svg">
+                                            <p>Сделанные репосты</p>
+                                            <span><?= $current_user_reposted_counter ?></span>
                                         </div>
                                     </div>
                                 </div>

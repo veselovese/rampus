@@ -211,6 +211,43 @@
     box-shadow: var(--shadow-popup);
     border-radius: 2rem;
     padding: 0.39rem;
+    transition: 0.2s;
+    animation: 0.3s unshadingInput ease-in forwards reverse;
+
+}
+
+@keyframes shadingInput {
+    from {
+        opacity: 1;
+        transform: scale(100%);
+    }
+
+    10% {
+        opacity: 1;
+        transform: scale(105%);
+    }
+
+    to {
+        opacity: 0;
+        transform: scale(90%);
+    }
+}
+
+@keyframes unshadingInput {
+    from {
+        opacity: 1;
+        transform: scale(100%);
+    }
+
+    15% {
+        opacity: 1;
+        transform: scale(105%);
+    }
+
+    to {
+        opacity: 0;
+        transform: scale(90%);
+    }
 }
 
 .wall__new-post>p {
@@ -1313,6 +1350,10 @@ div.for-friends svg {
 
     .wall__user-posts:has(.no-found-wall) {
         height: calc(100vh - 7.2rem - 2.6rem - 15.5rem - 5.1rem);
+    }
+
+    .wall__user-posts:has(.textarea-comment:focus)~.fixed-div-for-bottom .wall__new-post {
+        animation: 0.3s shadingInput ease-out forwards;
     }
 }
 

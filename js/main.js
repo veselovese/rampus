@@ -172,6 +172,7 @@ $(document).ready(function () {
             data: {},
             success: function (data) {
                 $('#success-blossom-notifications-widget').html(data);
+                $('#success-blossom-notifications-widget-mobile').html(data);
             }
         });
     }

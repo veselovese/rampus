@@ -54,7 +54,7 @@ FROM
     ) friends   
     JOIN users u ON u.id = friends.friend_id");
 
-$sql_other_user_posts_and_likes_counter = "SELECT IF(SUM(posts.likes), SUM(posts.likes), 0) AS other_user_likes_counter, COUNT(*) AS other_user_posts_counter
+$sql_other_user_posts_and_likes_counter = "SELECT IF(SUM(posts.likes), SUM(posts.likes), 0) AS other_user_likes_counter, IF(SUM(posts.reposts), SUM(posts.reposts), 0) AS other_user_reposts_counter, COUNT(*) AS other_user_posts_counter
                     FROM posts
                     JOIN users ON posts.user_id = users.id
                     WHERE posts.user_id = $other_user_id";
@@ -63,6 +63,7 @@ if ($result_other_user_posts_and_likes_counter->num_rows > 0) {
     $row_other_user_posts_and_likes_counter = $result_other_user_posts_and_likes_counter->fetch_assoc();
     $other_user_posts_counter = $row_other_user_posts_and_likes_counter["other_user_posts_counter"];
     $other_user_likes_counter = $row_other_user_posts_and_likes_counter["other_user_likes_counter"];
+    $other_user_reposts_counter = $row_other_user_posts_and_likes_counter["other_user_reposts_counter"];
 }
 
 $sql_other_user_comments_counter = "SELECT 1
@@ -133,6 +134,7 @@ $result_other_user_trophies_list_mobile = $connect->query($sql_other_user_trophi
                                         <p class="description"><?= $other_user_description ?></p>
                                     <?php }
                                     echo "<div class='not-friend' id='other-user-friends-buttons'>";
+                                    echo "<a class='text-other-user' href='../chat/$other_user_username'>Написать</a>";
                                     switch ($friend_status) {
                                         case 'friends':
                                             echo "<button type='button' class='request to-friends' id='already-in-friends_$other_user_id'>В друзьях</button>";
@@ -305,6 +307,11 @@ $result_other_user_trophies_list_mobile = $connect->query($sql_other_user_trophi
                                                     Комментарии
                                                     <span><?= $other_user_comments_counter ?></span>
                                                 </div>
+                                                <div class="div-line"></div>
+                                                <div class="profile__comments">
+                                                    Репосты
+                                                    <span><?= $other_user_reposts_counter ?></span>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -391,6 +398,11 @@ $result_other_user_trophies_list_mobile = $connect->query($sql_other_user_trophi
                                             <div class="profile__comments">
                                                 Комментарии
                                                 <span><?= $other_user_comments_counter ?></span>
+                                            </div>
+                                            <div class="div-line"></div>
+                                            <div class="profile__comments">
+                                                Репосты
+                                                <span><?= $other_user_reposts_counter ?></span>
                                             </div>
                                         </div>
                                     </div>

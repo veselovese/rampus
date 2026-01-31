@@ -1216,12 +1216,18 @@ input.auth-and-reg::placeholder {
     gap: 0.39rem;
 }
 
+.not-friend {
+    display: flex;
+    gap: 1rem;
+}
+
 .not-friend .request {
     border: none;
     font-size: var(--font-size-2);
     width: 100%;
     max-width: fit-content;
     min-height: 4rem;
+    max-height: 4rem;
     border-radius: 1rem;
     padding: 1rem 1.6rem;
     font-weight: 600;
@@ -1264,6 +1270,28 @@ input.auth-and-reg::placeholder {
 
 .not-friend button:active {
     transform: scale(95%);
+}
+
+.text-other-user {
+    border: none;
+    font-size: var(--font-size-2);
+    width: 100%;
+    max-width: fit-content;
+    min-height: 4rem;
+    max-height: 4rem;
+    border-radius: 1rem;
+    padding: 1rem 1.6rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--main-accent-color);
+    color: var(--block-color);
+    transition: 0.2s;
+}
+
+.text-other-user:hover {
+    opacity: 80%;
 }
 
 .f-and-s-names-and-plat {
@@ -1407,10 +1435,11 @@ input.auth-and-reg::placeholder {
         display: none;
     }
 
-    .not-friend .request {
+    .not-friend .request, .text-other-user {
         font-size: var(--font-size-1);
         padding: 0.625rem 1rem;
         min-height: 3rem;
+        max-height: 3rem;
     }
 
     .not-friend .request.un-to-friends {

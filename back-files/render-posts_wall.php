@@ -23,8 +23,25 @@ if ($_POST['filter'] === 'main') {
 } else {
     $filter = " AND NOT users.username = 'Thirty_seventh' AND posts.repost_user_id IS NULL";
 }
-$search = $_POST['search'];
-$search = $search != null ? "AND hashtags.name = '$search'" : '';
+
+$searchCondition = '';
+
+if (!empty($_POST['search'])) {
+    $searchTerm = trim($_POST['search']);
+    if (strpos($searchTerm, '#') === 0) {
+        $searchTerm = substr($searchTerm, 1);
+    }
+
+    $safeSearchTerm = $connect->real_escape_string($searchTerm);
+
+    $searchCondition = "AND EXISTS (
+        SELECT 1 
+        FROM hashtags_in_posts hip 
+        JOIN hashtags h ON h.id = hip.hashtag_id 
+        WHERE hip.post_id = posts.id 
+        AND h.name = '$safeSearchTerm'
+    ) OR hashtags.name = '$safeSearchTerm'";
+}
 
 $sql_post = "SELECT 
     posts.id AS content_id,
@@ -54,7 +71,7 @@ FROM posts
 JOIN users ON posts.user_id = users.id
 LEFT JOIN users AS repost_users ON posts.repost_user_id = repost_users.id
 LEFT JOIN hashtags ON posts.hashtag_id = hashtags.id
-WHERE posts.status = 0 $filter $search
+WHERE posts.status = 0 $filter $searchCondition
 
 ORDER BY content_date DESC";
 
