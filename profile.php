@@ -44,6 +44,10 @@ if (isset($_SESSION['user'])) {
     $sql_current_user_trophies_list = "SELECT name, description, image FROM trophies WHERE user_id_to = $current_user_id";
     $result_current_user_trophies_list = $connect->query($sql_current_user_trophies_list);
     $result_current_user_trophies_list_mobile = $connect->query($sql_current_user_trophies_list);
+
+    $sql_current_user_personal_trophies_list = "SELECT t.name, t.description, t.image FROM personal_trophies_from_users ptfu JOIN trophies t ON ptfu.trophy_id = t.id WHERE ptfu.user_id = $current_user_id";
+    $result_current_user_personal_trophies_list = $connect->query($sql_current_user_personal_trophies_list);
+    $result_current_user_personal_trophies_list_mobile = $connect->query($sql_current_user_personal_trophies_list);
 }
 ?>
 
@@ -150,7 +154,18 @@ if (isset($_SESSION['user'])) {
                                 </svg>
                             </div>
                             <div class="case-trophies">
-                                <?php if ($result_current_user_trophies_list_mobile->num_rows > 0) {
+                                <?php if ($result_current_user_personal_trophies_list_mobile->num_rows > 0) {
+                                    while ($row = $result_current_user_personal_trophies_list_mobile->fetch_assoc()) {
+                                        $trophy_name_m = $row["name"];
+                                        $trophy_description_m = $row["description"];
+                                        $trophy_image_m = $row["image"];
+                                        echo "<div class='trophy'>";
+                                        echo "<img src='$trophy_image_m'>";
+                                        echo "<span>$trophy_name_m</span>";
+                                        echo "</div>";
+                                    }
+                                }
+                                if ($result_current_user_trophies_list_mobile->num_rows > 0) {
                                     while ($row = $result_current_user_trophies_list_mobile->fetch_assoc()) {
                                         $trophy_name_m = $row["name"];
                                         $trophy_description_m = $row["description"];
@@ -160,7 +175,7 @@ if (isset($_SESSION['user'])) {
                                         echo "<span>$trophy_name_m</span>";
                                         echo "</div>";
                                     }
-                                } else {
+                                } else if ($result_current_user_personal_trophies_list_mobile->num_rows == 0 && $result_current_user_trophies_list_mobile->num_rows == 0) {
                                     echo "<span class='trophy'>Нет трофеев</span>";
                                 }
                                 ?>
@@ -317,7 +332,18 @@ if (isset($_SESSION['user'])) {
                                         </svg>
                                     </div>
                                     <div class="case-trophies">
-                                        <?php if ($result_current_user_trophies_list->num_rows > 0) {
+                                        <?php if ($result_current_user_personal_trophies_list->num_rows > 0) {
+                                            while ($row = $result_current_user_personal_trophies_list->fetch_assoc()) {
+                                                $trophy_name_m = $row["name"];
+                                                $trophy_description_m = $row["description"];
+                                                $trophy_image_m = $row["image"];
+                                                echo "<div class='trophy'>";
+                                                echo "<img src='$trophy_image_m'>";
+                                                echo "<span>$trophy_name_m</span>";
+                                                echo "</div>";
+                                            }
+                                        }
+                                        if ($result_current_user_trophies_list->num_rows > 0) {
                                             while ($row = $result_current_user_trophies_list->fetch_assoc()) {
                                                 $trophy_name = $row["name"];
                                                 $trophy_description = $row["description"];
@@ -327,7 +353,7 @@ if (isset($_SESSION['user'])) {
                                                 echo "<span>$trophy_name</span>";
                                                 echo "</div>";
                                             }
-                                        } else {
+                                        } else if ($result_current_user_personal_trophies_list->num_rows == 0 && $result_current_user_trophies_list->num_rows == 0) {
                                             echo "<span class='trophy'>Нет трофеев</span>";
                                         }
                                         ?>

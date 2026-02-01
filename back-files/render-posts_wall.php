@@ -309,6 +309,17 @@ if ($result_post->num_rows > 0) {
                     $comment_avatar = $row_comment['avatar'];
                     $comment_verify_status = $row_comment['comment_verify_status'];
                     $comment_text = preg_replace('/\xc2\xa0/', ' ', $row_comment['comment_text']);
+                    preg_match_all('/@(\w+)/u', $comment_text, $matches);
+                    $tags = $matches[1];
+                    foreach ($tags as $tag) {
+                        $tag = $connect->real_escape_string($tag);
+                        $result = $connect->query("SELECT 1 FROM users WHERE username = '$tag'");
+                        if ($result && $result->num_rows > 0) {
+                            $pattern = '/' . preg_quote('@' . $tag, '/') . '/u';
+                            $replacement = '<a href="./user/' . htmlspecialchars($tag) . '">@' . htmlspecialchars($tag) . '</a>';
+                            $comment_text = preg_replace($pattern, $replacement, $comment_text);
+                        }
+                    }
                     $comment_date = $row_comment['comment_date'];
                     $comment_date_db = date_format(date_create($comment_date), 'Y-m-d');
                     switch ($comment_date_db) {

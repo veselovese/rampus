@@ -91,6 +91,17 @@
     text-transform: lowercase;
 }
 
+.user-trophy-info.personal~.date {
+    margin-top: 0.39rem;
+}
+
+.user-trophy-info.personal .and-more {
+    position: absolute;
+    left: calc(16rem + 0.625rem);
+    color: var(--else-text-color-50);
+    font-size: var(--font-size-2);
+}
+
 .trophy-info {
     display: flex;
     gap: 1.6rem;
@@ -110,6 +121,35 @@
     align-items: center;
     gap: 1rem;
     margin-top: auto;
+    position: relative;
+}
+
+.user-trophy-info.personal {
+    min-height: 4rem;
+}
+
+.user-trophy-info.personal a {
+    position: absolute;
+}
+
+.user-trophy-info.personal a:nth-child(1) {
+    padding: 0;
+}
+
+.user-trophy-info.personal a:nth-child(2) {
+    left: calc(3rem - 0.39rem);
+}
+
+.user-trophy-info.personal a:nth-child(3) {
+    left: calc(6rem - 0.39rem);
+}
+
+.user-trophy-info.personal a:nth-child(4) {
+    left: calc(9rem - 0.39rem);
+}
+
+.user-trophy-info.personal a:nth-child(5) {
+    left: calc(12rem - 0.39rem);
 }
 
 .more-user-trophy-info {
@@ -140,7 +180,14 @@
     max-width: 13rem;
 }
 
-.user-trophy-info a:hover {
+.user-trophy-info.personal a {
+    padding: 0.39rem;
+    display: flex;
+    border-radius: 50%;
+    background-color: var(--block-color);
+}
+
+.user-trophy-info a:hover img {
     opacity: 80%;
 }
 

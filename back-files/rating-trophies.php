@@ -3,7 +3,7 @@ require_once('connect.php');
 require_once('blossoming.php');
 
 # Места в рейтинге
-$users_blossom_list = $connect->query("SELECT id FROM users ORDER BY blossom_level DESC, blossom_progress DESC LIMIT 3");
+$users_blossom_list = $connect->query("SELECT id FROM users WHERE NOT unrated_status ORDER BY blossom_level DESC, blossom_progress DESC LIMIT 3");
 if ($users_blossom_list->num_rows > 0) {
     $level = 0;
     while ($row = $users_blossom_list->fetch_assoc()) {
@@ -18,7 +18,7 @@ if ($users_blossom_list->num_rows > 0) {
 }
 
 # Самый популярный пост по лайкам
-$the_likest_post = $connect->query("SELECT id, user_id, likes FROM posts ORDER BY likes DESC LIMIT 1");
+$the_likest_post = $connect->query("SELECT p.id, p.user_id, p.likes FROM posts p JOIN users u ON p.user_id = u.id WHERE NOT u.unrated_status ORDER BY likes DESC LIMIT 1");
 if ($the_likest_post->num_rows > 0) {
     $row = $the_likest_post->fetch_assoc();
     $user_id_to = $row['user_id'];
@@ -44,7 +44,7 @@ if ($the_likest_post->num_rows > 0) {
 }
 
 # Всех больше лайков на постах
-$users = $connect->query("SELECT id FROM users");
+$users = $connect->query("SELECT id FROM users WHERE NOT unrated_status");
 $max_likes_on_posts = 0;
 
 if ($users->num_rows > 0) {
@@ -83,7 +83,7 @@ if ($users->num_rows > 0) {
 }
 
 # Всех больше поставил лайков другим на посты
-$users = $connect->query("SELECT id FROM users");
+$users = $connect->query("SELECT id FROM users WHERE NOT unrated_status");
 $max_likes_to_other_users = 0;
 
 if ($users->num_rows > 0) {
@@ -116,7 +116,7 @@ if ($users->num_rows > 0) {
 }
 
 # Самый популярный пост по комментариями
-$the_commentest_post = $connect->query("SELECT COUNT(*) AS comment_counter, u.id AS user_id, p.id AS post_id FROM comments c JOIN posts p on p.id = c.post_id JOIN users u ON u.id = p.user_id GROUP BY c.post_id ORDER BY comment_counter DESC LIMIT 1");
+$the_commentest_post = $connect->query("SELECT COUNT(*) AS comment_counter, u.id AS user_id, p.id AS post_id FROM comments c JOIN posts p on p.id = c.post_id JOIN users u ON u.id = p.user_id WHERE NOT u.unrated_status GROUP BY c.post_id ORDER BY comment_counter DESC LIMIT 1");
 if ($the_commentest_post->num_rows > 0) {
     $row = $the_commentest_post->fetch_assoc();
     $user_id_to = $row['user_id'];
@@ -143,7 +143,7 @@ if ($trophy_comments_under_one_post->num_rows == 1) {
 }
 
 # Всех больше комментариев под постами
-$users = $connect->query("SELECT id FROM users");
+$users = $connect->query("SELECT id FROM users WHERE NOT unrated_status");
 $max_comments_on_posts = 0;
 
 if ($users->num_rows > 0) {
@@ -179,7 +179,7 @@ if ($users->num_rows > 0) {
 }
 
 # Всех больше оставил комментариев другим на посты
-$users = $connect->query("SELECT id FROM users");
+$users = $connect->query("SELECT id FROM users WHERE NOT unrated_status");
 $max_comments_to_other_posts = 0;
 
 if ($users->num_rows > 0) {
@@ -211,7 +211,7 @@ if ($users->num_rows > 0) {
 }
 
 # Самый популярный пост по репостам
-$the_repostest_post = $connect->query("SELECT id, user_id, reposts FROM posts ORDER BY reposts DESC LIMIT 1");
+$the_repostest_post = $connect->query("SELECT p.id, p.user_id, p.reposts FROM posts p JOIN users u ON p.user_id = u.id WHERE NOT u.unrated_status ORDER BY reposts DESC LIMIT 1");
 if ($the_repostest_post->num_rows > 0) {
     $row = $the_repostest_post->fetch_assoc();
     $user_id_to = $row['user_id'];
@@ -237,7 +237,7 @@ if ($the_repostest_post->num_rows > 0) {
 }
 
 # Всех больше репостов постов
-$users = $connect->query("SELECT id FROM users");
+$users = $connect->query("SELECT id FROM users WHERE NOT unrated_status");
 $max_reposts_on_posts = 0;
 
 if ($users->num_rows > 0) {
@@ -273,7 +273,7 @@ if ($users->num_rows > 0) {
 }
 
 # Всех больше сделал репостов других постов
-$users = $connect->query("SELECT id FROM users");
+$users = $connect->query("SELECT id FROM users WHERE NOT unrated_status");
 $max_reposts_to_other_posts = 0;
 
 if ($users->num_rows > 0) {
@@ -305,7 +305,7 @@ if ($users->num_rows > 0) {
 }
 
 # Самое большое количество постов
-$users = $connect->query("SELECT id FROM users");
+$users = $connect->query("SELECT id FROM users WHERE NOT unrated_status");
 $max_posts_from_one_user = 0;
 
 if ($users->num_rows > 0) {
@@ -337,7 +337,7 @@ if ($users->num_rows > 0) {
 }
 
 # Самое большое количество друзей
-$users = $connect->query("SELECT id FROM users");
+$users = $connect->query("SELECT id FROM users WHERE NOT unrated_status");
 $max_friends_in_one_user = 0;
 
 if ($users->num_rows > 0) {

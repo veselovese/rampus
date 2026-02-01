@@ -1125,6 +1125,10 @@ input.auth-and-reg::placeholder {
     margin-bottom: 1.6rem;
 }
 
+.section-title.mobile {
+    display: none;
+}
+
 .first-part-mobile {
     display: none;
     width: 100%;
@@ -1396,6 +1400,10 @@ input.auth-and-reg::placeholder {
     .fixed-div-for-bottom {
         width: calc(100% - 25rem - 2.6rem - 5rem - 2.6rem*2);
     }
+
+    .section-title.mobile {
+        display: block;
+    }
 }
 
 @media (max-width: 1080px) {
@@ -1435,7 +1443,8 @@ input.auth-and-reg::placeholder {
         display: none;
     }
 
-    .not-friend .request, .text-other-user {
+    .not-friend .request,
+    .text-other-user {
         font-size: var(--font-size-1);
         padding: 0.625rem 1rem;
         min-height: 3rem;

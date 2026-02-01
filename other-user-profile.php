@@ -75,6 +75,10 @@ $other_user_comments_counter = $connect->query($sql_other_user_comments_counter)
 $sql_other_user_trophies_list = "SELECT name, description, image FROM trophies WHERE user_id_to = $other_user_id";
 $result_other_user_trophies_list = $connect->query($sql_other_user_trophies_list);
 $result_other_user_trophies_list_mobile = $connect->query($sql_other_user_trophies_list);
+
+$sql_other_other_user_personal_trophies_list = "SELECT t.name, t.description, t.image FROM personal_trophies_from_users ptfu JOIN trophies t ON ptfu.trophy_id = t.id WHERE ptfu.user_id = $other_user_id";
+$result_other_user_personal_trophies_list = $connect->query($sql_other_other_user_personal_trophies_list);
+$result_other_user_personal_trophies_list_mobile = $connect->query($sql_other_other_user_personal_trophies_list);
 ?>
 
 <!DOCTYPE html>
@@ -213,7 +217,18 @@ $result_other_user_trophies_list_mobile = $connect->query($sql_other_user_trophi
                                 Трофеи
                             </div>
                             <div class="case-trophies">
-                                <?php if ($result_other_user_trophies_list_mobile->num_rows > 0) {
+                                <?php if ($result_other_user_personal_trophies_list_mobile->num_rows > 0) {
+                                    while ($row = $result_other_user_personal_trophies_list_mobile->fetch_assoc()) {
+                                        $trophy_name_m = $row["name"];
+                                        $trophy_description_m = $row["description"];
+                                        $trophy_image_m = $row["image"];
+                                        echo "<div class='trophy'>";
+                                        echo "<img src='../$trophy_image_m'>";
+                                        echo "<span>$trophy_name_m</span>";
+                                        echo "</div>";
+                                    }
+                                }
+                                if ($result_other_user_trophies_list_mobile->num_rows > 0) {
                                     while ($row = $result_other_user_trophies_list_mobile->fetch_assoc()) {
                                         $trophy_name_m = $row["name"];
                                         $trophy_description_m = $row["description"];
@@ -223,7 +238,7 @@ $result_other_user_trophies_list_mobile = $connect->query($sql_other_user_trophi
                                         echo "<span>$trophy_name_m</span>";
                                         echo "</div>";
                                     }
-                                } else {
+                                } else if ($result_other_user_personal_trophies_list_mobile->num_rows == 0 && $result_other_user_trophies_list_mobile->num_rows == 0) {
                                     echo "<span class='trophy'>Нет трофеев</span>";
                                 }
                                 ?>
@@ -363,7 +378,18 @@ $result_other_user_trophies_list_mobile = $connect->query($sql_other_user_trophi
                                             Трофеи
                                         </div>
                                         <div class="case-trophies">
-                                            <?php if ($result_other_user_trophies_list->num_rows > 0) {
+                                            <?php if ($result_other_user_personal_trophies_list->num_rows > 0) {
+                                                while ($row = $result_other_user_personal_trophies_list->fetch_assoc()) {
+                                                    $trophy_name_m = $row["name"];
+                                                    $trophy_description_m = $row["description"];
+                                                    $trophy_image_m = $row["image"];
+                                                    echo "<div class='trophy'>";
+                                                    echo "<img src='../$trophy_image_m'>";
+                                                    echo "<span>$trophy_name_m</span>";
+                                                    echo "</div>";
+                                                }
+                                            }
+                                            if ($result_other_user_trophies_list->num_rows > 0) {
                                                 while ($row = $result_other_user_trophies_list->fetch_assoc()) {
                                                     $trophy_name = $row["name"];
                                                     $trophy_description = $row["description"];
@@ -373,7 +399,7 @@ $result_other_user_trophies_list_mobile = $connect->query($sql_other_user_trophi
                                                     echo "<span>$trophy_name</span>";
                                                     echo "</div>";
                                                 }
-                                            } else {
+                                            } else if ($result_other_user_personal_trophies_list->num_rows == 0 && $result_other_user_trophies_list->num_rows == 0) {
                                                 echo "<span class='trophy'>Нет трофеев</span>";
                                             }
                                             ?>

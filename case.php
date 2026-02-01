@@ -102,7 +102,7 @@ if (isset($_SESSION['user'])) {
                                                     echo "<span class='current-static like'>" . $likes_count . " лайков</span>,";
                                                 }
                                                 if (($comment_count[-1] == '1') && (!isset($comment_count[-2]) || $comment_count[-2] != '1')) {
-                                                    echo "<span class='current-static comment'>" . $comment_count . " комментарий</span>";
+                                                    echo "<span class='current-static comment'>" . $comment_count . " комментарий</span>и";
                                                 } else if (($comment_count[-1] == '2' || $comment_count[-1] == '3' || $comment_count[-1] == '4') && (!isset($comment_count[-2]) || $comment_count[-2] != '1')) {
                                                     echo "<span class='current-static comment'>" . $comment_count . " комментария</span>и";
                                                 } else {
@@ -201,8 +201,61 @@ if (isset($_SESSION['user'])) {
                                     ?>
                                 </div>
                             </div>
+                            <div class=''>
+                                <p class='section-title'>Персональные</p>
+                                <div class='trophy-list'>
+                                    <?php
+                                    $lists = getPersonalTrophyList();
+                                    $trophy_list = $lists[0];
+                                    $users_list = $lists[1];
+                                    if ($trophy_list->num_rows > 0) {
+                                        while ($trophy_row = $trophy_list->fetch_assoc()) {
+                                            $trophy_id = $trophy_row['id'];
+                                            $trophy_name = $trophy_row['name'];
+                                            $trophy_short_desc = $trophy_row['short_description'];
+                                            $trophy_desc = $trophy_row['description'];
+                                            $trophy_image = $trophy_row['image'];
+                                            $trophy_date = $trophy_row['get_date'];
+                                            $users_counter = $trophy_row['users_counter'];
+
+                                            echo "<div class='current-trophy'>
+                                            <div class='trophy-info'>
+                                            <img class='icon' src='$trophy_image'>
+                                            <div class='current-trophy-info'>
+                                            <p class='name'>$trophy_name</p>
+                                            <p class='desc'>$trophy_short_desc</p>
+                                            </div>
+                                            </div>
+                                            <div class='user-statistic'>";
+                                            echo "<p class='current-desc'>$trophy_desc</p>
+                                            </div>
+                                            <div class='user-trophy-info personal'>";
+                                            if ($users_list->num_rows > 0) {
+                                                while ($user_row = $users_list->fetch_assoc()) {
+                                                    $user_first_name = $user_row['first_name'];
+                                                    $user_second_name = $user_row['second_name'];
+                                                    $current_user_id = $user_row['user_id'];
+                                                    $user_username = $user_row['username'];
+                                                    $user_avatar = $user_row['avatar'];
+                                                    echo "<a href='./user/$user_username'>
+                                                    <img src='uploads/avatar/small_$user_avatar'>
+                                                    </a>";
+                                                }
+                                            }
+                                            if ($users_counter > 5) {
+                                                $users_counter -= 5;
+                                                echo "<p class='and-more'>+$users_counter</p>";
+                                            }
+                                            echo "</div>
+                                                <span class='date'>владеют <br class='br-mobile'>с $trophy_date</span>
+                                                </div>";
+                                        } ?>
+                                    <?php }
+                                    ?>
+                                </div>
+                            </div>
                         </div>
-                        <?php require_once('components/mobile-main-menu.php') ?> 
+                        <?php require_once('components/mobile-main-menu.php') ?>
                     </div>
                     <div class="third-part">
                     </div>

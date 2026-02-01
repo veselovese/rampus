@@ -11,7 +11,7 @@ if (isset($_SESSION['user'])) {
     $current_user_in_top = findUserPositionInTop($current_user_id, $connect);
     $current_user_blossom_level = $connect->query("SELECT blossom_level FROM users WHERE id = '$current_user_id'")->fetch_assoc()['blossom_level'];
 
-    $sql_top = "SELECT username, first_name, second_name, avatar, plat_status, verify_status, blossom_level FROM users ORDER BY blossom_level DESC, blossom_progress DESC";
+    $sql_top = "SELECT username, first_name, second_name, avatar, plat_status, verify_status, blossom_level FROM users WHERE NOT unrated_status ORDER BY blossom_level DESC, blossom_progress DESC";
     $result_top = $connect->query($sql_top);
     $users_counter = $connect->query("SELECT 1 FROM users")->num_rows;
 }

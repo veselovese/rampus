@@ -91,7 +91,7 @@ if (isset($_SESSION['user'])) {
                                     <div class="main-statistic"><span><?= $current_user_in_top ?></span><span>место в рейтинге</span></div>
                                     <div class="main-statistic"><span><?= 100 - $current_user_blossom_progress ?>%</span><span>до <?= $current_user_blossom_level + 1 ?> уровня</span></div>
                                 </div>
-                                <p class="section-title">Последние изменения</p>
+                                <p class="section-title mobile">Последние изменения</p>
                                 <ul class='chats_recent-chats mobile' id="success-blossom-notifications-widget-mobile">
                                 </ul>
                                 <p class="section-title">Ваши показатели</p>
@@ -113,7 +113,7 @@ if (isset($_SESSION['user'])) {
                                             <span><?= $current_user_comments_counter ?></span>
                                         </div>
                                         <div class="current-param">
-                                            <img src="pics/CommentsIcon.svg">
+                                            <img src="pics/RepostsIconBlossom.svg">
                                             <p>Полученные репосты</p>
                                             <span><?= $current_user_reposts_counter ?></span>
                                         </div>
@@ -135,7 +135,7 @@ if (isset($_SESSION['user'])) {
                                             <span><?= $current_user_commented_counter ?></span>
                                         </div>
                                         <div class="current-param">
-                                            <img src="pics/CommentedIcon.svg">
+                                            <img src="pics/RepostedIconBlossom.svg">
                                             <p>Сделанные репосты</p>
                                             <span><?= $current_user_reposted_counter ?></span>
                                         </div>
