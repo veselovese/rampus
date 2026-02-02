@@ -25,6 +25,7 @@ if (isset($_POST['liked'])) {
 
             $other_id = $connect->query("SELECT user_id FROM posts WHERE id = $repost_post_id")->fetch_assoc()['user_id'];
 
+            blossoming('like-post', $user_id, $connect);
             blossoming('is-liked-by', $other_id,  $connect);
         }
 
@@ -58,6 +59,7 @@ if (isset($_POST['unliked'])) {
 
             $other_id = $connect->query("SELECT user_id FROM posts WHERE id = $repost_post_id")->fetch_assoc()['user_id'];
 
+            blossoming('dislike-post', $user_id,  $connect);
             blossoming('is-disliked-by', $other_id,  $connect);
         }
 

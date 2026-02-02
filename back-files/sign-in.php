@@ -7,8 +7,8 @@ $password = md5(mysqli_real_escape_string($connect, $_POST['password']));
 $request = mysqli_real_escape_string($connect, $_GET['request']);
 
 if (mysqli_query($connect, "SELECT id FROM `users` LIMIT 1")) {
-    $check_user_by_email = mysqli_query($connect, "SELECT id, username, first_name, second_name, description, avatar, plat_status, verify_status, unread_posts, last_auth_date FROM `users` WHERE `email` = '$email_or_username' AND `password` = '$password' LIMIT 1");
-    $check_user_by_username = mysqli_query($connect, "SELECT id, username, first_name, second_name, description, avatar, plat_status, verify_status, unread_posts, last_auth_date FROM `users` WHERE `username` = '$email_or_username' AND `password` = '$password' LIMIT 1");
+    $check_user_by_email = mysqli_query($connect, "SELECT id, username, first_name, second_name, description, avatar, plat_status, verify_status, unrated_status, unread_posts, last_auth_date FROM `users` WHERE `email` = '$email_or_username' AND `password` = '$password' LIMIT 1");
+    $check_user_by_username = mysqli_query($connect, "SELECT id, username, first_name, second_name, description, avatar, plat_status, verify_status, unrated_status, unread_posts, last_auth_date FROM `users` WHERE `username` = '$email_or_username' AND `password` = '$password' LIMIT 1");
 } else {
     echo '@@@';
     exit();
@@ -28,6 +28,7 @@ if (mysqli_num_rows($check_user_by_email) > 0 || mysqli_num_rows($check_user_by_
     $avatar = $user['avatar'];
     $plat_status = $user['plat_status'];
     $verify_status = $user['verify_status'];
+    $unrated_status = $user['unrated_status'];
     $last_auth_date = $user['last_auth_date'];
     $unread_posts_db = $user['unread_posts'];
     $unread_posts_now = $last_auth_date ? mysqli_query($connect, "SELECT 1 FROM `posts` WHERE `content_date` >= '$last_auth_date'")->num_rows : 0;
@@ -42,6 +43,7 @@ if (mysqli_num_rows($check_user_by_email) > 0 || mysqli_num_rows($check_user_by_
         "avatar" => $avatar,
         "plat_status" => $plat_status,
         "verify_status" => $verify_status,
+        "unrated_status" => $unrated_status,
         "unread_posts" => $unread_posts
     ];
 

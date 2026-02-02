@@ -23,7 +23,7 @@ if (!isset($_SESSION['user'])) {
     }
 }
 
-$result_other_user = $connect->query("SELECT id, first_name, second_name, description, avatar, plat_status, blossom_level, blossom_progress FROM users WHERE username = '$other_user_username' LIMIT 1");
+$result_other_user = $connect->query("SELECT id, first_name, second_name, description, avatar, plat_status, unrated_status, blossom_level, blossom_progress FROM users WHERE username = '$other_user_username' LIMIT 1");
 
 if ($result_other_user->num_rows > 0) {
     $row_other_user = $result_other_user->fetch_assoc();
@@ -33,6 +33,7 @@ if ($result_other_user->num_rows > 0) {
     $other_user_second_name = $row_other_user["second_name"];
     $other_user_avatar = $row_other_user["avatar"];
     $other_user_plat_status = $row_other_user["plat_status"];
+    $other_user_unrated_status = $row_other_user["unrated_status"];
     $other_user_blossom_level = $row_other_user["blossom_level"];
     $other_user_blossom_progress = $row_other_user["blossom_progress"];
 } else {
@@ -76,7 +77,7 @@ $sql_other_user_trophies_list = "SELECT name, description, image FROM trophies W
 $result_other_user_trophies_list = $connect->query($sql_other_user_trophies_list);
 $result_other_user_trophies_list_mobile = $connect->query($sql_other_user_trophies_list);
 
-$sql_other_other_user_personal_trophies_list = "SELECT t.name, t.description, t.image FROM personal_trophies_from_users ptfu JOIN trophies t ON ptfu.trophy_id = t.id WHERE ptfu.user_id = $other_user_id";
+$sql_other_other_user_personal_trophies_list = "SELECT t.name, t.description, t.image, stfu.unique_number FROM sponsored_trophies_from_users stfu JOIN trophies t ON stfu.trophy_id = t.id WHERE stfu.user_id = $other_user_id";
 $result_other_user_personal_trophies_list = $connect->query($sql_other_other_user_personal_trophies_list);
 $result_other_user_personal_trophies_list_mobile = $connect->query($sql_other_other_user_personal_trophies_list);
 ?>
@@ -197,53 +198,55 @@ $result_other_user_personal_trophies_list_mobile = $connect->query($sql_other_ot
                                 </div>
                             </div>
                         </div>
-                        <div class="blossom-level mobile">
-                            <div class="blossom-title">
-                                <img src="../pics/BlossomIcon.svg">
-                                Цветение
+                        <?php if (!$other_user_unrated_status) { ?>
+                            <div class="blossom-level mobile">
+                                <div class="blossom-title">
+                                    <img src="../pics/BlossomIcon.svg">
+                                    Цветение
+                                </div>
+                                <div class="progress-div">
+                                    <progress value="<?= $other_user_blossom_progress ?>" max="100"></progress>
+                                    <span class="progress" style="--r:<?= $other_user_blossom_progress ?>%"><?= $other_user_blossom_progress ?>%</span>
+                                </div>
+                                <div class="level">
+                                    <span><?= $other_user_blossom_level ?> уровень</span>
+                                    <span><?= $other_user_blossom_level + 1 ?></span>
+                                </div>
                             </div>
-                            <div class="progress-div">
-                                <progress value="<?= $other_user_blossom_progress ?>" max="100"></progress>
-                                <span class="progress" style="--r:<?= $other_user_blossom_progress ?>%"><?= $other_user_blossom_progress ?>%</span>
-                            </div>
-                            <div class="level">
-                                <span><?= $other_user_blossom_level ?> уровень</span>
-                                <span><?= $other_user_blossom_level + 1 ?></span>
-                            </div>
-                        </div>
-                        <div href="./trophies" class="case mobile">
-                            <div class="case-title">
-                                <img src="../pics/CaseIcon.svg">
-                                Трофеи
-                            </div>
-                            <div class="case-trophies">
-                                <?php if ($result_other_user_personal_trophies_list_mobile->num_rows > 0) {
-                                    while ($row = $result_other_user_personal_trophies_list_mobile->fetch_assoc()) {
-                                        $trophy_name_m = $row["name"];
-                                        $trophy_description_m = $row["description"];
-                                        $trophy_image_m = $row["image"];
-                                        echo "<div class='trophy'>";
-                                        echo "<img src='../$trophy_image_m'>";
-                                        echo "<span>$trophy_name_m</span>";
-                                        echo "</div>";
+                            <div href="./trophies" class="case mobile">
+                                <div class="case-title">
+                                    <img src="../pics/CaseIcon.svg">
+                                    Трофеи
+                                </div>
+                                <div class="case-trophies">
+                                    <?php if ($result_other_user_personal_trophies_list_mobile->num_rows > 0) {
+                                        while ($row = $result_other_user_personal_trophies_list_mobile->fetch_assoc()) {
+                                            $trophy_name_m = $row["name"];
+                                            $trophy_unique_number_m = $row["unique_number"];
+                                            $trophy_image_m = $row["image"];
+                                            echo "<div class='trophy'>";
+                                            echo "<img src='../$trophy_image_m'>";
+                                            echo "<span>$trophy_name_m #$trophy_unique_number_m</span>";
+                                            echo "</div>";
+                                        }
                                     }
-                                }
-                                if ($result_other_user_trophies_list_mobile->num_rows > 0) {
-                                    while ($row = $result_other_user_trophies_list_mobile->fetch_assoc()) {
-                                        $trophy_name_m = $row["name"];
-                                        $trophy_description_m = $row["description"];
-                                        $trophy_image_m = $row["image"];
-                                        echo "<div class='trophy'>";
-                                        echo "<img src='../$trophy_image_m'>";
-                                        echo "<span>$trophy_name_m</span>";
-                                        echo "</div>";
+                                    if ($result_other_user_trophies_list_mobile->num_rows > 0) {
+                                        while ($row = $result_other_user_trophies_list_mobile->fetch_assoc()) {
+                                            $trophy_name_m = $row["name"];
+                                            $trophy_description_m = $row["description"];
+                                            $trophy_image_m = $row["image"];
+                                            echo "<div class='trophy'>";
+                                            echo "<img src='../$trophy_image_m'>";
+                                            echo "<span>$trophy_name_m</span>";
+                                            echo "</div>";
+                                        }
+                                    } else if ($result_other_user_personal_trophies_list_mobile->num_rows == 0 && $result_other_user_trophies_list_mobile->num_rows == 0) {
+                                        echo "<span class='trophy'>Нет трофеев</span>";
                                     }
-                                } else if ($result_other_user_personal_trophies_list_mobile->num_rows == 0 && $result_other_user_trophies_list_mobile->num_rows == 0) {
-                                    echo "<span class='trophy'>Нет трофеев</span>";
-                                }
-                                ?>
+                                    ?>
+                                </div>
                             </div>
-                        </div>
+                        <?php } ?>
                         <div class="user-friends">
                             <div class="section" onclick="openOtherFriendsPage(event, '<?= $other_user_username ?>')">
                                 <div class="friends-info">
@@ -358,53 +361,55 @@ $result_other_user_personal_trophies_list_mobile = $connect->query($sql_other_ot
                             </div>
                             <div class="third-part">
                                 <div>
-                                    <div class="blossom-level">
-                                        <div class="blossom-title">
-                                            <img src="../pics/BlossomIcon.svg">
-                                            Цветение
+                                    <?php if (!$other_user_unrated_status) { ?>
+                                        <div class="blossom-level">
+                                            <div class="blossom-title">
+                                                <img src="../pics/BlossomIcon.svg">
+                                                Цветение
+                                            </div>
+                                            <div class="progress-div">
+                                                <progress value="<?= $other_user_blossom_progress ?>" max="100"></progress>
+                                                <span class="progress" style="--r:<?= $other_user_blossom_progress ?>%"><?= $other_user_blossom_progress ?>%</span>
+                                            </div>
+                                            <div class="level">
+                                                <span><?= $other_user_blossom_level ?> уровень</span>
+                                                <span><?= $other_user_blossom_level + 1 ?></span>
+                                            </div>
                                         </div>
-                                        <div class="progress-div">
-                                            <progress value="<?= $other_user_blossom_progress ?>" max="100"></progress>
-                                            <span class="progress" style="--r:<?= $other_user_blossom_progress ?>%"><?= $other_user_blossom_progress ?>%</span>
-                                        </div>
-                                        <div class="level">
-                                            <span><?= $other_user_blossom_level ?> уровень</span>
-                                            <span><?= $other_user_blossom_level + 1 ?></span>
-                                        </div>
-                                    </div>
-                                    <div class="case">
-                                        <div class="case-title">
-                                            <img src="../pics/CaseIcon.svg">
-                                            Трофеи
-                                        </div>
-                                        <div class="case-trophies">
-                                            <?php if ($result_other_user_personal_trophies_list->num_rows > 0) {
-                                                while ($row = $result_other_user_personal_trophies_list->fetch_assoc()) {
-                                                    $trophy_name_m = $row["name"];
-                                                    $trophy_description_m = $row["description"];
-                                                    $trophy_image_m = $row["image"];
-                                                    echo "<div class='trophy'>";
-                                                    echo "<img src='../$trophy_image_m'>";
-                                                    echo "<span>$trophy_name_m</span>";
-                                                    echo "</div>";
+                                        <div class="case">
+                                            <div class="case-title">
+                                                <img src="../pics/CaseIcon.svg">
+                                                Трофеи
+                                            </div>
+                                            <div class="case-trophies">
+                                                <?php if ($result_other_user_personal_trophies_list->num_rows > 0) {
+                                                    while ($row = $result_other_user_personal_trophies_list->fetch_assoc()) {
+                                                        $trophy_name = $row["name"];
+                                                        $trophy_unique_number = $row["unique_number"];
+                                                        $trophy_image = $row["image"];
+                                                        echo "<div class='trophy'>";
+                                                        echo "<img src='../$trophy_image'>";
+                                                        echo "<span>$trophy_name #$trophy_unique_number</span>";
+                                                        echo "</div>";
+                                                    }
                                                 }
-                                            }
-                                            if ($result_other_user_trophies_list->num_rows > 0) {
-                                                while ($row = $result_other_user_trophies_list->fetch_assoc()) {
-                                                    $trophy_name = $row["name"];
-                                                    $trophy_description = $row["description"];
-                                                    $trophy_image = $row["image"];
-                                                    echo "<div class='trophy'>";
-                                                    echo "<img src='../$trophy_image'>";
-                                                    echo "<span>$trophy_name</span>";
-                                                    echo "</div>";
+                                                if ($result_other_user_trophies_list->num_rows > 0) {
+                                                    while ($row = $result_other_user_trophies_list->fetch_assoc()) {
+                                                        $trophy_name = $row["name"];
+                                                        $trophy_description = $row["description"];
+                                                        $trophy_image = $row["image"];
+                                                        echo "<div class='trophy'>";
+                                                        echo "<img src='../$trophy_image'>";
+                                                        echo "<span>$trophy_name</span>";
+                                                        echo "</div>";
+                                                    }
+                                                } else if ($result_other_user_personal_trophies_list->num_rows == 0 && $result_other_user_trophies_list->num_rows == 0) {
+                                                    echo "<span class='trophy'>Нет трофеев</span>";
                                                 }
-                                            } else if ($result_other_user_personal_trophies_list->num_rows == 0 && $result_other_user_trophies_list->num_rows == 0) {
-                                                echo "<span class='trophy'>Нет трофеев</span>";
-                                            }
-                                            ?>
+                                                ?>
+                                            </div>
                                         </div>
-                                    </div>
+                                    <?php } ?>
                                     <div class="profile__counters">
                                         <div class="counters-title">
                                             <img src="../pics/ParamIcon.svg">

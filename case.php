@@ -202,7 +202,7 @@ if (isset($_SESSION['user'])) {
                                 </div>
                             </div>
                             <div class=''>
-                                <p class='section-title'>Персональные</p>
+                                <p class='section-title'>Спонсированные</p>
                                 <div class='trophy-list'>
                                     <?php
                                     $lists = getPersonalTrophyList();
@@ -230,25 +230,37 @@ if (isset($_SESSION['user'])) {
                                             echo "<p class='current-desc'>$trophy_desc</p>
                                             </div>
                                             <div class='user-trophy-info personal'>";
-                                            if ($users_list->num_rows > 0) {
-                                                while ($user_row = $users_list->fetch_assoc()) {
-                                                    $user_first_name = $user_row['first_name'];
-                                                    $user_second_name = $user_row['second_name'];
-                                                    $current_user_id = $user_row['user_id'];
-                                                    $user_username = $user_row['username'];
-                                                    $user_avatar = $user_row['avatar'];
-                                                    echo "<a href='./user/$user_username'>
-                                                    <img src='uploads/avatar/small_$user_avatar'>
-                                                    </a>";
+                                            if ($users_counter) {
+                                                if ($users_list->num_rows > 0) {
+                                                    $current_users_counter = 0;
+                                                    while ($user_row = $users_list->fetch_assoc()) {
+                                                        if ($current_users_counter < 5) {
+                                                            $user_trophy_id = $user_row['trophy_id'];
+                                                            if ($trophy_id == $user_trophy_id) {
+                                                                $user_first_name = $user_row['first_name'];
+                                                                $user_second_name = $user_row['second_name'];
+                                                                $current_user_id = $user_row['user_id'];
+                                                                $user_username = $user_row['username'];
+                                                                $user_avatar = $user_row['avatar'];
+                                                                echo "<a href='./user/$user_username'>
+                                                            <img src='uploads/avatar/small_$user_avatar'>
+                                                            </a>";
+                                                                $current_users_counter += 1;
+                                                            }
+                                                        } else {
+                                                            $users_counter -= 5;
+                                                            echo "<p class='and-more'>+$users_counter</p>";
+                                                            break;
+                                                        }
+                                                    }
+                                                    echo "</div>
+                                                        <span class='date'>владеют <br class='br-mobile'>с $trophy_date</span>";
                                                 }
+                                            } else {
+                                                echo "<p class='no-owners'>Владельцы ещё не выбраны</p>";
+                                                echo "</div>";
                                             }
-                                            if ($users_counter > 5) {
-                                                $users_counter -= 5;
-                                                echo "<p class='and-more'>+$users_counter</p>";
-                                            }
-                                            echo "</div>
-                                                <span class='date'>владеют <br class='br-mobile'>с $trophy_date</span>
-                                                </div>";
+                                            echo "</div>";
                                         } ?>
                                     <?php }
                                     ?>

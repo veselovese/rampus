@@ -15,6 +15,7 @@ if (isset($_SESSION['user'])) {
     $current_user_second_name = $_SESSION['user']['second_name'];
     $current_user_avatar = $_SESSION['user']['avatar'];
     $other_user_plat_status = $_SESSION['user']['plat_status'];
+    $current_user_unrated_status = $_SESSION['user']['unrated_status'];
 
     $result_current_user_blossom = $connect->query("SELECT blossom_level, blossom_progress FROM users WHERE id = $current_user_id LIMIT 1");
     if ($result_current_user_blossom->num_rows > 0) {
@@ -45,7 +46,7 @@ if (isset($_SESSION['user'])) {
     $result_current_user_trophies_list = $connect->query($sql_current_user_trophies_list);
     $result_current_user_trophies_list_mobile = $connect->query($sql_current_user_trophies_list);
 
-    $sql_current_user_personal_trophies_list = "SELECT t.name, t.description, t.image FROM personal_trophies_from_users ptfu JOIN trophies t ON ptfu.trophy_id = t.id WHERE ptfu.user_id = $current_user_id";
+    $sql_current_user_personal_trophies_list = "SELECT t.name, t.description, t.image, stfu.unique_number FROM sponsored_trophies_from_users stfu JOIN trophies t ON stfu.trophy_id = t.id WHERE stfu.user_id = $current_user_id";
     $result_current_user_personal_trophies_list = $connect->query($sql_current_user_personal_trophies_list);
     $result_current_user_personal_trophies_list_mobile = $connect->query($sql_current_user_personal_trophies_list);
 }
@@ -128,59 +129,61 @@ if (isset($_SESSION['user'])) {
                                 <path d="M6.96771 6.03603L1.12165 0.191904C0.865127 -0.0639698 0.449521 -0.0639698 0.192352 0.191904C-0.0641698 0.447777 -0.0641699 0.863383 0.192352 1.11926L5.57471 6.49968L0.192999 11.8801C-0.0635223 12.136 -0.0635224 12.5516 0.192999 12.8081C0.44952 13.064 0.865774 13.064 1.1223 12.8081L6.96836 6.96403C7.22094 6.7108 7.22094 6.28866 6.96771 6.03603Z"></path>
                             </svg>
                         </a>
-                        <a href="./blossom" class="blossom-level mobile">
-                            <div class="blossom-title">
-                                <img src="pics/BlossomIcon.svg">
-                                Цветение
-                                <svg width="8" height="13" viewBox="0 0 8 13" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M6.96771 6.03603L1.12165 0.191904C0.865127 -0.0639698 0.449521 -0.0639698 0.192352 0.191904C-0.0641698 0.447777 -0.0641699 0.863383 0.192352 1.11926L5.57471 6.49968L0.192999 11.8801C-0.0635223 12.136 -0.0635224 12.5516 0.192999 12.8081C0.44952 13.064 0.865774 13.064 1.1223 12.8081L6.96836 6.96403C7.22094 6.7108 7.22094 6.28866 6.96771 6.03603Z" />
-                                </svg>
-                            </div>
-                            <div class="progress-div">
-                                <progress value="<?= $current_user_blossom_progress ?>" max="100"></progress>
-                                <span class="progress" style="--r:<?= $current_user_blossom_progress ?>%"><?= $current_user_blossom_progress ?>%</span>
-                            </div>
-                            <div class="level">
-                                <span><?= $current_user_blossom_level ?> уровень</span>
-                                <span><?= $current_user_blossom_level + 1 ?></span>
-                            </div>
-                        </a>
-                        <a href="./trophies" class="case mobile">
-                            <div class="case-title">
-                                <img src="pics/CaseIcon.svg">
-                                Трофеи
-                                <svg width="8" height="13" viewBox="0 0 8 13" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M6.96771 6.03603L1.12165 0.191904C0.865127 -0.0639698 0.449521 -0.0639698 0.192352 0.191904C-0.0641698 0.447777 -0.0641699 0.863383 0.192352 1.11926L5.57471 6.49968L0.192999 11.8801C-0.0635223 12.136 -0.0635224 12.5516 0.192999 12.8081C0.44952 13.064 0.865774 13.064 1.1223 12.8081L6.96836 6.96403C7.22094 6.7108 7.22094 6.28866 6.96771 6.03603Z" />
-                                </svg>
-                            </div>
-                            <div class="case-trophies">
-                                <?php if ($result_current_user_personal_trophies_list_mobile->num_rows > 0) {
-                                    while ($row = $result_current_user_personal_trophies_list_mobile->fetch_assoc()) {
-                                        $trophy_name_m = $row["name"];
-                                        $trophy_description_m = $row["description"];
-                                        $trophy_image_m = $row["image"];
-                                        echo "<div class='trophy'>";
-                                        echo "<img src='$trophy_image_m'>";
-                                        echo "<span>$trophy_name_m</span>";
-                                        echo "</div>";
+                        <?php if (!$current_user_unrated_status) { ?>
+                            <a href="./blossom" class="blossom-level mobile">
+                                <div class="blossom-title">
+                                    <img src="pics/BlossomIcon.svg">
+                                    Цветение
+                                    <svg width="8" height="13" viewBox="0 0 8 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M6.96771 6.03603L1.12165 0.191904C0.865127 -0.0639698 0.449521 -0.0639698 0.192352 0.191904C-0.0641698 0.447777 -0.0641699 0.863383 0.192352 1.11926L5.57471 6.49968L0.192999 11.8801C-0.0635223 12.136 -0.0635224 12.5516 0.192999 12.8081C0.44952 13.064 0.865774 13.064 1.1223 12.8081L6.96836 6.96403C7.22094 6.7108 7.22094 6.28866 6.96771 6.03603Z" />
+                                    </svg>
+                                </div>
+                                <div class="progress-div">
+                                    <progress value="<?= $current_user_blossom_progress ?>" max="100"></progress>
+                                    <span class="progress" style="--r:<?= $current_user_blossom_progress ?>%"><?= $current_user_blossom_progress ?>%</span>
+                                </div>
+                                <div class="level">
+                                    <span><?= $current_user_blossom_level ?> уровень</span>
+                                    <span><?= $current_user_blossom_level + 1 ?></span>
+                                </div>
+                            </a>
+                            <a href="./trophies" class="case mobile">
+                                <div class="case-title">
+                                    <img src="pics/CaseIcon.svg">
+                                    Трофеи
+                                    <svg width="8" height="13" viewBox="0 0 8 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M6.96771 6.03603L1.12165 0.191904C0.865127 -0.0639698 0.449521 -0.0639698 0.192352 0.191904C-0.0641698 0.447777 -0.0641699 0.863383 0.192352 1.11926L5.57471 6.49968L0.192999 11.8801C-0.0635223 12.136 -0.0635224 12.5516 0.192999 12.8081C0.44952 13.064 0.865774 13.064 1.1223 12.8081L6.96836 6.96403C7.22094 6.7108 7.22094 6.28866 6.96771 6.03603Z" />
+                                    </svg>
+                                </div>
+                                <div class="case-trophies">
+                                    <?php if ($result_current_user_personal_trophies_list_mobile->num_rows > 0) {
+                                        while ($row = $result_current_user_personal_trophies_list_mobile->fetch_assoc()) {
+                                            $trophy_name_m = $row["name"];
+                                            $trophy_unique_number_m = $row["unique_number"];
+                                            $trophy_image_m = $row["image"];
+                                            echo "<div class='trophy'>";
+                                            echo "<img src='$trophy_image_m'>";
+                                            echo "<span>$trophy_name_m #$trophy_unique_number_m</span>";
+                                            echo "</div>";
+                                        }
                                     }
-                                }
-                                if ($result_current_user_trophies_list_mobile->num_rows > 0) {
-                                    while ($row = $result_current_user_trophies_list_mobile->fetch_assoc()) {
-                                        $trophy_name_m = $row["name"];
-                                        $trophy_description_m = $row["description"];
-                                        $trophy_image_m = $row["image"];
-                                        echo "<div class='trophy'>";
-                                        echo "<img src='$trophy_image_m'>";
-                                        echo "<span>$trophy_name_m</span>";
-                                        echo "</div>";
+                                    if ($result_current_user_trophies_list_mobile->num_rows > 0) {
+                                        while ($row = $result_current_user_trophies_list_mobile->fetch_assoc()) {
+                                            $trophy_name_m = $row["name"];
+                                            $trophy_description_m = $row["description"];
+                                            $trophy_image_m = $row["image"];
+                                            echo "<div class='trophy'>";
+                                            echo "<img src='$trophy_image_m'>";
+                                            echo "<span>$trophy_name_m</span>";
+                                            echo "</div>";
+                                        }
+                                    } else if ($result_current_user_personal_trophies_list_mobile->num_rows == 0 && $result_current_user_trophies_list_mobile->num_rows == 0) {
+                                        echo "<span class='trophy'>Нет трофеев</span>";
                                     }
-                                } else if ($result_current_user_personal_trophies_list_mobile->num_rows == 0 && $result_current_user_trophies_list_mobile->num_rows == 0) {
-                                    echo "<span class='trophy'>Нет трофеев</span>";
-                                }
-                                ?>
-                            </div>
-                        </a>
+                                    ?>
+                                </div>
+                            </a>
+                        <?php } ?>
                         <div class="user-friends">
                             <div class="section" onclick="openFriendsPage(event)">
                                 <div class="friends-info">
@@ -306,59 +309,61 @@ if (isset($_SESSION['user'])) {
                         </div>
                         <div class="third-part">
                             <div>
-                                <a href="./blossom" class="blossom-level">
-                                    <div class="blossom-title">
-                                        <img src="pics/BlossomIcon.svg">
-                                        Цветение
-                                        <svg width="8" height="13" viewBox="0 0 8 13" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M6.96771 6.03603L1.12165 0.191904C0.865127 -0.0639698 0.449521 -0.0639698 0.192352 0.191904C-0.0641698 0.447777 -0.0641699 0.863383 0.192352 1.11926L5.57471 6.49968L0.192999 11.8801C-0.0635223 12.136 -0.0635224 12.5516 0.192999 12.8081C0.44952 13.064 0.865774 13.064 1.1223 12.8081L6.96836 6.96403C7.22094 6.7108 7.22094 6.28866 6.96771 6.03603Z" />
-                                        </svg>
-                                    </div>
-                                    <div class="progress-div">
-                                        <progress value="<?= $current_user_blossom_progress ?>" max="100"></progress>
-                                        <span class="progress" style="--r:<?= $current_user_blossom_progress ?>%"><?= $current_user_blossom_progress ?>%</span>
-                                    </div>
-                                    <div class="level">
-                                        <span><?= $current_user_blossom_level ?> уровень</span>
-                                        <span><?= $current_user_blossom_level + 1 ?></span>
-                                    </div>
-                                </a>
-                                <a href="./trophies" class="case">
-                                    <div class="case-title">
-                                        <img src="pics/CaseIcon.svg">
-                                        Трофеи
-                                        <svg width="8" height="13" viewBox="0 0 8 13" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M6.96771 6.03603L1.12165 0.191904C0.865127 -0.0639698 0.449521 -0.0639698 0.192352 0.191904C-0.0641698 0.447777 -0.0641699 0.863383 0.192352 1.11926L5.57471 6.49968L0.192999 11.8801C-0.0635223 12.136 -0.0635224 12.5516 0.192999 12.8081C0.44952 13.064 0.865774 13.064 1.1223 12.8081L6.96836 6.96403C7.22094 6.7108 7.22094 6.28866 6.96771 6.03603Z" />
-                                        </svg>
-                                    </div>
-                                    <div class="case-trophies">
-                                        <?php if ($result_current_user_personal_trophies_list->num_rows > 0) {
-                                            while ($row = $result_current_user_personal_trophies_list->fetch_assoc()) {
-                                                $trophy_name_m = $row["name"];
-                                                $trophy_description_m = $row["description"];
-                                                $trophy_image_m = $row["image"];
-                                                echo "<div class='trophy'>";
-                                                echo "<img src='$trophy_image_m'>";
-                                                echo "<span>$trophy_name_m</span>";
-                                                echo "</div>";
+                                <?php if (!$current_user_unrated_status) { ?>
+                                    <a href="./blossom" class="blossom-level">
+                                        <div class="blossom-title">
+                                            <img src="pics/BlossomIcon.svg">
+                                            Цветение
+                                            <svg width="8" height="13" viewBox="0 0 8 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M6.96771 6.03603L1.12165 0.191904C0.865127 -0.0639698 0.449521 -0.0639698 0.192352 0.191904C-0.0641698 0.447777 -0.0641699 0.863383 0.192352 1.11926L5.57471 6.49968L0.192999 11.8801C-0.0635223 12.136 -0.0635224 12.5516 0.192999 12.8081C0.44952 13.064 0.865774 13.064 1.1223 12.8081L6.96836 6.96403C7.22094 6.7108 7.22094 6.28866 6.96771 6.03603Z" />
+                                            </svg>
+                                        </div>
+                                        <div class="progress-div">
+                                            <progress value="<?= $current_user_blossom_progress ?>" max="100"></progress>
+                                            <span class="progress" style="--r:<?= $current_user_blossom_progress ?>%"><?= $current_user_blossom_progress ?>%</span>
+                                        </div>
+                                        <div class="level">
+                                            <span><?= $current_user_blossom_level ?> уровень</span>
+                                            <span><?= $current_user_blossom_level + 1 ?></span>
+                                        </div>
+                                    </a>
+                                    <a href="./trophies" class="case">
+                                        <div class="case-title">
+                                            <img src="pics/CaseIcon.svg">
+                                            Трофеи
+                                            <svg width="8" height="13" viewBox="0 0 8 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M6.96771 6.03603L1.12165 0.191904C0.865127 -0.0639698 0.449521 -0.0639698 0.192352 0.191904C-0.0641698 0.447777 -0.0641699 0.863383 0.192352 1.11926L5.57471 6.49968L0.192999 11.8801C-0.0635223 12.136 -0.0635224 12.5516 0.192999 12.8081C0.44952 13.064 0.865774 13.064 1.1223 12.8081L6.96836 6.96403C7.22094 6.7108 7.22094 6.28866 6.96771 6.03603Z" />
+                                            </svg>
+                                        </div>
+                                        <div class="case-trophies">
+                                            <?php if ($result_current_user_personal_trophies_list->num_rows > 0) {
+                                                while ($row = $result_current_user_personal_trophies_list->fetch_assoc()) {
+                                                    $trophy_name = $row["name"];
+                                                    $trophy_unique_number = $row["unique_number"];
+                                                    $trophy_image = $row["image"];
+                                                    echo "<div class='trophy'>";
+                                                    echo "<img src='$trophy_image'>";
+                                                    echo "<span>$trophy_name #$trophy_unique_number</span>";
+                                                    echo "</div>";
+                                                }
                                             }
-                                        }
-                                        if ($result_current_user_trophies_list->num_rows > 0) {
-                                            while ($row = $result_current_user_trophies_list->fetch_assoc()) {
-                                                $trophy_name = $row["name"];
-                                                $trophy_description = $row["description"];
-                                                $trophy_image = $row["image"];
-                                                echo "<div class='trophy'>";
-                                                echo "<img src='$trophy_image'>";
-                                                echo "<span>$trophy_name</span>";
-                                                echo "</div>";
+                                            if ($result_current_user_trophies_list->num_rows > 0) {
+                                                while ($row = $result_current_user_trophies_list->fetch_assoc()) {
+                                                    $trophy_name = $row["name"];
+                                                    $trophy_description = $row["description"];
+                                                    $trophy_image = $row["image"];
+                                                    echo "<div class='trophy'>";
+                                                    echo "<img src='$trophy_image'>";
+                                                    echo "<span>$trophy_name</span>";
+                                                    echo "</div>";
+                                                }
+                                            } else if ($result_current_user_personal_trophies_list->num_rows == 0 && $result_current_user_trophies_list->num_rows == 0) {
+                                                echo "<span class='trophy'>Нет трофеев</span>";
                                             }
-                                        } else if ($result_current_user_personal_trophies_list->num_rows == 0 && $result_current_user_trophies_list->num_rows == 0) {
-                                            echo "<span class='trophy'>Нет трофеев</span>";
-                                        }
-                                        ?>
-                                    </div>
-                                </a>
+                                            ?>
+                                        </div>
+                                    </a>
+                                <?php } ?>
                                 <div class="profile__counters">
                                     <div class="counters-title">
                                         <img src="pics/ParamIcon.svg">

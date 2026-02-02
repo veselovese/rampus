@@ -5,7 +5,9 @@ require('blossoming.php');
 
 $user_id = $_SESSION['user']['id'];
 $post_id = mysqli_real_escape_string($connect, $_POST["post_id"]);
-$hashtag_id = $connect->query("SELECT hashtag_id FROM posts WHERE id = $post_id AND user_id = $user_id")->fetch_assoc()['hashtag_id'];
+$result_post = $connect->query("SELECT hashtag_id, repost_user_id FROM posts WHERE id = $post_id AND user_id = $user_id")->fetch_assoc();
+$hashtag_id = $result_post['hashtag_id'];
+$repost_user_id = $result_post['repost_user_id'];
 
 if ($hashtag_id > 0) {
     if ($connect->query("SELECT id FROM posts WHERE hashtag_id = $hashtag_id")->num_rows == 1) {
@@ -13,7 +15,12 @@ if ($hashtag_id > 0) {
     }
 }
 
-blossoming('delete-post', $user_id, $connect);
+if ($repost_user_id) {
+    blossoming('unrepost-post', $user_id, $connect);
+    blossoming('is-unreposted-by', $repost_user_id, $connect);
+} else {
+    blossoming('delete-post', $user_id, $connect);
+}
 
 $other_users_id_comments = $connect->query("SELECT user_id FROM comments WHERE post_id = $post_id");
 

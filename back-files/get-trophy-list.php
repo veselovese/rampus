@@ -19,19 +19,20 @@ function getPersonalTrophyList()
     t.image,
     t.description,
     t.short_description,
-    DATE_FORMAT(ptfu.get_date, '%e %M') AS get_date,
-    COUNT(ptfu.user_id) AS users_counter
+    DATE_FORMAT(t.get_date, '%e %M') AS get_date,
+    COUNT(stfu.user_id) AS users_counter
 FROM trophies t
-JOIN personal_trophies_from_users ptfu ON t.id = ptfu.trophy_id
-WHERE t.id > 900;"),
+LEFT JOIN sponsored_trophies_from_users stfu ON t.id = stfu.trophy_id
+WHERE t.id > 900
+GROUP BY t.id;"),
         $connect->query("SELECT 
-    ptfu.trophy_id,
+    stfu.trophy_id,
     u.id AS user_id,
     u.username,
     u.first_name,
     u.second_name,
     u.avatar
-FROM personal_trophies_from_users ptfu
-JOIN users u ON ptfu.user_id = u.id LIMIT 5;")
+FROM sponsored_trophies_from_users stfu
+JOIN users u ON stfu.user_id = u.id;")
     ];
 }
