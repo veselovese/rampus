@@ -25,10 +25,10 @@ if ($result_blossom_notifications->num_rows > 0) {
                 $notify_date = date_format(date_create($notify_date), 'сегодня в G:i');
                 break;
             case $yesterday:
-                $notify_date = $weeks_list[date_format(date_create($notify_date), 'вчера в G:i')];
+                $notify_date = date_format(date_create($notify_date), 'вчера в G:i');
                 break;
             case $beforeyesterday:
-                $notify_date = $weeks_list[date_format(date_create($notify_date), 'позавчера в G:i')];
+                $notify_date = date_format(date_create($notify_date), 'позавчера в G:i');
                 break;
             default:
                 $notify_date = date_format(date_create($notify_date), 'j ') . $month_list[date_format(date_create($notify_date), 'n')] . date_format(date_create($notify_date), ' в G:i');

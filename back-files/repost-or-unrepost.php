@@ -1,4 +1,7 @@
 <?php
+
+use function PHPSTORM_META\elementType;
+
 require_once('blossoming.php');
 
 if (isset($_POST['reposted'])) {
@@ -44,8 +47,16 @@ if (isset($_POST['reposted'])) {
                 $connect->query("UPDATE posts SET reposts = reposts + 1 WHERE id = $repost_repost_post_id");
 
                 blossoming('repost-post', $user_id,  $connect);
-                blossoming('is-reposted-by', $repost_user_id, $connect);
-                blossoming('is-reposted-by', $repost_repost_user_id, $connect);
+                if ($user_id != $repost_repost_user_id) {
+                    if ($repost_user_id != $repost_repost_user_id) {
+                        blossoming('is-reposted-by', $repost_user_id, $connect);
+                        blossoming('is-reposted-by', $repost_repost_user_id, $connect);
+                    } else {
+                        blossoming('is-reposted-by', $repost_user_id, $connect);
+                    }
+                } else {
+                    blossoming('is-reposted-by', $repost_user_id, $connect);
+                }
 
                 echo $reposts + 1;
             } else {
@@ -68,8 +79,10 @@ if (isset($_POST['reposted'])) {
 
                 $connect->query("UPDATE posts SET reposts = $reposts + 1 WHERE id = $post_id");
 
-                blossoming('repost-post', $user_id, $connect);
-                blossoming('is-reposted-by', $repost_user_id, $connect);
+                if ($user_id != $repost_user_id) {
+                    blossoming('repost-post', $user_id, $connect);
+                    blossoming('is-reposted-by', $repost_user_id, $connect);
+                }
 
                 echo $reposts + 1;
             } else {
@@ -119,8 +132,16 @@ if (isset($_POST['unreposted'])) {
                 $connect->query("UPDATE posts SET reposts = reposts - 1 WHERE id = $repost_repost_post_id");
 
                 blossoming('unrepost-post', $user_id,  $connect);
-                blossoming('is-unreposted-by', $repost_user_id, $connect);
-                blossoming('is-unreposted-by', $repost_repost_user_id, $connect);
+                if ($user_id != $repost_repost_user_id) {
+                    if ($repost_user_id != $repost_repost_user_id) {
+                        blossoming('is-unreposted-by', $repost_user_id, $connect);
+                        blossoming('is-unreposted-by', $repost_repost_user_id, $connect);
+                    } else {
+                        blossoming('is-unreposted-by', $repost_user_id, $connect);
+                    }
+                } else {
+                    blossoming('is-unreposted-by', $repost_user_id, $connect);
+                }
 
                 echo $reposts - 1;
             }
@@ -140,12 +161,12 @@ if (isset($_POST['unreposted'])) {
                     while ($row_repost_post_id = $result_check_another_repost->fetch_assoc()) {
                         $repost_id = $row_repost_post_id["id"];
                         $repost_other_user_id = $row_repost_post_id["user_id"];
-                        if ($connect->query("SELECT id FROM reposts WHERE user_id = $user_id AND post_id = $repost_id")->num_rows == 1) {
-                            blossoming('is-unreposted-by', $repost_other_user_id, $connect);
-                            $connect->query("DELETE FROM reposts WHERE user_id = $user_id AND post_id = $repost_id");
-                            if ($connect->query("SELECT id FROM reposts WHERE user_id = $user_id AND post_id = $repost_id")->num_rows == 0) {
-                                $connect->query("UPDATE posts SET reposts = reposts - 1 WHERE id = $repost_id");
+                        if ($connect->query("SELECT id FROM reposts WHERE user_id = $repost_other_user_id AND post_id = $post_id")->num_rows == 1) {
+                            if ($user_id != $repost_other_user_id) {
+                                blossoming('unrepost-post', $repost_other_user_id,  $connect);
+                                blossoming('is-unreposted-by', $user_id, $connect);
                             }
+                            $connect->query("DELETE FROM reposts WHERE user_id = $repost_other_user_id AND post_id = $post_id");
                         }
                     }
                 }
@@ -153,8 +174,10 @@ if (isset($_POST['unreposted'])) {
                 $connect->query("UPDATE posts SET status = 1 WHERE id = $repost_post_id");
                 $connect->query("UPDATE posts SET reposts = reposts - 1 WHERE id = $post_id");
 
-                blossoming('unrepost-post', $user_id,  $connect);
-                blossoming('is-unreposted-by', $repost_user_id, $connect);
+                if ($user_id != $repost_user_id) {
+                    blossoming('unrepost-post', $user_id,  $connect);
+                    blossoming('is-unreposted-by', $repost_user_id, $connect);
+                }
 
                 echo $reposts - 1;
             }

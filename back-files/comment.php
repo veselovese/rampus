@@ -11,8 +11,10 @@ $connect->query("INSERT INTO comments (post_id, user_id, text) VALUES ($post_id,
 
 $other_id = $connect->query("SELECT user_id FROM posts WHERE id = $post_id")->fetch_assoc()['user_id'];
 
-blossoming('is-commented-by', $other_id, $connect);
-blossoming('has-commented', $user_id, $connect);
+if ($user_id != $other_id) {
+    blossoming('is-commented-by', $other_id, $connect);
+    blossoming('has-commented', $user_id, $connect);
+}
 
 header('Location: ../wall#post-' . $post_id);
 exit();
