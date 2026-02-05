@@ -20,8 +20,10 @@ if ($_POST['filter'] === 'main') {
     $filter = " AND posts.user_id IN ($user_friends_id) AND NOT users.username = 'Thirty_seventh'";
 } else if ($_POST['filter'] === 'timetable') {
     $filter = " AND users.username = 'Thirty_seventh'";
+    $_SESSION['user']['unread_thirty_seventh_posts'] = 0;
 } else {
     $filter = " AND NOT users.username = 'Thirty_seventh' AND posts.repost_user_id IS NULL";
+    $_SESSION['user']['unread_all_posts'] = 0;
 }
 
 $searchCondition = '';

@@ -193,6 +193,10 @@ a {
     background-color: var(--else-text-color-33);
 }
 
+form {
+    margin: 0;
+}
+
 button {
     font-family: 'Cygre', sans-serif;
     font-weight: 400;

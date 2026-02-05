@@ -7,8 +7,8 @@ $password = md5(mysqli_real_escape_string($connect, $_POST['password']));
 $request = mysqli_real_escape_string($connect, $_GET['request']);
 
 if (mysqli_query($connect, "SELECT id FROM `users` LIMIT 1")) {
-    $check_user_by_email = mysqli_query($connect, "SELECT id, username, first_name, second_name, description, avatar, plat_status, verify_status, unrated_status, unread_posts, last_auth_date FROM `users` WHERE `email` = '$email_or_username' AND `password` = '$password' LIMIT 1");
-    $check_user_by_username = mysqli_query($connect, "SELECT id, username, first_name, second_name, description, avatar, plat_status, verify_status, unrated_status, unread_posts, last_auth_date FROM `users` WHERE `username` = '$email_or_username' AND `password` = '$password' LIMIT 1");
+    $check_user_by_email = mysqli_query($connect, "SELECT id, username, first_name, second_name, description, avatar, plat_status, verify_status, unrated_status, unread_posts, last_activity_date, last_auth_date FROM `users` WHERE `email` = '$email_or_username' AND `password` = '$password' LIMIT 1");
+    $check_user_by_username = mysqli_query($connect, "SELECT id, username, first_name, second_name, description, avatar, plat_status, verify_status, unrated_status, unread_posts, last_activity_date, last_auth_date FROM `users` WHERE `username` = '$email_or_username' AND `password` = '$password' LIMIT 1");
 } else {
     echo '@@@';
     exit();
@@ -30,9 +30,14 @@ if (mysqli_num_rows($check_user_by_email) > 0 || mysqli_num_rows($check_user_by_
     $verify_status = $user['verify_status'];
     $unrated_status = $user['unrated_status'];
     $last_auth_date = $user['last_auth_date'];
+    $last_activity_date = $user['last_activity_date'];
     $unread_posts_db = $user['unread_posts'];
     $unread_posts_now = $last_auth_date ? mysqli_query($connect, "SELECT 1 FROM `posts` WHERE `content_date` >= '$last_auth_date'")->num_rows : 0;
     $unread_posts = $unread_posts_now + $unread_posts_db;
+
+    $unread_main_posts = $last_activity_date ? mysqli_query($connect, "SELECT 1 FROM posts p JOIN users u ON p.user_id = u.id WHERE content_date >= '$last_activity_date' AND u.username != 'Thirty_seventh' AND u.id != $id")->num_rows : 0;
+    $unread_thirty_seventh_posts = $last_activity_date ? mysqli_query($connect, "SELECT 1 FROM posts p JOIN users u ON p.user_id = u.id WHERE content_date >= '$last_activity_date' AND u.username = 'Thirty_seventh'")->num_rows : 0;
+    $unread_all_posts = $last_activity_date ? mysqli_query($connect, "SELECT 1 FROM posts p JOIN users u ON p.user_id = u.id WHERE content_date >= '$last_activity_date' AND u.username != 'Thirty_seventh' AND p.repost_user_id IS NULL AND u.id != $id")->num_rows : 0;
 
     $_SESSION['user'] = [
         "id" => $id,
@@ -44,7 +49,10 @@ if (mysqli_num_rows($check_user_by_email) > 0 || mysqli_num_rows($check_user_by_
         "plat_status" => $plat_status,
         "verify_status" => $verify_status,
         "unrated_status" => $unrated_status,
-        "unread_posts" => $unread_posts
+        "unread_posts" => $unread_posts,
+        "unread_main_posts" => $unread_main_posts,
+        "unread_thirty_seventh_posts" => $unread_thirty_seventh_posts,
+        "unread_all_posts" => $unread_all_posts,
     ];
 
     $connect->query("UPDATE users SET last_auth_date = NOW() WHERE id = $id");

@@ -253,8 +253,9 @@ if (isset($_SESSION['user'])) {
                                                             break;
                                                         }
                                                     }
+                                                    $owner_mark = $current_users_counter == 1 ? "владеет" : "владеют";
                                                     echo "</div>
-                                                        <span class='date'>владеют <br class='br-mobile'>с $trophy_date</span>";
+                                                        <span class='date'>$owner_mark <br class='br-mobile'>с $trophy_date</span>";
                                                 }
                                             } else {
                                                 echo "<p class='no-owners'>Владельцы ещё не выбраны</p>";

@@ -12,7 +12,10 @@ $current_user_verify_status = $_SESSION['user']['verify_status'];
 $current_user_in_top = findUserPositionInTop($current_user_id, $connect);
 $current_user_placement = basename(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
 
-$current_user_unread_posts = $_SESSION['user']['unread_posts'];
+$unread_main_posts = $_SESSION['user']['unread_main_posts'];
+$unread_thirty_seventh_posts = $_SESSION['user']['unread_thirty_seventh_posts'];
+$unread_all_posts = $_SESSION['user']['unread_all_posts'];
+$current_user_unread_posts = $unread_all_posts + $unread_main_posts + $unread_thirty_seventh_posts;
 $current_user_requests = $result_request_to->num_rows;
 $current_user_unread_chats = require('back-files/chats/get-user-unread-chats.php');
 ?>
@@ -58,9 +61,7 @@ $current_user_unread_chats = require('back-files/chats/get-user-unread-chats.php
                     <path d="M0 5C0 2.23858 2.23858 0 5 0H23C25.7614 0 28 2.23858 28 5V24H5C2.23858 24 0 21.7614 0 19V5Z" />
                 </svg>
                 Стена
-                <?php if ($current_user_unread_posts > 0) { ?>
-                    <span class="notification-in-menu"><?= $current_user_unread_posts ?></span>
-                <?php } ?>
+                <span id="notification__unread-posts" class="notification-in-menu"><?= $current_user_unread_posts > 0 ? $current_user_unread_posts : '' ?></span>
             </a></li>
         <li id="<?php echo $current_user_placement == 'chats' ? 'active' : '' ?>">
             <a href="<?= $global_url ?>/chats">
@@ -69,7 +70,7 @@ $current_user_unread_chats = require('back-files/chats/get-user-unread-chats.php
                     <path d="M7 11C7 8.23858 9.23858 6 12 6H23C25.7614 6 28 8.23858 28 11V24H12C9.23858 24 7 21.7614 7 19V11Z" />
                 </svg>
                 Чаты
-                    <span class="notification-in-menu" id="notification__unread-chats"><?= $current_user_unread_chats > 0 ? $current_user_unread_chats : '' ?></span>
+                <span class="notification-in-menu" id="notification__unread-chats"><?= $current_user_unread_chats > 0 ? $current_user_unread_chats : '' ?></span>
             </a>
         </li>
         <li id="<?php echo $current_user_placement == 'case' ? 'active' : '' ?>"><a href="<?= $global_url ?>/case"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">

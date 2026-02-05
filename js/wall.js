@@ -125,21 +125,54 @@ $(document).ready(function () {
 
     $('#wall-filter-main').click(() => {
         renderPosts('main', search);
+        $unreadMainPost = Number($('#notification-in-filter__unread-main-posts').text())
+        $('#notification__unread-posts').text(Number($('#notification__unread-posts').text()) - $unreadMainPost > 0 ? Number($('#notification__unread-posts').text()) - $unreadMainPost : '')
+        $('#notification-in-filter__unread-main-posts').addClass('hide')
     })
     $('#wall-filter-all').click(() => {
         renderPosts('all', search);
+        $unreadAllPost = Number($('#notification-in-filter__unread-all-posts').text())
+        $('#notification__unread-posts').text(Number($('#notification__unread-posts').text()) - $unreadAllPost > 0 ? Number($('#notification__unread-posts').text()) - $unreadAllPost : '')
+        $('#notification-in-filter__unread-all-posts').addClass('hide')
     })
     $('#wall-filter-timetable').click(() => {
         renderPosts('timetable', search);
+        $unreadThirtySeventhPost = Number($('#notification-in-filter__unread-thirty-seventh-posts').text())
+        $('#notification__unread-posts').text(Number($('#notification__unread-posts').text()) - $unreadThirtySeventhPost > 0 ? Number($('#notification__unread-posts').text()) - $unreadThirtySeventhPost : '')
+        $('#notification-in-filter__unread-thirty-seventh-posts').addClass('hide')
     })
     $('#wall-filter-main__mobile').click(() => {
         renderPosts('main', search);
+        $unreadMainPost = Number($('#notification-in-filter__unread-main-posts-mobile').text())
+        if (Number($('#notification__unread-posts-mobile').text()) - $unreadMainPost > 0) {
+            $('#notification__unread-posts-mobile').text(Number($('#notification__unread-posts-mobile').text()) - $unreadMainPost)
+        } else {
+            $('#notification__unread-posts-mobile').text('')
+            $('#notification__unread-posts-mobile').removeClass('active')
+        }
+        $('#notification-in-filter__unread-main-posts-mobile').addClass('hide')
     })
     $('#wall-filter-all__mobile').click(() => {
         renderPosts('all', search);
+        $unreadAllPost = Number($('#notification-in-filter__unread-all-posts-mobile').text())
+        if (Number($('#notification__unread-posts-mobile').text()) - $unreadAllPost > 0) {
+            $('#notification__unread-posts-mobile').text(Number($('#notification__unread-posts-mobile').text()) - $unreadAllPost)
+        } else {
+            $('#notification__unread-posts-mobile').text('')
+            $('#notification__unread-posts-mobile').removeClass('active')
+        }
+        $('#notification-in-filter__unread-all-posts-mobile').addClass('hide')
     })
     $('#wall-filter-timetable__mobile').click(() => {
         renderPosts('timetable', search);
+        $unreadThirtySeventhPost = Number($('#notification-in-filter__unread-thirty-seventh-mobile').text())
+        if (Number($('#notification__unread-posts-mobile').text()) - $unreadThirtySeventhPost > 0) {
+            $('#notification__unread-posts-mobile').text(Number($('#notification__unread-posts-mobile').text()) - $unreadThirtySeventhPost)
+        } else {
+            $('#notification__unread-posts-mobile').text('')
+            $('#notification__unread-posts-mobile').removeClass('active')
+        }
+        $('#notification-in-filter__unread-thirty-seventh-posts-mobile').addClass('hide')
     })
 })
 
