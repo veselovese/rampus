@@ -268,32 +268,47 @@ function addImageToPost() {
 
 const postImage = document.getElementById('post-image');
 postImage.addEventListener('change', (e) => {
-    const file = e.target.files;
+    const files = Array.from(e.target.files);
+    console.log(files)
 
-    if (file.length > 0) {
-        const [currentFile] = file;
-        const fileType = currentFile.type.startsWith('image');
-        const reader = new FileReader();
-        if (fileType) {
-            reader.onload = () => {
-                $('#textarea-post').addClass('image-uploaded');
-                $('#textarea-post_sumbit').addClass('image-uploaded');
-                $('.current-post-image-div').addClass('image-uploaded');
-                $('.post-image-delete').css('display', 'flex');
-                document.getElementById('current-post-image').src = reader.result;
-                if (($('#textarea-post').text().trim(' ') != '') || ($('#post-image').val().length)) {
-                    $('#textarea-post_sumbit').addClass('active');
-                    $('#textarea-post_sumbit').removeAttr('disabled');
-                } else {
-                    $('#textarea-post_sumbit').removeClass('active');
-                    $('#textarea-post_sumbit').attr('disabled');
-                }
-                $('#textarea-post').trigger('focus');
+    if (files.length > 0) {
+        files.forEach((file, index) => {
+            const fileType = file.type.startsWith('image'); 
+
+            if (fileType) {
+                const reader = new FileReader();
+
+                reader.onload = (event) => {
+                    const img = document.createElement('img');
+                    img.src = event.target.result;
+                    img.className = 'current-post-image';
+                    img.setAttribute('data-index', index);
+
+                    $('.current-post-image-div').append(img);
+
+                    $('#textarea-post').addClass('image-uploaded');
+                    $('#textarea-post_sumbit').addClass('image-uploaded');
+                    $('.current-post-image-div').addClass('image-uploaded');
+                    $('.post-image-delete').css('display', 'flex');
+
+                    if (($('#textarea-post').text().trim() !== '') || files.length > 0) {
+                        $('#textarea-post_sumbit').addClass('active');
+                        $('#textarea-post_sumbit').prop('disabled', false);
+                    } else {
+                        $('#textarea-post_sumbit').removeClass('active');
+                        $('#textarea-post_sumbit').prop('disabled', true);
+                    }
+
+                    $('#textarea-post').trigger('focus');
+                };
+
+                reader.readAsDataURL(file);
+            } else {
+                alert('Пожалуйста, выберите только изображения!');
             }
-        }
-        reader.readAsDataURL(currentFile);
+        });
     }
-})
+});
 
 function clearPostImage() {
     document.getElementById('current-post-image').src = '';

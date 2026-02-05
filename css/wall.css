@@ -1073,7 +1073,7 @@ div.for-friends svg {
     opacity: 80%;
 }
 
-#current-post-image {
+.current-post-image {
     object-fit: cover;
     height: 100px;
     border-radius: calc(2rem - 0.39rem*2);
