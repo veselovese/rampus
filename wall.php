@@ -46,9 +46,15 @@ if (isset($_SESSION['user'])) {
                     <div class="second-part">
                         <div class="wall-filter-mobile" id="wall-filter-mobile">
                             <div class="wall-filter__choice">
-                                <label class="wall-filter-popup-li"><div>Основная<span>Вы и ваши друзья</span></div><?= $unread_main_posts > 0 ? '<span class="notification-in-filter" id="notification-in-filter__unread-main-posts-mobile">' . $unread_main_posts . '</span>' : '' ?><input checked name="wall-filter__mobile" id="wall-filter-main__mobile" type="radio" value=""></label>
-                                <label class="wall-filter-popup-li"><div>Расписание<span>Для Тридцать седьмой</span></div><?= $unread_thirty_seventh_posts > 0 ? '<span class="notification-in-filter" id="notification-in-filter__unread-thirty-seventh-posts-mobile">' . $unread_thirty_seventh_posts . '</span>' : '' ?><input name="wall-filter__mobile" id="wall-filter-timetable__mobile" type="radio" value=""></label>
-                                <label class="wall-filter-popup-li"><div>Глобал<span>Посты всех пользователей</span></div><?= $unread_all_posts > 0 ? '<span class="notification-in-filter" id="notification-in-filter__unread-all-posts-mobile">' . $unread_all_posts . '</span>' : '' ?><input name="wall-filter__mobile" id="wall-filter-all__mobile" type="radio" value=""></label>
+                                <label class="wall-filter-popup-li">
+                                    <div>Основная<span>Вы и ваши друзья</span></div><?= $unread_main_posts > 0 ? '<span class="notification-in-filter" id="notification-in-filter__unread-main-posts-mobile">' . $unread_main_posts . '</span>' : '' ?><input checked name="wall-filter__mobile" id="wall-filter-main__mobile" type="radio" value="">
+                                </label>
+                                <label class="wall-filter-popup-li">
+                                    <div>Расписание<span>Для Тридцать седьмой</span></div><?= $unread_thirty_seventh_posts > 0 ? '<span class="notification-in-filter" id="notification-in-filter__unread-thirty-seventh-posts-mobile">' . $unread_thirty_seventh_posts . '</span>' : '' ?><input name="wall-filter__mobile" id="wall-filter-timetable__mobile" type="radio" value="">
+                                </label>
+                                <label class="wall-filter-popup-li">
+                                    <div>Глобал<span>Посты всех пользователей</span></div><?= $unread_all_posts > 0 ? '<span class="notification-in-filter" id="notification-in-filter__unread-all-posts-mobile">' . $unread_all_posts . '</span>' : '' ?><input name="wall-filter__mobile" id="wall-filter-all__mobile" type="radio" value="">
+                                </label>
                             </div>
                         </div>
                         <!-- <div class="wall__user-posts" id="new-posts"></div> -->
@@ -58,15 +64,17 @@ if (isset($_SESSION['user'])) {
                             <div class="wall__new-post">
                                 <!-- <p>О чём расскажете сегодня?</p> -->
                                 <form action="./back-files/add" method="post" enctype="multipart/form-data" autocomplete="off">
-                                    <div class="current-post-image-div">
-                                        <div class="post-image-delete" onclick="clearPostImage()">
-                                            <svg width='10' height='10' viewBox='0 0 10 10' fill='none' xmlns='http://www.w3.org/2000/svg'>
-                                                <path d='M0.191016 8.88671C-0.0636719 9.14141 -0.0636719 9.55428 0.191016 9.80898C0.445703 10.0637 0.858643 10.0637 1.11333 9.80898L0.191016 8.88671ZM5.46114 5.46114C5.71584 5.20644 5.71584 4.79357 5.46114 4.53888C5.20644 4.28418 4.79357 4.28418 4.53888 4.53888L5.46114 5.46114ZM4.53888 4.53888C4.28418 4.79357 4.28418 5.20644 4.53888 5.46114C4.79357 5.71584 5.20644 5.71584 5.46114 5.46114L4.53888 4.53888ZM9.80898 1.11333C10.0637 0.858644 10.0637 0.445703 9.80898 0.191016C9.55428 -0.0636719 9.14141 -0.0636719 8.88671 0.191016L9.80898 1.11333ZM5.46114 4.53888C5.20644 4.28418 4.79357 4.28418 4.53888 4.53888C4.28418 4.79357 4.28418 5.20644 4.53888 5.46114L5.46114 4.53888ZM8.88671 9.80898C9.14141 10.0637 9.55428 10.0637 9.80898 9.80898C10.0637 9.55428 10.0637 9.14141 9.80898 8.88671L8.88671 9.80898ZM4.53888 5.46114C4.79357 5.71584 5.20644 5.71584 5.46114 5.46114C5.71584 5.20644 5.71584 4.79357 5.46114 4.53888L4.53888 5.46114ZM1.11333 0.191016C0.858643 -0.0636719 0.445703 -0.0636719 0.191016 0.191016C-0.0636719 0.445703 -0.0636719 0.858644 0.191016 1.11333L1.11333 0.191016ZM1.11333 9.80898L5.46114 5.46114L4.53888 4.53888L0.191016 8.88671L1.11333 9.80898ZM5.46114 5.46114L9.80898 1.11333L8.88671 0.191016L4.53888 4.53888L5.46114 5.46114ZM4.53888 5.46114L8.88671 9.80898L9.80898 8.88671L5.46114 4.53888L4.53888 5.46114ZM5.46114 4.53888L1.11333 0.191016L0.191016 1.11333L4.53888 5.46114L5.46114 4.53888Z' />
-                                            </svg>
-                                        </div>
+                                    <div class="current-post-images-div">
+                                        <!-- <div class="current-post-image-div">
+                                            <div class="post-image-delete" onclick="clearPostImage()">
+                                                <svg width='10' height='10' viewBox='0 0 10 10' fill='none' xmlns='http://www.w3.org/2000/svg'>
+                                                    <path d='M0.191016 8.88671C-0.0636719 9.14141 -0.0636719 9.55428 0.191016 9.80898C0.445703 10.0637 0.858643 10.0637 1.11333 9.80898L0.191016 8.88671ZM5.46114 5.46114C5.71584 5.20644 5.71584 4.79357 5.46114 4.53888C5.20644 4.28418 4.79357 4.28418 4.53888 4.53888L5.46114 5.46114ZM4.53888 4.53888C4.28418 4.79357 4.28418 5.20644 4.53888 5.46114C4.79357 5.71584 5.20644 5.71584 5.46114 5.46114L4.53888 4.53888ZM9.80898 1.11333C10.0637 0.858644 10.0637 0.445703 9.80898 0.191016C9.55428 -0.0636719 9.14141 -0.0636719 8.88671 0.191016L9.80898 1.11333ZM5.46114 4.53888C5.20644 4.28418 4.79357 4.28418 4.53888 4.53888C4.28418 4.79357 4.28418 5.20644 4.53888 5.46114L5.46114 4.53888ZM8.88671 9.80898C9.14141 10.0637 9.55428 10.0637 9.80898 9.80898C10.0637 9.55428 10.0637 9.14141 9.80898 8.88671L8.88671 9.80898ZM4.53888 5.46114C4.79357 5.71584 5.20644 5.71584 5.46114 5.46114C5.71584 5.20644 5.71584 4.79357 5.46114 4.53888L4.53888 5.46114ZM1.11333 0.191016C0.858643 -0.0636719 0.445703 -0.0636719 0.191016 0.191016C-0.0636719 0.445703 -0.0636719 0.858644 0.191016 1.11333L1.11333 0.191016ZM1.11333 9.80898L5.46114 5.46114L4.53888 4.53888L0.191016 8.88671L1.11333 9.80898ZM5.46114 5.46114L9.80898 1.11333L8.88671 0.191016L4.53888 4.53888L5.46114 5.46114ZM4.53888 5.46114L8.88671 9.80898L9.80898 8.88671L5.46114 4.53888L4.53888 5.46114ZM5.46114 4.53888L1.11333 0.191016L0.191016 1.11333L4.53888 5.46114L5.46114 4.53888Z' />
+                                                </svg>
+                                            </div>
+                                        </div> -->
                                     </div>
                                     <div contenteditable="true" id="textarea-post" role="textbox" onkeyup="textareaPost(event)" onkeydown="textareaPostPlaceholder(event)"></div>
-                                    <label for="textarea-post" id="textarea-post_label">Планирую отпуск на Аляске..</label>
+                                    <label for="textarea-post" id="textarea-post_label">Это просто жесть..</label>
                                     <input type="hidden" required name="post" id="textarea-post_input" value="">
                                     <input type="hidden" required name="post-source" value="source-wall">
                                     <input type="hidden" required name="post-search" value="<?php if (isset($_GET['search'])) {

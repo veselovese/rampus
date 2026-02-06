@@ -1089,23 +1089,108 @@ input.auth-and-reg::placeholder {
     margin-bottom: 1.6rem;
 }
 
-.image-in-post-div {
-    position: relative;
+.images-in-post-div {
     overflow: hidden;
     border-radius: 1rem;
     max-height: 56rem;
     margin-top: 1rem;
 }
 
+.images-in-post-div.more-images {
+    display: grid;
+    gap: 0.39rem;
+}
+
+.images-in-post-div.images-2 {
+    grid-template-columns: 1fr 1fr;
+}
+
+.images-in-post-div.images-3,
+.images-in-post-div.images-4 {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+}
+
+.images-in-post-div.images-3 .image-in-post-div:first-child {
+    grid-row: 1 / span 2;
+}
+
+.images-in-post-div.images-5 {
+    grid-template-columns: 2fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+}
+
+.images-in-post-div.images-5 .image-in-post-div:first-child {
+    grid-row: 1 / span 2;
+}
+
+.images-in-post-div.images-6 {
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+}
+
+.images-in-post-div.images-7 {
+    grid-template-columns: 2fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+}
+
+.images-in-post-div.images-7 .image-in-post-div:first-child {
+    grid-row: 1 / span 3;
+}
+
+.images-in-post-div.images-8 {
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+}
+
+.images-in-post-div.images-9 {
+    grid-template-columns: 2fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr 1fr;
+}
+
+.images-in-post-div.images-9 .image-in-post-div:first-child {
+    grid-row: 1 / span 4;
+}
+
+.images-in-post-div.images-10 {
+    grid-template-columns: repeat(12, 1fr);
+    grid-template-rows: 1fr 1fr;
+}
+
+.images-in-post-div.images-10 .image-in-post-div:nth-child(1),
+.images-in-post-div.images-10 .image-in-post-div:nth-child(2),
+.images-in-post-div.images-10 .image-in-post-div:nth-child(3),
+.images-in-post-div.images-10 .image-in-post-div:nth-child(4) {
+    grid-column: span 3;
+}
+
+.images-in-post-div.images-10 .image-in-post-div:nth-child(5),
+.images-in-post-div.images-10 .image-in-post-div:nth-child(6),
+.images-in-post-div.images-10 .image-in-post-div:nth-child(7),
+.images-in-post-div.images-10 .image-in-post-div:nth-child(8),
+.images-in-post-div.images-10 .image-in-post-div:nth-child(9),
+.images-in-post-div.images-10 .image-in-post-div:nth-child(10) {
+    grid-column: span 2;
+}
+
+.image-in-post-div {
+    position: relative;
+    display: flex;
+}
+
 .image-in-post {
     width: 100%;
     max-height: 56rem;
     object-fit: contain;
-    border-radius: 1rem;
     position: absolute;
     z-index: 1;
     top: 0;
     left: 0;
+}
+
+.images-in-post-div.more-images .image-in-post {
+    height: 100%;
+    object-fit: cover;
 }
 
 .image-in-post-hide {

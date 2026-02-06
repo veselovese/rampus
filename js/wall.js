@@ -273,7 +273,7 @@ postImage.addEventListener('change', (e) => {
 
     if (files.length > 0) {
         files.forEach((file, index) => {
-            const fileType = file.type.startsWith('image'); 
+            const fileType = file.type.startsWith('image');
 
             if (fileType) {
                 const reader = new FileReader();
@@ -282,10 +282,29 @@ postImage.addEventListener('change', (e) => {
                     const img = document.createElement('img');
                     img.src = event.target.result;
                     img.className = 'current-post-image';
-                    img.setAttribute('data-index', index);
 
-                    $('.current-post-image-div').append(img);
+                    const currentPostImageDiv = document.createElement('div');
+                    currentPostImageDiv.className = 'current-post-image-div';
 
+                    const postImageDelete = document.createElement('div');
+                    postImageDelete.className = 'post-image-delete';
+                    postImageDelete.setAttribute('onClick', 'clearPostImage()');
+
+                    const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+                    svg.setAttribute("width", "10");
+                    svg.setAttribute("height", "10");
+                    svg.setAttribute("viewBox", "0 0 10 10");
+                    svg.setAttribute("fill", "none");
+                    const path = document.createElementNS(svg.namespaceURI, "path");
+                    path.setAttribute("d", "M0.191016 8.88671C-0.0636719 9.14141 -0.0636719 9.55428 0.191016 9.80898C0.445703 10.0637 0.858643 10.0637 1.11333 9.80898L0.191016 8.88671ZM5.46114 5.46114C5.71584 5.20644 5.71584 4.79357 5.46114 4.53888C5.20644 4.28418 4.79357 4.28418 4.53888 4.53888L5.46114 5.46114ZM4.53888 4.53888C4.28418 4.79357 4.28418 5.20644 4.53888 5.46114C4.79357 5.71584 5.20644 5.71584 5.46114 5.46114L4.53888 4.53888ZM9.80898 1.11333C10.0637 0.858644 10.0637 0.445703 9.80898 0.191016C9.55428 -0.0636719 9.14141 -0.0636719 8.88671 0.191016L9.80898 1.11333ZM5.46114 4.53888C5.20644 4.28418 4.79357 4.28418 4.53888 4.53888C4.28418 4.79357 4.28418 5.20644 4.53888 5.46114L5.46114 4.53888ZM8.88671 9.80898C9.14141 10.0637 9.55428 10.0637 9.80898 9.80898C10.0637 9.55428 10.0637 9.14141 9.80898 8.88671L8.88671 9.80898ZM4.53888 5.46114C4.79357 5.71584 5.20644 5.71584 5.46114 5.46114C5.71584 5.20644 5.71584 4.79357 5.46114 4.53888L4.53888 5.46114ZM1.11333 0.191016C0.858643 -0.0636719 0.445703 -0.0636719 0.191016 0.191016C-0.0636719 0.445703 -0.0636719 0.858644 0.191016 1.11333L1.11333 0.191016ZM1.11333 9.80898L5.46114 5.46114L4.53888 4.53888L0.191016 8.88671L1.11333 9.80898ZM5.46114 5.46114L9.80898 1.11333L8.88671 0.191016L4.53888 4.53888L5.46114 5.46114ZM4.53888 5.46114L8.88671 9.80898L9.80898 8.88671L5.46114 4.53888L4.53888 5.46114ZM5.46114 4.53888L1.11333 0.191016L0.191016 1.11333L4.53888 5.46114L5.46114 4.53888Z");
+                    svg.appendChild(path);
+                    postImageDelete.append(svg);
+
+                    currentPostImageDiv.append(postImageDelete);
+                    currentPostImageDiv.append(img);
+                    $('.current-post-images-div').append(currentPostImageDiv);
+
+                    $('.current-post-images-div').addClass('image-uploaded');
                     $('#textarea-post').addClass('image-uploaded');
                     $('#textarea-post_sumbit').addClass('image-uploaded');
                     $('.current-post-image-div').addClass('image-uploaded');
@@ -303,8 +322,6 @@ postImage.addEventListener('change', (e) => {
                 };
 
                 reader.readAsDataURL(file);
-            } else {
-                alert('Пожалуйста, выберите только изображения!');
             }
         });
     }

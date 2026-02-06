@@ -66,9 +66,7 @@ $sql_post = "SELECT
     repost_users.first_name AS repost_author_first_name,
     repost_users.second_name AS repost_author_second_name,
     repost_users.username AS repost_author_username,
-    repost_users.avatar AS repost_author_avatar,
-
-    posts.img AS content_image
+    repost_users.avatar AS repost_author_avatar
 
 FROM posts
 JOIN users ON posts.user_id = users.id
@@ -128,15 +126,12 @@ if ($result_post->num_rows > 0) {
             $content_repost_second_name = $row_post["repost_author_second_name"];
             $content_repost_username = $row_post["repost_author_username"];
             $content_repost_avatar = $row_post["repost_author_avatar"];
-            $content_image = $row_post["content_image"];
             $content_id = $row_post['content_id'];
             $content_repost_id = $row_post['repost_post_id'];
             $check_repost_status = $content_type == 'repost' ? haveIMakeRepost($content_repost_id) : false;
             $user_in_top = findUserPositionInTop($content_author_id, $connect);
-            if (!$content_image) {
-                $sql_images_in_post = "SELECT image_url FROM images_in_posts WHERE post_id = $content_id ORDER BY add_date ASC";
-                $result_images_in_post = $connect->query($sql_images_in_post);
-            }
+            $sql_images_in_post = "SELECT image_url FROM images_in_posts WHERE post_id = $content_id ORDER BY add_date DESC";
+            $result_images_in_post = $connect->query($sql_images_in_post);
             echo "<div class='user-post' id='post-$content_id'>";
             echo "<div>";
             echo "<div class='wall__user-info'>";
@@ -208,21 +203,18 @@ if ($result_post->num_rows > 0) {
             //                     <input type='file' name='edit-post-image' id='post-image_$content_id' value='$content_image'>
             //                     <button type='submit'>Сохранить</button>
             //                 </form>";
-            if ($content_image) {
-                echo "<div class='image-in-post-div'>";
-                echo "<img class='image-in-post-hide' src=./uploads/post-image/small_" . $content_image . ">";
-                echo "<img class='image-in-post' src=./uploads/post-image/small_" . $content_image . ">";
-                echo "</div>";
-            } else {
-                if ($result_images_in_post->num_rows > 0) {
-                    while ($row_images_in_post = $result_images_in_post->fetch_assoc()) {
-                        $image_url = $row_images_in_post['image_url'];
-                        echo "<div class='image-in-post-div'>";
-                        echo "<img class='image-in-post-hide' src=./uploads/post-image/small_" . $image_url . ">";
-                        echo "<img class='image-in-post' src=./uploads/post-image/small_" . $image_url . ">";
-                        echo "</div>";
-                    }
+            $images_counter = $result_images_in_post->num_rows;
+            if ($images_counter > 0) {
+                $images_mark = $images_counter > 1 ? "more-images images-$images_counter" : "";
+                echo "<div class='images-in-post-div $images_mark'>";
+                while ($row_images_in_post = $result_images_in_post->fetch_assoc()) {
+                    $image_url = $row_images_in_post['image_url'];
+                    echo "<div class='image-in-post-div'>";
+                    echo "<img class='image-in-post-hide' src=./uploads/post-image/small_" . $image_url . ">";
+                    echo "<img class='image-in-post' src=./uploads/post-image/small_" . $image_url . ">";
+                    echo "</div>";
                 }
+                echo "</div>";
             }
             echo "<div class='post-buttons'>";
             $sql_comment = "SELECT comments.text AS comment_text, users.first_name AS first_name, users.second_name AS second_name, users.avatar AS avatar, comment_date, users.id AS comment_user_id, users.username AS comment_username, users.verify_status AS comment_verify_status, comments.id AS comment_id

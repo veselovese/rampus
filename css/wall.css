@@ -1080,22 +1080,32 @@ div.for-friends svg {
     transition: 0.2s;
 }
 
-#textarea-post.image-uploaded {
+/* #textarea-post.image-uploaded {
     margin-top: calc(0.39rem*2 + 100px + 0.39rem);
-}
+} */
 
 #textarea-post.image-uploaded~#textarea-post_label {
-    top: calc(1.35rem + 0.39rem*2 + 100px + 0.39rem);
+    top: calc(1.35rem + 0.39rem*2 + 100px);
+}
+
+.current-post-images-div {
+    display: flex;
+    gap: 0.39rem;
+    overflow-y: scroll;
+    scrollbar-width: none;
+    border-radius: calc(2rem - 0.39rem);
+}
+
+.current-post-images-div.image-uploaded {
+    border: 0.39rem solid var(--block-color);
 }
 
 .current-post-image-div {
-    position: absolute;
     display: none;
     align-items: center;
     justify-content: center;
     width: 100%;
     max-width: fit-content;
-    padding: 0.39rem;
     border-radius: calc(2rem - 0.39rem);
     background-color: var(--block-color);
 }
@@ -1119,7 +1129,7 @@ div.for-friends svg {
     cursor: pointer;
 }
 
-.current-post-image-div:hover img {
+.current-post-image-div img:hover {
     opacity: 50%;
 }
 

@@ -68,7 +68,6 @@ if (isset($_FILES['post-images']) || (isset($_POST['post']) && strlen(trim($text
             if (postImageSecurity($single_file)) {
                 $finfo = finfo_open(FILEINFO_MIME_TYPE);
                 $real_mime = finfo_file($finfo, $single_file['tmp_name']);
-                finfo_close($finfo);
 
                 $extension = strtolower(pathinfo($single_file['name'], PATHINFO_EXTENSION));
                 $name = md5(microtime() . $i . uniqid()) . '.' . $extension;
