@@ -1191,6 +1191,7 @@ input.auth-and-reg::placeholder {
 .images-in-post-div.more-images .image-in-post {
     height: 100%;
     object-fit: cover;
+    position: static;
 }
 
 .image-in-post-hide {

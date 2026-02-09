@@ -72,8 +72,8 @@
 
 #chat-loading {
     position: absolute;
-    top: calc(50% - 34px);
-    left: calc(50% - 34px);
+    top: calc(50% - 1.7rem);
+    left: calc(50% - 1.7rem);
     scale: 0;
     fill: var(--main-accent-color);
     min-width: 3.4rem;
@@ -81,14 +81,14 @@
     min-height: 3.4rem;
     max-height: 3.4rem;
     transition: 0.2s;
-    animation: loading-chat 2s infinite ease-in-out;
+    animation: loading 2s infinite ease-in-out;
 }
 
 #chat-loading.loading {
     scale: 100%;
 }
 
-@keyframes loading-chat {
+@keyframes loading {
     from {
         transform: rotate(0);
     }

@@ -2,6 +2,10 @@
 session_start();
 require_once('connect.php');
 require('blossoming.php');
+require('find-user-position-in-top.php');
+
+ob_start();
+header('Content-Type: application/json');
 
 $user_id = $_SESSION['user']['id'];
 
@@ -46,8 +50,38 @@ function postImageSecurity($file_data)
     return true;
 }
 
+$response = [
+    'success' => false,
+    'message' => '',
+    'post' => null
+];
+
+$uploaded_images = [];
+
 if (isset($_FILES['post-images']) || (isset($_POST['post']) && strlen(trim($text_post)) > 0)) {
+    $user_query = $connect->query("SELECT * FROM users WHERE id = $user_id");
+    if ($user_query->num_rows > 0) {
+        $user_data = $user_query->fetch_assoc();
+        $current_user_avatar = $user_data['avatar'];
+        $current_user_first_name = $user_data['first_name'];
+        $current_user_second_name = $user_data['second_name'];
+        $current_user_username = $user_data['username'];
+        $current_user_verify_status = $user_data['verify_status'];
+        $user_in_top = findUserPositionInTop($user_id, $connect);
+    } else {
+        $response['message'] = 'Пользователь не найден';
+        ob_end_clean();
+        echo json_encode($response);
+        exit();
+    }
+
     $result_post = mysqli_query($connect, "INSERT INTO posts (user_id, for_friends) VALUES ($user_id, $for_friends);");
+    if (!$result_post) {
+        $response['message'] = 'Ошибка при создании поста: ' . mysqli_error($connect);
+        ob_end_clean();
+        echo json_encode($response);
+        exit();
+    }
     $current_post_id = $connect->query("SELECT @@IDENTITY AS id")->fetch_assoc()['id'];
 
     $countfiles = count($_FILES['post-images']['name']);
@@ -178,6 +212,8 @@ if (isset($_FILES['post-images']) || (isset($_POST['post']) && strlen(trim($text
                         $sql = "INSERT INTO images_in_posts (post_id, image_url) VALUES ($current_post_id, '$escaped_name')";
 
                         if (mysqli_query($connect, $sql)) {
+                            $uploaded_images[] = $name;
+
                         } else {
                             @unlink($uploadfile);
                             @unlink($new_uploadfile1);
@@ -214,20 +250,60 @@ if (isset($_FILES['post-images']) || (isset($_POST['post']) && strlen(trim($text
             }
         }
         if (!$result_post) {
-            echo "Error: " . mysqli_error($connect);
-        } else {
-            $_SESSION['message'] = 'Пост добавлен';
+            $response['message'] = 'Ошибка при обновлении текста поста: ' . mysqli_error($connect);
+            ob_end_clean();
+            echo json_encode($response);
+            exit();
         }
 
-        if (($post_search != '') && ($post_search == ltrim($hashtags[0], '#'))) {
-            $post_search = '?search=' . $post_search;
-        } else {
-            $post_search = '';
-        }
+        $likes_count = $connect->query("SELECT COUNT(*) as count FROM likes_on_posts WHERE post_id = $current_post_id")->fetch_assoc()['count'];
+        $comments_count = $connect->query("SELECT COUNT(*) as count FROM comments WHERE post_id = $current_post_id")->fetch_assoc()['count'];
+        $reposts_count = $connect->query("SELECT COUNT(*) as count FROM reposts WHERE post_id = $current_post_id")->fetch_assoc()['count'];
+
+        $is_liked = $connect->query("SELECT COUNT(*) as count FROM likes_on_posts WHERE post_id = $current_post_id AND user_id = $user_id")->fetch_assoc()['count'] > 0;
+
+        $is_reposted = $connect->query("SELECT COUNT(*) as count FROM reposts WHERE post_id = $current_post_id AND user_id = $user_id")->fetch_assoc()['count'] > 0;
+
+        $date = 'только что';
+
+        $post_data = [
+            'id' => $current_post_id,
+            'username' => $current_user_username,
+            'first_name' => $current_user_first_name,
+            'second_name' => $current_user_second_name,
+            'avatar' => $current_user_avatar,
+            'verify_status' => $current_user_verify_status,
+            'user_in_top' => $user_in_top,
+            'date' => $date,
+            'type' => 'post',
+            'text' => $text_post ?? '',
+            'images' => $uploaded_images,
+            'for_friends' => $for_friends,
+            'author_id' => $user_id,
+            'current_user_id' => $user_id,
+            'likes' => $likes_count,
+            'comments_count' => $comments_count,
+            'reposts' => $reposts_count,
+            'is_liked' => $is_liked,
+            'is_reposted' => $is_reposted
+        ];
+
+        $response['success'] = true;
+        $response['message'] = 'Пост успешно добавлен';
+        $response['post'] = $post_data;
 
         blossoming('add-post', $user_id, $connect);
+
+        if (($post_search != '') && isset($hashtags[0]) && ($post_search == ltrim($hashtags[0], '#'))) {
+            $response['redirect'] = '../wall?search=' . $post_search;
+        } else {
+            $response['redirect'] = '';
+        }
     }
+} else {
+    $response['message'] = 'Пост не может быть пустым';
 }
 
-header('Location: ../wall' . $post_search);
+ob_end_clean();
+echo json_encode($response);
 exit();

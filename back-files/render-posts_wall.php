@@ -16,6 +16,12 @@ $user_with_friends_id_array = getUserFriendsId($current_user_id, $connect);
 $user_with_friends_id_array[] = $current_user_id;
 $user_friends_id = implode(',', $user_with_friends_id_array);
 
+$limit = 12;
+
+$page = intval(@$_GET['page']);
+$page = (empty($page)) ? 1 : $page;
+$start = ($page != 1) ? $page * $limit - $limit : 0;
+
 if ($_POST['filter'] === 'main') {
     $filter = " AND posts.user_id IN ($user_friends_id) AND NOT users.username = 'Thirty_seventh'";
 } else if ($_POST['filter'] === 'timetable') {
@@ -74,7 +80,8 @@ LEFT JOIN users AS repost_users ON posts.repost_user_id = repost_users.id
 LEFT JOIN hashtags ON posts.hashtag_id = hashtags.id
 WHERE posts.status = 0 $filter $searchCondition
 
-ORDER BY content_date DESC";
+ORDER BY content_date DESC
+LIMIT $start, $limit";
 
 $result_post = $connect->query($sql_post);
 if ($result_post->num_rows > 0) {
@@ -210,7 +217,7 @@ if ($result_post->num_rows > 0) {
                 while ($row_images_in_post = $result_images_in_post->fetch_assoc()) {
                     $image_url = $row_images_in_post['image_url'];
                     echo "<div class='image-in-post-div'>";
-                    echo "<img class='image-in-post-hide' src=./uploads/post-image/small_" . $image_url . ">";
+                    echo $images_counter == 1 ? "<img class='image-in-post-hide' src=./uploads/post-image/small_" . $image_url . ">" : "";
                     echo "<img class='image-in-post' src=./uploads/post-image/small_" . $image_url . ">";
                     echo "</div>";
                 }
@@ -420,7 +427,7 @@ if ($result_post->num_rows > 0) {
                     <label for='textarea-comment' class='textarea-comment_label' id='textarea-comment_label_$content_id'>Ответить..</label>
                     <input type='hidden' required name='comment' class='textarea-comment_input' id='textarea-comment_input_$content_id' value=''>
                     <input type='hidden' name='comment_id' value='$content_id'>
-                    <button type='submit' id='textarea-comment_submit_$content_id' class='' disabled>
+                    <button type='submit' id='textarea-comment_submit_$content_id' class='textarea-comment_sumbit' disabled>
                     <svg width='28' height='28' viewBox='0 0 28 28' fill='none' xmlns='http://www.w3.org/2000/svg'>
                     <path fill-rule='evenodd' clip-rule='evenodd' d='M0 14C0 6.26801 6.26801 0 14 0C21.7319 0 28 6.26801 28 14C28 21.7319 21.7319 28 14 28C6.26801 28 0 21.7319 0 14ZM12.6 19.6C12.6 20.3732 13.2268 21 14 21C14.7732 21 15.4 20.3732 15.4 19.6V11.7799L17.2101 13.5899C17.7568 14.1366 18.6432 14.1366 19.1899 13.5899C19.7366 13.0432 19.7366 12.1568 19.1899 11.6101L15.1117 7.5319C15.0907 7.5108 15.0692 7.49043 15.0472 7.47078C14.7907 7.18197 14.4166 7 14 7C13.5834 7 13.2093 7.18197 12.9528 7.47078C12.9308 7.49042 12.9093 7.5108 12.8883 7.5319L8.81005 11.6101C8.26332 12.1568 8.26332 13.0432 8.81005 13.5899C9.35679 14.1366 10.2432 14.1366 10.79 13.5899L12.6 11.7799V19.6Z' />
                     </svg>

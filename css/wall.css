@@ -285,9 +285,10 @@
     display: flex;
     align-items: center;
     padding: 0 0.6rem 0.6rem;
+    gap: 0.39rem;
 }
 
-.wall__new-post button {
+.wall__new-post #textarea-post_sumbit {
     background-color: transparent;
     border: none;
     padding: 0;
@@ -306,7 +307,37 @@
     bottom: 0.6rem;
 }
 
-.wall__comments button {
+#textarea-post_sumbit_loading {
+    position: absolute;
+    right: 0.6rem;
+    bottom: 0.6rem;
+    fill: var(--main-accent-color);
+    min-width: 3.4rem;
+    max-width: 3.4rem;
+    min-height: 3.4rem;
+    max-height: 3.4rem;
+    transition: 0.2s;
+    opacity: 0;
+    transform: scale(50%) translateY(1rem);
+    animation: loading 2s infinite ease-in-out;
+}
+
+#textarea-post_sumbit_loading.uploading {
+    opacity: 1;
+    transform: scale(100%) translateY(0rem);
+}
+
+@keyframes loading {
+    from {
+        transform: rotate(0);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.wall__comments .textarea-comment_sumbit {
     background-color: transparent;
     border: none;
     padding: 0;
@@ -319,7 +350,7 @@
     transform: scale(50%) translateY(1rem);
 }
 
-.wall__new-post button svg {
+.wall__new-post #textarea-post_sumbit svg {
     fill: var(--else-text-color-33);
     min-width: 3.4rem;
     max-width: 3.4rem;
@@ -328,7 +359,7 @@
     transition: 0.2s;
 }
 
-.wall__comments button svg {
+.wall__comments .textarea-comment_sumbit svg {
     fill: var(--else-text-color-33);
     min-width: 2.8rem;
     max-width: 2.8rem;
@@ -337,20 +368,20 @@
     transition: 0.2s;
 }
 
-.wall__new-post button.active {
+.wall__new-post #textarea-post_sumbit.active {
     pointer-events: all;
     opacity: 1;
     transform: scale(100%);
 }
 
-.wall__comments button.active {
+.wall__comments .textarea-comment_sumbit.active {
     pointer-events: all;
     opacity: 1;
     transform: scale(100%);
 }
 
-.wall__new-post button.active svg,
-.wall__comments button.active svg {
+.wall__new-post #textarea-post_sumbit.active svg,
+.wall__comments .textarea-comment_sumbit.active svg {
     fill: var(--main-accent-color);
 }
 
@@ -1033,6 +1064,7 @@ div.for-friends svg {
 .post-image-icon {
     cursor: pointer;
     background-color: transparent;
+    position: relative;
     border-radius: calc(2rem - 0.39rem*2);
     padding-right: 1rem;
     padding-left: 1rem;
@@ -1044,6 +1076,7 @@ div.for-friends svg {
     align-items: center;
     justify-content: center;
     transition: 0.2s;
+    border: none;
 }
 
 .post-image-icon:hover {
@@ -1073,16 +1106,32 @@ div.for-friends svg {
     opacity: 80%;
 }
 
+.postarea-buttons .button-notification {
+    font-size: var(--font-size-0);
+    border-radius: 0.95rem;
+    padding: 0.39rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 1.9rem;
+    min-width: 1.9rem;
+    position: absolute;
+    right: -0.015rem;
+    top: -1rem;
+}
+
+.postarea-buttons .button-notification.active {
+    color: var(--block-color);
+    background-color: var(--main-accent-color);
+}
+
 .current-post-image {
     object-fit: cover;
     height: 100px;
     border-radius: calc(2rem - 0.39rem*2);
     transition: 0.2s;
 }
-
-/* #textarea-post.image-uploaded {
-    margin-top: calc(0.39rem*2 + 100px + 0.39rem);
-} */
 
 #textarea-post.image-uploaded~#textarea-post_label {
     top: calc(1.35rem + 0.39rem*2 + 100px);
@@ -1101,56 +1150,69 @@ div.for-friends svg {
 }
 
 .current-post-image-div {
-    display: none;
+    display: flex;
     align-items: center;
     justify-content: center;
     width: 100%;
     max-width: fit-content;
     border-radius: calc(2rem - 0.39rem);
     background-color: var(--block-color);
-}
-
-.current-post-image-div.image-uploaded {
-    display: flex;
+    position: relative;
 }
 
 .post-image-delete {
-    position: absolute;
-    background-color: transparent;
-    border-radius: 1rem;
-    min-width: 28px;
-    min-height: 28px;
-    max-width: 28px;
-    max-height: 28px;
-    display: none;
+    padding: 0.39rem;
+    display: flex;
     align-items: center;
     justify-content: center;
-    transition: 0.2s;
+    min-height: 1.9rem;
+    min-width: 1.9rem;
+    position: absolute;
+    right: 0;
+    top: 0;
+    background-color: var(--block-color);
     cursor: pointer;
+    border-bottom-left-radius: calc((2rem - 0.39rem*2) / 2);
+    border: none;
+    transition: 0.2s;
+}
+
+.post-image-delete::before {
+    left: calc((-2rem + 0.39rem*2) / 2);
+    top: 0;
+}
+
+.post-image-delete::after {
+    bottom: calc((-2rem + 0.39rem*2) / 2);
+    right: 0;
+}
+
+.post-image-delete::after,
+.post-image-delete::before {
+    background-color: transparent;
+    border-top-right-radius: calc((2rem - 0.39rem*2) / 2);
+    box-shadow: 2px -2px 0 2px var(--block-color);
+    content: "";
+    height: calc((2rem - 0.39rem*2) / 2);
+    position: absolute;
+    width: calc((2rem - 0.39rem*2) / 2);
 }
 
 .current-post-image-div img:hover {
-    opacity: 50%;
+    opacity: 80%;
 }
 
 .post-image-delete svg {
+    min-width: 11px;
+    min-height: 11px;
+    max-width: 11px;
+    max-height: 11px;
     transition: 0.2s;
+    fill: var(--error-accent-color);
 }
 
-.current-post-image-div:hover .post-image-delete {
-    background-color: var(--block-accent-color-06);
-}
-
-.current-post-image-div:hover .post-image-delete:hover {
-    background-color: var(--error-accent-color);
-}
-
-.current-post-image-div:hover .post-image-delete svg {
-    fill: var(--else-text-color-50);
-}
-
-.current-post-image-div:hover .post-image-delete:hover svg {
-    fill: var(--block-color);
+.post-image-delete:hover svg {
+    opacity: 80%;
 }
 
 .post-mode-fieldset {
@@ -1213,12 +1275,18 @@ div.for-friends svg {
     background-color: var(--block-accent-color-06);
 }
 
-.post-mode-div.mode__for-friends {
+.post-mode-div.mode__for-friends,
+.post-image-icon.mode__has-image {
     background-color: var(--block-accent-color-210);
 }
 
-.post-mode-div.mode__for-friends span {
+.post-mode-div.mode__for-friends span,
+.post-image-icon.mode__has-image span {
     color: var(--main-accent-color);
+}
+
+.post-image-icon.disactive {
+    opacity: 50%;
 }
 
 .post-mode-div span {
@@ -1303,6 +1371,72 @@ div.for-friends svg {
 
 .only-for-friends-sorry a:hover {
     opacity: 80%;
+}
+
+#wall-loading-main {
+    position: absolute;
+    top: 12rem;
+    left: calc(50% - 1.7rem);
+    scale: 0;
+    fill: var(--main-accent-color);
+    min-width: 3.4rem;
+    max-width: 3.4rem;
+    min-height: 3.4rem;
+    max-height: 3.4rem;
+    transition: 0.2s;
+    animation: loading 2s infinite ease-in-out;
+    z-index: 99;
+}
+
+#wall-loading-hashtags {
+    position: absolute;
+    top: 12rem;
+    left: calc(50% - 1.7rem);
+    scale: 0;
+    fill: var(--main-accent-color);
+    min-width: 3.4rem;
+    max-width: 3.4rem;
+    min-height: 3.4rem;
+    max-height: 3.4rem;
+    transition: 0.2s;
+    animation: loading 2s infinite ease-in-out;
+    z-index: 99;
+}
+
+#wall-loading-posts {
+    display: flex;
+    scale: 0;
+    fill: var(--main-accent-color);
+    min-width: 3.4rem;
+    max-width: 3.4rem;
+    min-height: 3.4rem;
+    max-height: 3.4rem;
+    transition: 0.2s;
+    animation: loading 2s infinite ease-in-out;
+    margin: 0 auto;
+    margin-top: 1.6rem;
+    margin-bottom: 4rem;
+}
+
+#wall-loading-main.loading,
+#wall-loading-posts.loading,
+#wall-loading-hashtags.loading {
+    scale: 100%;
+}
+
+#wall-loading-posts.rude-hide {
+    opacity: 0;
+    transition: 0s;
+}
+
+@keyframes loading {
+    from {
+        transform: rotate(0);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
 }
 
 @media (max-width: 1320px) {
