@@ -50,19 +50,52 @@
 }
 
 .wall__user-posts .user-post.deleted {
-    animation: deletingPost 1s forwards;
+    animation: deletingPost 0.7s forwards ease-in;
+}
+
+.wall__user-posts .user-post.deleted.hide {
+    display: none;
+}
+
+.wall__user-posts .user-post.new-post {
+    animation: addNew 0.7s ease-out;
 }
 
 @keyframes deletingPost {
     from {
-        opacity: 1;
         transform: scale(100%);
+        background-color: var(--block-color);
+    }
+
+    33% {
+        opacity: 1;
+        transform: scale(99%);
+        background-color: var(--like-button-accent-color);
     }
 
     to {
         opacity: 0;
-        transform: scale(0%);
-        position: fixed;
+        transform: scale(101%);
+        background-color: var(--block-color);
+    }
+}
+
+@keyframes addNew {
+    from {
+        transform: scale(101%);
+        opacity: 0;
+        background-color: var(--block-color);
+    }
+
+    33% {
+        transform: scale(99%);
+        opacity: 1;
+        background-color: var(--block-accent-color-06);
+    }
+
+    to {
+        transform: scale(100%);
+        background-color: var(--block-color);
     }
 }
 
@@ -175,13 +208,13 @@
 }
 
 .user-post p {
-    margin: 1.6rem 0 0 0;
     word-wrap: break-word;
     word-break: break-word;
 }
 
 .user-post p.main-text {
-    line-height: 1.5;
+    margin: 1.6rem 0 0 0;
+    line-height: 1.35;
 }
 
 .user-post p.comment-text,
@@ -323,6 +356,26 @@
 }
 
 #textarea-post_sumbit_loading.uploading {
+    opacity: 1;
+    transform: scale(100%) translateY(0rem);
+}
+
+.textarea-comment_sumbit_loading {
+    position: absolute;
+    right: 0rem;
+    bottom: 0rem;
+    fill: var(--main-accent-color);
+    min-width: 2.8rem;
+    max-width: 2.8rem;
+    min-height: 2.8rem;
+    max-height: 2.8rem;
+    transition: 0.2s;
+    opacity: 0;
+    transform: scale(50%) translateY(1rem);
+    animation: loading 2s infinite ease-in-out;
+}
+
+.textarea-comment_sumbit_loading.uploading {
     opacity: 1;
     transform: scale(100%) translateY(0rem);
 }
@@ -630,6 +683,7 @@
 .wall__user-info .extra-post-info {
     display: flex;
     gap: 0.625rem;
+    align-items: center;
 }
 
 .wall__user-info .extra-post-info .repost-info {
@@ -665,16 +719,25 @@
     font-weight: 600;
 }
 
-.wall__user-info span {
+.wall__user-info .date-info {
     font-size: var(--font-size-1);
-    color: var(--main-accent-color);
+    color: var(--else-text-color-50);
     /* text-transform: lowercase; */
     display: flex;
     gap: 0.39rem;
+    transition: 0.2;
+}
+
+.wall__user-info a.date-info:hover {
+    opacity: 80%;
+    text-decoration: underline;
+    text-decoration-color: var(--else-text-color-50);
+    text-decoration-thickness: 0.1rem;
 }
 
 .wall__user-info span.for-friends {
     color: var(--main-accent-color);
+    font-size: var(--font-size-1);
 }
 
 div.for-friends svg {
@@ -724,14 +787,21 @@ div.for-friends svg {
     margin: 1rem 0;
 }
 
+.wall__comments .other-users .user-comment.new-comment {
+    animation: addNew 0.7s ease-out;
+}
+
 .wall__comments .other-users .user-comment.deleted {
+    animation: deletingPost 0.7s forwards ease-in;
+}
+
+.wall__comments .other-users .user-comment.deleted.hide {
     display: none;
 }
 
-.wall__comments .other-users {
-    margin: 1.6rem 0 2.1rem;
+/* .wall__comments .other-users {
     padding-left: 1.6rem;
-}
+} */
 
 .wall__comments .other-users .user-comment:first-child {
     margin: 1.6rem 0 1rem;
@@ -883,16 +953,34 @@ div.for-friends svg {
     max-height: 11px;
 }
 
-.wall__comments .other-users .see-all-comments {
+.comments-buttons {
     margin-top: 2.1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.39rem;
     font-size: var(--font-size-1);
-    cursor: pointer;
+    color: var(--else-text-color-50);
+}
+
+.see-all-comments {
     color: var(--main-accent-color);
+    cursor: pointer;
     transition: 0.2s;
     max-width: max-content;
 }
 
-.wall__comments .other-users .see-all-comments:hover {
+.show-else-comments {
+    transition: 0.2s;
+}
+
+.show-else-comments:hover {
+    opacity: 80%;
+    text-decoration: underline;
+    text-decoration-color: var(--else-text-color-50);
+    text-decoration-thickness: 0.1rem;
+}
+
+.see-all-comments:hover {
     opacity: 80%;
 }
 

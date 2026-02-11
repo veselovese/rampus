@@ -30,7 +30,6 @@ $sql_post = "SELECT
     users.second_name AS author_second_name,
     users.avatar AS author_avatar,
     users.username AS author_username,
-    posts.img AS content_image,
     posts.for_friends AS for_friends,
 
     posts.repost_user_id AS repost_author_id,
@@ -96,10 +95,11 @@ if ($result_post->num_rows > 0) {
             $content_repost_second_name = $row_post["repost_author_second_name"];
             $content_repost_username = $row_post["repost_author_username"];
             $content_repost_avatar = $row_post["repost_author_avatar"];
-            $content_image = $row_post["content_image"];
             $content_id = $row_post['content_id'];
             $content_repost_id = $row_post['repost_post_id'];
             $user_in_top = findUserPositionInTop($content_author_id, $connect);
+            $sql_images_in_post = "SELECT image_url FROM images_in_posts WHERE post_id = $content_id ORDER BY add_date DESC";
+            $result_images_in_post = $connect->query($sql_images_in_post);
             echo "<div class='user-post' id='post-$content_id'>";
             echo "<div>";
             echo "<div class='wall__user-info'>";
@@ -120,7 +120,7 @@ if ($result_post->num_rows > 0) {
                 echo "</div>";
             }
             echo "<div class='extra-post-info'>";
-            echo "<span>" . $content_date . "</span>";
+            echo "<span class='date-info'>" . $content_date . "</span>";
             if ($content_type == 'repost') echo "<span class='repost-info dot'>•</span>";
             if ($content_type == 'repost') echo "<a href='../post/$content_repost_id' class='repost-info'>репост @" . $content_repost_username . "</a>";
             echo "</div>";
@@ -171,10 +171,17 @@ if ($result_post->num_rows > 0) {
             //                     <input type='file' name='edit-post-image' id='post-image_$content_id' value='$content_image'>
             //                     <button type='submit'>Сохранить</button>
             //                 </form>";
-            if ($content_image != null) {
-                echo "<div class='image-in-post-div'>";
-                echo "<img class='image-in-post-hide' src=../uploads/post-image/small_" . $content_image . ">";
-                echo "<img class='image-in-post' src=../uploads/post-image/small_" . $content_image . ">";
+            $images_counter = $result_images_in_post->num_rows;
+            if ($images_counter > 0) {
+                $images_mark = $images_counter > 1 ? "more-images images-$images_counter" : "";
+                echo "<div class='images-in-post-div $images_mark'>";
+                while ($row_images_in_post = $result_images_in_post->fetch_assoc()) {
+                    $image_url = $row_images_in_post['image_url'];
+                    echo "<div class='image-in-post-div'>";
+                    echo $images_counter == 1 ? "<img class='image-in-post-hide' src=./uploads/post-image/small_" . $image_url . ">" : "";
+                    echo "<img class='image-in-post' src=./uploads/post-image/small_" . $image_url . ">";
+                    echo "</div>";
+                }
                 echo "</div>";
             }
             echo "<div class='post-buttons'>";
@@ -269,7 +276,6 @@ if ($result_post->num_rows > 0) {
             echo "<div class='wall__comments'>";
             if ($rows_num_comment > 0) {
                 echo "<div class='other-users'>";
-                $comment_count = 0;
                 while ($row_comment = $result_comment->fetch_assoc()) {
                     $comment_id = $row_comment['comment_id'];
                     $comment_user_id = $row_comment['comment_user_id'];
@@ -306,82 +312,43 @@ if ($result_post->num_rows > 0) {
                             $comment_date = date_format(date_create($comment_date), 'j ') . $month_list[date_format(date_create($comment_date), 'n')] . date_format(date_create($comment_date), ' в G:i');
                             break;
                     }
-                    if ($comment_count < 2) {
-                        if ($rows_num_comment < $result_comment->num_rows) {
-                            echo "<div class='div-line'></div>";
-                        }
-                        echo "<div class='user-comment'>";
-                        echo "<a href='../user/$comment_username'><img class='comment-avatar' src='../uploads/avatar/thin_" . $comment_avatar . "'></a>";
-                        echo "<div class='comment-div'>";
-                        if ($comment_first_name || $comment_second_name) {
-                            if ($comment_verify_status) {
-                                echo "<div><a href='../user/$comment_username' class='first-and-second-names trust'>" . $comment_first_name . " " . $comment_second_name . "</a><span class='date'>" . $comment_date . "</span>";
-                            } else {
-                                echo "<div><a href='../user/$comment_username' class='first-and-second-names'>" . $comment_first_name . " " . $comment_second_name . "</a><span class='date'>" . $comment_date . "</span>";
-                            }
+                    echo "<div class='user-comment'>";
+                    echo "<a href='../user/$comment_username'><img class='comment-avatar' src='../uploads/avatar/thin_" . $comment_avatar . "'></a>";
+                    echo "<div class='comment-div'>";
+                    if ($comment_first_name || $comment_second_name) {
+                        if ($comment_verify_status) {
+                            echo "<div><a href='../user/$comment_username' class='first-and-second-names trust'>" . $comment_first_name . " " . $comment_second_name . "</a><span class='date'>" . $comment_date . "</span>";
                         } else {
-                            if ($comment_verify_status) {
-                                echo "<div><a href='../user/$comment_username' class='first-and-second-names trust'>@" . $comment_username . "</a><span class='date'>" . $comment_date . "</span>";
-                            } else {
-                                echo "<div><a href='../user/$comment_username' class='first-and-second-names'>@" . $comment_username . "</a><span class='date'>" . $comment_date . "</span>";
-                            }
+                            echo "<div><a href='../user/$comment_username' class='first-and-second-names'>" . $comment_first_name . " " . $comment_second_name . "</a><span class='date'>" . $comment_date . "</span>";
                         }
-                        if ($comment_user_id == $current_user_id) {
-                            echo "<span class='delete-comment' id='$comment_id'><svg width='10' height='10' viewBox='0 0 10 10' fill='none' xmlns='http://www.w3.org/2000/svg'>
-                                    <path d='M0.191016 8.88671C-0.0636719 9.14141 -0.0636719 9.55428 0.191016 9.80898C0.445703 10.0637 0.858643 10.0637 1.11333 9.80898L0.191016 8.88671ZM5.46114 5.46114C5.71584 5.20644 5.71584 4.79357 5.46114 4.53888C5.20644 4.28418 4.79357 4.28418 4.53888 4.53888L5.46114 5.46114ZM4.53888 4.53888C4.28418 4.79357 4.28418 5.20644 4.53888 5.46114C4.79357 5.71584 5.20644 5.71584 5.46114 5.46114L4.53888 4.53888ZM9.80898 1.11333C10.0637 0.858644 10.0637 0.445703 9.80898 0.191016C9.55428 -0.0636719 9.14141 -0.0636719 8.88671 0.191016L9.80898 1.11333ZM5.46114 4.53888C5.20644 4.28418 4.79357 4.28418 4.53888 4.53888C4.28418 4.79357 4.28418 5.20644 4.53888 5.46114L5.46114 4.53888ZM8.88671 9.80898C9.14141 10.0637 9.55428 10.0637 9.80898 9.80898C10.0637 9.55428 10.0637 9.14141 9.80898 8.88671L8.88671 9.80898ZM4.53888 5.46114C4.79357 5.71584 5.20644 5.71584 5.46114 5.46114C5.71584 5.20644 5.71584 4.79357 5.46114 4.53888L4.53888 5.46114ZM1.11333 0.191016C0.858643 -0.0636719 0.445703 -0.0636719 0.191016 0.191016C-0.0636719 0.445703 -0.0636719 0.858644 0.191016 1.11333L1.11333 0.191016ZM1.11333 9.80898L5.46114 5.46114L4.53888 4.53888L0.191016 8.88671L1.11333 9.80898ZM5.46114 5.46114L9.80898 1.11333L8.88671 0.191016L4.53888 4.53888L5.46114 5.46114ZM4.53888 5.46114L8.88671 9.80898L9.80898 8.88671L5.46114 4.53888L4.53888 5.46114ZM5.46114 4.53888L1.11333 0.191016L0.191016 1.11333L4.53888 5.46114L5.46114 4.53888Z' />
-                                    </svg></span>";
-                        }
-                        echo "</div>";
-                        echo "<p class='comment-text main-text'>" . $comment_text . "</p>";
-                        echo "<span class='date mobile'>" . $comment_date . "</span>";
-                        echo "</div>";
-                        echo "</div>";
                     } else {
-                        if ($rows_num_comment < $result_comment->num_rows) {
-                            echo "<div class='div-line hide comment_div-line_$content_id'></div>";
-                        }
-                        echo "<div class='user-comment hide comment_user-comment_$content_id'>";
-                        echo "<a href='../user/$comment_username'><img class='comment-avatar' src='../uploads/avatar/thin_" . $comment_avatar . "'></a>";
-                        echo "<div class='comment-div'>";
-                        if ($comment_first_name || $comment_second_name) {
-                            if ($comment_verify_status) {
-                                echo "<div><a href='../user/$comment_username' class='first-and-second-names trust'>" . $comment_first_name . " " . $comment_second_name . "</a><span class='date'>" . $comment_date . "</span>";
-                            } else {
-                                echo "<div><a href='../user/$comment_username' class='first-and-second-names'>" . $comment_first_name . " " . $comment_second_name . "</a><span class='date'>" . $comment_date . "</span>";
-                            }
+                        if ($comment_verify_status) {
+                            echo "<div><a href='../user/$comment_username' class='first-and-second-names trust'>@" . $comment_username . "</a><span class='date'>" . $comment_date . "</span>";
                         } else {
-                            if ($comment_verify_status) {
-                                echo "<div><a href='../user/$comment_username' class='first-and-second-names trust'>@" . $comment_username . "</a><span class='date'>" . $comment_date . "</span>";
-                            } else {
-                                echo "<div><a href='../user/$comment_username' class='first-and-second-names'>@" . $comment_username . "</a><span class='date'>" . $comment_date . "</span>";
-                            }
+                            echo "<div><a href='../user/$comment_username' class='first-and-second-names'>@" . $comment_username . "</a><span class='date'>" . $comment_date . "</span>";
                         }
-                        if ($comment_user_id == $current_user_id) {
-                            echo "<span class='delete-comment' id='$comment_id'><svg width='10' height='10' viewBox='0 0 10 10' fill='none' xmlns='http://www.w3.org/2000/svg'>
+                    }
+                    if ($comment_user_id == $current_user_id) {
+                        echo "<span class='delete-comment' id='$comment_id'><svg width='10' height='10' viewBox='0 0 10 10' fill='none' xmlns='http://www.w3.org/2000/svg'>
                                     <path d='M0.191016 8.88671C-0.0636719 9.14141 -0.0636719 9.55428 0.191016 9.80898C0.445703 10.0637 0.858643 10.0637 1.11333 9.80898L0.191016 8.88671ZM5.46114 5.46114C5.71584 5.20644 5.71584 4.79357 5.46114 4.53888C5.20644 4.28418 4.79357 4.28418 4.53888 4.53888L5.46114 5.46114ZM4.53888 4.53888C4.28418 4.79357 4.28418 5.20644 4.53888 5.46114C4.79357 5.71584 5.20644 5.71584 5.46114 5.46114L4.53888 4.53888ZM9.80898 1.11333C10.0637 0.858644 10.0637 0.445703 9.80898 0.191016C9.55428 -0.0636719 9.14141 -0.0636719 8.88671 0.191016L9.80898 1.11333ZM5.46114 4.53888C5.20644 4.28418 4.79357 4.28418 4.53888 4.53888C4.28418 4.79357 4.28418 5.20644 4.53888 5.46114L5.46114 4.53888ZM8.88671 9.80898C9.14141 10.0637 9.55428 10.0637 9.80898 9.80898C10.0637 9.55428 10.0637 9.14141 9.80898 8.88671L8.88671 9.80898ZM4.53888 5.46114C4.79357 5.71584 5.20644 5.71584 5.46114 5.46114C5.71584 5.20644 5.71584 4.79357 5.46114 4.53888L4.53888 5.46114ZM1.11333 0.191016C0.858643 -0.0636719 0.445703 -0.0636719 0.191016 0.191016C-0.0636719 0.445703 -0.0636719 0.858644 0.191016 1.11333L1.11333 0.191016ZM1.11333 9.80898L5.46114 5.46114L4.53888 4.53888L0.191016 8.88671L1.11333 9.80898ZM5.46114 5.46114L9.80898 1.11333L8.88671 0.191016L4.53888 4.53888L5.46114 5.46114ZM4.53888 5.46114L8.88671 9.80898L9.80898 8.88671L5.46114 4.53888L4.53888 5.46114ZM5.46114 4.53888L1.11333 0.191016L0.191016 1.11333L4.53888 5.46114L5.46114 4.53888Z' />
                                     </svg></span>";
-                        }
-                        echo "</div>";
-                        echo "<p class='comment-text main-text'>" . $comment_text . "</p>";
-                        echo "<span class='date mobile'>" . $comment_date . "</span>";
-                        echo "</div>";
-                        echo "</div>";
                     }
-                    $comment_count++;
+                    echo "</div>";
+                    echo "<p class='comment-text main-text'>" . $comment_text . "</p>";
+                    echo "<span class='date mobile'>" . $comment_date . "</span>";
+                    echo "</div>";
+                    echo "</div>";
                     $rows_num_comment--;
-                }
-                if ($result_comment->num_rows > 2) {
-                    echo "<p class='see-all-comments' onclick='seeAllComments($content_id)' id='see-all-comments_$content_id'>Показать все комментарии</p>";
                 }
                 echo "</div>";
             }
             echo "<div class='current-user'>";
-            echo "<form action='../back-files/comment' method='post' autocomplete='off'>
+            echo "<form action='' method='post' class='new-comment-form' autocomplete='off'>
                     <div contenteditable='true' class='textarea-comment' id='textarea-comment_$content_id' role='textbox' onkeyup='textareaComment(event, $content_id)' onkeydown='textareaCommentPlaceholder(event, $content_id)'></div>
                     <label for='textarea-comment' class='textarea-comment_label' id='textarea-comment_label_$content_id'>Ответить..</label>
                     <input type='hidden' required name='comment' class='textarea-comment_input' id='textarea-comment_input_$content_id' value=''>
                     <input type='hidden' name='comment_id' value='$content_id'>
-                    <button type='submit' id='textarea-comment_submit_$content_id' class='' disabled>
+                    <button type='submit' id='textarea-comment_submit_$content_id' class='textarea-comment_sumbit' disabled>
                     <svg width='28' height='28' viewBox='0 0 28 28' fill='none' xmlns='http://www.w3.org/2000/svg'>
                     <path fill-rule='evenodd' clip-rule='evenodd' d='M0 14C0 6.26801 6.26801 0 14 0C21.7319 0 28 6.26801 28 14C28 21.7319 21.7319 28 14 28C6.26801 28 0 21.7319 0 14ZM12.6 19.6C12.6 20.3732 13.2268 21 14 21C14.7732 21 15.4 20.3732 15.4 19.6V11.7799L17.2101 13.5899C17.7568 14.1366 18.6432 14.1366 19.1899 13.5899C19.7366 13.0432 19.7366 12.1568 19.1899 11.6101L15.1117 7.5319C15.0907 7.5108 15.0692 7.49043 15.0472 7.47078C14.7907 7.18197 14.4166 7 14 7C13.5834 7 13.2093 7.18197 12.9528 7.47078C12.9308 7.49042 12.9093 7.5108 12.8883 7.5319L8.81005 11.6101C8.26332 12.1568 8.26332 13.0432 8.81005 13.5899C9.35679 14.1366 10.2432 14.1366 10.79 13.5899L12.6 11.7799V19.6Z' />
                     </svg>
