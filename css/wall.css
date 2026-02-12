@@ -784,7 +784,8 @@ div.for-friends svg {
     align-items: flex-start;
     position: relative;
     gap: 1rem;
-    margin: 1rem 0;
+    padding: 0.5rem 0;
+    border-radius: 1rem;
 }
 
 .wall__comments .other-users .user-comment.new-comment {
@@ -804,7 +805,7 @@ div.for-friends svg {
 } */
 
 .wall__comments .other-users .user-comment:first-child {
-    margin: 1.6rem 0 1rem;
+    margin-top: 0.6rem;
 }
 
 .wall__comments .other-users p {
@@ -888,7 +889,7 @@ div.for-friends svg {
     cursor: pointer;
     transition: 0.2s;
     position: absolute;
-    top: 0;
+    top: calc(50% - 14px);
     right: 0;
 }
 

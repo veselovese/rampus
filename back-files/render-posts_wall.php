@@ -353,7 +353,7 @@ if ($result_post->num_rows > 0) {
                             break;
                     }
                     if ($comment_count < 2) {
-                        echo "<div class='user-comment'>";
+                        echo "<div class='user-comment' id='comment-$comment_id'>";
                         echo "<a href='./user/$comment_username'><img class='comment-avatar' src='uploads/avatar/thin_" . $comment_avatar . "'></a>";
                         echo "<div class='comment-div'>";
                         if ($comment_first_name || $comment_second_name) {
@@ -380,7 +380,7 @@ if ($result_post->num_rows > 0) {
                         echo "</div>";
                         echo "</div>";
                     } else if ($comment_count < 5) {
-                        echo "<div class='user-comment hide comment_user-comment_$content_id'>";
+                        echo "<div class='user-comment hide comment_user-comment_$content_id' id='comment-$comment_id'>";
                         echo "<a href='./user/$comment_username'><img class='comment-avatar' src='uploads/avatar/thin_" . $comment_avatar . "'></a>";
                         echo "<div class='comment-div'>";
                         if ($comment_first_name || $comment_second_name) {
