@@ -8,14 +8,6 @@ function blossoming($action_type, $user_id, $connect)
         $blossom = $blossom_level + $blossom_progress / 100;
 
         switch ($action_type) {
-            case 'request-to-friends':
-                $blossom += 0.11;
-                $connect->query("INSERT INTO blossom_notifications (action_type, user_id, blossom_change) VALUES ('$action_type', '$user_id', 11)");
-                break;
-            case 'unrequest-to-friends':
-                $blossom -= 0.11;
-                $connect->query("INSERT INTO blossom_notifications (action_type, user_id, blossom_change) VALUES ('$action_type', '$user_id', -11)");
-                break;
             case 'add-to-friends':
                 $blossom += 0.16;
                 $connect->query("INSERT INTO blossom_notifications (action_type, user_id, blossom_change) VALUES ('$action_type', '$user_id', 16)");

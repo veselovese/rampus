@@ -3,9 +3,7 @@ session_start();
 require_once('connect.php');
 require('blossoming.php');
 
-// Включаем буферизацию для чистого JSON ответа
 ob_start();
-
 header('Content-Type: application/json');
 
 $response = [
@@ -14,7 +12,6 @@ $response = [
     'comment' => null
 ];
 
-// Проверяем авторизацию
 if (!isset($_SESSION['user']['id'])) {
     $response['message'] = 'Необходима авторизация';
     ob_end_clean();
@@ -24,7 +21,6 @@ if (!isset($_SESSION['user']['id'])) {
 
 $user_id = $_SESSION['user']['id'];
 
-// Проверяем наличие обязательных полей
 if (!isset($_POST['comment']) || !isset($_POST['comment_id'])) {
     $response['message'] = 'Отсутствуют обязательные данные';
     ob_end_clean();
@@ -35,7 +31,6 @@ if (!isset($_POST['comment']) || !isset($_POST['comment_id'])) {
 $comment = mysqli_real_escape_string($connect, trim($_POST['comment']));
 $post_id = (int)$_POST['comment_id'];
 
-// Проверяем, не пустой ли комментарий
 if (empty($comment)) {
     $response['message'] = 'Комментарий не может быть пустым';
     ob_end_clean();
@@ -43,7 +38,6 @@ if (empty($comment)) {
     exit();
 }
 
-// Получаем информацию о текущем пользователе
 $user_query = $connect->query("SELECT * FROM users WHERE id = $user_id");
 if ($user_query->num_rows === 0) {
     $response['message'] = 'Пользователь не найден';
@@ -59,7 +53,6 @@ $current_user_second_name = $user_data['second_name'];
 $current_user_avatar = $user_data['avatar'];
 $current_user_verify_status = $user_data['verify_status'];
 
-// Вставляем комментарий
 $result = $connect->query("INSERT INTO comments (post_id, user_id, text) VALUES ($post_id, $user_id, '$comment')");
 
 if (!$result) {
@@ -69,15 +62,12 @@ if (!$result) {
     exit();
 }
 
-// Получаем ID добавленного комментария
 $comment_id = $connect->insert_id;
 
-// Получаем ID автора поста для blossoming
 $post_author_result = $connect->query("SELECT user_id FROM posts WHERE id = $post_id");
 if ($post_author_result->num_rows > 0) {
     $post_author = $post_author_result->fetch_assoc()['user_id'];
     
-    // Обновляем blossoming только если комментирует не автор поста
     if ($user_id != $post_author) {
         blossoming('is-commented-by', $post_author, $connect);
         blossoming('has-commented', $user_id, $connect);

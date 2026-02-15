@@ -43,7 +43,6 @@ if (isset($_POST["username"])) {
         users.second_name AS author_second_name,
         users.avatar AS author_avatar,
         users.username AS author_username,
-        posts.img AS content_image,
         posts.for_friends AS for_friends,
 
         posts.repost_user_id AS repost_author_id,
@@ -109,10 +108,11 @@ if (isset($_POST["username"])) {
                 $content_repost_second_name = $row_post["repost_author_second_name"];
                 $content_repost_username = $row_post["repost_author_username"];
                 $content_repost_avatar = $row_post["repost_author_avatar"];
-                $content_image = $row_post["content_image"];
                 $content_id = $row_post['content_id'];
                 $content_repost_id = $row_post['repost_post_id'];
                 $check_repost_status = $content_type == 'repost' ? haveIMakeRepost($content_repost_id) : false;
+                $sql_images_in_post = "SELECT image_url FROM images_in_posts WHERE post_id = $content_id ORDER BY add_date DESC";
+                $result_images_in_post = $connect->query($sql_images_in_post);
                 if ($posts_counter < 3) {
                     echo "<div class='user-post' id='post-$content_id'>";
                     echo "<div class='extra-post-info'>";
@@ -131,10 +131,17 @@ if (isset($_POST["username"])) {
                     } else {
                         echo "<p>" . $content_text . "</p>";
                     }
-                    if ($content_image != null) {
-                        echo "<div class='image-in-post-div'>";
-                        echo "<img class='image-in-post-hide' src=../uploads/post-image/small_" . $content_image . ">";
-                        echo "<img class='image-in-post' src=../uploads/post-image/small_" . $content_image . ">";
+                    $images_counter = $result_images_in_post->num_rows;
+                    if ($images_counter > 0) {
+                        $images_mark = $images_counter > 1 ? "more-images images-$images_counter" : "";
+                        echo "<div class='images-in-post-div $images_mark'>";
+                        while ($row_images_in_post = $result_images_in_post->fetch_assoc()) {
+                            $image_url = $row_images_in_post['image_url'];
+                            echo "<div class='image-in-post-div'>";
+                            echo $images_counter == 1 ? "<img class='image-in-post-hide' src=./uploads/post-image/small_" . $image_url . ">" : "";
+                            echo "<img class='image-in-post' src=./uploads/post-image/small_" . $image_url . ">";
+                            echo "</div>";
+                        }
                         echo "</div>";
                     }
                     echo "<div class='buttons-and-date'>";
@@ -246,10 +253,17 @@ if (isset($_POST["username"])) {
                     } else {
                         echo "<p>" . $content_text . "</p>";
                     }
-                    if ($content_image != null) {
-                        echo "<div class='image-in-post-div'>";
-                        echo "<img class='image-in-post-hide' src=../uploads/post-image/small_" . $content_image . ">";
-                        echo "<img class='image-in-post' src=../uploads/post-image/small_" . $content_image . ">";
+                    $images_counter = $result_images_in_post->num_rows;
+                    if ($images_counter > 0) {
+                        $images_mark = $images_counter > 1 ? "more-images images-$images_counter" : "";
+                        echo "<div class='images-in-post-div $images_mark'>";
+                        while ($row_images_in_post = $result_images_in_post->fetch_assoc()) {
+                            $image_url = $row_images_in_post['image_url'];
+                            echo "<div class='image-in-post-div'>";
+                            echo $images_counter == 1 ? "<img class='image-in-post-hide' src=./uploads/post-image/small_" . $image_url . ">" : "";
+                            echo "<img class='image-in-post' src=./uploads/post-image/small_" . $image_url . ">";
+                            echo "</div>";
+                        }
                         echo "</div>";
                     }
                     echo "<div class='buttons-and-date'>";

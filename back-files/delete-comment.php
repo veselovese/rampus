@@ -48,8 +48,10 @@ if ($comment_data['user_id'] != $user_id) {
 $other_id = $connect->query("SELECT p.user_id FROM posts p JOIN comments c ON p.id = c.post_id WHERE c.id = $comment_id")->fetch_assoc()['user_id'];
 $delete_result = $connect->query("DELETE FROM comments WHERE id = $comment_id");
 
-blossoming('delete-self-comment', $user_id,  $connect);
-blossoming('comment-deleted-under-post-by', $other_id, $connect);
+if ($user_id != $other_id) {
+    blossoming('delete-self-comment', $user_id,  $connect);
+    blossoming('comment-deleted-under-post-by', $other_id, $connect);
+}
 
 if ($delete_result) {
     $response['success'] = true;
