@@ -1,5 +1,6 @@
 let params = new URLSearchParams(document.location.search);
 let search = params.get('search');
+let filter = 'main';
 let block_show = false;
 let isUploading = false;
 
@@ -13,7 +14,7 @@ async function checkPosition() {
     const position = scrolled + screenHeight
 
     if (position >= threshold) {
-        await renderPosts('main', search)
+        await renderPosts(filter, search)
     }
 }
 
@@ -92,7 +93,7 @@ async function renderPosts(filter, search, cleanPage = false) {
 }
 
 $(document).ready(function () {
-    renderPosts('main', search);
+    renderPosts(filter, search);
 
     $('.wall__user-posts').on('click', '.unliked', function () {
         const postId = $(this).attr('id');
@@ -171,25 +172,29 @@ $(document).ready(function () {
     })
 
     $('#wall-filter-main').click(() => {
-        renderPosts('main', search, true);
+        filter = 'main';
+        renderPosts(filter, search, true);
         $unreadMainPost = Number($('#notification-in-filter__unread-main-posts').text())
         $('#notification__unread-posts').text(Number($('#notification__unread-posts').text()) - $unreadMainPost > 0 ? Number($('#notification__unread-posts').text()) - $unreadMainPost : '')
         $('#notification-in-filter__unread-main-posts').addClass('hide')
     })
     $('#wall-filter-all').click(() => {
-        renderPosts('all', search, true);
+        filter = 'all';
+        renderPosts(filter, search, true);
         $unreadAllPost = Number($('#notification-in-filter__unread-all-posts').text())
         $('#notification__unread-posts').text(Number($('#notification__unread-posts').text()) - $unreadAllPost > 0 ? Number($('#notification__unread-posts').text()) - $unreadAllPost : '')
         $('#notification-in-filter__unread-all-posts').addClass('hide')
     })
     $('#wall-filter-timetable').click(() => {
-        renderPosts('timetable', search, true);
+        filter = 'timetable';
+        renderPosts(filter, search, true);
         $unreadThirtySeventhPost = Number($('#notification-in-filter__unread-thirty-seventh-posts').text())
         $('#notification__unread-posts').text(Number($('#notification__unread-posts').text()) - $unreadThirtySeventhPost > 0 ? Number($('#notification__unread-posts').text()) - $unreadThirtySeventhPost : '')
         $('#notification-in-filter__unread-thirty-seventh-posts').addClass('hide')
     })
     $('#wall-filter-main__mobile').click(() => {
-        renderPosts('main', search, true);
+        filter = 'main';
+        renderPosts(filter, search, true);
         $unreadMainPost = Number($('#notification-in-filter__unread-main-posts-mobile').text())
         if (Number($('#notification__unread-posts-mobile').text()) - $unreadMainPost > 0) {
             $('#notification__unread-posts-mobile').text(Number($('#notification__unread-posts-mobile').text()) - $unreadMainPost)
@@ -200,7 +205,8 @@ $(document).ready(function () {
         $('#notification-in-filter__unread-main-posts-mobile').addClass('hide')
     })
     $('#wall-filter-all__mobile').click(() => {
-        renderPosts('all', search, true);
+        filter = 'all';
+        renderPosts(filter, search, true);
         $unreadAllPost = Number($('#notification-in-filter__unread-all-posts-mobile').text())
         if (Number($('#notification__unread-posts-mobile').text()) - $unreadAllPost > 0) {
             $('#notification__unread-posts-mobile').text(Number($('#notification__unread-posts-mobile').text()) - $unreadAllPost)
@@ -211,7 +217,8 @@ $(document).ready(function () {
         $('#notification-in-filter__unread-all-posts-mobile').addClass('hide')
     })
     $('#wall-filter-timetable__mobile').click(() => {
-        renderPosts('timetable', search, true);
+        filter = 'timetable';
+        renderPosts(filter, search, true);
         $unreadThirtySeventhPost = Number($('#notification-in-filter__unread-thirty-seventh-mobile').text())
         if (Number($('#notification__unread-posts-mobile').text()) - $unreadThirtySeventhPost > 0) {
             $('#notification__unread-posts-mobile').text(Number($('#notification__unread-posts-mobile').text()) - $unreadThirtySeventhPost)

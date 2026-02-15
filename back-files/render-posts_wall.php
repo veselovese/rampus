@@ -217,8 +217,8 @@ if ($result_post->num_rows > 0) {
                 while ($row_images_in_post = $result_images_in_post->fetch_assoc()) {
                     $image_url = $row_images_in_post['image_url'];
                     echo "<div class='image-in-post-div'>";
-                    echo $images_counter == 1 ? "<img class='image-in-post-hide' src=./uploads/post-image/small_" . $image_url . ">" : "";
-                    echo "<img class='image-in-post' src=./uploads/post-image/small_" . $image_url . ">";
+                    echo $images_counter == 1 ? "<img class='image-in-post-hide' src='./uploads/post-image/small_" . $image_url . "'>" : "";
+                    echo "<img class='image-in-post' src='./uploads/post-image/small_" . $image_url . "'>";
                     echo "</div>";
                 }
                 echo "</div>";
@@ -416,7 +416,7 @@ if ($result_post->num_rows > 0) {
                 $else_comments = $comment_count - 5;
                 echo "<div class='comments-buttons'>";
                 echo "<p class='see-all-comments' onclick='seeAllComments($content_id)' id='see-all-comments_$content_id'>Показать комментарии</p>";
-                if ($else_comments) {
+                if ($else_comments > 0) {
                     echo "<span class='dot hide' id='have-else-comments_dot_$content_id'>•</span>";
                     echo "<a href='./post/$content_id' class='show-else-comments hide' id='have-else-comments_a_$content_id'>Показать ещё $else_comments</a>";
                 }

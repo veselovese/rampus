@@ -138,8 +138,8 @@ if (isset($_POST["username"])) {
                         while ($row_images_in_post = $result_images_in_post->fetch_assoc()) {
                             $image_url = $row_images_in_post['image_url'];
                             echo "<div class='image-in-post-div'>";
-                            echo $images_counter == 1 ? "<img class='image-in-post-hide' src=./uploads/post-image/small_" . $image_url . ">" : "";
-                            echo "<img class='image-in-post' src=./uploads/post-image/small_" . $image_url . ">";
+                            echo $images_counter == 1 ? "<img class='image-in-post-hide' src='../uploads/post-image/small_" . $image_url . "'>" : "";
+                            echo "<img class='image-in-post' src='../uploads/post-image/small_" . $image_url . "'>";
                             echo "</div>";
                         }
                         echo "</div>";
@@ -260,8 +260,8 @@ if (isset($_POST["username"])) {
                         while ($row_images_in_post = $result_images_in_post->fetch_assoc()) {
                             $image_url = $row_images_in_post['image_url'];
                             echo "<div class='image-in-post-div'>";
-                            echo $images_counter == 1 ? "<img class='image-in-post-hide' src=./uploads/post-image/small_" . $image_url . ">" : "";
-                            echo "<img class='image-in-post' src=./uploads/post-image/small_" . $image_url . ">";
+                            echo $images_counter == 1 ? "<img class='image-in-post-hide' src='../uploads/post-image/small_" . $image_url . "'>" : "";
+                            echo "<img class='image-in-post' src='../uploads/post-image/small_" . $image_url . "'>";
                             echo "</div>";
                         }
                         echo "</div>";

@@ -213,7 +213,6 @@ if (isset($_FILES['post-images']) || (isset($_POST['post']) && strlen(trim($text
 
                         if (mysqli_query($connect, $sql)) {
                             $uploaded_images[] = $name;
-
                         } else {
                             @unlink($uploadfile);
                             @unlink($new_uploadfile1);
@@ -225,80 +224,80 @@ if (isset($_FILES['post-images']) || (isset($_POST['post']) && strlen(trim($text
                 }
             }
         }
+    }
 
-        if (isset($_POST['post']) && strlen(trim($text_post)) > 0) {
-            preg_match_all('/#\w+/u', $text_post, $matches);
-            $hashtags = $matches[0];
-            if ($hashtags == null) {
-                $hashtags = [null];
+    if (isset($_POST['post']) && strlen(trim($text_post)) > 0) {
+        preg_match_all('/#\w+/u', $text_post, $matches);
+        $hashtags = $matches[0];
+        if ($hashtags == null) {
+            $hashtags = [null];
+        }
+
+        $result_post = mysqli_query($connect, "UPDATE posts SET text = '$text_post' WHERE id = $current_post_id");
+
+        foreach ($hashtags as $hashtag) {
+            $hashtag = ltrim($hashtag, '#');
+            if ($hashtag == null) {
+                $hashtag_id = 0;
+            } else if ($connect->query("SELECT id FROM hashtags WHERE name = '$hashtag'")->num_rows > 0) {
+                $hashtag_id = $connect->query("SELECT id FROM hashtags WHERE name = '$hashtag'")->fetch_assoc()['id'];
+                mysqli_query($connect, "INSERT INTO hashtags_in_posts (post_id, hashtag_id) VALUES ($current_post_id, $hashtag_id);");
+            } else {
+                $connect->query("INSERT INTO hashtags (name) VALUES ('$hashtag')");
+                $hashtag_id = $connect->query("SELECT id FROM hashtags WHERE name = '$hashtag'")->fetch_assoc()['id'];
+                mysqli_query($connect, "INSERT INTO hashtags_in_posts (post_id, hashtag_id) VALUES ($current_post_id, $hashtag_id);");
             }
-
-            $result_post = mysqli_query($connect, "UPDATE posts SET text = '$text_post' WHERE id = $current_post_id");
-
-            foreach ($hashtags as $hashtag) {
-                $hashtag = ltrim($hashtag, '#');
-                if ($hashtag == null) {
-                    $hashtag_id = 0;
-                } else if ($connect->query("SELECT id FROM hashtags WHERE name = '$hashtag'")->num_rows > 0) {
-                    $hashtag_id = $connect->query("SELECT id FROM hashtags WHERE name = '$hashtag'")->fetch_assoc()['id'];
-                    mysqli_query($connect, "INSERT INTO hashtags_in_posts (post_id, hashtag_id) VALUES ($current_post_id, $hashtag_id);");
-                } else {
-                    $connect->query("INSERT INTO hashtags (name) VALUES ('$hashtag')");
-                    $hashtag_id = $connect->query("SELECT id FROM hashtags WHERE name = '$hashtag'")->fetch_assoc()['id'];
-                    mysqli_query($connect, "INSERT INTO hashtags_in_posts (post_id, hashtag_id) VALUES ($current_post_id, $hashtag_id);");
-                }
-            }
         }
-        if (!$result_post) {
-            $response['message'] = 'Ошибка при обновлении текста поста: ' . mysqli_error($connect);
-            ob_end_clean();
-            echo json_encode($response);
-            exit();
-        }
+    }
+    if (!$result_post) {
+        $response['message'] = 'Ошибка при обновлении текста поста: ' . mysqli_error($connect);
+        ob_end_clean();
+        echo json_encode($response);
+        exit();
+    }
 
-        $likes_count = $connect->query("SELECT COUNT(*) as count FROM likes_on_posts WHERE post_id = $current_post_id")->fetch_assoc()['count'];
-        $comments_count = $connect->query("SELECT COUNT(*) as count FROM comments WHERE post_id = $current_post_id")->fetch_assoc()['count'];
-        $reposts_count = $connect->query("SELECT COUNT(*) as count FROM reposts WHERE post_id = $current_post_id")->fetch_assoc()['count'];
+    $likes_count = $connect->query("SELECT COUNT(*) as count FROM likes_on_posts WHERE post_id = $current_post_id")->fetch_assoc()['count'];
+    $comments_count = $connect->query("SELECT COUNT(*) as count FROM comments WHERE post_id = $current_post_id")->fetch_assoc()['count'];
+    $reposts_count = $connect->query("SELECT COUNT(*) as count FROM reposts WHERE post_id = $current_post_id")->fetch_assoc()['count'];
 
-        $is_liked = $connect->query("SELECT COUNT(*) as count FROM likes_on_posts WHERE post_id = $current_post_id AND user_id = $user_id")->fetch_assoc()['count'] > 0;
+    $is_liked = $connect->query("SELECT COUNT(*) as count FROM likes_on_posts WHERE post_id = $current_post_id AND user_id = $user_id")->fetch_assoc()['count'] > 0;
 
-        $is_reposted = $connect->query("SELECT COUNT(*) as count FROM reposts WHERE post_id = $current_post_id AND user_id = $user_id")->fetch_assoc()['count'] > 0;
+    $is_reposted = $connect->query("SELECT COUNT(*) as count FROM reposts WHERE post_id = $current_post_id AND user_id = $user_id")->fetch_assoc()['count'] > 0;
 
-        $date = 'только что';
+    $date = 'только что';
 
-        $post_data = [
-            'id' => $current_post_id,
-            'username' => $current_user_username,
-            'first_name' => $current_user_first_name,
-            'second_name' => $current_user_second_name,
-            'avatar' => $current_user_avatar,
-            'verify_status' => $current_user_verify_status,
-            'user_in_top' => $user_in_top,
-            'date' => $date,
-            'type' => 'post',
-            'text' => $text_post ?? '',
-            'images' => $uploaded_images,
-            'for_friends' => $for_friends,
-            'author_id' => $user_id,
-            'current_user_id' => $user_id,
-            'likes' => $likes_count,
-            'comments_count' => $comments_count,
-            'reposts' => $reposts_count,
-            'is_liked' => $is_liked,
-            'is_reposted' => $is_reposted
-        ];
+    $post_data = [
+        'id' => $current_post_id,
+        'username' => $current_user_username,
+        'first_name' => $current_user_first_name,
+        'second_name' => $current_user_second_name,
+        'avatar' => $current_user_avatar,
+        'verify_status' => $current_user_verify_status,
+        'user_in_top' => $user_in_top,
+        'date' => $date,
+        'type' => 'post',
+        'text' => $text_post ?? '',
+        'images' => $uploaded_images,
+        'for_friends' => $for_friends,
+        'author_id' => $user_id,
+        'current_user_id' => $user_id,
+        'likes' => $likes_count,
+        'comments_count' => $comments_count,
+        'reposts' => $reposts_count,
+        'is_liked' => $is_liked,
+        'is_reposted' => $is_reposted
+    ];
 
-        $response['success'] = true;
-        $response['message'] = 'Пост успешно добавлен';
-        $response['post'] = $post_data;
+    $response['success'] = true;
+    $response['message'] = 'Пост успешно добавлен';
+    $response['post'] = $post_data;
 
-        blossoming('add-post', $user_id, $connect);
+    blossoming('add-post', $user_id, $connect);
 
-        if (($post_search != '') && isset($hashtags[0]) && ($post_search == ltrim($hashtags[0], '#'))) {
-            $response['redirect'] = '../wall?search=' . $post_search;
-        } else {
-            $response['redirect'] = '';
-        }
+    if (($post_search != '') && isset($hashtags[0]) && ($post_search == ltrim($hashtags[0], '#'))) {
+        $response['redirect'] = '../wall?search=' . $post_search;
+    } else {
+        $response['redirect'] = '';
     }
 } else {
     $response['message'] = 'Пост не может быть пустым';
