@@ -36,8 +36,9 @@ if ($the_likest_post->num_rows > 0) {
     $user_id_to = $row['user_id'];
     $the_likest_post_id = $row['post_id'];
     $the_likest_post_likes = $row['likes_counter'];
+    $last_like_date = $row['last_like_date'];
 
-    $trophy_the_likest_post = $connect->query("SELECT user_id_to, user_id_from FROM trophies WHERE (NOT user_id_to = $user_id_to OR NOT stat_number = $the_likest_post_likes) AND IF(user_id_to = $user_id_to, TRUE, stat_number < $the_likest_post_likes) AND id = 4");
+    $trophy_the_likest_post = $connect->query("SELECT user_id_to, user_id_from FROM trophies WHERE id = 4");
     if ($trophy_the_likest_post->num_rows == 1) {
         $row = $trophy_the_likest_post->fetch_assoc();
         $check_user_id_to = $row['user_id_to'];
@@ -45,7 +46,7 @@ if ($the_likest_post->num_rows > 0) {
 
         if ($check_user_id_to != $user_id_to) {
             $user_id_from = $check_user_id_to;
-            $connect->query("UPDATE trophies SET user_id_to = $user_id_to, user_id_from = $user_id_from, link = 'post/$the_likest_post_id', stat_number = $the_likest_post_likes, get_date = NOW() WHERE id = 4");
+            $connect->query("UPDATE trophies SET user_id_to = $user_id_to, user_id_from = $user_id_from, link = 'post/$the_likest_post_id', stat_number = $the_likest_post_likes, get_date = '$last_like_date' WHERE id = 4");
 
             blossoming('grab-trophy', $user_id_to, $connect);
             blossoming('lose-trophy', $user_id_from, $connect);
@@ -73,8 +74,9 @@ if ($more_likes_on_posts->num_rows > 0) {
     $row = $more_likes_on_posts->fetch_assoc();
     $user_id_to = $row['user_id'];
     $max_likes_on_posts = $row['likes_counter'];
+    $last_like_date = $row['last_like_date'];
 
-    $trophy_likes_on_one_post = $connect->query("SELECT user_id_to, user_id_from FROM trophies WHERE (NOT user_id_to = $user_id_to OR NOT stat_number = $max_likes_on_posts) AND IF(user_id_to = $user_id_to, TRUE, stat_number < $max_likes_on_posts) AND id = 5");
+    $trophy_likes_on_one_post = $connect->query("SELECT user_id_to, user_id_from FROM trophies WHERE id = 5");
     if ($trophy_likes_on_one_post->num_rows == 1) {
         $row = $trophy_likes_on_one_post->fetch_assoc();
         $check_user_id_to = $row['user_id_to'];
@@ -82,7 +84,7 @@ if ($more_likes_on_posts->num_rows > 0) {
 
         if ($check_user_id_to != $user_id_to) {
             $user_id_from = $check_user_id_to;
-            $connect->query("UPDATE trophies SET user_id_to = $user_id_to, user_id_from = $user_id_from, stat_number = $max_likes_on_posts, get_date = NOW() WHERE id = 5");
+            $connect->query("UPDATE trophies SET user_id_to = $user_id_to, user_id_from = $user_id_from, stat_number = $max_likes_on_posts, get_date = '$last_like_date' WHERE id = 5");
 
             blossoming('grab-trophy', $user_id_to, $connect);
             blossoming('lose-trophy', $user_id_from, $connect);
@@ -110,8 +112,9 @@ if ($max_likes_to_other_users->num_rows > 0) {
     $row = $max_likes_to_other_users->fetch_assoc();
     $user_id_to = $row['user_id'];
     $max_likes_to_other_posts = $row['likes_counter'];
+    $last_like_date = $row['last_like_date'];
 
-    $trophy_likes_to_other_users = $connect->query("SELECT user_id_to, user_id_from FROM trophies WHERE (NOT user_id_to = $user_id_to OR NOT stat_number = $max_likes_to_other_posts) AND IF(user_id_to = $user_id_to, TRUE, stat_number < $max_likes_to_other_posts) AND id = 6");
+    $trophy_likes_to_other_users = $connect->query("SELECT user_id_to, user_id_from FROM trophies WHERE id = 6");
     if ($trophy_likes_to_other_users->num_rows == 1) {
         $row = $trophy_likes_to_other_users->fetch_assoc();
         $check_user_id_to = $row['user_id_to'];
@@ -119,7 +122,7 @@ if ($max_likes_to_other_users->num_rows > 0) {
 
         if ($check_user_id_to != $user_id_to) {
             $user_id_from = $check_user_id_to;
-            $connect->query("UPDATE trophies SET user_id_to = $user_id_to, user_id_from = $user_id_from, stat_number = $max_likes_to_other_posts, get_date = NOW() WHERE id = 6");
+            $connect->query("UPDATE trophies SET user_id_to = $user_id_to, user_id_from = $user_id_from, stat_number = $max_likes_to_other_posts, get_date = '$last_like_date' WHERE id = 6");
 
             blossoming('grab-trophy', $user_id_to, $connect);
             blossoming('lose-trophy', $user_id_from, $connect);
@@ -149,8 +152,9 @@ if ($the_commentest_post->num_rows > 0) {
     $user_id_to = $row['user_id'];
     $post_id = $row['post_id'];
     $max_comments_under_one_post = $row['comments_counter'];
+    $last_comment_date = $row['last_comment_date'];
 
-    $trophy_comments_under_one_post = $connect->query("SELECT user_id_to, user_id_from FROM trophies WHERE (NOT user_id_to = $user_id_to OR NOT stat_number = $max_comments_under_one_post) AND IF(user_id_to = $user_id_to, TRUE, stat_number < $max_comments_under_one_post) AND id = 7");
+    $trophy_comments_under_one_post = $connect->query("SELECT user_id_to, user_id_from FROM trophies WHERE id = 7");
     if ($trophy_comments_under_one_post->num_rows == 1) {
         $row = $trophy_comments_under_one_post->fetch_assoc();
         $check_user_id_to = $row['user_id_to'];
@@ -158,7 +162,7 @@ if ($the_commentest_post->num_rows > 0) {
 
         if ($check_user_id_to != $user_id_to) {
             $user_id_from = $check_user_id_to;
-            $connect->query("UPDATE trophies SET user_id_to = $user_id_to, user_id_from = $user_id_from, link = 'post/$post_id', stat_number = $max_comments_under_one_post, get_date = NOW() WHERE id = 7");
+            $connect->query("UPDATE trophies SET user_id_to = $user_id_to, user_id_from = $user_id_from, link = 'post/$post_id', stat_number = $max_comments_under_one_post, get_date = '$last_comment_date' WHERE id = 7");
 
             blossoming('grab-trophy', $user_id_to, $connect);
             blossoming('lose-trophy', $user_id_from, $connect);
@@ -185,8 +189,9 @@ if ($more_comments_on_posts->num_rows > 0) {
     $row = $more_comments_on_posts->fetch_assoc();
     $user_id_to = $row['user_id'];
     $max_comments_under_posts = $row['comments_counter'];
+    $last_comment_date = $row['last_comment_date'];
 
-    $trophy_comments_on_posts = $connect->query("SELECT user_id_to, user_id_from FROM trophies WHERE (NOT user_id_to = $user_id_to OR NOT stat_number = $max_comments_under_posts) AND IF(user_id_to = $user_id_to, TRUE, stat_number < $max_comments_under_posts) AND id = 8");
+    $trophy_comments_on_posts = $connect->query("SELECT user_id_to, user_id_from FROM trophies WHERE id = 8");
     if ($trophy_comments_on_posts->num_rows == 1) {
         $row = $trophy_comments_on_posts->fetch_assoc();
         $check_user_id_to = $row['user_id_to'];
@@ -194,7 +199,7 @@ if ($more_comments_on_posts->num_rows > 0) {
 
         if ($check_user_id_to != $user_id_to) {
             $user_id_from = $check_user_id_to;
-            $connect->query("UPDATE trophies SET user_id_to = $user_id_to, user_id_from = $user_id_from, stat_number = $max_comments_under_posts, get_date = NOW() WHERE id = 8");
+            $connect->query("UPDATE trophies SET user_id_to = $user_id_to, user_id_from = $user_id_from, stat_number = $max_comments_under_posts, get_date = '$last_comment_date' WHERE id = 8");
 
             blossoming('grab-trophy', $user_id_to, $connect);
             blossoming('lose-trophy', $user_id_from, $connect);
@@ -223,8 +228,9 @@ if ($max_comments_to_other_users->num_rows > 0) {
     $row = $max_comments_to_other_users->fetch_assoc();
     $user_id_to = $row['user_id'];
     $max_comments_to_other_posts = $row['comments_counter'];
+    $last_comment_date = $row['last_comment_date'];
 
-    $trophy_comments_on_posts = $connect->query("SELECT user_id_to, user_id_from FROM trophies WHERE (NOT user_id_to = $user_id_to OR NOT stat_number = $max_comments_to_other_posts) AND IF(user_id_to = $user_id_to, TRUE, stat_number < $max_comments_to_other_posts) AND id = 9");
+    $trophy_comments_on_posts = $connect->query("SELECT user_id_to, user_id_from FROM trophies WHERE id = 9");
     if ($trophy_comments_on_posts->num_rows == 1) {
         $row = $trophy_comments_on_posts->fetch_assoc();
         $check_user_id_to = $row['user_id_to'];
@@ -232,7 +238,7 @@ if ($max_comments_to_other_users->num_rows > 0) {
 
         if ($check_user_id_to != $user_id_to) {
             $user_id_from = $check_user_id_to;
-            $connect->query("UPDATE trophies SET user_id_to = $user_id_to, user_id_from = $user_id_from, stat_number = $max_comments_to_other_posts, get_date = NOW() WHERE id = 9");
+            $connect->query("UPDATE trophies SET user_id_to = $user_id_to, user_id_from = $user_id_from, stat_number = $max_comments_to_other_posts, get_date = '$last_comment_date' WHERE id = 9");
 
             blossoming('grab-trophy', $user_id_to, $connect);
             blossoming('lose-trophy', $user_id_from, $connect);
@@ -261,8 +267,9 @@ if ($the_repostest_post->num_rows > 0) {
     $user_id_to = $row['user_id'];
     $the_repostest_post_id = $row['post_id'];
     $the_repostest_post_reposts = $row['reposts_counter'];
+    $last_repost_date = $row['last_repost_date'];
 
-    $trophy_the_repostest_post = $connect->query("SELECT user_id_to, user_id_from FROM trophies WHERE (NOT user_id_to = $user_id_to OR NOT stat_number = $the_repostest_post_reposts) AND IF(user_id_to = $user_id_to, TRUE, stat_number < $the_repostest_post_reposts) AND id = 10");
+    $trophy_the_repostest_post = $connect->query("SELECT user_id_to, user_id_from FROM trophies WHERE id = 10");
     if ($trophy_the_repostest_post->num_rows == 1) {
         $row = $trophy_the_repostest_post->fetch_assoc();
         $check_user_id_to = $row['user_id_to'];
@@ -270,7 +277,7 @@ if ($the_repostest_post->num_rows > 0) {
 
         if ($check_user_id_to != $user_id_to) {
             $user_id_from = $check_user_id_to;
-            $connect->query("UPDATE trophies SET user_id_to = $user_id_to, user_id_from = $user_id_from, link = 'post/$the_repostest_post_id', stat_number = $the_repostest_post_reposts, get_date = NOW() WHERE id = 10");
+            $connect->query("UPDATE trophies SET user_id_to = $user_id_to, user_id_from = $user_id_from, link = 'post/$the_repostest_post_id', stat_number = $the_repostest_post_reposts, get_date = '$last_repost_date' WHERE id = 10");
 
             blossoming('grab-trophy', $user_id_to, $connect);
             blossoming('lose-trophy', $user_id_from, $connect);
@@ -297,8 +304,9 @@ if ($more_reposts_on_posts->num_rows > 0) {
     $row = $more_reposts_on_posts->fetch_assoc();
     $user_id_to = $row['user_id'];
     $max_reposts_on_posts = $row['reposts_counter'];
+    $last_repost_date = $row['last_repost_date'];
 
-    $trophy_reposts_on_posts = $connect->query("SELECT user_id_to, user_id_from FROM trophies WHERE (NOT user_id_to = $user_id_to OR NOT stat_number = $max_reposts_on_posts) AND IF(user_id_to = $user_id_to, TRUE, stat_number < $max_reposts_on_posts) AND id = 11");
+    $trophy_reposts_on_posts = $connect->query("SELECT user_id_to, user_id_from FROM trophies WHERE id = 11");
     if ($trophy_reposts_on_posts->num_rows == 1) {
         $row = $trophy_reposts_on_posts->fetch_assoc();
         $check_user_id_to = $row['user_id_to'];
@@ -306,7 +314,7 @@ if ($more_reposts_on_posts->num_rows > 0) {
 
         if ($check_user_id_to != $user_id_to) {
             $user_id_from = $check_user_id_to;
-            $connect->query("UPDATE trophies SET user_id_to = $user_id_to, user_id_from = $user_id_from, stat_number = $max_reposts_on_posts, get_date = NOW() WHERE id = 11");
+            $connect->query("UPDATE trophies SET user_id_to = $user_id_to, user_id_from = $user_id_from, stat_number = $max_reposts_on_posts, get_date = '$last_repost_date' WHERE id = 11");
 
             blossoming('grab-trophy', $user_id_to, $connect);
             blossoming('lose-trophy', $user_id_from, $connect);
@@ -333,8 +341,9 @@ if ($max_reposts_to_other_users->num_rows > 0) {
     $row = $max_reposts_to_other_users->fetch_assoc();
     $user_id_to = $row['user_id'];
     $max_reposts_to_other_posts = $row['reposts_counter'];
+    $last_repost_date = $row['last_repost_date'];
 
-    $trophy_reposts_to_other_posts = $connect->query("SELECT user_id_to, user_id_from FROM trophies WHERE (NOT user_id_to = $user_id_to OR NOT stat_number = $max_reposts_to_other_posts) AND IF(user_id_to = $user_id_to, TRUE, stat_number < $max_reposts_to_other_posts) AND id = 12");
+    $trophy_reposts_to_other_posts = $connect->query("SELECT user_id_to, user_id_from FROM trophies WHERE id = 12");
     if ($trophy_reposts_to_other_posts->num_rows == 1) {
         $row = $trophy_reposts_to_other_posts->fetch_assoc();
         $check_user_id_to = $row['user_id_to'];
@@ -342,7 +351,7 @@ if ($max_reposts_to_other_users->num_rows > 0) {
 
         if ($check_user_id_to != $user_id_to) {
             $user_id_from = $check_user_id_to;
-            $connect->query("UPDATE trophies SET user_id_to = $user_id_to, user_id_from = $user_id_from, stat_number = $max_reposts_to_other_posts, get_date = NOW() WHERE id = 12");
+            $connect->query("UPDATE trophies SET user_id_to = $user_id_to, user_id_from = $user_id_from, stat_number = $max_reposts_to_other_posts, get_date = '$last_repost_date' WHERE id = 12");
 
             blossoming('grab-trophy', $user_id_to, $connect);
             blossoming('lose-trophy', $user_id_from, $connect);
@@ -360,8 +369,9 @@ if ($more_posts_from_one_user->num_rows > 0) {
     $row = $more_posts_from_one_user->fetch_assoc();
     $user_id_to = $row['user_id'];
     $max_posts_from_one_user = $row['posts_counter'];
+    $last_content_date = $row['last_content_date'];
 
-    $trophy_posts_from_one_user = $connect->query("SELECT user_id_to, user_id_from FROM trophies WHERE (NOT user_id_to = $user_id_to OR NOT stat_number = $max_posts_from_one_user) AND IF(user_id_to = $user_id_to, TRUE, stat_number < $max_posts_from_one_user) AND id = 13");
+    $trophy_posts_from_one_user = $connect->query("SELECT user_id_to, user_id_from FROM trophies WHERE id = 13");
     if ($trophy_posts_from_one_user->num_rows == 1) {
         $row = $trophy_posts_from_one_user->fetch_assoc();
         $check_user_id_to = $row['user_id_to'];
@@ -369,7 +379,7 @@ if ($more_posts_from_one_user->num_rows > 0) {
 
         if ($check_user_id_to != $user_id_to) {
             $user_id_from = $check_user_id_to;
-            $connect->query("UPDATE trophies SET user_id_to = $user_id_to, user_id_from = $user_id_from, stat_number = $max_posts_from_one_user, get_date = NOW() WHERE id = 13");
+            $connect->query("UPDATE trophies SET user_id_to = $user_id_to, user_id_from = $user_id_from, stat_number = $max_posts_from_one_user, get_date = '$last_content_date' WHERE id = 13");
 
             blossoming('grab-trophy', $user_id_to, $connect);
             blossoming('lose-trophy', $user_id_from, $connect);
@@ -386,8 +396,9 @@ if ($more_friends_in_one_user->num_rows > 0) {
     $row = $more_friends_in_one_user->fetch_assoc();
     $user_id_to = $row['user_id'];
     $max_friends_in_one_user = $row['friends_counter'];
+    $last_friend_date = $row['last_friend_date'];
 
-    $trophy_friends_in_one_user = $connect->query("SELECT user_id_to, user_id_from FROM trophies WHERE (NOT user_id_to = $user_id_to OR NOT stat_number = $max_friends_in_one_user) AND IF(user_id_to = $user_id_to, TRUE, stat_number < $max_friends_in_one_user) AND id = 14");
+    $trophy_friends_in_one_user = $connect->query("SELECT user_id_to, user_id_from FROM trophies WHERE id = 14");
     if ($trophy_friends_in_one_user->num_rows == 1) {
         $row = $trophy_friends_in_one_user->fetch_assoc();
         $check_user_id_to = $row['user_id_to'];
@@ -395,7 +406,7 @@ if ($more_friends_in_one_user->num_rows > 0) {
 
         if ($check_user_id_to != $user_id_to) {
             $user_id_from = $check_user_id_to;
-            $connect->query("UPDATE trophies SET user_id_to = $user_id_to, user_id_from = $user_id_from, stat_number = $max_friends_in_one_user, get_date = NOW() WHERE id = 14");
+            $connect->query("UPDATE trophies SET user_id_to = $user_id_to, user_id_from = $user_id_from, stat_number = $max_friends_in_one_user, get_date = '$last_friend_date' WHERE id = 14");
 
             blossoming('grab-trophy', $user_id_to, $connect);
             blossoming('lose-trophy', $user_id_from, $connect);

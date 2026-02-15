@@ -582,9 +582,7 @@ span.for-friends {
     display: flex;
 }
 
-
-.user-post.hide,
-.user-post.deleted {
+.user-post.hide {
     display: none;
 }
 
@@ -1444,6 +1442,62 @@ span.for-friends {
     color: var(--error-accent-color);
 }
 
+#profile-loading-main {
+    position: absolute;
+    top: 12rem;
+    left: calc(50% - 1.7rem);
+    scale: 0;
+    fill: var(--main-accent-color);
+    min-width: 3.4rem;
+    max-width: 3.4rem;
+    min-height: 3.4rem;
+    max-height: 3.4rem;
+    transition: 0.2s;
+    animation: loading 2s infinite ease-in-out;
+    z-index: 99;
+}
+
+#profile-loading-main.loading {
+    scale: 100%;
+}
+
+@keyframes loading {
+    from {
+        transform: rotate(0);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.profile__user-posts .user-post.deleted.hide {
+    display: none;
+}
+
+.profile__user-posts .user-post.deleted {
+    animation: deletingPost 0.7s forwards ease-in;
+}
+
+@keyframes deletingPost {
+    from {
+        transform: scale(100%);
+        background-color: var(--block-color);
+    }
+
+    33% {
+        opacity: 1;
+        transform: scale(99%);
+        background-color: var(--like-button-accent-color);
+    }
+
+    to {
+        opacity: 0;
+        transform: scale(101%);
+        background-color: var(--block-color);
+    }
+}
+
 @media (max-width: 1320px) {
     .third-part-mobile {
         display: block;
@@ -1650,7 +1704,8 @@ span.for-friends {
         width: calc((100% - 1rem*0)/1);
     }
 
-    .user__blossom h2, .user__case h2 {
+    .user__blossom h2,
+    .user__case h2 {
         margin-left: 1.6rem;
     }
 }

@@ -274,8 +274,8 @@ if ($result_post->num_rows > 0) {
             echo "</div>";
             echo "<div class='div-line'></div>";
             echo "<div class='wall__comments'>";
+            echo "<div class='other-users'>";
             if ($rows_num_comment > 0) {
-                echo "<div class='other-users'>";
                 while ($row_comment = $result_comment->fetch_assoc()) {
                     $comment_id = $row_comment['comment_id'];
                     $comment_user_id = $row_comment['comment_user_id'];
@@ -312,7 +312,7 @@ if ($result_post->num_rows > 0) {
                             $comment_date = date_format(date_create($comment_date), 'j ') . $month_list[date_format(date_create($comment_date), 'n')] . date_format(date_create($comment_date), ' в G:i');
                             break;
                     }
-                    echo "<div class='user-comment'>";
+                    echo "<div class='user-comment' id='comment-$comment_id'>";
                     echo "<a href='../user/$comment_username'><img class='comment-avatar' src='../uploads/avatar/thin_" . $comment_avatar . "'></a>";
                     echo "<div class='comment-div'>";
                     if ($comment_first_name || $comment_second_name) {
@@ -340,8 +340,8 @@ if ($result_post->num_rows > 0) {
                     echo "</div>";
                     $rows_num_comment--;
                 }
-                echo "</div>";
             }
+            echo "</div>";
             echo "<div class='current-user'>";
             echo "<form action='' method='post' class='new-comment-form' autocomplete='off'>
                     <div contenteditable='true' class='textarea-comment' id='textarea-comment_$content_id' role='textbox' onkeyup='textareaComment(event, $content_id)' onkeydown='textareaCommentPlaceholder(event, $content_id)'></div>
@@ -353,6 +353,9 @@ if ($result_post->num_rows > 0) {
                     <path fill-rule='evenodd' clip-rule='evenodd' d='M0 14C0 6.26801 6.26801 0 14 0C21.7319 0 28 6.26801 28 14C28 21.7319 21.7319 28 14 28C6.26801 28 0 21.7319 0 14ZM12.6 19.6C12.6 20.3732 13.2268 21 14 21C14.7732 21 15.4 20.3732 15.4 19.6V11.7799L17.2101 13.5899C17.7568 14.1366 18.6432 14.1366 19.1899 13.5899C19.7366 13.0432 19.7366 12.1568 19.1899 11.6101L15.1117 7.5319C15.0907 7.5108 15.0692 7.49043 15.0472 7.47078C14.7907 7.18197 14.4166 7 14 7C13.5834 7 13.2093 7.18197 12.9528 7.47078C12.9308 7.49042 12.9093 7.5108 12.8883 7.5319L8.81005 11.6101C8.26332 12.1568 8.26332 13.0432 8.81005 13.5899C9.35679 14.1366 10.2432 14.1366 10.79 13.5899L12.6 11.7799V19.6Z' />
                     </svg>
                     </button>
+                    <svg id='textarea-comment_sumbit_loading_$content_id' class='textarea-comment_sumbit_loading' width='34' height='34' viewBox='0 0 34 34' fill='none' xmlns='http://www.w3.org/2000/svg'>
+                        <path d='M28.0636 27.7144C31.145 28.3018 33.8622 25.9433 33.4775 22.8301C32.7853 17.2269 31.5089 9.88242 30.2899 7.89607C28.4968 4.97435 25.9482 2.69714 22.9664 1.35242C19.9846 0.00769804 16.7035 -0.344143 13.5381 0.341391C10.3726 1.02692 7.46498 2.71904 5.18281 5.20376C2.90064 7.68849 1.34646 10.8542 0.716816 14.3006C0.0871677 17.747 -0.518248 20.8251 0.716853 24.0715C1.95195 27.318 6.83881 29.9574 9.52235 31.9097C11.6005 33.4215 13.1297 33.8454 15.2128 33.9597C16.0535 34.0058 16.5509 33.0553 16.0733 32.3619C15.8783 32.0788 15.5549 31.9173 15.213 31.8813C13.118 31.661 11.7778 30.1961 9.92214 28.8461C7.90948 27.3819 6.34081 25.3008 5.41448 22.866C4.48816 20.4312 4.24579 17.752 4.71802 15.1672C5.19026 12.5823 4.4511 11.3036 6.16272 9.44011C7.87435 7.57657 11.9599 5.21188 14.334 4.69773C16.7081 4.18358 18.8049 6.88753 21.0412 7.89607C23.2776 8.90461 26.4158 9.33902 27.7606 11.5303C28.7116 13.0798 25.6778 18.6803 23.8192 22.7598C22.824 24.9441 24.1868 26.9753 26.5447 27.4248L28.0636 27.7144Z' />
+                    </svg>
                     </form>";
             echo "</div>";
             echo "</div>";

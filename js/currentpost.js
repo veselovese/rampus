@@ -1,6 +1,6 @@
 $(document).ready(function () {
     const url = window.location.pathname.split("/").filter(entry => entry !== "");
-    renderCurrentPost(url[url.length -1]);
+    renderCurrentPost(url[url.length - 1]);
 
     function renderCurrentPost(postId) {
         $.ajax({
@@ -10,7 +10,10 @@ $(document).ready(function () {
                 'post-id': postId,
             },
             success: function (data) {
-                $('#success-render-posts').html(data);
+                setTimeout(() => {
+                    $('#wall-loading-main').removeClass('loading');
+                    $('#success-render-posts').html(data);
+                }, 300)
             }
         });
     }

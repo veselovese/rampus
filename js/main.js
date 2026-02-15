@@ -92,21 +92,6 @@ $(document).ready(function () {
         })
     })
 
-    $('.wall__user-posts.current-post').on('click', '.delete-comment', function () {
-        const commentId = $(this).attr('id');
-        $deleteComment = $(this);
-        $.ajax({
-            url: '../back-files/delete-comment',
-            type: 'post',
-            data: {
-                'comment_id': commentId,
-            },
-            success: function (response) {
-                $deleteComment.parent().parent().parent().addClass('deleted')
-            }
-        })
-    })
-
     searchHashtag();
 
     function searchHashtag(query) {
