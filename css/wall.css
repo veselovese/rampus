@@ -338,6 +338,7 @@
     position: absolute;
     right: 0.6rem;
     bottom: 0.6rem;
+    z-index: 49;
 }
 
 #textarea-post_sumbit_loading {
@@ -401,6 +402,7 @@
     transition: 0.2s;
     opacity: 0;
     transform: scale(50%) translateY(1rem);
+    z-index: 49;
 }
 
 .wall__new-post #textarea-post_sumbit svg {
@@ -436,6 +438,16 @@
 .wall__new-post #textarea-post_sumbit.active svg,
 .wall__comments .textarea-comment_sumbit.active svg {
     fill: var(--main-accent-color);
+}
+
+.wall__comments .textarea-comment_sumbit:active,
+.wall__new-post #textarea-post_sumbit:active {
+    transform: scale(95%);
+}
+
+.wall__comments .textarea-comment_sumbit:hover,
+.wall__new-post #textarea-post_sumbit:hover {
+    opacity: 80%;
 }
 
 #textarea-post {

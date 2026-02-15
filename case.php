@@ -59,6 +59,11 @@ if (isset($_SESSION['user'])) {
                                             $user_username = $row['username'];
                                             $user_avatar = $row['avatar'];
                                             $user_level = $row['blossom_level'];
+                                            $from_user_first_name = $row['from_user_first_name'];
+                                            $from_user_second_name = $row['from_user_second_name'];
+                                            $from_current_user_id = $row['from_user_id'];
+                                            $from_user_username = $row['from_user_username'];
+                                            $from_user_avatar = $row['from_user_avatar'];
                                             if ($trophy_id < 4) {
                                                 $result = $connect->query("SELECT posts.likes AS post_likes, posts.reposts AS post_repost FROM posts JOIN users ON posts.user_id = users.id WHERE posts.user_id = $current_user_id");
                                                 $comment_count = $connect->query("SELECT comments.id FROM comments JOIN posts ON comments.post_id = posts.id JOIN users ON users.id = posts.user_id WHERE posts.user_id = $current_user_id")->num_rows;
@@ -127,7 +132,20 @@ if (isset($_SESSION['user'])) {
                                                     echo "<a href='./user/$user_username'>@$user_username</a>";
                                                 }
                                                 echo "<span class='date'>владеет <br class='br-mobile'>с $trophy_date</span>
-                                                    </div>
+                                                </div>
+                                                </div>
+                                                <span class='loser'>Предыдущий владелец</span>
+                                                <div class='user-trophy-info from-user'>
+                                                <a href='./user/$from_user_username'>
+                                                <img src='uploads/avatar/small_$from_user_avatar'>
+                                                </a>
+                                                <div class='more-user-trophy-info'>";
+                                                if ($from_user_first_name || $from_user_second_name) {
+                                                    echo "<a href='./user/$from_user_username'>$from_user_first_name $from_user_second_name</a>";
+                                                } else {
+                                                    echo "<a href='./user/$from_user_username'>@$from_user_username</a>";
+                                                }
+                                                echo "</div>
                                                 </div>
                                                 </div>";
                                             } ?>
@@ -157,6 +175,11 @@ if (isset($_SESSION['user'])) {
                                             $current_user_id = $row['user_id'];
                                             $user_username = $row['username'];
                                             $user_avatar = $row['avatar'];
+                                            $from_user_first_name = $row['from_user_first_name'];
+                                            $from_user_second_name = $row['from_user_second_name'];
+                                            $from_current_user_id = $row['from_user_id'];
+                                            $from_user_username = $row['from_user_username'];
+                                            $from_user_avatar = $row['from_user_avatar'];
                                             if ($trophy_id > 3) {
                                                 echo "<div class='current-trophy'>
                                                 <div class='trophy-info'>
@@ -194,6 +217,19 @@ if (isset($_SESSION['user'])) {
                                                 echo "<span class='date'>владеет <br class='br-mobile'>с $trophy_date</span>
                                                     </div>
                                                 </div>
+                                                <span class='loser'>Предыдущий владелец</span>
+                                                <div class='user-trophy-info from-user'>
+                                                <a href='./user/$from_user_username'>
+                                                <img src='uploads/avatar/small_$from_user_avatar'>
+                                                </a>
+                                                <div class='more-user-trophy-info'>";
+                                                if ($from_user_first_name || $from_user_second_name) {
+                                                    echo "<a href='./user/$from_user_username'>$from_user_first_name $from_user_second_name</a>";
+                                                } else {
+                                                    echo "<a href='./user/$from_user_username'>@$from_user_username</a>";
+                                                }
+                                                echo "</div>
+                                                </div>
                                                 </div>";
                                             } ?>
                                     <?php }
@@ -217,7 +253,11 @@ if (isset($_SESSION['user'])) {
                                             $trophy_image = $trophy_row['image'];
                                             $trophy_date = $trophy_row['get_date'];
                                             $users_counter = $trophy_row['users_counter'];
-
+                                            $sponsor_id = $trophy_row['sponsor_user_id'];
+                                            $sponsor_first_name = $trophy_row['sponsor_user_first_name'];
+                                            $sponsor_second_name = $trophy_row['sponsor_user_second_name'];
+                                            $sponsor_username = $trophy_row['sponsor_user_username'];
+                                            $sponsor_avatar = $trophy_row['sponsor_user_avatar'];
                                             echo "<div class='current-trophy'>
                                             <div class='trophy-info'>
                                             <img class='icon' src='$trophy_image'>
@@ -261,7 +301,20 @@ if (isset($_SESSION['user'])) {
                                                 echo "<p class='no-owners'>Владельцы ещё не выбраны</p>";
                                                 echo "</div>";
                                             }
-                                            echo "</div>";
+                                            echo "<span class='loser'>Спонсор</span>
+                                                <div class='user-trophy-info from-user'>
+                                                <a href='./user/$sponsor_username'>
+                                                <img src='uploads/avatar/small_$sponsor_avatar'>
+                                                </a>
+                                                <div class='more-user-trophy-info'>";
+                                            if ($sponsor_first_name || $sponsor_second_name) {
+                                                echo "<a href='./user/$sponsor_username'>$sponsor_first_name $sponsor_second_name</a>";
+                                            } else {
+                                                echo "<a href='./user/$sponsor_username'>@$sponsor_username</a>";
+                                            }
+                                            echo "</div>
+                                                </div>
+                                            </div>";
                                         } ?>
                                     <?php }
                                     ?>

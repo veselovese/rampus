@@ -98,7 +98,7 @@ if ($result_post->num_rows > 0) {
             $content_id = $row_post['content_id'];
             $content_repost_id = $row_post['repost_post_id'];
             $user_in_top = findUserPositionInTop($content_author_id, $connect);
-            $sql_images_in_post = "SELECT image_url FROM images_in_posts WHERE post_id = $content_id ORDER BY add_date DESC";
+            $sql_images_in_post = "SELECT image_url FROM images_in_posts WHERE post_id = $content_id ORDER BY add_date ASC";
             $result_images_in_post = $connect->query($sql_images_in_post);
             echo "<div class='user-post' id='post-$content_id'>";
             echo "<div>";

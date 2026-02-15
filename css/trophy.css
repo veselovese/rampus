@@ -91,6 +91,12 @@
     text-transform: lowercase;
 }
 
+.current-trophy .loser {
+    font-size: var(--font-size-1);
+    color: var(--else-text-color-50);
+    margin-top: 1rem;
+}
+
 .user-trophy-info.personal~.date {
     margin-top: 0.39rem;
 }
@@ -127,6 +133,10 @@
     gap: 1rem;
     margin-top: auto;
     position: relative;
+}
+
+.user-trophy-info.from-user {
+    margin-top: 0.39rem;
 }
 
 .user-trophy-info.personal {
@@ -171,11 +181,39 @@
     border-radius: 2rem;
     margin: 0;
     object-fit: cover;
+    transition: 0.2s;
 }
 
 .user-trophy-info a {
     color: var(--main-text-color);
     font-size: var(--font-size-2);
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow-x: hidden;
+    overflow-y: visible;
+    display: block;
+    width: min-content;
+    max-width: 13rem;
+    transition: 0.2s;
+}
+
+.user-trophy-info a:hover {
+    opacity: 80%;
+}
+
+.user-trophy-info.from-user img {
+    min-width: 24px;
+    min-height: 24px;
+    max-width: 24px;
+    max-height: 24px;
+    border-radius: 50%;
+    margin: 0;
+    object-fit: cover;
+}
+
+.user-trophy-info.from-user a {
+    color: var(--else-text-color-50);
+    font-size: var(--font-size-1);
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow-x: hidden;
@@ -190,6 +228,10 @@
     display: flex;
     border-radius: 50%;
     background-color: var(--block-color);
+}
+
+.user-trophy-info.personal a:hover {
+    opacity: 100%;
 }
 
 .user-trophy-info a:hover img {
@@ -325,5 +367,4 @@
     }
 }
 
-@media (max-width: 720px) {
-}
+@media (max-width: 720px) {}
