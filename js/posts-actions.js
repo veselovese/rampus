@@ -50,6 +50,8 @@ async function addPost(e) {
             document.getElementById('textarea-post_label').style.display = 'block';
             document.getElementById('add-image-button').classList.remove('mode__has-image');
 
+            hiddenInput.value = '';
+
             const previewDiv = document.querySelector('.current-post-images-div');
             if (previewDiv) {
                 previewDiv.classList.remove('image-uploaded');

@@ -17,8 +17,8 @@ if (isset($_SESSION['user'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-    <link rel="stylesheet" href="css/main.css?v=310">
-    <link rel="stylesheet" href="css/people.css?v=310">
+    <link rel="stylesheet" href="css/main.css?v=311">
+    <link rel="stylesheet" href="css/people.css?v=311">
     <title>Заявки в друзья в Рампус</title>
     <link rel="apple-touch-icon" sizes="57x57" href="favicons/apple-icon-57x57.png">
     <link rel="apple-touch-icon" sizes="60x60" href="favicons/apple-icon-60x60.png">
@@ -122,9 +122,9 @@ if (isset($_SESSION['user'])) {
 <?php require_once('components/footer.php');
         } ?>
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-<script src="js/main.js?v=310"></script>
-<script src="js/people.js?v=310"></script>
-<script src="js/friends.js?v=310"></script>
+<script src="js/main.js?v=311"></script>
+<script src="js/people.js?v=311"></script>
+<script src="js/friends.js?v=311"></script>
 </body>
 
 </html>

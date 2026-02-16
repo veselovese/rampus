@@ -452,7 +452,7 @@
 
 #textarea-post {
     width: 100%;
-    min-height: calc(4rem);
+    min-height: calc(3.4rem + 0.39rem*2);
     max-height: 20rem;
     outline: none;
     background-color: var(--block-color);
@@ -689,6 +689,7 @@
 .wall__user-info .name-and-date {
     display: flex;
     flex-direction: column;
+    align-items: flex-start;
     gap: 0.39rem;
 }
 
@@ -1641,6 +1642,42 @@ div.for-friends svg {
 
     .wall__user-posts:has(.textarea-comment:focus)~.fixed-div-for-bottom .wall__new-post {
         animation: 0.3s shadingInput ease-out forwards;
+    }
+
+    .postarea-buttons {
+        position: absolute;
+        padding: 0;
+        left: 0.39rem;
+        bottom: 0.39rem;
+        ;
+    }
+
+    .post-mode__div {
+        display: none;
+    }
+
+    .post-image-icon span {
+        display: none;
+    }
+
+    #textarea-post {
+        padding-left: calc(0.39rem + 3.9rem + 0.39rem);
+        padding-right: calc(0.39rem + 3.9rem + 0.39rem);
+    }
+
+    #textarea-post_label {
+        left: calc(0.39rem + 3.9rem + 0.39rem);
+    }
+
+    .wall__new-post #textarea-post_sumbit {
+        right: 0.39rem;
+        bottom: 0.39rem;
+    }
+
+    .postarea-buttons .button-notification {
+        min-width: max-content;
+        right: auto;
+        top: -1.6rem;
     }
 }
 

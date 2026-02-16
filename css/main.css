@@ -1176,6 +1176,7 @@ input.auth-and-reg::placeholder {
 .image-in-post-div {
     position: relative;
     display: flex;
+    min-height: 0;
 }
 
 .image-in-post {
@@ -1263,8 +1264,8 @@ input.auth-and-reg::placeholder {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 0.625rem;
-    padding: 0.625rem 0;
+    gap: 0.39rem;
+    padding: 0.39rem 0;
     transition: 0.2s;
     position: relative;
 }
@@ -1287,10 +1288,10 @@ input.auth-and-reg::placeholder {
 }
 
 .menu__link-profile .menu-avatar {
-    min-height: calc(6.155rem);
-    min-width: calc(6.155rem);
-    max-width: calc(6.155rem);
-    max-height: calc(6.155rem);
+    min-height: calc(4.67rem + 0.39rem*2);
+    min-width: calc(4.67rem + 0.39rem*2);
+    max-width: calc(4.67rem + 0.39rem*2);
+    max-height: calc(4.67rem + 0.39rem*2);
     object-fit: cover;
     border-radius: 50%;
     border: 0.39rem solid var(--block-color);
