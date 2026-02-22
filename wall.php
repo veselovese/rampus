@@ -191,6 +191,7 @@ if (isset($_SESSION['user'])) {
         } ?>
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script src="js/main.js?v=311"></script>
+<script src="js/copy-links.js?v=311"></script>
 <script src="js/wall.js?v=311"></script>
 <script src="js/posts-actions.js?v=311"></script>
 <script src="js/comments-actions.js?v=311"></script>

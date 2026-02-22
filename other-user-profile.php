@@ -450,6 +450,7 @@ $result_other_user_personal_trophies_list_mobile = $connect->query($sql_other_ot
         } ?>
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script src="../js/main.js?v=311"></script>
+<script src="../js/copy-links.js?v=311"></script>
 <script src="../js/profile.js?v=311"></script>
 <script src="../js/otheruserprofile.js?v=311"></script>
 <script src="../js/friends.js?v=311"></script>

@@ -1187,6 +1187,7 @@ input.auth-and-reg::placeholder {
     z-index: 1;
     top: 0;
     left: 0;
+    cursor: pointer;
 }
 
 .images-in-post-div.more-images .image-in-post {
@@ -1452,6 +1453,138 @@ input.auth-and-reg::placeholder {
     display: flex;
     flex-direction: column;
     gap: 0.39rem;
+}
+
+.image-in-post-modal {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    z-index: 10000;
+    top: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.image-in-post-modal-img-div {
+    position: relative;
+    display: flex;
+    align-items: end;
+    justify-content: center;
+    width: calc(100vw - 10rem);
+    height: calc(100vh - 5.2rem);
+}
+
+.image-in-post-modal-img {
+    display: block;
+    object-fit: contain;
+    width: calc(100% - 4rem*2);
+    height: calc(100% - 4rem);
+    margin: 0;
+}
+
+.post-image-close {
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 3.4rem;
+    min-height: 3.4rem;
+    max-width: 3.4rem;
+    position: absolute;
+    right: 0;
+    top: 0;
+    background-color: transparent;
+    cursor: pointer;
+    border-radius: 1rem;
+    border: none;
+    transition: 0.2s;
+}
+
+.post-image-close:hover {
+    background-color: var(--like-button-accent-color);
+}
+
+.post-image-close svg {
+    min-width: 11px;
+    min-height: 11px;
+    max-width: 11px;
+    max-height: 11px;
+    transition: 0.2s;
+    fill: var(--else-text-color-50);
+}
+
+.post-image-close:hover svg {
+    fill: var(--error-accent-color);
+}
+
+.modal-nav-btn {
+    padding: 0;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 3.4rem;
+    height: 3.4rem;
+    background: transparent;
+    border: none;
+    border-radius: 1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--block-color);
+    transition: 0.2s;
+    z-index: 20;
+}
+
+.modal-nav-btn:hover {
+    background: var(--block-accent-color-06);
+    color: var(--else-text-color-50);
+}
+
+.modal-prev {
+    left: 0;
+}
+
+.modal-next {
+    right: 0;
+}
+
+.modal-nav-btn::before,
+.modal-nav-btn::after {
+    content: '';
+    position: absolute;
+    width: 0.8rem;
+    height: 0.8rem;
+    border-top: 0.2rem solid var(--else-text-color-50);
+    border-right: 0.2rem solid var(--else-text-color-50);
+}
+
+.modal-nav-btn.hide {
+    display: none;
+}
+
+.modal-prev::before {
+    transform: rotate(-135deg);
+    margin-left: 0.5rem;
+}
+
+.modal-prev::after {
+    display: none;
+}
+
+.modal-next::before {
+    transform: rotate(45deg);
+    margin-right: 0.5rem;
+}
+
+.modal-next::after {
+    display: none;
+}
+
+.modal-nav-btn:focus {
+    outline: none;
 }
 
 @media (min-width: 1900px) {
