@@ -171,6 +171,44 @@ $(document).ready(function () {
         })
     })
 
+        $('.wall__user-posts').on('click', '.unliked-comment', function () {
+        const commentId = $(this).attr('id');
+        $post = $(this);
+        $.ajax({
+            url: 'wall',
+            type: 'post',
+            data: {
+                'liked-comment': 1,
+                'comment-id': commentId
+            },
+            success: function (response) {
+                $post.find('.like-counter').text(response);
+                $post.siblings().find('.like-counter').text(response);
+                $post.addClass('hide');
+                $post.siblings('.comment_like-button').removeClass('hide');
+            }
+        })
+    })
+
+    $('.wall__user-posts').on('click', '.liked-comment', function () {
+        const commentId = $(this).attr('id');
+        $post = $(this);
+        $.ajax({
+            url: 'wall',
+            type: 'post',
+            data: {
+                'unliked-comment': 1,
+                'comment-id': commentId
+            },
+            success: function (response) {
+                $post.find('.like-counter').text(response);
+                $post.siblings().find('.like-counter').text(response);
+                $post.addClass('hide');
+                $post.siblings('.comment_like-button').removeClass('hide');
+            }
+        })
+    })
+
     $('#wall-filter-main').click(() => {
         filter = 'main';
         renderPosts(filter, search, true);

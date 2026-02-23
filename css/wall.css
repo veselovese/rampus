@@ -858,43 +858,40 @@ div.for-friends svg {
     display: none;
 }
 
-.wall__comments .other-users .user-comment:hover .date,
-.wall__comments .other-users .user-comment:hover .delete-comment {
+.wall__comments .other-users .user-comment:hover .date {
     opacity: 1;
 }
 
-.wall__comments .other-users .delete-comment {
-    opacity: 0;
-    margin-left: auto;
+.comment-buttons {
+    margin-top: 0.125rem;
+}
+
+.wall__comments .other-users .delete-comment,
+.wall__comments .other-users .reply-to-comment {
     display: flex;
     justify-content: center;
     align-items: center;
-    max-width: 28px;
-    max-height: 28px;
-    min-width: 28px;
-    min-height: 28px;
-    border-radius: 1rem;
     cursor: pointer;
     transition: 0.2s;
-    position: absolute;
-    top: calc(50% - 14px);
-    right: 0;
+    border: none;
+    background-color: transparent;
+    font-size: var(--font-size-1);
+    padding: 0;
+    font-weight: 600;
+    color: var(--else-text-color-50);
 }
 
-.wall__comments .other-users .delete-comment svg {
-    fill: var(--else-text-color-50);
-    margin: 0;
-    width: 10px;
-    height: 10px;
-    transition: 0.2s;
+.wall__comments .other-users .delete-comment {
+    color: var(--error-accent-color);
+    opacity: 50%;
 }
 
 .wall__comments .other-users .delete-comment:hover {
-    background-color: var(--like-button-accent-color);
+    opacity: 40%;
 }
 
-.wall__comments .other-users .delete-comment:hover svg {
-    fill: var(--error-accent-color);
+.wall__comments .other-users .reply-to-comment:hover {
+    opacity: 80%;
 }
 
 .user-comment .comment-div {
@@ -943,7 +940,7 @@ div.for-friends svg {
 }
 
 .comments-buttons {
-    margin-top: 2.1rem;
+    margin-top: 1.1rem;
     display: flex;
     align-items: center;
     gap: 0.39rem;
@@ -1574,12 +1571,11 @@ div.for-friends svg {
         display: block;
     }
 
-    .wall__comments .other-users .user-comment .date {
+    /* .wall__comments .other-users .user-comment .date {
         display: none
-    }
+    } */
 
-    .wall__comments .other-users .user-comment .date,
-    .wall__comments .other-users .user-comment .delete-comment {
+    .wall__comments .other-users .user-comment .date {
         opacity: 1;
     }
 
@@ -1649,6 +1645,11 @@ div.for-friends svg {
         right: auto;
         top: -1.6rem;
     }
+
+    .wall__comments .other-users .delete-comment,
+    .wall__comments .other-users .reply-to-comment {
+        font-size: var(--font-size-0);
+    }
 }
 
 @media (max-width: 720px) {
@@ -1670,7 +1671,7 @@ div.for-friends svg {
     }
 
     .wall__comments .other-users .user-comment {
-        gap: 1rem;
+        gap: 0.625rem;
     }
 
     .user-post .first-and-second-names.rampus img,

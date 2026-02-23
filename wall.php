@@ -5,10 +5,11 @@ if (isset($_SESSION['user'])) {
     require_once('back-files/connect.php');
     require('back-files/like-or-dislike.php');
     require('back-files/repost-or-unrepost.php');
+    require('back-files/like-or-dislike_comments.php');
+
     require('back-files/find-user-position-in-top.php');
     require('back-files/get-user-friends.php');
     require_once('back-files/get-user-friends-id.php');
-
 
     $current_user_id = $_SESSION['user']['id'];
     $unread_main_posts = $_SESSION['user']['unread_main_posts'];

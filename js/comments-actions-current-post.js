@@ -1,3 +1,134 @@
+$(document).ready(function () {
+    $('.wall__user-posts.current-post').on('click', '.unliked', function () {
+        const postId = $(this).attr('id');
+        $post = $(this);
+        $.ajax({
+            url: '../wall',
+            type: 'post',
+            data: {
+                'liked': 1,
+                'postId': postId
+            },
+            success: function (response) {
+                $post.find('.like-counter').text(response);
+                $post.siblings().find('.like-counter').text(response);
+                $post.addClass('hide');
+                $post.siblings('.like-button').removeClass('hide');
+            }
+        })
+    })
+
+    $('.wall__user-posts.current-post').on('click', '.liked', function () {
+        const postId = $(this).attr('id');
+        $post = $(this);
+        $.ajax({
+            url: '../wall',
+            type: 'post',
+            data: {
+                'unliked': 1,
+                'postId': postId
+            },
+            success: function (response) {
+                $post.find('.like-counter').text(response);
+                $post.siblings().find('.like-counter').text(response);
+                $post.addClass('hide');
+                $post.siblings('.like-button').removeClass('hide');
+            }
+        })
+    })
+
+    $('.wall__user-posts.current-post').on('click', '.unreposted', function () {
+        const postId = $(this).attr('id').split('-')[1];
+        $post = $(this);
+        $.ajax({
+            url: '../wall',
+            type: 'post',
+            data: {
+                'reposted': 1,
+                'postId': postId
+            },
+            success: function (response) {
+                $post.find('.repost-counter').text(response);
+                $post.siblings().find('.repost-counter').text(response);
+                $post.addClass('hide');
+                $post.siblings('.repost-button').removeClass('hide');
+            }
+        })
+    })
+
+    $('.wall__user-posts.current-post').on('click', '.reposted', function () {
+        const postId = $(this).attr('id').split('-')[1];
+        $post = $(this);
+        $.ajax({
+            url: '../wall',
+            type: 'post',
+            data: {
+                'unreposted': 1,
+                'postId': postId
+            },
+            success: function (response) {
+                $post.find('.repost-counter').text(response);
+                $post.siblings().find('.repost-counter').text(response);
+                $post.addClass('hide');
+                $post.siblings('.repost-button').removeClass('hide');
+            }
+        })
+    })
+
+    $('.wall__user-posts.current-post').on('click', '.delete-post', function () {
+        const postId = $(this).attr('id');
+        $deletePost = $(this);
+        $.ajax({
+            url: '../back-files/delete-post',
+            type: 'post',
+            data: {
+                'post_id': postId,
+            },
+            success: function (response) {
+                window.location = '../wall'
+            }
+        })
+    })
+
+    $('.wall__user-posts.current-post').on('click', '.unliked-comment', function () {
+        const commentId = $(this).attr('id');
+        $post = $(this);
+        $.ajax({
+            url: '../wall',
+            type: 'post',
+            data: {
+                'liked-comment': 1,
+                'comment-id': commentId
+            },
+            success: function (response) {
+                $post.find('.like-counter').text(response);
+                $post.siblings().find('.like-counter').text(response);
+                $post.addClass('hide');
+                $post.siblings('.comment_like-button').removeClass('hide');
+            }
+        })
+    })
+
+    $('.wall__user-posts.current-post').on('click', '.liked-comment', function () {
+        const commentId = $(this).attr('id');
+        $post = $(this);
+        $.ajax({
+            url: '../wall',
+            type: 'post',
+            data: {
+                'unliked-comment': 1,
+                'comment-id': commentId
+            },
+            success: function (response) {
+                $post.find('.like-counter').text(response);
+                $post.siblings().find('.like-counter').text(response);
+                $post.addClass('hide');
+                $post.siblings('.comment_like-button').removeClass('hide');
+            }
+        })
+    })
+})
+
 async function addComment(e) {
     e.preventDefault();
 

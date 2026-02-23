@@ -1612,6 +1612,66 @@ input.auth-and-reg::placeholder {
     font-size: var(--font-size-2);
 }
 
+.comment_like-button {
+    background-color: transparent;
+    border: none;
+    display: -webkit-flex;
+    display: flex;
+    flex-direction: column;
+    -webkit-align-items: center;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    color: var(--else-text-color-50);
+    gap: 0.125rem;
+    max-width: max-content;
+    transition: 0.2s;
+    position: absolute;
+    margin-left: auto;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.comment_like-button:hover svg {
+    opacity: 80%;
+}
+
+.comment_like-button:active {
+    transform: scale(95%) translateY(-50%);
+}
+
+.comment_like-button span {
+    font-size: var(--font-size-1);
+    font-weight: 600;
+}
+
+.comment_like-button.liked-comment svg {
+    animation: like-post 1s;
+}
+
+.comment_like-button svg {
+    max-width: 19px;
+    max-height: 19px;
+    stroke: var(--else-text-color-50);
+    fill: transparent;
+    stroke-width: 2px;
+    transition: 0.2s;
+}
+
+.comment_like-button.hide {
+    display: none;
+}
+
+.liked-comment {
+    color: var(--error-accent-color);
+}
+
+.liked-comment svg {
+    fill: var(--error-accent-color);
+    stroke: transparent;
+}
+
 @media (min-width: 1900px) {
     .wrapper {
         max-width: 188rem;
@@ -1740,8 +1800,12 @@ input.auth-and-reg::placeholder {
         font-size: var(--font-size-1);
     }
 
-    .wall__comments .other-users .user-comment .date.mobile {
+    .wall__comments .other-users .user-comment .date {
         display: block;
+        font-size: var(--font-size-0);
+    }
+
+    .comment_like-button span {
         font-size: var(--font-size-0);
     }
 }
