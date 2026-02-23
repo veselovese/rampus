@@ -1470,7 +1470,7 @@ input.auth-and-reg::placeholder {
 .image-in-post-modal-img-div {
     position: relative;
     display: flex;
-    align-items: end;
+    align-items: center;
     justify-content: center;
     width: calc(100vw - 10rem);
     height: calc(100vh - 5.2rem);
@@ -1480,7 +1480,7 @@ input.auth-and-reg::placeholder {
     display: block;
     object-fit: contain;
     width: calc(100% - 4rem*2);
-    height: calc(100% - 4rem);
+    height: 100%;
     margin: 0;
 }
 

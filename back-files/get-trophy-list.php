@@ -3,12 +3,13 @@
 function getTrophyList()
 {
     require('connect.php');
-    return $connect->query("SELECT trophies.id, trophies.name, trophies.image, DATE_FORMAT(trophies.get_date, '%e %M') AS get_date, trophies.stat_number, trophies.description, trophies.short_description, trophies.link,
+    return $connect->query("SELECT trophies.id, trophies.name, trophies.image, DATE_FORMAT(trophies.get_date, '%e %M') AS get_date, trophies.stat_number, trophies.description, trophies.short_description, trophies.notice, trophies.link,
                                         uto.first_name, uto.avatar, uto.username, uto.second_name, uto.id AS user_id, uto.blossom_level,
                                         ufrom.first_name AS from_user_first_name, ufrom.avatar AS from_user_avatar, ufrom.username AS from_user_username, ufrom.second_name AS from_user_second_name, ufrom.id AS from_user_id
                                         FROM trophies
-                                        JOIN users uto ON trophies.user_id_to = uto.id
-                                        JOIN users ufrom ON trophies.user_id_from = ufrom.id");
+                                        LEFT JOIN users uto ON trophies.user_id_to = uto.id
+                                        LEFT JOIN users ufrom ON trophies.user_id_from = ufrom.id
+                                        WHERE trophies.id < 900");
 }
 
 function getPersonalTrophyList()

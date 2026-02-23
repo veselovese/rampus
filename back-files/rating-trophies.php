@@ -27,6 +27,7 @@ $the_likest_post = $connect->query("SELECT p.id AS post_id,
                                     JOIN users u ON p.user_id = u.id 
                                     WHERE lop.user_id != p.user_id 
                                       AND u.unrated_status = 0 
+                                      AND p.for_friends = 0
                                     GROUP BY p.id, p.user_id
                                     ORDER BY likes_counter DESC, 
                                              last_like_date ASC 
@@ -65,7 +66,8 @@ $more_likes_on_posts = $connect->query("SELECT p.user_id AS user_id,
                                         JOIN likes_on_posts lop ON lop.post_id = p.id 
                                         JOIN users u ON p.user_id = u.id 
                                         WHERE lop.user_id != p.user_id 
-                                          AND u.unrated_status = 0
+                                          AND u.unrated_status = 0 
+                                          AND p.for_friends = 0
                                         GROUP BY p.user_id 
                                         ORDER BY likes_counter DESC, 
                                                  last_like_date ASC 
@@ -96,15 +98,17 @@ if ($more_likes_on_posts->num_rows > 0) {
 }
 
 # Всех больше поставил лайков другим на посты
-$max_likes_to_other_users = $connect->query("SELECT lop.user_id AS user_id,
-                                                   COUNT(DISTINCT lop.id) AS likes_counter,
-                                                   MAX(lop.like_date) AS last_like_date 
-                                            FROM likes_on_posts lop 
-                                            JOIN posts p ON lop.post_id = p.id 
-                                            JOIN users u ON lop.user_id = u.id 
-                                            WHERE p.user_id != lop.user_id 
-                                              AND u.unrated_status = 0
-                                            GROUP BY lop.user_id 
+$max_likes_to_other_users = $connect->query("SELECT loc.user_id AS user_id,
+                                                   COUNT(DISTINCT loc.id) AS likes_counter,
+                                                   MAX(loc.like_date) AS last_like_date 
+                                            FROM likes_on_comments loc 
+											JOIN comments c ON loc.comment_id = c.id 
+                                            JOIN posts p ON c.post_id = p.id 
+                                            JOIN users u ON loc.user_id = u.id 
+                                            WHERE p.user_id != loc.user_id 
+                                              AND u.unrated_status = 0 
+                                              AND p.for_friends = 0
+                                            GROUP BY loc.user_id 
                                             ORDER BY likes_counter DESC, 
                                                      last_like_date ASC 
                                             LIMIT 1");
@@ -143,6 +147,7 @@ $the_commentest_post = $connect->query("SELECT p.id AS post_id,
                                     JOIN users u ON p.user_id = u.id 
                                     WHERE c.user_id != p.user_id 
                                       AND u.unrated_status = 0
+                                      AND p.for_friends = 0
                                     GROUP BY p.id, p.user_id
                                     ORDER BY comments_counter DESC,
                                              last_comment_date ASC
@@ -180,7 +185,7 @@ $more_comments_on_posts = $connect->query("SELECT p.user_id AS user_id,
                         FROM posts p
                         JOIN comments c ON c.post_id = p.id
                         JOIN users u ON p.user_id = u.id 
-                        WHERE c.user_id != p.user_id AND u.unrated_status = 0
+                        WHERE c.user_id != p.user_id AND u.unrated_status = 0 AND p.for_friends = 0
                         GROUP BY p.user_id
                         ORDER BY comments_counter DESC,
                                  last_comment_date ASC
@@ -219,6 +224,7 @@ $max_comments_to_other_users = $connect->query("SELECT c.user_id AS user_id,
                         JOIN users u ON c.user_id = u.id 
                         WHERE p.user_id != c.user_id
                           AND u.unrated_status = 0
+                          AND p.for_friends = 0
                         GROUP BY c.user_id
                         ORDER BY comments_counter DESC,
                                  last_comment_date ASC
@@ -257,7 +263,7 @@ $the_repostest_post = $connect->query("SELECT p.id AS post_id,
                                     FROM reposts r
                                     JOIN posts p ON p.id = r.post_id
                                     JOIN users u ON p.user_id = u.id 
-                                    WHERE r.user_id != p.user_id  AND u.unrated_status = 0 
+                                    WHERE r.user_id != p.user_id  AND u.unrated_status = 0 AND p.for_friends = 0
                                     GROUP BY p.id, p.user_id
                                     ORDER BY reposts_counter DESC,
                                              last_repost_date ASC
@@ -295,7 +301,7 @@ $more_reposts_on_posts = $connect->query("SELECT p.user_id AS user_id,
                         FROM posts p
                         JOIN reposts r ON r.post_id = p.id
                         JOIN users u ON p.user_id = u.id
-                        WHERE r.user_id != p.user_id AND u.unrated_status = 0
+                        WHERE r.user_id != p.user_id AND u.unrated_status = 0 AND p.for_friends = 0
                         GROUP BY p.user_id
                         ORDER BY reposts_counter DESC,
                                  last_repost_date ASC
@@ -332,7 +338,7 @@ $max_reposts_to_other_users = $connect->query("SELECT r.user_id AS user_id,
                         FROM reposts r
                         JOIN posts p ON r.post_id = p.id
                         JOIN users u ON r.user_id = u.id
-                        WHERE r.user_id != p.user_id  AND u.unrated_status = 0
+                        WHERE r.user_id != p.user_id  AND u.unrated_status = 0 AND p.for_friends = 0
                         GROUP BY r.user_id
                         ORDER BY reposts_counter DESC,
                                  last_repost_date ASC
@@ -362,8 +368,128 @@ if ($max_reposts_to_other_users->num_rows > 0) {
     }
 }
 
+# Самый популярный комментарий по лайкам
+$the_likest_comment = $connect->query("SELECT c.id AS comment_id,
+                                           c.user_id AS user_id,
+                                           p.id AS post_id,
+                                           COUNT(DISTINCT loc.user_id) AS comment_likes_counter,
+                                           MAX(loc.like_date) AS last_comment_like_date
+                                    FROM likes_on_comments loc
+                                    JOIN comments c ON c.id = loc.comment_id
+                                    JOIN users u ON c.user_id = u.id 
+                                    JOIN posts p ON c.post_id = p.id
+                                    WHERE loc.user_id != c.user_id AND u.unrated_status = 0 AND p.for_friends = 0
+                                    GROUP BY c.id, c.user_id
+                                    ORDER BY comment_likes_counter DESC,
+                                             last_comment_like_date ASC
+                                    LIMIT 1");
+if ($the_likest_comment->num_rows > 0) {
+    $row = $the_likest_comment->fetch_assoc();
+    $user_id_to = (int)$row['user_id'];
+    $the_likest_comment_id = (int)$row['comment_id'];
+    $the_likest_comment_post_id = (int)$row['post_id'];
+    $the_likest_comment_likes = (int)$row['comment_likes_counter'];
+    $last_comment_like_date = $connect->real_escape_string($row['last_comment_like_date']);
+
+    $trophy_the_likest_comment = $connect->query("SELECT user_id_to, user_id_from FROM trophies WHERE id = 13");
+    if ($trophy_the_likest_comment->num_rows == 1) {
+        $row = $trophy_the_likest_comment->fetch_assoc();
+        $check_user_id_to = isset($row['user_id_to']) && $row['user_id_to'] !== '' ? (int)$row['user_id_to'] : null;
+        $check_user_id_from = isset($row['user_id_from']) && $row['user_id_from'] !== '' ? (int)$row['user_id_from'] : null;
+
+        if ($check_user_id_to != $user_id_to) {
+            $user_id_from = $check_user_id_to === null ? "NULL" : $check_user_id_to;
+            $connect->query("UPDATE trophies SET user_id_to = $user_id_to, user_id_from = $user_id_from, link = 'post/$the_likest_comment_post_id', stat_number = $the_likest_comment_likes, get_date = '$last_comment_like_date' WHERE id = 13");
+
+            blossoming('grab-trophy', $user_id_to, $connect);
+            if ($user_id_from !== "NULL") blossoming('lose-trophy', $user_id_from, $connect);
+        } else {
+            $user_id_from = $check_user_id_from === null ? "NULL" : $check_user_id_from;
+            $connect->query("UPDATE trophies SET user_id_to = $user_id_to, user_id_from = $user_id_from, link = 'post/$the_likest_comment_post_id', stat_number = $the_likest_comment_likes WHERE id = 13");
+        }
+    }
+}
+
+# Всех больше лайков на своих комментариях
+$more_likes_on_own_comments = $connect->query("SELECT c.user_id AS user_id,
+                                               COUNT(DISTINCT loc.id) AS likes_counter,
+                                               MAX(loc.like_date) AS last_like_date 
+                                        FROM comments c 
+                                        JOIN likes_on_comments loc ON loc.comment_id = c.id 
+                                        JOIN users u ON c.user_id = u.id
+                                        JOIN posts p ON c.post_id = p.id
+                                        WHERE loc.user_id != c.user_id 
+                                          AND u.unrated_status = 0 
+                                          AND p.for_friends = 0
+                                        GROUP BY c.user_id 
+                                        ORDER BY likes_counter DESC, 
+                                                 last_like_date ASC 
+                                        LIMIT 1");
+if ($more_likes_on_own_comments->num_rows > 0) {
+    $row = $more_likes_on_own_comments->fetch_assoc();
+    $user_id_to = (int)$row['user_id'];
+    $likes_counter = (int)$row['likes_counter'];
+    $last_like_date = $connect->real_escape_string($row['last_like_date']);
+
+    $trophy_likes_on_own_comments = $connect->query("SELECT user_id_to, user_id_from FROM trophies WHERE id = 14");
+    if ($trophy_likes_on_own_comments->num_rows == 1) {
+        $row = $trophy_likes_on_own_comments->fetch_assoc();
+        $check_user_id_to = isset($row['user_id_to']) && $row['user_id_to'] !== '' ? (int)$row['user_id_to'] : null;
+        $check_user_id_from = isset($row['user_id_from']) && $row['user_id_from'] !== '' ? (int)$row['user_id_from'] : null;
+
+        if ($check_user_id_to != $user_id_to) {
+            $user_id_from = $check_user_id_to === null ? "NULL" : $check_user_id_to;
+            $connect->query("UPDATE trophies SET user_id_to = $user_id_to, user_id_from = $user_id_from, stat_number = $likes_counter, get_date = '$last_like_date' WHERE id = 14");
+
+            blossoming('grab-trophy', $user_id_to, $connect);
+            if ($user_id_from !== "NULL") blossoming('lose-trophy', $user_id_from, $connect);
+        } else {
+            $user_id_from = $check_user_id_from === null ? "NULL" : $check_user_id_from;
+            $connect->query("UPDATE trophies SET user_id_to = $user_id_to, user_id_from = $user_id_from, stat_number = $likes_counter WHERE id = 14");
+        }
+    }
+}
+
+# Всех больше поставил лайков чужим комментариям
+$more_likes_to_others_comments = $connect->query("SELECT loc.user_id AS user_id,
+                                           COUNT(DISTINCT loc.id) AS likes_counter,
+                                           MAX(loc.like_date) AS last_like_date
+                                    FROM likes_on_comments loc
+                                    JOIN comments c ON c.id = loc.comment_id
+                                    JOIN users u ON loc.user_id = u.id
+                                    JOIN posts p ON c.post_id = p.id
+                                    WHERE loc.user_id != c.user_id AND u.unrated_status = 0 AND p.for_friends = 0
+                                    GROUP BY loc.user_id
+                                    ORDER BY likes_counter DESC,
+                                             last_like_date ASC
+                                    LIMIT 1");
+if ($more_likes_to_others_comments->num_rows > 0) {
+    $row = $more_likes_to_others_comments->fetch_assoc();
+    $user_id_to = (int)$row['user_id'];
+    $likes_counter = (int)$row['likes_counter'];
+    $last_like_date = $connect->real_escape_string($row['last_like_date']);
+
+    $trophy_likes_to_others_comments = $connect->query("SELECT user_id_to, user_id_from FROM trophies WHERE id = 15");
+    if ($trophy_likes_to_others_comments->num_rows == 1) {
+        $row = $trophy_likes_to_others_comments->fetch_assoc();
+        $check_user_id_to = isset($row['user_id_to']) && $row['user_id_to'] !== '' ? (int)$row['user_id_to'] : null;
+        $check_user_id_from = isset($row['user_id_from']) && $row['user_id_from'] !== '' ? (int)$row['user_id_from'] : null;
+
+        if ($check_user_id_to != $user_id_to) {
+            $user_id_from = $check_user_id_to === null ? "NULL" : $check_user_id_to;
+            $connect->query("UPDATE trophies SET user_id_to = $user_id_to, user_id_from = $user_id_from, stat_number = $likes_counter, get_date = '$last_like_date' WHERE id = 15");
+
+            blossoming('grab-trophy', $user_id_to, $connect);
+            if ($user_id_from !== "NULL") blossoming('lose-trophy', $user_id_from, $connect);
+        } else {
+            $user_id_from = $check_user_id_from === null ? "NULL" : $check_user_id_from;
+            $connect->query("UPDATE trophies SET user_id_to = $user_id_to, user_id_from = $user_id_from, stat_number = $likes_counter WHERE id = 15");
+        }
+    }
+}
+
 # Самое большое количество постов
-$more_posts_from_one_user = $connect->query("SELECT u.id AS user_id, COUNT(p.id) AS posts_counter, MAX(p.content_date) AS last_content_date FROM posts p JOIN users u ON p.user_id = u.id WHERE u.unrated_status = 0 GROUP BY u.id ORDER BY posts_counter DESC, last_content_date ASC LIMIT 1");
+$more_posts_from_one_user = $connect->query("SELECT u.id AS user_id, COUNT(p.id) AS posts_counter, MAX(p.content_date) AS last_content_date FROM posts p JOIN users u ON p.user_id = u.id WHERE u.unrated_status = 0 AND p.for_friends = 0 GROUP BY u.id ORDER BY posts_counter DESC, last_content_date ASC LIMIT 1");
 
 if ($more_posts_from_one_user->num_rows > 0) {
     $row = $more_posts_from_one_user->fetch_assoc();
@@ -371,7 +497,7 @@ if ($more_posts_from_one_user->num_rows > 0) {
     $max_posts_from_one_user = $row['posts_counter'];
     $last_content_date = $row['last_content_date'];
 
-    $trophy_posts_from_one_user = $connect->query("SELECT user_id_to, user_id_from FROM trophies WHERE id = 13");
+    $trophy_posts_from_one_user = $connect->query("SELECT user_id_to, user_id_from FROM trophies WHERE id = 16");
     if ($trophy_posts_from_one_user->num_rows == 1) {
         $row = $trophy_posts_from_one_user->fetch_assoc();
         $check_user_id_to = $row['user_id_to'];
@@ -379,13 +505,13 @@ if ($more_posts_from_one_user->num_rows > 0) {
 
         if ($check_user_id_to != $user_id_to) {
             $user_id_from = $check_user_id_to;
-            $connect->query("UPDATE trophies SET user_id_to = $user_id_to, user_id_from = $user_id_from, stat_number = $max_posts_from_one_user, get_date = '$last_content_date' WHERE id = 13");
+            $connect->query("UPDATE trophies SET user_id_to = $user_id_to, user_id_from = $user_id_from, stat_number = $max_posts_from_one_user, get_date = '$last_content_date' WHERE id = 16");
 
             blossoming('grab-trophy', $user_id_to, $connect);
             blossoming('lose-trophy', $user_id_from, $connect);
         } else {
             $user_id_from = $check_user_id_from;
-            $connect->query("UPDATE trophies SET user_id_to = $user_id_to, user_id_from = $user_id_from, stat_number = $max_posts_from_one_user WHERE id = 13");
+            $connect->query("UPDATE trophies SET user_id_to = $user_id_to, user_id_from = $user_id_from, stat_number = $max_posts_from_one_user WHERE id = 16");
         }
     }
 }
@@ -398,7 +524,7 @@ if ($more_friends_in_one_user->num_rows > 0) {
     $max_friends_in_one_user = $row['friends_counter'];
     $last_friend_date = $row['last_friend_date'];
 
-    $trophy_friends_in_one_user = $connect->query("SELECT user_id_to, user_id_from FROM trophies WHERE id = 14");
+    $trophy_friends_in_one_user = $connect->query("SELECT user_id_to, user_id_from FROM trophies WHERE id = 17");
     if ($trophy_friends_in_one_user->num_rows == 1) {
         $row = $trophy_friends_in_one_user->fetch_assoc();
         $check_user_id_to = $row['user_id_to'];
@@ -406,13 +532,13 @@ if ($more_friends_in_one_user->num_rows > 0) {
 
         if ($check_user_id_to != $user_id_to) {
             $user_id_from = $check_user_id_to;
-            $connect->query("UPDATE trophies SET user_id_to = $user_id_to, user_id_from = $user_id_from, stat_number = $max_friends_in_one_user, get_date = '$last_friend_date' WHERE id = 14");
+            $connect->query("UPDATE trophies SET user_id_to = $user_id_to, user_id_from = $user_id_from, stat_number = $max_friends_in_one_user, get_date = '$last_friend_date' WHERE id = 17");
 
             blossoming('grab-trophy', $user_id_to, $connect);
             blossoming('lose-trophy', $user_id_from, $connect);
         } else {
             $user_id_from = $check_user_id_from;
-            $connect->query("UPDATE trophies SET user_id_to = $user_id_to, user_id_from = $user_id_from, stat_number = $max_friends_in_one_user WHERE id = 14");
+            $connect->query("UPDATE trophies SET user_id_to = $user_id_to, user_id_from = $user_id_from, stat_number = $max_friends_in_one_user WHERE id = 17");
         }
     }
 }
