@@ -276,12 +276,12 @@ function openImageModal($images, startIndex) {
 
         prevBtn.on('click', function (e) {
             e.stopPropagation();
-            changeImage(modal, -1);
+            changeImage(modal, -1, nextBtn, prevBtn);
         });
 
         nextBtn.on('click', function (e) {
             e.stopPropagation();
-            changeImage(modal, 1);
+            changeImage(modal, 1, nextBtn, prevBtn);
         });
 
         $(document).on('keydown.modal', function (e) {

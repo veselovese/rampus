@@ -207,31 +207,6 @@
     pointer-events: none;
 }
 
-.user-post p {
-    word-wrap: break-word;
-    word-break: break-word;
-}
-
-.user-post p.main-text {
-    margin: 1.6rem 0 0 0;
-    line-height: 1.35;
-}
-
-.user-post p.comment-text,
-.user-post p.comment-text a {
-    font-size: var(--font-size-2);
-}
-
-.user-post p a {
-    color: var(--main-accent-color);
-    line-height: 1.5;
-    font-size: var(--font-size-3);
-}
-
-.user-post p a:hover {
-    opacity: 80%;
-}
-
 .user-post>div:first-child {
     display: flex;
     justify-content: space-between;
@@ -1603,11 +1578,6 @@ div.for-friends svg {
         display: none
     }
 
-    .wall__comments .other-users .user-comment .date.mobile {
-        display: block;
-    }
-
-
     .wall__comments .other-users .user-comment .date,
     .wall__comments .other-users .user-comment .delete-comment {
         opacity: 1;
@@ -1752,6 +1722,7 @@ div.for-friends svg {
     .wall__user-info .extra-post-info {
         flex-direction: column-reverse;
         gap: 0.39rem;
+        align-items: flex-start;
     }
 
     .wall__user-info .name-and-date.repost {
