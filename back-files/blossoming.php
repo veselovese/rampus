@@ -72,6 +72,22 @@ function blossoming($action_type, $user_id, $connect)
                 $blossom -= 0.07;
                 $connect->query("INSERT INTO blossom_notifications (action_type, user_id, blossom_change) VALUES ('$action_type', '$user_id', -7)");
                 break;
+            case 'like-comment':
+                $blossom += 0.03;
+                $connect->query("INSERT INTO blossom_notifications (action_type, user_id, blossom_change) VALUES ('$action_type', '$user_id', 3)");
+                break;
+            case 'dislike-comment':
+                $blossom -= 0.03;
+                $connect->query("INSERT INTO blossom_notifications (action_type, user_id, blossom_change) VALUES ('$action_type', '$user_id', -3)");
+                break;
+            case 'comment-is-liked-by':
+                $blossom += 0.02;
+                $connect->query("INSERT INTO blossom_notifications (action_type, user_id, blossom_change) VALUES ('$action_type', '$user_id', 2)");
+                break;
+            case 'comment-is-disliked-by':
+                $blossom -= 0.02;
+                $connect->query("INSERT INTO blossom_notifications (action_type, user_id, blossom_change) VALUES ('$action_type', '$user_id', -2)");
+                break;
             case 'grab-trophy':
                 $blossom += 0.37;
                 $connect->query("INSERT INTO blossom_notifications (action_type, user_id, blossom_change) VALUES ('$action_type', '$user_id', 37)");

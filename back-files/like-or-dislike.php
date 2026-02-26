@@ -14,11 +14,15 @@ if (isset($_POST['liked'])) {
         $connect->query("INSERT INTO likes_on_posts (post_id, user_id) VALUES ('$post_id', '$user_id')");
         $connect->query("UPDATE posts SET likes = $likes + 1 WHERE id = $post_id");
 
-        $other_id = $connect->query("SELECT user_id FROM posts WHERE id = $post_id")->fetch_assoc()['user_id'];
+        $for_friends_status = $connect->query("SELECT for_friends FROM posts WHERE id = $post_id")->fetch_assoc()['for_friends'];
 
-        if ($user_id != $other_id) {
-            blossoming('like-post', $user_id, $connect);
-            blossoming('is-liked-by', $other_id,  $connect);
+        if ($for_friends_status == 0) {
+            $other_id = $connect->query("SELECT user_id FROM posts WHERE id = $post_id")->fetch_assoc()['user_id'];
+
+            if ($user_id != $other_id) {
+                blossoming('like-post', $user_id, $connect);
+                blossoming('is-liked-by', $other_id,  $connect);
+            }
         }
 
         if ($repost_post_id && $connect->query("SELECT 1 FROM likes_on_posts WHERE post_id = $repost_post_id AND user_id = $user_id")->num_rows == 0) {
@@ -55,11 +59,15 @@ if (isset($_POST['unliked'])) {
         $connect->query("DELETE FROM likes_on_posts WHERE post_id = $post_id AND user_id = $user_id");
         $connect->query("UPDATE posts SET likes = $likes - 1 WHERE id = $post_id");
 
-        $other_id = $connect->query("SELECT user_id FROM posts WHERE id = $post_id")->fetch_assoc()['user_id'];
+        $for_friends_status = $connect->query("SELECT for_friends FROM posts WHERE id = $post_id")->fetch_assoc()['for_friends'];
 
-        if ($user_id != $other_id) {
-            blossoming('dislike-post', $user_id,  $connect);
-            blossoming('is-disliked-by', $other_id, $connect);
+        if ($for_friends_status == 0) {
+            $other_id = $connect->query("SELECT user_id FROM posts WHERE id = $post_id")->fetch_assoc()['user_id'];
+
+            if ($user_id != $other_id) {
+                blossoming('dislike-post', $user_id,  $connect);
+                blossoming('is-disliked-by', $other_id, $connect);
+            }
         }
 
         if ($repost_post_id && $connect->query("SELECT id FROM likes_on_posts WHERE post_id = $repost_post_id AND user_id = $user_id")->num_rows == 1) {

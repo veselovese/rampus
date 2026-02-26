@@ -64,24 +64,29 @@ if (!$result) {
 
 $comment_id = $connect->insert_id;
 
-$post_author_result = $connect->query("SELECT user_id FROM posts WHERE id = $post_id");
-if ($post_author_result->num_rows > 0) {
-    $post_author = $post_author_result->fetch_assoc()['user_id'];
-    
-    if ($user_id != $post_author) {
-        blossoming('is-commented-by', $post_author, $connect);
-        blossoming('has-commented', $user_id, $connect);
+$for_friends_status = $connect->query("SELECT for_friends FROM posts WHERE id = $post_id")->fetch_assoc()['for_friends'];
+
+if ($for_friends_status == 0) {
+    $post_author_result = $connect->query("SELECT user_id FROM posts WHERE id = $post_id");
+    if ($post_author_result->num_rows > 0) {
+        $post_author = $post_author_result->fetch_assoc()['user_id'];
+
+        if ($user_id != $post_author) {
+            blossoming('is-commented-by', $post_author, $connect);
+            blossoming('has-commented', $user_id, $connect);
+        }
     }
 }
 
 $comment_date = 'только что';
 
 if (!function_exists('formatCommentDate')) {
-    function formatCommentDate($date) {
+    function formatCommentDate($date)
+    {
         $timestamp = strtotime($date);
         $now = time();
         $diff = $now - $timestamp;
-        
+
         if ($diff < 60) {
             return 'только что';
         } elseif ($diff < 3600) {
@@ -97,8 +102,9 @@ if (!function_exists('formatCommentDate')) {
             return date('j.m.Y в H:i', $timestamp);
         }
     }
-    
-    function getNoun($number, $one, $two, $five) {
+
+    function getNoun($number, $one, $two, $five)
+    {
         $number = abs($number);
         $number %= 100;
         if ($number >= 5 && $number <= 20) {

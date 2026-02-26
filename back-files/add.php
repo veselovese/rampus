@@ -292,7 +292,9 @@ if (isset($_FILES['post-images']) || (isset($_POST['post']) && strlen(trim($text
     $response['message'] = 'Пост успешно добавлен';
     $response['post'] = $post_data;
 
-    blossoming('add-post', $user_id, $connect);
+    if ($for_friends == 0) {
+        blossoming('add-post', $user_id, $connect);
+    }
 
     if (($post_search != '') && isset($hashtags[0]) && ($post_search == ltrim($hashtags[0], '#'))) {
         $response['redirect'] = '../wall?search=' . $post_search;

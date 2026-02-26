@@ -5,6 +5,7 @@ require('blossoming.php');
 
 $user_id = $_SESSION['user']['id'];
 $post_id = mysqli_real_escape_string($connect, $_POST["post_id"]);
+$for_friends_status = $connect->query("SELECT for_friends FROM posts WHERE id = $post_id")->fetch_assoc()['for_friends'];
 $result_post = $connect->query("SELECT hashtag_id, repost_user_id, repost_post_id FROM posts WHERE id = $post_id AND user_id = $user_id")->fetch_assoc();
 $hashtag_id = $result_post['hashtag_id'];
 $repost_user_id = $result_post['repost_user_id'];
@@ -47,7 +48,9 @@ if ($repost_user_id) {
         }
     }
 } else {
-    blossoming('delete-post', $user_id, $connect);
+    if ($for_friends_status == 0) {
+        blossoming('delete-post', $user_id, $connect);
+    }
 }
 
 $other_users_id_comments = $connect->query("SELECT user_id FROM comments WHERE post_id = $post_id");
@@ -56,9 +59,11 @@ if ($other_users_id_comments->num_rows > 0) {
     while ($row = $other_users_id_comments->fetch_assoc()) {
         $other_id = $row['user_id'];
 
-        if ($user_id != $other_id) {
-            blossoming('delete-self-comment', $other_id, $connect);
-            blossoming('comment-deleted-under-post-by', $user_id, $connect);
+        if ($for_friends_status == 0) {
+            if ($user_id != $other_id) {
+                blossoming('delete-self-comment', $other_id, $connect);
+                blossoming('comment-deleted-under-post-by', $user_id, $connect);
+            }
         }
 
         $connect->query("DELETE FROM comments WHERE post_id = $post_id AND user_id = $other_id");
@@ -71,9 +76,11 @@ if ($other_users_id_likes->num_rows > 0) {
     while ($row = $other_users_id_likes->fetch_assoc()) {
         $other_id = $row['user_id'];
 
-        if ($user_id != $other_id) {
-            blossoming('dislike-post', $other_id, $connect);
-            blossoming('is-disliked-by', $user_id, $connect);
+        if ($for_friends_status == 0) {
+            if ($user_id != $other_id) {
+                blossoming('dislike-post', $other_id, $connect);
+                blossoming('is-disliked-by', $user_id, $connect);
+            }
         }
 
         $connect->query("DELETE FROM likes_on_posts WHERE post_id = $post_id AND user_id = $other_id");
@@ -86,9 +93,11 @@ if ($other_users_id_reposts->num_rows > 0) {
     while ($row = $other_users_id_reposts->fetch_assoc()) {
         $other_id = $row['user_id'];
 
-        if ($user_id != $other_id) {
-            blossoming('unrepost-post', $other_id, $connect);
-            blossoming('is-unreposted-by', $user_id, $connect);
+        if ($for_friends_status == 0) {
+            if ($user_id != $other_id) {
+                blossoming('unrepost-post', $other_id, $connect);
+                blossoming('is-unreposted-by', $user_id, $connect);
+            }
         }
 
         $connect->query("DELETE FROM reposts WHERE post_id = $post_id AND user_id = $other_id");

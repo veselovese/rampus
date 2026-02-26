@@ -15,10 +15,28 @@ if (isset($_SESSION['user'])) {
         $current_user_blossom_progress = $row_current_user_blossom["blossom_progress"];
     }
 
-    $sql_current_user_posts_and_likes_counter = "SELECT IF(SUM(posts.likes), SUM(posts.likes), 0) AS current_user_likes_counter, IF(SUM(posts.reposts), SUM(posts.reposts), 0) AS current_user_reposts_counter, COUNT(*) AS current_user_posts_counter
-                    FROM posts
-                    JOIN users ON posts.user_id = users.id
-                    WHERE posts.user_id = $current_user_id";
+    $sql_current_user_posts_and_likes_counter = "SELECT 
+        (
+            SELECT IFNULL(COUNT(*), 0)
+            FROM likes_on_posts l
+            JOIN posts p2 ON l.post_id = p2.id
+            WHERE p2.user_id = p.user_id
+                AND l.user_id != p.user_id
+                AND p2.for_friends = 0
+        ) AS current_user_likes_counter,
+        (
+            SELECT IFNULL(COUNT(*), 0)
+            FROM reposts r
+            JOIN posts p2 ON r.post_id = p2.id
+            WHERE p2.user_id = p.user_id
+                AND r.user_id != p.user_id
+                AND p2.for_friends = 0
+        ) AS current_user_reposts_counter,
+        COUNT(DISTINCT p.id) AS current_user_posts_counter
+    FROM posts p
+    JOIN users u ON p.user_id = u.id
+    WHERE p.user_id = $current_user_id
+        AND p.for_friends = 0";
     $result_current_user_posts_and_likes_counter = $connect->query($sql_current_user_posts_and_likes_counter);
     if ($result_current_user_posts_and_likes_counter->num_rows > 0) {
         $row_current_user_posts_and_likes_counter = $result_current_user_posts_and_likes_counter->fetch_assoc();
@@ -27,28 +45,69 @@ if (isset($_SESSION['user'])) {
         $current_user_reposts_counter = $row_current_user_posts_and_likes_counter["current_user_reposts_counter"];
     }
 
-    $sql_current_user_comments_counter = "SELECT 1
-                    FROM comments 
-                    JOIN posts ON comments.post_id = posts.id    
-                    WHERE posts.user_id = $current_user_id";
-    $current_user_comments_counter = $connect->query($sql_current_user_comments_counter)->num_rows;
+    $sql_current_user_comments_counter = "SELECT COUNT(*) AS comments_count
+    FROM comments c
+    JOIN posts p ON c.post_id = p.id
+    JOIN users u ON p.user_id = u.id
+    WHERE p.user_id = $current_user_id
+        AND c.user_id != $current_user_id
+        AND p.for_friends = 0";
+    $result = $connect->query($sql_current_user_comments_counter);
+    $current_user_comments_counter = $result->fetch_assoc()['comments_count'];
 
     $current_user_friends_counter = $result_friend->num_rows;
 
-    $sql_current_user_commented_counter = "SELECT 1
-                    FROM comments
-                    WHERE comments.user_id = $current_user_id";
-    $current_user_commented_counter = $connect->query($sql_current_user_commented_counter)->num_rows;
+    $sql_current_user_commented_counter = "SELECT COUNT(DISTINCT c.id) AS commented_count
+    FROM comments c
+    JOIN posts p ON c.post_id = p.id
+    JOIN users u ON c.user_id = u.id
+    WHERE c.user_id = $current_user_id
+        AND p.user_id != c.user_id
+        AND p.for_friends = 0";
+    $result = $connect->query($sql_current_user_commented_counter);
+    $current_user_commented_counter = $result->fetch_assoc()['commented_count'];
 
-    $sql_current_user_liked_counter = "SELECT 1
-                    FROM likes_on_posts
-                    WHERE likes_on_posts.user_id = $current_user_id";
-    $current_user_liked_counter = $connect->query($sql_current_user_liked_counter)->num_rows;
+    $sql_current_user_liked_counter = "SELECT COUNT(DISTINCT l.id) AS liked_count
+    FROM likes_on_posts l
+    JOIN posts p ON l.post_id = p.id
+    JOIN users u ON p.user_id = u.id
+    WHERE l.user_id = $current_user_id
+        AND p.user_id != $current_user_id
+        AND p.for_friends = 0";
+    $result = $connect->query($sql_current_user_liked_counter);
+    $current_user_liked_counter = $result->fetch_assoc()['liked_count'];
 
-    $sql_current_user_reposted_counter = "SELECT 1
-                    FROM reposts
-                    WHERE reposts.user_id = $current_user_id";
-    $current_user_reposted_counter = $connect->query($sql_current_user_reposted_counter)->num_rows;
+    $sql_current_user_reposted_counter = "SELECT COUNT(DISTINCT r.id) AS reposted_count
+    FROM reposts r
+    JOIN posts p ON r.post_id = p.id
+    JOIN users u ON p.user_id = u.id
+    WHERE r.user_id = $current_user_id
+        AND p.user_id != $current_user_id
+        AND p.for_friends = 0";
+    $result = $connect->query($sql_current_user_reposted_counter);
+    $current_user_reposted_counter = $result->fetch_assoc()['reposted_count'];
+
+    $sql_current_user_likes_on_comments_counter = "SELECT COUNT(DISTINCT loc.id) AS likes_on_comments_count
+    FROM comments c 
+    JOIN likes_on_comments loc ON loc.comment_id = c.id 
+    JOIN users u ON c.user_id = u.id
+    JOIN posts p ON c.post_id = p.id
+    WHERE c.user_id = $current_user_id
+        AND loc.user_id != $current_user_id 
+        AND p.for_friends = 0";
+    $result = $connect->query($sql_current_user_likes_on_comments_counter);
+    $current_user_likes_on_comments_counter = $result->fetch_assoc()['likes_on_comments_count'];
+
+    $sql_current_user_liked_on_comments_counter = "SELECT COUNT(DISTINCT loc.id) AS liked_on_comments_count
+    FROM likes_on_comments loc
+    JOIN comments c ON c.id = loc.comment_id
+    JOIN users u ON loc.user_id = u.id
+    JOIN posts p ON c.post_id = p.id
+    WHERE loc.user_id = $current_user_id
+        AND c.user_id != $current_user_id
+        AND p.for_friends = 0";
+    $result = $connect->query($sql_current_user_liked_on_comments_counter);
+    $current_user_liked_on_comments_counter = $result->fetch_assoc()['liked_on_comments_count'];
 
     $current_user_in_top = findUserPositionInTop($current_user_id, $connect);
 }
@@ -117,6 +176,11 @@ if (isset($_SESSION['user'])) {
                                             <p>Полученные репосты</p>
                                             <span><?= $current_user_reposts_counter ?></span>
                                         </div>
+                                        <div class="current-param">
+                                            <img src="pics/RepostsIconBlossom.svg">
+                                            <p>Полученные лайки на комментарии</p>
+                                            <span><?= $current_user_likes_on_comments_counter ?></span>
+                                        </div>
                                     </div>
                                     <div>
                                         <div class="current-param">
@@ -138,6 +202,11 @@ if (isset($_SESSION['user'])) {
                                             <img src="pics/RepostedIconBlossom.svg">
                                             <p>Сделанные репосты</p>
                                             <span><?= $current_user_reposted_counter ?></span>
+                                        </div>
+                                        <div class="current-param">
+                                            <img src="pics/RepostedIconBlossom.svg">
+                                            <p>Поставленные лайки на комментарии</p>
+                                            <span><?= $current_user_liked_on_comments_counter ?></span>
                                         </div>
                                     </div>
                                 </div>

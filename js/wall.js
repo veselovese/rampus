@@ -171,15 +171,17 @@ $(document).ready(function () {
         })
     })
 
-        $('.wall__user-posts').on('click', '.unliked-comment', function () {
+    $('.wall__user-posts').on('click', '.unliked-comment', function () {
         const commentId = $(this).attr('id');
+        const postId = $(this).attr('data-post-id')
         $post = $(this);
         $.ajax({
             url: 'wall',
             type: 'post',
             data: {
                 'liked-comment': 1,
-                'comment-id': commentId
+                'comment-id': commentId,
+                'post-id': postId,
             },
             success: function (response) {
                 $post.find('.like-counter').text(response);
@@ -192,13 +194,15 @@ $(document).ready(function () {
 
     $('.wall__user-posts').on('click', '.liked-comment', function () {
         const commentId = $(this).attr('id');
+        const postId = $(this).attr('data-post-id')
         $post = $(this);
         $.ajax({
             url: 'wall',
             type: 'post',
             data: {
                 'unliked-comment': 1,
-                'comment-id': commentId
+                'comment-id': commentId,
+                'post-id': postId,
             },
             success: function (response) {
                 $post.find('.like-counter').text(response);

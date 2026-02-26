@@ -98,17 +98,16 @@ if ($more_likes_on_posts->num_rows > 0) {
 }
 
 # Всех больше поставил лайков другим на посты
-$max_likes_to_other_users = $connect->query("SELECT loc.user_id AS user_id,
-                                                   COUNT(DISTINCT loc.id) AS likes_counter,
-                                                   MAX(loc.like_date) AS last_like_date 
-                                            FROM likes_on_comments loc 
-											JOIN comments c ON loc.comment_id = c.id 
-                                            JOIN posts p ON c.post_id = p.id 
-                                            JOIN users u ON loc.user_id = u.id 
-                                            WHERE p.user_id != loc.user_id 
+$max_likes_to_other_users = $connect->query("SELECT lop.user_id AS user_id,
+                                                   COUNT(DISTINCT lop.id) AS likes_counter,
+                                                   MAX(lop.like_date) AS last_like_date 
+                                            FROM likes_on_posts lop 
+                                            JOIN posts p ON lop.post_id = p.id 
+                                            JOIN users u ON lop.user_id = u.id 
+                                            WHERE p.user_id != lop.user_id 
                                               AND u.unrated_status = 0 
                                               AND p.for_friends = 0
-                                            GROUP BY loc.user_id 
+                                            GROUP BY lop.user_id 
                                             ORDER BY likes_counter DESC, 
                                                      last_like_date ASC 
                                             LIMIT 1");

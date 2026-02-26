@@ -89,6 +89,18 @@ if ($result_blossom_notifications->num_rows > 0) {
             case 'is-unreposted-by':
                 $notify_name = 'Удалили репост вашего поста';
                 break;
+            case 'like-comment':
+                $notify_name = 'Вы лайкнули комментарий';
+                break;
+            case 'dislike-comment':
+                $notify_name = 'Вы дизлайкнули комментарий';
+                break;
+            case 'comment-is-liked-by':
+                $notify_name = 'Лайкнули ваш комментарий';
+                break;
+            case 'comment-is-disliked-by':
+                $notify_name = 'Дизлайкнули ваш комментарий';
+                break;
             case 'grab-trophy':
                 $notify_name = 'Вы забрали трофей';
                 break;

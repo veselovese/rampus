@@ -45,13 +45,19 @@ if ($comment_data['user_id'] != $user_id) {
     exit();
 }
 
-$other_id = $connect->query("SELECT p.user_id FROM posts p JOIN comments c ON p.id = c.post_id WHERE c.id = $comment_id")->fetch_assoc()['user_id'];
-$delete_result = $connect->query("DELETE FROM comments WHERE id = $comment_id");
+$post_id = $comment_data['post_id'];
+$for_friends_status = $connect->query("SELECT for_friends FROM posts WHERE id = $post_id")->fetch_assoc()['for_friends'];
 
-if ($user_id != $other_id) {
-    blossoming('delete-self-comment', $user_id,  $connect);
-    blossoming('comment-deleted-under-post-by', $other_id, $connect);
+if ($for_friends_status == 0) {
+    $other_id = $connect->query("SELECT p.user_id FROM posts p JOIN comments c ON p.id = c.post_id WHERE c.id = $comment_id")->fetch_assoc()['user_id'];
+
+    if ($user_id != $other_id) {
+        blossoming('delete-self-comment', $user_id,  $connect);
+        blossoming('comment-deleted-under-post-by', $other_id, $connect);
+    }
 }
+
+$delete_result = $connect->query("DELETE FROM comments WHERE id = $comment_id");
 
 if ($delete_result) {
     $response['success'] = true;
