@@ -213,6 +213,27 @@ $(document).ready(function () {
         })
     })
 
+    $('.wall__user-posts').on('click', '.reply-to-comment', function () {
+        const replyUsername = $(this).attr('id').split('_')[0];
+        const commentId = Number($(this).attr('id').split('_')[1]);
+        const postId = Number($(this).attr('id').split('_')[2]);
+
+        const commentInputDiv = document.getElementById('textarea-comment_' + postId)
+        commentInputDiv.textContent = `@${replyUsername} `
+        commentInputDiv.focus()
+        const selection = window.getSelection();
+        const range = document.createRange();
+        range.selectNodeContents(commentInputDiv);
+        range.collapse(false);
+        selection.removeAllRanges();
+        selection.addRange(range);
+
+        $('#textarea-comment_input_' + postId).val('@' + replyUsername + ' ')
+        document.getElementById('textarea-comment_label_' + postId).style.display = 'none';
+
+        $('#' + postId + '_reply_comment_id').val(commentId)
+    })
+
     $('#wall-filter-main').click(() => {
         filter = 'main';
         renderPosts(filter, search, true);
@@ -277,7 +298,6 @@ function commentButtonClick(i) {
 }
 
 function seeAllComments(i) {
-    $('.comment_div-line_' + i).toggleClass('hide');
     $('.comment_user-comment_' + i).toggleClass('hide');
     $('#have-else-comments_dot_' + i).toggleClass('hide');
     $('#have-else-comments_a_' + i).toggleClass('hide');
@@ -285,6 +305,15 @@ function seeAllComments(i) {
         $('#see-all-comments_' + i).text('Скрыть');
     } else {
         $('#see-all-comments_' + i).text('Показать комментарии');
+    }
+}
+
+function showMoreReplies(i, hiddenReplies) {
+    $('.comment_user-reply_' + i).toggleClass('hide');
+    if ($('#see-more-replies_' + i).text() == 'Показать ещё ' + hiddenReplies) {
+        $('#see-more-replies_' + i).text('Скрыть');
+    } else {
+        $('#see-more-replies_' + i).text('Показать ещё ' + hiddenReplies);
     }
 }
 

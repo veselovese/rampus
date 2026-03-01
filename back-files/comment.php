@@ -30,6 +30,7 @@ if (!isset($_POST['comment']) || !isset($_POST['comment_id'])) {
 
 $comment = mysqli_real_escape_string($connect, trim($_POST['comment']));
 $post_id = (int)$_POST['comment_id'];
+$reply_comment_id = isset($_POST['reply_comment_id']) && $_POST['reply_comment_id'] != '' ? (int)$_POST['reply_comment_id'] : "NULL";
 
 if (empty($comment)) {
     $response['message'] = 'Комментарий не может быть пустым';
@@ -38,7 +39,7 @@ if (empty($comment)) {
     exit();
 }
 
-$user_query = $connect->query("SELECT * FROM users WHERE id = $user_id");
+$user_query = $connect->query("SELECT username, first_name, second_name, avatar, verify_status FROM users WHERE id = $user_id");
 if ($user_query->num_rows === 0) {
     $response['message'] = 'Пользователь не найден';
     ob_end_clean();
@@ -53,7 +54,7 @@ $current_user_second_name = $user_data['second_name'];
 $current_user_avatar = $user_data['avatar'];
 $current_user_verify_status = $user_data['verify_status'];
 
-$result = $connect->query("INSERT INTO comments (post_id, user_id, text) VALUES ($post_id, $user_id, '$comment')");
+$result = $connect->query("INSERT INTO comments (post_id, user_id, reply_comment_id, text) VALUES ($post_id, $user_id, $reply_comment_id, '$comment')");
 
 if (!$result) {
     $response['message'] = 'Ошибка при добавлении комментария: ' . mysqli_error($connect);
@@ -139,6 +140,7 @@ $comment_data = [
     'id' => $comment_id,
     'post_id' => $post_id,
     'user_id' => $user_id,
+    'reply_comment_id' => $reply_comment_id,
     'username' => $current_user_username,
     'first_name' => $current_user_first_name ?? '',
     'second_name' => $current_user_second_name ?? '',

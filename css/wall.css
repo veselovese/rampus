@@ -453,6 +453,7 @@
     scrollbar-width: none;
     overflow-y: auto;
     font-size: var(--font-size-2);
+    white-space: pre-wrap;
 }
 
 #textarea-post::-webkit-scrollbar,
@@ -763,6 +764,17 @@ div.for-friends svg {
     transition: 0.2s;
 }
 
+.wall__comments .other-users .reply .comment-avatar {
+    min-width: 34px;
+    min-height: 34px;
+    max-width: 34px;
+    max-height: 34px;
+    border-radius: 50%;
+    margin: 0;
+    object-fit: cover;
+    transition: 0.2s;
+}
+
 .wall__comments .other-users .comment-avatar:hover {
     opacity: 80%;
 }
@@ -774,6 +786,10 @@ div.for-friends svg {
     gap: 1rem;
     padding: 0.5rem 0;
     border-radius: 1rem;
+}
+
+.wall__comments .other-users .user-comment.reply {
+    margin-left: 1.6rem;
 }
 
 .wall__comments .other-users .user-comment.new-comment {
@@ -953,6 +969,14 @@ div.for-friends svg {
     cursor: pointer;
     transition: 0.2s;
     max-width: max-content;
+    font-size: var(--font-size-1);
+}
+
+.wall__comments .other-users .see-all-comments.reply {
+    margin-left: calc(1.6rem + 3.4rem + 1rem);
+    margin-bottom: 1.1rem;
+    margin-top: 0.39rem;
+    color: var(--else-text-color-50);
 }
 
 .show-else-comments {

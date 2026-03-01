@@ -230,14 +230,10 @@ if ($result_post->num_rows > 0) {
                 echo "</div>";
             }
             echo "<div class='post-buttons'>";
-            $sql_comment = "SELECT comments.text AS comment_text, comments.likes AS comment_likes, users.first_name AS first_name, users.second_name AS second_name, users.avatar AS avatar, comment_date, users.id AS comment_user_id, users.username AS comment_username, users.verify_status AS comment_verify_status, comments.id AS comment_id
-                                        FROM comments
-                                        JOIN users ON comments.user_id = users.id
-                                        JOIN posts ON comments.post_id = posts.id
-                                        WHERE comments.post_id = $content_id
-                                        ORDER BY UNIX_TIMESTAMP(comments.comment_date) ASC";
-            $result_comment = $connect->query($sql_comment);
-            $rows_num_comment = $result_comment->num_rows;
+            $sql_all_comment = "SELECT 1 FROM comments 
+                            WHERE comments.post_id = $content_id";
+            $result_all_comment = $connect->query($sql_all_comment);
+            $rows_num_all_comment = $result_all_comment->num_rows;
             $sql_like = "SELECT 1 FROM likes_on_posts WHERE post_id = $content_id AND user_id = " . $current_user_id;
             $sql_repost = "SELECT 1 FROM reposts WHERE post_id = $content_id AND user_id = " . $current_user_id;
             $result_like = $connect->query($sql_like);
@@ -273,7 +269,7 @@ if ($result_post->num_rows > 0) {
             </svg>";
                 echo "<span class='like-counter'>" . $content_likes . "</span></button>";
             }
-            if ($rows_num_comment == 0) {
+            if ($rows_num_all_comment == 0) {
                 echo "<button onclick='commentButtonClick($content_id)' class='comment-button comment'><svg width='23' height='19' viewBox='0 0 23 19' fill='none' xmlns='http://www.w3.org/2000/svg'>
             <path d='M4 1.25L19 1.25C20.5188 1.25 21.75 2.48122 21.75 4L21.75 17.75L4 17.75C2.48122 17.75 1.25 16.5188 1.25 15L1.25 4C1.25 2.48122 2.48122 1.25 4 1.25Z' />
             </svg></button>";
@@ -281,7 +277,7 @@ if ($result_post->num_rows > 0) {
                 echo "<button onclick='commentButtonClick($content_id)' class='comment-button comment'><svg width='23' height='19' viewBox='0 0 23 19' fill='none' xmlns='http://www.w3.org/2000/svg'>
             <path d='M4 1.25L19 1.25C20.5188 1.25 21.75 2.48122 21.75 4L21.75 17.75L4 17.75C2.48122 17.75 1.25 16.5188 1.25 15L1.25 4C1.25 2.48122 2.48122 1.25 4 1.25Z' />
             </svg>";
-                echo "<span class='comment-counter'>" . $rows_num_comment . "</span></button>";
+                echo "<span class='comment-counter'>" . $rows_num_all_comment . "</span></button>";
             }
             if (!$for_friends && !($content_type == 'repost' && $content_author_id == $current_user_id) && !$check_repost_status) {
                 if ($result_repost->num_rows > 0) {
@@ -320,184 +316,227 @@ if ($result_post->num_rows > 0) {
             echo "<div class='div-line'></div>";
             echo "<div class='wall__comments'>";
             echo "<div class='other-users'>";
+
+            $sql_comment = "SELECT comments.text AS comment_text, comments.likes AS comment_likes, users.first_name AS comment_first_name, users.second_name AS comment_second_name, users.avatar AS comment_avatar, comment_date, users.id AS comment_user_id, users.username AS comment_username, users.verify_status AS comment_verify_status, comments.id AS comment_id
+                                        FROM comments
+                                        JOIN users ON comments.user_id = users.id
+                                        JOIN posts ON comments.post_id = posts.id
+                                        WHERE comments.post_id = $content_id
+                                        AND comments.reply_comment_id IS NULL
+                                        ORDER BY comments.likes DESC, UNIX_TIMESTAMP(comments.comment_date) ASC";
+            $result_comment = $connect->query($sql_comment);
+            $rows_num_comment = $result_comment->num_rows;
+
             if ($rows_num_comment > 0) {
                 $comment_count = 0;
                 while ($row_comment = $result_comment->fetch_assoc()) {
                     $comment_id = $row_comment['comment_id'];
                     $comment_user_id = $row_comment['comment_user_id'];
                     $comment_username = $row_comment['comment_username'];
-                    $comment_first_name = $row_comment['first_name'];
-                    $comment_second_name = $row_comment['second_name'];
-                    $comment_avatar = $row_comment['avatar'];
+                    $comment_first_name = $row_comment['comment_first_name'];
+                    $comment_second_name = $row_comment['comment_second_name'];
+                    $comment_avatar = $row_comment['comment_avatar'];
                     $comment_verify_status = $row_comment['comment_verify_status'];
+
                     $comment_text = preg_replace('/\xc2\xa0/', ' ', $row_comment['comment_text']);
                     preg_match_all('/@(\w+)/u', $comment_text, $matches);
-                    $tags = $matches[1];
-                    foreach ($tags as $tag) {
-                        $tag = $connect->real_escape_string($tag);
-                        $result = $connect->query("SELECT 1 FROM users WHERE username = '$tag'");
-                        if ($result && $result->num_rows > 0) {
-                            $pattern = '/' . preg_quote('@' . $tag, '/') . '/u';
-                            $replacement = '<a href="./user/' . htmlspecialchars($tag) . '">@' . htmlspecialchars($tag) . '</a>';
-                            $comment_text = preg_replace($pattern, $replacement, $comment_text);
+                    if (!empty($matches[1])) {
+                        foreach ($matches[1] as $tag) {
+                            $tag_esc = $connect->real_escape_string($tag);
+                            $result = $connect->query("SELECT 1 FROM users WHERE username = '$tag_esc'");
+                            if ($result && $result->num_rows > 0) {
+                                $pattern = '/' . preg_quote('@' . $tag, '/') . '/u';
+                                $replacement = '<a href="./user/' . htmlspecialchars($tag) . '">@' . htmlspecialchars($tag) . '</a>';
+                                $comment_text = preg_replace($pattern, $replacement, $comment_text);
+                            }
                         }
                     }
-                    $comment_date = $row_comment['comment_date'];
-                    $comment_date_db = date_format(date_create($comment_date), 'Y-m-d');
+
+                    $comment_date_db = date_format(date_create($row_comment['comment_date']), 'Y-m-d');
                     switch ($comment_date_db) {
                         case $today:
-                            $comment_date = date_format(date_create($comment_date), 'G:i');
+                            $comment_date = date_format(date_create($row_comment['comment_date']), 'G:i');
                             break;
                         case $yesterday:
-                            $comment_date = date_format(date_create($comment_date), 'вчера');
+                            $comment_date = 'вчера';
                             break;
                         case $beforeyesterday:
-                            $comment_date = date_format(date_create($comment_date), 'позавчера');
+                            $comment_date = 'позавчера';
                             break;
                         case $threedaysago:
-                            $comment_date = date_format(date_create($comment_date), '3 дн.');
+                            $comment_date = '3 дн.';
                             break;
                         case $fourdaysago:
-                            $comment_date = date_format(date_create($comment_date), '4 дн.');
+                            $comment_date = '4 дн.';
                             break;
                         case $fivedaysago:
-                            $comment_date = date_format(date_create($comment_date), '5 дн.');
+                            $comment_date = '5 дн.';
                             break;
                         case $sixdaysago:
-                            $comment_date = date_format(date_create($comment_date), '6 дн.');
+                            $comment_date = '6 дн.';
                             break;
                         case $sevendaysago:
-                            $comment_date = date_format(date_create($comment_date), '7 дн.');
+                            $comment_date = '7 дн.';
                             break;
                         default:
-                            $comment_date = date_format(date_create($comment_date), 'j') . '.' . $month_list_comment[date_format(date_create($comment_date), 'n')];
+                            $comment_date = date_format(date_create($row_comment['comment_date']), 'j') . '.' . $month_list_comment[date_format(date_create($row_comment['comment_date']), 'n')];
                             break;
                     }
+
                     $comment_likes = $row_comment['comment_likes'];
-                    if ($comment_count < 2) {
-                        echo "<div class='user-comment' id='comment-$comment_id'>";
-                        echo "<a href='./user/$comment_username'><img class='comment-avatar' src='uploads/avatar/thin_" . $comment_avatar . "'></a>";
-                        echo "<div class='comment-div'>";
-                        if ($comment_first_name || $comment_second_name) {
-                            if ($comment_verify_status) {
-                                echo "<div><a href='./user/$comment_username' class='first-and-second-names trust'>" . $comment_first_name . " " . $comment_second_name . "</a><span class='date'>" . $comment_date . "</span>";
-                            } else {
-                                echo "<div><a href='./user/$comment_username' class='first-and-second-names'>" . $comment_first_name . " " . $comment_second_name . "</a><span class='date'>" . $comment_date . "</span>";
+
+                    $is_hidden_comment = $comment_count >= 1;
+                    $comment_extra_class = $is_hidden_comment ? "hide comment_user-comment_$content_id" : "";
+
+                    $display_name = ($comment_first_name || $comment_second_name) ? "$comment_first_name $comment_second_name" : "@$comment_username";
+                    $name_class = $comment_verify_status ? "first-and-second-names trust" : "first-and-second-names";
+
+                    $sql_like_comment = "SELECT 1 FROM likes_on_comments WHERE comment_id = $comment_id AND user_id = $current_user_id";
+                    $result_like_comment = $connect->query($sql_like_comment);
+                    $is_liked = $result_like_comment && $result_like_comment->num_rows > 0;
+
+                    $btn_liked_class = $is_liked ? 'liked-comment' : 'liked-comment hide';
+                    $btn_unliked_class = $is_liked ? 'unliked-comment hide' : 'unliked-comment';
+
+                    $svg_empty = "<svg width='23' height='19' viewBox='0 0 23 19' fill='none' xmlns='http://www.w3.org/2000/svg'><path d='M21.3345 8.71342C21.0727 9.33749 20.6942 9.9081 20.2183 10.3954L20.148 10.4648L13.6656 16.8654C12.4711 18.0449 10.5278 18.0449 9.33329 16.8654L9.33326 16.8654L2.85134 10.4657C2.34261 9.96338 1.93992 9.36791 1.66547 8.7137L0.7102 9.11444L1.66547 8.71369C1.39104 8.05952 1.25 7.35894 1.25 6.65182C1.25 5.94469 1.39104 5.24411 1.66547 4.58994C1.93992 3.93572 2.34261 3.34025 2.85134 2.83794C3.36011 2.33559 3.96496 1.93628 4.63177 1.66356C5.29861 1.39084 6.01386 1.25027 6.73655 1.25027C7.45924 1.25027 8.17449 1.39084 8.84133 1.66356C9.50754 1.93603 10.1119 2.33487 10.6204 2.83658L11.4989 3.70337L11.4998 3.7025L11.5009 3.7036L12.3791 2.83686C12.8877 2.33489 13.4922 1.93586 14.1587 1.66329C14.8255 1.39057 15.5408 1.25 16.2634 1.25C16.9861 1.25 17.7014 1.39057 18.3682 1.66329C19.035 1.93601 19.6399 2.33532 20.1487 2.83767C20.6574 3.33999 21.0601 3.93546 21.3345 4.58967C21.609 5.24384 21.75 5.94442 21.75 6.65155C21.75 7.35867 21.609 8.05925 21.3345 8.71342Z' /></svg>";
+                    $svg_filled = "<svg width='23' height='19' viewBox='0 0 23 19' fill='none' xmlns='http://www.w3.org/2000/svg'><path fill-rule='evenodd' clip-rule='evenodd' d='M15.3643 17.1232L21.0488 11.4387L21.0494 11.4394C21.6548 10.834 22.135 10.1153 22.4626 9.32432C22.7903 8.53335 22.9589 7.6856 22.9589 6.82947C22.9589 5.97334 22.7903 5.12559 22.4626 4.33463C22.135 3.54366 21.6548 2.82498 21.0494 2.2196C20.4441 1.61423 19.7254 1.13402 18.9344 0.806393C18.1434 0.478767 17.2957 0.310142 16.4396 0.310145C15.5834 0.310148 14.7357 0.478778 13.9447 0.806409C13.1541 1.13391 12.4356 1.61388 11.8304 2.21893L11.8289 2.21742L11.8279 2.21836C11.2229 1.61375 10.5048 1.1341 9.71455 0.806772C8.92359 0.479147 8.07584 0.310521 7.2197 0.310524C6.36357 0.310526 5.51582 0.479157 4.72486 0.806787C3.93389 1.13442 3.2152 1.61463 2.60982 2.22001C2.00444 2.82539 1.52423 3.54408 1.1966 4.33504C0.868969 5.12601 0.700339 5.97376 0.700335 6.82989C0.700332 7.68602 0.868959 8.53377 1.19658 9.32474C1.52421 10.1157 2.00442 10.8344 2.60979 11.4398L2.60985 11.4397L8.29331 17.1232C10.2459 19.0758 13.4117 19.0758 15.3643 17.1232Z'/></svg>";
+
+                    $like_counter_span = $comment_likes > 0 ? "<span class='like-counter'>$comment_likes</span>" : "";
+
+                    echo "<div class='user-comment $comment_extra_class' id='comment-$comment_id'>";
+                    echo "<a href='./user/$comment_username'><img class='comment-avatar' src='uploads/avatar/thin_" . $comment_avatar . "'></a>";
+                    echo "<div class='comment-div'>";
+
+                    echo "<div><a href='./user/$comment_username' class='$name_class'>" . $display_name . "</a><span class='date'>" . $comment_date . "</span></div>";
+
+                    echo "<p class='comment-text main-text'>" . $comment_text . "</p>";
+
+                    echo "<div class='comment-buttons'>";
+                    echo "<button type='button' class='reply-to-comment' id='$comment_username" . "_"  . "$comment_id" . "_" . "$content_id'>Ответить</button>";
+                    if ($comment_user_id == $current_user_id) echo "<button type='button' class='delete-comment' id='$comment_id'>Удалить</button>";
+                    echo "</div>";
+
+                    echo "<button data-post-id='$content_id' id='$comment_id' class='comment_like-button $btn_liked_class'>$svg_filled<span class='like-counter'>$comment_likes</span></button>";
+                    echo "<button data-post-id='$content_id' id='$comment_id' class='comment_like-button $btn_unliked_class'>$svg_empty$like_counter_span</button>";
+
+                    echo "</div>";
+                    echo "</div>";
+
+                    $sql_reply_comment = "SELECT comments.text AS reply_comment_text, comments.likes AS reply_comment_likes, users.first_name AS first_name, users.second_name AS second_name, users.avatar AS avatar, comment_date AS reply_comment_date, users.id AS reply_comment_user_id, users.username AS reply_comment_username, users.verify_status AS reply_comment_verify_status, comments.id AS reply_comment_id
+                            FROM comments
+                            JOIN users ON comments.user_id = users.id
+                            JOIN posts ON comments.post_id = posts.id
+                            WHERE comments.post_id = $content_id
+                            AND comments.reply_comment_id = $comment_id
+                            ORDER BY comments.likes DESC, UNIX_TIMESTAMP(comments.comment_date) ASC";
+                    $result_reply_comment = $connect->query($sql_reply_comment);
+                    $rows_num_reply_comment = $result_reply_comment->num_rows;
+
+                    if ($rows_num_reply_comment > 0) {
+                        $reply_index = 0;
+                        while ($row_reply_comment = $result_reply_comment->fetch_assoc()) {
+                            $reply_comment_id = $row_reply_comment['reply_comment_id'];
+                            $reply_comment_user_id = $row_reply_comment['reply_comment_user_id'];
+                            $reply_comment_username = $row_reply_comment['reply_comment_username'];
+                            $reply_comment_first_name = $row_reply_comment['first_name'];
+                            $reply_comment_second_name = $row_reply_comment['second_name'];
+                            $reply_comment_avatar = $row_reply_comment['avatar'];
+                            $reply_comment_verify_status = $row_reply_comment['reply_comment_verify_status'];
+                            $reply_comment_likes = $row_reply_comment['reply_comment_likes'];
+
+                            $reply_hidden_class = ($reply_index > 0) ? 'hide comment_user-reply_' . $comment_id : '';
+
+                            $reply_comment_text = preg_replace('/\xc2\xa0/', ' ', $row_reply_comment['reply_comment_text']);
+                            preg_match_all('/@(\w+)/u', $reply_comment_text, $matches);
+                            if (!empty($matches[1])) {
+                                foreach ($matches[1] as $tag) {
+                                    $tag_esc = $connect->real_escape_string($tag);
+                                    $result = $connect->query("SELECT 1 FROM users WHERE username = '$tag_esc'");
+                                    if ($result && $result->num_rows > 0) {
+                                        $pattern = '/' . preg_quote('@' . $tag, '/') . '/u';
+                                        $replacement = '<a href="./user/' . htmlspecialchars($tag) . '">@' . htmlspecialchars($tag) . '</a>';
+                                        $reply_comment_text = preg_replace($pattern, $replacement, $reply_comment_text);
+                                    }
+                                }
                             }
-                        } else {
-                            if ($comment_verify_status) {
-                                echo "<div><a href='./user/$comment_username' class='first-and-second-names trust'>@" . $comment_username . "</a><span class='date'>" . $comment_date . "</span>";
-                            } else {
-                                echo "<div><a href='./user/$comment_username' class='first-and-second-names'>@" . $comment_username . "</a><span class='date'>" . $comment_date . "</span>";
+
+                            $reply_date_db = date_format(date_create($row_reply_comment['reply_comment_date']), 'Y-m-d');
+                            switch ($reply_date_db) {
+                                case $today:
+                                    $reply_comment_date = date_format(date_create($row_reply_comment['reply_comment_date']), 'G:i');
+                                    break;
+                                case $yesterday:
+                                    $reply_comment_date = 'вчера';
+                                    break;
+                                case $beforeyesterday:
+                                    $reply_comment_date = 'позавчера';
+                                    break;
+                                case $threedaysago:
+                                    $reply_comment_date = '3 дн.';
+                                    break;
+                                case $fourdaysago:
+                                    $reply_comment_date = '4 дн.';
+                                    break;
+                                case $fivedaysago:
+                                    $reply_comment_date = '5 дн.';
+                                    break;
+                                case $sixdaysago:
+                                    $reply_comment_date = '6 дн.';
+                                    break;
+                                case $sevendaysago:
+                                    $reply_comment_date = '7 дн.';
+                                    break;
+                                default:
+                                    $reply_comment_date = date_format(date_create($row_reply_comment['reply_comment_date']), 'j') . '.' . $month_list_comment[date_format(date_create($row_reply_comment['reply_comment_date']), 'n')];
+                                    break;
                             }
+
+                            $reply_display_name = ($reply_comment_first_name || $reply_comment_second_name) ? "$reply_comment_first_name $reply_comment_second_name" : "@$reply_comment_username";
+                            $reply_name_class = $reply_comment_verify_status ? "first-and-second-names trust" : "first-and-second-names";
+
+                            $sql_like_reply = "SELECT 1 FROM likes_on_comments WHERE comment_id = $reply_comment_id AND user_id = $current_user_id";
+                            $result_like_reply = $connect->query($sql_like_reply);
+                            $is_reply_liked = $result_like_reply && $result_like_reply->num_rows > 0;
+
+                            $reply_btn_liked = $is_reply_liked ? 'liked-comment' : 'liked-comment hide';
+                            $reply_btn_unliked = $is_reply_liked ? 'unliked-comment hide' : 'unliked-comment';
+                            $reply_like_counter_span = $reply_comment_likes > 0 ? "<span class='like-counter'>$reply_comment_likes</span>" : "";
+
+                            echo "<div class='user-comment reply $reply_hidden_class' id='comment-$reply_comment_id'>";
+                            echo "<a href='./user/$reply_comment_username'><img class='comment-avatar' src='uploads/avatar/thin_" . $reply_comment_avatar . "'></a>";
+                            echo "<div class='comment-div'>";
+
+                            echo "<div><a href='./user/$reply_comment_username' class='$reply_name_class'>" . $reply_display_name . "</a><span class='date'>" . $reply_comment_date . "</span></div>";
+                            echo "<p class='comment-text main-text'>" . $reply_comment_text . "</p>";
+
+                            echo "<div class='comment-buttons'>";
+                            if ($reply_comment_user_id == $current_user_id) echo "<button type='button' class='delete-comment' id='$reply_comment_id'>Удалить</button>";
+                            echo "</div>";
+
+                            echo "<button data-post-id='$content_id' id='$reply_comment_id' class='comment_like-button $reply_btn_liked'>$svg_filled<span class='like-counter'>$reply_comment_likes</span></button>";
+                            echo "<button data-post-id='$content_id' id='$reply_comment_id' class='comment_like-button $reply_btn_unliked'>$svg_empty$reply_like_counter_span</button>";
+
+                            echo "</div>";
+                            echo "</div>";
+
+                            $reply_index++;
                         }
-                        echo "</div>";
-                        echo "<p class='comment-text main-text'>" . $comment_text . "</p>";
-                        echo "<div class='comment-buttons'>";
-                        echo "<button type='button' class='reply-to-comment' id='reply-to_$comment_id'>Ответить</button>";
-                        if ($comment_user_id == $current_user_id) echo "<button type='button' class='delete-comment' id='$comment_id'>Удалить</button>";
-                        echo "</div>";
-                        $sql_like_comment = "SELECT 1 FROM likes_on_comments WHERE comment_id = $comment_id AND user_id = $current_user_id";
-                        $result_like_comment = $connect->query($sql_like_comment);
-                        if ($result_like_comment->num_rows > 0) {
-                            echo "<button data-post-id='$content_id' id='$comment_id' class='comment_like-button liked-comment'><svg width='23' height='19' viewBox='0 0 23 19' fill='none' xmlns='http://www.w3.org/2000/svg'>
-            <path d='M21.3345 8.71342C21.0727 9.33749 20.6942 9.9081 20.2183 10.3954L20.148 10.4648L13.6656 16.8654C12.4711 18.0449 10.5278 18.0449 9.33329 16.8654L9.33326 16.8654L2.85134 10.4657C2.34261 9.96338 1.93992 9.36791 1.66547 8.7137L0.7102 9.11444L1.66547 8.71369C1.39104 8.05952 1.25 7.35894 1.25 6.65182C1.25 5.94469 1.39104 5.24411 1.66547 4.58994C1.93992 3.93572 2.34261 3.34025 2.85134 2.83794C3.36011 2.33559 3.96496 1.93628 4.63177 1.66356C5.29861 1.39084 6.01386 1.25027 6.73655 1.25027C7.45924 1.25027 8.17449 1.39084 8.84133 1.66356C9.50754 1.93603 10.1119 2.33487 10.6204 2.83658L11.4989 3.70337L11.4998 3.7025L11.5009 3.7036L12.3791 2.83686C12.8877 2.33489 13.4922 1.93586 14.1587 1.66329C14.8255 1.39057 15.5408 1.25 16.2634 1.25C16.9861 1.25 17.7014 1.39057 18.3682 1.66329C19.035 1.93601 19.6399 2.33532 20.1487 2.83767C20.6574 3.33999 21.0601 3.93546 21.3345 4.58967C21.609 5.24384 21.75 5.94442 21.75 6.65155C21.75 7.35867 21.609 8.05925 21.3345 8.71342Z' />
-            </svg>";
-                            echo "<span class='like-counter'>" . $comment_likes . "</span></button>";
-                            if ($comment_likes == 1) {
-                                echo "<button data-post-id='$content_id' id='$comment_id' class='comment_like-button unliked-comment hide'><svg width='23' height='19' viewBox='0 0 23 19' fill='none' xmlns='http://www.w3.org/2000/svg'>
-                <path d='M21.3345 8.71342C21.0727 9.33749 20.6942 9.9081 20.2183 10.3954L20.148 10.4648L13.6656 16.8654C12.4711 18.0449 10.5278 18.0449 9.33329 16.8654L9.33326 16.8654L2.85134 10.4657C2.34261 9.96338 1.93992 9.36791 1.66547 8.7137L0.7102 9.11444L1.66547 8.71369C1.39104 8.05952 1.25 7.35894 1.25 6.65182C1.25 5.94469 1.39104 5.24411 1.66547 4.58994C1.93992 3.93572 2.34261 3.34025 2.85134 2.83794C3.36011 2.33559 3.96496 1.93628 4.63177 1.66356C5.29861 1.39084 6.01386 1.25027 6.73655 1.25027C7.45924 1.25027 8.17449 1.39084 8.84133 1.66356C9.50754 1.93603 10.1119 2.33487 10.6204 2.83658L11.4989 3.70337L11.4998 3.7025L11.5009 3.7036L12.3791 2.83686C12.8877 2.33489 13.4922 1.93586 14.1587 1.66329C14.8255 1.39057 15.5408 1.25 16.2634 1.25C16.9861 1.25 17.7014 1.39057 18.3682 1.66329C19.035 1.93601 19.6399 2.33532 20.1487 2.83767C20.6574 3.33999 21.0601 3.93546 21.3345 4.58967C21.609 5.24384 21.75 5.94442 21.75 6.65155C21.75 7.35867 21.609 8.05925 21.3345 8.71342Z' />
-                </svg></button>";
-                            } else {
-                                echo "<button data-post-id='$content_id' id='$comment_id' class='comment_like-button unliked-comment hide'><svg width='23' height='19' viewBox='0 0 23 19' fill='none' xmlns='http://www.w3.org/2000/svg'>
-                <path d='M21.3345 8.71342C21.0727 9.33749 20.6942 9.9081 20.2183 10.3954L20.148 10.4648L13.6656 16.8654C12.4711 18.0449 10.5278 18.0449 9.33329 16.8654L9.33326 16.8654L2.85134 10.4657C2.34261 9.96338 1.93992 9.36791 1.66547 8.7137L0.7102 9.11444L1.66547 8.71369C1.39104 8.05952 1.25 7.35894 1.25 6.65182C1.25 5.94469 1.39104 5.24411 1.66547 4.58994C1.93992 3.93572 2.34261 3.34025 2.85134 2.83794C3.36011 2.33559 3.96496 1.93628 4.63177 1.66356C5.29861 1.39084 6.01386 1.25027 6.73655 1.25027C7.45924 1.25027 8.17449 1.39084 8.84133 1.66356C9.50754 1.93603 10.1119 2.33487 10.6204 2.83658L11.4989 3.70337L11.4998 3.7025L11.5009 3.7036L12.3791 2.83686C12.8877 2.33489 13.4922 1.93586 14.1587 1.66329C14.8255 1.39057 15.5408 1.25 16.2634 1.25C16.9861 1.25 17.7014 1.39057 18.3682 1.66329C19.035 1.93601 19.6399 2.33532 20.1487 2.83767C20.6574 3.33999 21.0601 3.93546 21.3345 4.58967C21.609 5.24384 21.75 5.94442 21.75 6.65155C21.75 7.35867 21.609 8.05925 21.3345 8.71342Z' />
-                </svg>";
-                                echo "<span class='like-counter'>" . $comment_likes . "</span></button>";
-                            }
-                        } else {
-                            if ($comment_likes == 0) {
-                                echo "<button data-post-id='$content_id' id='$comment_id' class='comment_like-button unliked-comment'><svg width='23' height='19' viewBox='0 0 23 19' fill='none' xmlns='http://www.w3.org/2000/svg'>
-                <path d='M21.3345 8.71342C21.0727 9.33749 20.6942 9.9081 20.2183 10.3954L20.148 10.4648L13.6656 16.8654C12.4711 18.0449 10.5278 18.0449 9.33329 16.8654L9.33326 16.8654L2.85134 10.4657C2.34261 9.96338 1.93992 9.36791 1.66547 8.7137L0.7102 9.11444L1.66547 8.71369C1.39104 8.05952 1.25 7.35894 1.25 6.65182C1.25 5.94469 1.39104 5.24411 1.66547 4.58994C1.93992 3.93572 2.34261 3.34025 2.85134 2.83794C3.36011 2.33559 3.96496 1.93628 4.63177 1.66356C5.29861 1.39084 6.01386 1.25027 6.73655 1.25027C7.45924 1.25027 8.17449 1.39084 8.84133 1.66356C9.50754 1.93603 10.1119 2.33487 10.6204 2.83658L11.4989 3.70337L11.4998 3.7025L11.5009 3.7036L12.3791 2.83686C12.8877 2.33489 13.4922 1.93586 14.1587 1.66329C14.8255 1.39057 15.5408 1.25 16.2634 1.25C16.9861 1.25 17.7014 1.39057 18.3682 1.66329C19.035 1.93601 19.6399 2.33532 20.1487 2.83767C20.6574 3.33999 21.0601 3.93546 21.3345 4.58967C21.609 5.24384 21.75 5.94442 21.75 6.65155C21.75 7.35867 21.609 8.05925 21.3345 8.71342Z' />
-                </svg></button>";
-                            } else {
-                                echo "<button data-post-id='$content_id' id='$comment_id' class='comment_like-button unliked-comment'><svg width='23' height='19' viewBox='0 0 23 19' fill='none' xmlns='http://www.w3.org/2000/svg'>
-                <path d='M21.3345 8.71342C21.0727 9.33749 20.6942 9.9081 20.2183 10.3954L20.148 10.4648L13.6656 16.8654C12.4711 18.0449 10.5278 18.0449 9.33329 16.8654L9.33326 16.8654L2.85134 10.4657C2.34261 9.96338 1.93992 9.36791 1.66547 8.7137L0.7102 9.11444L1.66547 8.71369C1.39104 8.05952 1.25 7.35894 1.25 6.65182C1.25 5.94469 1.39104 5.24411 1.66547 4.58994C1.93992 3.93572 2.34261 3.34025 2.85134 2.83794C3.36011 2.33559 3.96496 1.93628 4.63177 1.66356C5.29861 1.39084 6.01386 1.25027 6.73655 1.25027C7.45924 1.25027 8.17449 1.39084 8.84133 1.66356C9.50754 1.93603 10.1119 2.33487 10.6204 2.83658L11.4989 3.70337L11.4998 3.7025L11.5009 3.7036L12.3791 2.83686C12.8877 2.33489 13.4922 1.93586 14.1587 1.66329C14.8255 1.39057 15.5408 1.25 16.2634 1.25C16.9861 1.25 17.7014 1.39057 18.3682 1.66329C19.035 1.93601 19.6399 2.33532 20.1487 2.83767C20.6574 3.33999 21.0601 3.93546 21.3345 4.58967C21.609 5.24384 21.75 5.94442 21.75 6.65155C21.75 7.35867 21.609 8.05925 21.3345 8.71342Z' />
-                </svg>";
-                                echo "<span class='like-counter'>" . $comment_likes . "</span></button>";
-                            }
-                            echo "<button data-post-id='$content_id' id='$comment_id' class='comment_like-button liked-comment hide'><svg width='23' height='19' viewBox='0 0 23 19' fill='none' xmlns='http://www.w3.org/2000/svg'>
-            <path fill-rule='evenodd' clip-rule='evenodd' d='M15.3643 17.1232L21.0488 11.4387L21.0494 11.4394C21.6548 10.834 22.135 10.1153 22.4626 9.32432C22.7903 8.53335 22.9589 7.6856 22.9589 6.82947C22.9589 5.97334 22.7903 5.12559 22.4626 4.33463C22.135 3.54366 21.6548 2.82498 21.0494 2.2196C20.4441 1.61423 19.7254 1.13402 18.9344 0.806393C18.1434 0.478767 17.2957 0.310142 16.4396 0.310145C15.5834 0.310148 14.7357 0.478778 13.9447 0.806409C13.1541 1.13391 12.4356 1.61388 11.8304 2.21893L11.8289 2.21742L11.8279 2.21836C11.2229 1.61375 10.5048 1.1341 9.71455 0.806772C8.92359 0.479147 8.07584 0.310521 7.2197 0.310524C6.36357 0.310526 5.51582 0.479157 4.72486 0.806787C3.93389 1.13442 3.2152 1.61463 2.60982 2.22001C2.00444 2.82539 1.52423 3.54408 1.1966 4.33504C0.868969 5.12601 0.700339 5.97376 0.700335 6.82989C0.700332 7.68602 0.868959 8.53377 1.19658 9.32474C1.52421 10.1157 2.00442 10.8344 2.60979 11.4398L2.60985 11.4397L8.29331 17.1232C10.2459 19.0758 13.4117 19.0758 15.3643 17.1232Z'/>
-            </svg>";
-                            echo "<span class='like-counter'>" . $comment_likes . "</span></button>";
+
+                        if ($rows_num_reply_comment > 1) {
+                            $hidden_replies_count = $rows_num_reply_comment - 1;
+                            echo "<div class='reply-show-more''>";
+                            echo "<p class='see-all-comments reply' id='see-more-replies_$comment_id' onclick='showMoreReplies($comment_id, $hidden_replies_count)'>Показать ещё $hidden_replies_count</p>";
+                            echo "</div>";
                         }
-                        echo "</div>";
-                        echo "</div>";
-                    } else if ($comment_count < 5) {
-                        echo "<div class='user-comment hide comment_user-comment_$content_id' id='comment-$comment_id'>";
-                        echo "<a href='./user/$comment_username'><img class='comment-avatar' src='uploads/avatar/thin_" . $comment_avatar . "'></a>";
-                        echo "<div class='comment-div'>";
-                        if ($comment_first_name || $comment_second_name) {
-                            if ($comment_verify_status) {
-                                echo "<div><a href='./user/$comment_username' class='first-and-second-names trust'>" . $comment_first_name . " " . $comment_second_name . "</a><span class='date'>" . $comment_date . "</span>";
-                            } else {
-                                echo "<div><a href='./user/$comment_username' class='first-and-second-names'>" . $comment_first_name . " " . $comment_second_name . "</a><span class='date'>" . $comment_date . "</span>";
-                            }
-                        } else {
-                            if ($comment_verify_status) {
-                                echo "<div><a href='./user/$comment_username' class='first-and-second-names trust'>@" . $comment_username . "</a><span class='date'>" . $comment_date . "</span>";
-                            } else {
-                                echo "<div><a href='./user/$comment_username' class='first-and-second-names'>@" . $comment_username . "</a><span class='date'>" . $comment_date . "</span>";
-                            }
-                        }
-                        echo "</div>";
-                        echo "<p class='comment-text main-text'>" . $comment_text . "</p>";
-                        echo "<div class='comment-buttons'>";
-                        echo "<button type='button' class='reply-to-comment' id='reply-to_$comment_id'>Ответить</button>";
-                        if ($comment_user_id == $current_user_id) echo "<button type='button' class='delete-comment' id='$comment_id'>Удалить</button>";
-                        echo "</div>";
-                        $sql_like_comment = "SELECT 1 FROM likes_on_comments WHERE comment_id = $comment_id AND user_id = $current_user_id";
-                        $result_like_comment = $connect->query($sql_like_comment);
-                        if ($result_like_comment->num_rows > 0) {
-                            echo "<button data-post-id='$content_id' id='$comment_id' class='comment_like-button liked-comment'><svg width='23' height='19' viewBox='0 0 23 19' fill='none' xmlns='http://www.w3.org/2000/svg'>
-            <path d='M21.3345 8.71342C21.0727 9.33749 20.6942 9.9081 20.2183 10.3954L20.148 10.4648L13.6656 16.8654C12.4711 18.0449 10.5278 18.0449 9.33329 16.8654L9.33326 16.8654L2.85134 10.4657C2.34261 9.96338 1.93992 9.36791 1.66547 8.7137L0.7102 9.11444L1.66547 8.71369C1.39104 8.05952 1.25 7.35894 1.25 6.65182C1.25 5.94469 1.39104 5.24411 1.66547 4.58994C1.93992 3.93572 2.34261 3.34025 2.85134 2.83794C3.36011 2.33559 3.96496 1.93628 4.63177 1.66356C5.29861 1.39084 6.01386 1.25027 6.73655 1.25027C7.45924 1.25027 8.17449 1.39084 8.84133 1.66356C9.50754 1.93603 10.1119 2.33487 10.6204 2.83658L11.4989 3.70337L11.4998 3.7025L11.5009 3.7036L12.3791 2.83686C12.8877 2.33489 13.4922 1.93586 14.1587 1.66329C14.8255 1.39057 15.5408 1.25 16.2634 1.25C16.9861 1.25 17.7014 1.39057 18.3682 1.66329C19.035 1.93601 19.6399 2.33532 20.1487 2.83767C20.6574 3.33999 21.0601 3.93546 21.3345 4.58967C21.609 5.24384 21.75 5.94442 21.75 6.65155C21.75 7.35867 21.609 8.05925 21.3345 8.71342Z' />
-            </svg>";
-                            echo "<span class='like-counter'>" . $comment_likes . "</span></button>";
-                            if ($comment_likes == 1) {
-                                echo "<button data-post-id='$content_id' id='$comment_id' class='comment_like-button unliked-comment hide'><svg width='23' height='19' viewBox='0 0 23 19' fill='none' xmlns='http://www.w3.org/2000/svg'>
-                <path d='M21.3345 8.71342C21.0727 9.33749 20.6942 9.9081 20.2183 10.3954L20.148 10.4648L13.6656 16.8654C12.4711 18.0449 10.5278 18.0449 9.33329 16.8654L9.33326 16.8654L2.85134 10.4657C2.34261 9.96338 1.93992 9.36791 1.66547 8.7137L0.7102 9.11444L1.66547 8.71369C1.39104 8.05952 1.25 7.35894 1.25 6.65182C1.25 5.94469 1.39104 5.24411 1.66547 4.58994C1.93992 3.93572 2.34261 3.34025 2.85134 2.83794C3.36011 2.33559 3.96496 1.93628 4.63177 1.66356C5.29861 1.39084 6.01386 1.25027 6.73655 1.25027C7.45924 1.25027 8.17449 1.39084 8.84133 1.66356C9.50754 1.93603 10.1119 2.33487 10.6204 2.83658L11.4989 3.70337L11.4998 3.7025L11.5009 3.7036L12.3791 2.83686C12.8877 2.33489 13.4922 1.93586 14.1587 1.66329C14.8255 1.39057 15.5408 1.25 16.2634 1.25C16.9861 1.25 17.7014 1.39057 18.3682 1.66329C19.035 1.93601 19.6399 2.33532 20.1487 2.83767C20.6574 3.33999 21.0601 3.93546 21.3345 4.58967C21.609 5.24384 21.75 5.94442 21.75 6.65155C21.75 7.35867 21.609 8.05925 21.3345 8.71342Z' />
-                </svg></button>";
-                            } else {
-                                echo "<button data-post-id='$content_id' id='$comment_id' class='comment_like-button unliked-comment hide'><svg width='23' height='19' viewBox='0 0 23 19' fill='none' xmlns='http://www.w3.org/2000/svg'>
-                <path d='M21.3345 8.71342C21.0727 9.33749 20.6942 9.9081 20.2183 10.3954L20.148 10.4648L13.6656 16.8654C12.4711 18.0449 10.5278 18.0449 9.33329 16.8654L9.33326 16.8654L2.85134 10.4657C2.34261 9.96338 1.93992 9.36791 1.66547 8.7137L0.7102 9.11444L1.66547 8.71369C1.39104 8.05952 1.25 7.35894 1.25 6.65182C1.25 5.94469 1.39104 5.24411 1.66547 4.58994C1.93992 3.93572 2.34261 3.34025 2.85134 2.83794C3.36011 2.33559 3.96496 1.93628 4.63177 1.66356C5.29861 1.39084 6.01386 1.25027 6.73655 1.25027C7.45924 1.25027 8.17449 1.39084 8.84133 1.66356C9.50754 1.93603 10.1119 2.33487 10.6204 2.83658L11.4989 3.70337L11.4998 3.7025L11.5009 3.7036L12.3791 2.83686C12.8877 2.33489 13.4922 1.93586 14.1587 1.66329C14.8255 1.39057 15.5408 1.25 16.2634 1.25C16.9861 1.25 17.7014 1.39057 18.3682 1.66329C19.035 1.93601 19.6399 2.33532 20.1487 2.83767C20.6574 3.33999 21.0601 3.93546 21.3345 4.58967C21.609 5.24384 21.75 5.94442 21.75 6.65155C21.75 7.35867 21.609 8.05925 21.3345 8.71342Z' />
-                </svg>";
-                                echo "<span class='like-counter'>" . $comment_likes . "</span></button>";
-                            }
-                        } else {
-                            if ($comment_likes == 0) {
-                                echo "<button data-post-id='$content_id' id='$comment_id' class='comment_like-button unliked-comment'><svg width='23' height='19' viewBox='0 0 23 19' fill='none' xmlns='http://www.w3.org/2000/svg'>
-                <path d='M21.3345 8.71342C21.0727 9.33749 20.6942 9.9081 20.2183 10.3954L20.148 10.4648L13.6656 16.8654C12.4711 18.0449 10.5278 18.0449 9.33329 16.8654L9.33326 16.8654L2.85134 10.4657C2.34261 9.96338 1.93992 9.36791 1.66547 8.7137L0.7102 9.11444L1.66547 8.71369C1.39104 8.05952 1.25 7.35894 1.25 6.65182C1.25 5.94469 1.39104 5.24411 1.66547 4.58994C1.93992 3.93572 2.34261 3.34025 2.85134 2.83794C3.36011 2.33559 3.96496 1.93628 4.63177 1.66356C5.29861 1.39084 6.01386 1.25027 6.73655 1.25027C7.45924 1.25027 8.17449 1.39084 8.84133 1.66356C9.50754 1.93603 10.1119 2.33487 10.6204 2.83658L11.4989 3.70337L11.4998 3.7025L11.5009 3.7036L12.3791 2.83686C12.8877 2.33489 13.4922 1.93586 14.1587 1.66329C14.8255 1.39057 15.5408 1.25 16.2634 1.25C16.9861 1.25 17.7014 1.39057 18.3682 1.66329C19.035 1.93601 19.6399 2.33532 20.1487 2.83767C20.6574 3.33999 21.0601 3.93546 21.3345 4.58967C21.609 5.24384 21.75 5.94442 21.75 6.65155C21.75 7.35867 21.609 8.05925 21.3345 8.71342Z' />
-                </svg></button>";
-                            } else {
-                                echo "<button data-post-id='$content_id' id='$comment_id' class='comment_like-button unliked-comment'><svg width='23' height='19' viewBox='0 0 23 19' fill='none' xmlns='http://www.w3.org/2000/svg'>
-                <path d='M21.3345 8.71342C21.0727 9.33749 20.6942 9.9081 20.2183 10.3954L20.148 10.4648L13.6656 16.8654C12.4711 18.0449 10.5278 18.0449 9.33329 16.8654L9.33326 16.8654L2.85134 10.4657C2.34261 9.96338 1.93992 9.36791 1.66547 8.7137L0.7102 9.11444L1.66547 8.71369C1.39104 8.05952 1.25 7.35894 1.25 6.65182C1.25 5.94469 1.39104 5.24411 1.66547 4.58994C1.93992 3.93572 2.34261 3.34025 2.85134 2.83794C3.36011 2.33559 3.96496 1.93628 4.63177 1.66356C5.29861 1.39084 6.01386 1.25027 6.73655 1.25027C7.45924 1.25027 8.17449 1.39084 8.84133 1.66356C9.50754 1.93603 10.1119 2.33487 10.6204 2.83658L11.4989 3.70337L11.4998 3.7025L11.5009 3.7036L12.3791 2.83686C12.8877 2.33489 13.4922 1.93586 14.1587 1.66329C14.8255 1.39057 15.5408 1.25 16.2634 1.25C16.9861 1.25 17.7014 1.39057 18.3682 1.66329C19.035 1.93601 19.6399 2.33532 20.1487 2.83767C20.6574 3.33999 21.0601 3.93546 21.3345 4.58967C21.609 5.24384 21.75 5.94442 21.75 6.65155C21.75 7.35867 21.609 8.05925 21.3345 8.71342Z' />
-                </svg>";
-                                echo "<span class='like-counter'>" . $comment_likes . "</span></button>";
-                            }
-                            echo "<button data-post-id='$content_id' id='$comment_id' class='comment_like-button liked-comment hide'><svg width='23' height='19' viewBox='0 0 23 19' fill='none' xmlns='http://www.w3.org/2000/svg'>
-            <path fill-rule='evenodd' clip-rule='evenodd' d='M15.3643 17.1232L21.0488 11.4387L21.0494 11.4394C21.6548 10.834 22.135 10.1153 22.4626 9.32432C22.7903 8.53335 22.9589 7.6856 22.9589 6.82947C22.9589 5.97334 22.7903 5.12559 22.4626 4.33463C22.135 3.54366 21.6548 2.82498 21.0494 2.2196C20.4441 1.61423 19.7254 1.13402 18.9344 0.806393C18.1434 0.478767 17.2957 0.310142 16.4396 0.310145C15.5834 0.310148 14.7357 0.478778 13.9447 0.806409C13.1541 1.13391 12.4356 1.61388 11.8304 2.21893L11.8289 2.21742L11.8279 2.21836C11.2229 1.61375 10.5048 1.1341 9.71455 0.806772C8.92359 0.479147 8.07584 0.310521 7.2197 0.310524C6.36357 0.310526 5.51582 0.479157 4.72486 0.806787C3.93389 1.13442 3.2152 1.61463 2.60982 2.22001C2.00444 2.82539 1.52423 3.54408 1.1966 4.33504C0.868969 5.12601 0.700339 5.97376 0.700335 6.82989C0.700332 7.68602 0.868959 8.53377 1.19658 9.32474C1.52421 10.1157 2.00442 10.8344 2.60979 11.4398L2.60985 11.4397L8.29331 17.1232C10.2459 19.0758 13.4117 19.0758 15.3643 17.1232Z'/>
-            </svg>";
-                            echo "<span class='like-counter'>" . $comment_likes . "</span></button>";
-                        }
-                        echo "</div>";
-                        echo "</div>";
                     }
                     $comment_count++;
-                    $rows_num_comment--;
                 }
             }
             echo "</div>";
+
             if ($result_comment->num_rows > 2) {
                 $else_comments = $comment_count - 5;
+
                 echo "<div class='comments-buttons'>";
                 echo "<p class='see-all-comments' onclick='seeAllComments($content_id)' id='see-all-comments_$content_id'>Показать комментарии</p>";
                 if ($else_comments > 0) {
@@ -512,6 +551,7 @@ if ($result_post->num_rows > 0) {
                     <label for='textarea-comment' class='textarea-comment_label' id='textarea-comment_label_$content_id'>Ответить..</label>
                     <input type='hidden' required name='comment' class='textarea-comment_input' id='textarea-comment_input_$content_id' value=''>
                     <input type='hidden' name='comment_id' value='$content_id'>
+                    <input type='hidden' id='$content_id" . "_reply_comment_id' name='reply_comment_id' value=''>
                     <button type='submit' id='textarea-comment_submit_$content_id' class='textarea-comment_sumbit' disabled>
                     <svg width='28' height='28' viewBox='0 0 28 28' fill='none' xmlns='http://www.w3.org/2000/svg'>
                         <path fill-rule='evenodd' clip-rule='evenodd' d='M0 14C0 6.26801 6.26801 0 14 0C21.7319 0 28 6.26801 28 14C28 21.7319 21.7319 28 14 28C6.26801 28 0 21.7319 0 14ZM12.6 19.6C12.6 20.3732 13.2268 21 14 21C14.7732 21 15.4 20.3732 15.4 19.6V11.7799L17.2101 13.5899C17.7568 14.1366 18.6432 14.1366 19.1899 13.5899C19.7366 13.0432 19.7366 12.1568 19.1899 11.6101L15.1117 7.5319C15.0907 7.5108 15.0692 7.49043 15.0472 7.47078C14.7907 7.18197 14.4166 7 14 7C13.5834 7 13.2093 7.18197 12.9528 7.47078C12.9308 7.49042 12.9093 7.5108 12.8883 7.5319L8.81005 11.6101C8.26332 12.1568 8.26332 13.0432 8.81005 13.5899C9.35679 14.1366 10.2432 14.1366 10.79 13.5899L12.6 11.7799V19.6Z' />
