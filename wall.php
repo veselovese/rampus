@@ -83,12 +83,12 @@ if (isset($_SESSION['user'])) {
                         </svg>
                         <div class="fixed-div-for-bottom">
                             <div class="wall__new-post">
-                                <!-- <p>О чём расскажете сегодня?</p> -->
+                                <!-- <p class="whats-new">Даже не просите вернуть Аляску..</p> -->
                                 <form action="" id="new-post-form" method="post" enctype="multipart/form-data" autocomplete="off">
                                     <div class="current-post-images-div">
                                     </div>
                                     <div contenteditable="true" id="textarea-post" role="textbox" onkeyup="textareaPost(event)" onkeydown="textareaPostPlaceholder(event)"></div>
-                                    <label for="textarea-post" id="textarea-post_label">Это просто жесть..</label>
+                                    <label for="textarea-post" id="textarea-post_label">Публикация..</label>
                                     <input type="hidden" required name="post" id="textarea-post_input" value="">
                                     <input type="hidden" required name="post-source" value="source-wall">
                                     <input type="hidden" required name="post-search" value="<?php if (isset($_GET['search'])) {

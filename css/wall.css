@@ -267,6 +267,11 @@
     color: var(--block-color);
 }
 
+.wall__new-post .whats-new {
+    font-size: var(--font-size-0);
+    margin: 0.39rem 0 0.39rem 1.1rem;
+}
+
 .wall__new-post form {
     display: flex;
     flex-direction: column;
@@ -789,7 +794,7 @@ div.for-friends svg {
 }
 
 .wall__comments .other-users .user-comment.reply {
-    margin-left: 1.6rem;
+    margin-left: 2.6rem;
 }
 
 .wall__comments .other-users .user-comment.new-comment {

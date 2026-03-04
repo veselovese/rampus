@@ -177,7 +177,7 @@ if (isset($_SESSION['user'])) {
                                             <span><?= $current_user_reposts_counter ?></span>
                                         </div>
                                         <div class="current-param">
-                                            <img src="pics/RepostsIconBlossom.svg">
+                                            <!-- <img src="pics/RepostsIconBlossom.svg"> -->
                                             <p>Полученные лайки на комментарии</p>
                                             <span><?= $current_user_likes_on_comments_counter ?></span>
                                         </div>
@@ -204,7 +204,7 @@ if (isset($_SESSION['user'])) {
                                             <span><?= $current_user_reposted_counter ?></span>
                                         </div>
                                         <div class="current-param">
-                                            <img src="pics/RepostedIconBlossom.svg">
+                                            <!-- <img src="pics/RepostedIconBlossom.svg"> -->
                                             <p>Поставленные лайки на комментарии</p>
                                             <span><?= $current_user_liked_on_comments_counter ?></span>
                                         </div>

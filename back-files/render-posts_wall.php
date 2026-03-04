@@ -320,7 +320,8 @@ if ($result_post->num_rows > 0) {
                                         JOIN posts ON comments.post_id = posts.id
                                         WHERE comments.post_id = $content_id
                                         AND comments.reply_comment_id IS NULL
-                                        ORDER BY comments.likes DESC, UNIX_TIMESTAMP(comments.comment_date) ASC";
+                                        ORDER BY comments.likes DESC, UNIX_TIMESTAMP(comments.comment_date) ASC
+                                        LIMIT 5";
             $result_comment = $connect->query($sql_comment);
             $rows_num_comment = $result_comment->num_rows;
 
@@ -534,8 +535,12 @@ if ($result_post->num_rows > 0) {
             echo "</div>";
 
             if ($result_comment->num_rows > 1) {
-                $else_comments = $comment_count - 5;
-
+                $sql_else_comments = "SELECT 1
+                                        FROM comments
+                                        WHERE comments.post_id = $content_id
+                                        AND comments.reply_comment_id IS NULL";
+                $result_else_comments = $connect->query($sql_else_comments);
+                $else_comments = $result_else_comments->num_rows - 5;
                 echo "<div class='comments-buttons'>";
                 echo "<p class='see-all-comments' onclick='seeAllComments($content_id)' id='see-all-comments_$content_id'>Показать комментарии</p>";
                 if ($else_comments > 0) {

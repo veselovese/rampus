@@ -4,6 +4,8 @@ require_once('back-files/get-user-friends.php');
 
 $current_user_id = $_SESSION['user']['id'];
 $current_user_avatar = $_SESSION['user']['avatar'];
+$current_user_verify_status = $_SESSION['user']['verify_status'];
+$current_user_in_top = findUserPositionInTop($current_user_id, $connect);
 $current_user_placement = basename(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
 
 $unread_main_posts = $_SESSION['user']['unread_main_posts'];
@@ -58,6 +60,24 @@ $current_user_unread_chats = require('back-files/chats/get-user-unread-chats.php
     </ul>
     <a href="<?= $global_url ?>/profile" class="menu__link-profile" id="<?php echo $current_user_placement == 'profile' ? 'active' : '' ?>">
         <img class="menu-avatar" src="<?= $global_url ?>/uploads/avatar/thin_<?= $current_user_avatar ?>">
+        <?php if ($current_user_verify_status) { ?>
+            <img class='mobile-menu-status' src="<?= $global_url ?>/pics/SuperUserIcon.svg">
+        <?php } else {
+            switch ($current_user_in_top) {
+                case 1:
+                    echo "<img class='mobile-menu-status' src='$global_url/pics/BlossomFirstIcon.svg'>";
+                    break;
+                case 2:
+                    echo "<img class='mobile-menu-status' src='$global_url/pics/BlossomSecondIcon.svg'>";
+                    break;
+                case 3:
+                    echo "<img class='mobile-menu-status' src='$global_url/pics/BlossomThirdIcon.svg'>";
+                    break;
+            }
+        } ?>
+        <?php if ($current_user_requests > 0) { ?>
+            <span id="notification__unread-posts-mobile" class="notification-in-menu-mobile active profile"><?= $current_user_requests  ?></span>
+        <?php } ?>
     </a>
 </nav>
 <?php echo $current_user_placement != 'wall' ? "</div>" : ""; ?>

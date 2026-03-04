@@ -1,4 +1,4 @@
-ws = new WebSocket('ws://localhost:2346');
+const ws = new WebSocket('ws://localhost:2346');
 
 $(document).ready(function () {
     searchHashtag();
