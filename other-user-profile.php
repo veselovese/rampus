@@ -55,23 +55,45 @@ FROM
     ) friends   
     JOIN users u ON u.id = friends.friend_id");
 
-$sql_other_user_posts_and_likes_counter = "SELECT IF(SUM(posts.likes), SUM(posts.likes), 0) AS other_user_likes_counter, IF(SUM(posts.reposts), SUM(posts.reposts), 0) AS other_user_reposts_counter, COUNT(*) AS other_user_posts_counter
-                    FROM posts
-                    JOIN users ON posts.user_id = users.id
-                    WHERE posts.user_id = $other_user_id";
-$result_other_user_posts_and_likes_counter = $connect->query($sql_other_user_posts_and_likes_counter);
-if ($result_other_user_posts_and_likes_counter->num_rows > 0) {
-    $row_other_user_posts_and_likes_counter = $result_other_user_posts_and_likes_counter->fetch_assoc();
-    $other_user_posts_counter = $row_other_user_posts_and_likes_counter["other_user_posts_counter"];
-    $other_user_likes_counter = $row_other_user_posts_and_likes_counter["other_user_likes_counter"];
-    $other_user_reposts_counter = $row_other_user_posts_and_likes_counter["other_user_reposts_counter"];
-}
+$sql_other_user_posts_and_likes_counter = "SELECT 
+        (
+            SELECT IFNULL(COUNT(*), 0)
+            FROM likes_on_posts l
+            JOIN posts p2 ON l.post_id = p2.id
+            WHERE p2.user_id = p.user_id
+                AND l.user_id != p.user_id
+                AND p2.for_friends = 0
+        ) AS other_user_likes_counter,
+        (
+            SELECT IFNULL(COUNT(*), 0)
+            FROM reposts r
+            JOIN posts p2 ON r.post_id = p2.id
+            WHERE p2.user_id = p.user_id
+                AND r.user_id != p.user_id
+                AND p2.for_friends = 0
+        ) AS other_user_reposts_counter,
+        COUNT(DISTINCT p.id) AS other_user_posts_counter
+    FROM posts p
+    JOIN users u ON p.user_id = u.id
+    WHERE p.user_id = $other_user_id
+        AND p.for_friends = 0";
+    $result_other_user_posts_and_likes_counter = $connect->query($sql_other_user_posts_and_likes_counter);
+    if ($result_other_user_posts_and_likes_counter->num_rows > 0) {
+        $row_other_user_posts_and_likes_counter = $result_other_user_posts_and_likes_counter->fetch_assoc();
+        $other_user_posts_counter = $row_other_user_posts_and_likes_counter["other_user_posts_counter"];
+        $other_user_likes_counter = $row_other_user_posts_and_likes_counter["other_user_likes_counter"];
+        $other_user_reposts_counter = $row_other_user_posts_and_likes_counter["other_user_reposts_counter"];
+    }
 
-$sql_other_user_comments_counter = "SELECT 1
-                    FROM comments 
-                    JOIN posts ON comments.post_id = posts.id    
-                    WHERE posts.user_id = $other_user_id";
-$other_user_comments_counter = $connect->query($sql_other_user_comments_counter)->num_rows;
+$sql_other_user_comments_counter = "SELECT COUNT(*) AS comments_count
+    FROM comments c
+    JOIN posts p ON c.post_id = p.id
+    JOIN users u ON p.user_id = u.id
+    WHERE p.user_id = $other_user_id
+        AND c.user_id != $other_user_id
+        AND p.for_friends = 0";
+    $result = $connect->query($sql_other_user_comments_counter);
+    $other_user_comments_counter = $result->fetch_assoc()['comments_count'];
 
 $sql_other_user_trophies_list = "SELECT name, description, image FROM trophies WHERE user_id_to = $other_user_id";
 $result_other_user_trophies_list = $connect->query($sql_other_user_trophies_list);
@@ -88,9 +110,9 @@ $result_other_user_personal_trophies_list_mobile = $connect->query($sql_other_ot
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-    <link rel="stylesheet" href="../css/main.css?v=311">
-    <link rel="stylesheet" href="../css/profile.css?v=311">
-    <link rel="stylesheet" href="../css/people.css?v=311">
+    <link rel="stylesheet" href="../css/main.css?v=320">
+    <link rel="stylesheet" href="../css/profile.css?v=320">
+    <link rel="stylesheet" href="../css/people.css?v=320">
     <title>Профиль пользователя в Рампус</title>
     <link rel="apple-touch-icon" sizes="180x180" href="../favicons/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="../favicons/favicon-32x32.png">
@@ -449,11 +471,11 @@ $result_other_user_personal_trophies_list_mobile = $connect->query($sql_other_ot
 <?php require_once('components/footer.php');
         } ?>
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-<script src="../js/main.js?v=311"></script>
-<script src="../js/copy-links.js?v=311"></script>
-<script src="../js/profile.js?v=311"></script>
-<script src="../js/otheruserprofile.js?v=311"></script>
-<script src="../js/friends.js?v=311"></script>
+<script src="../js/main.js?v=320"></script>
+<script src="../js/copy-links.js?v=320"></script>
+<script src="../js/profile.js?v=320"></script>
+<script src="../js/otheruserprofile.js?v=320"></script>
+<script src="../js/friends.js?v=320"></script>
 </body>
 
 </html>

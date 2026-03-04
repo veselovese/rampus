@@ -86,7 +86,7 @@ function addCommentToPost(postId, commentData) {
 
 function createCommentElement(commentData, postId, currentUserId) {
     const commentDiv = document.createElement('div');
-    commentDiv.className = 'user-comment'; // Класс 'new-comment' убран для соответствия PHP, можно добавить обратно, если нужна анимация
+    commentDiv.className = 'user-comment new-comment';
     commentDiv.id = `comment-${commentData.id}`;
 
     const nameClass = commentData.verify_status ? 'first-and-second-names trust' : 'first-and-second-names';
