@@ -46,14 +46,65 @@ if ($comment_data['user_id'] != $user_id) {
 }
 
 $post_id = $comment_data['post_id'];
-$for_friends_status = $connect->query("SELECT for_friends FROM posts WHERE id = $post_id")->fetch_assoc()['for_friends'];
+$post_info = $connect->query("SELECT user_id, for_friends FROM posts WHERE id = $post_id")->fetch_assoc();
+$post_owner_id = $post_info['user_id'];
+$for_friends_status = $post_info['for_friends'];
 
-if ($for_friends_status == 0) {
-    $other_id = $connect->query("SELECT p.user_id FROM posts p JOIN comments c ON p.id = c.post_id WHERE c.id = $comment_id")->fetch_assoc()['user_id'];
+if ($for_friends_status == 0 && $user_id != $post_owner_id) {
+    blossoming('delete-self-comment', $user_id, $connect);
+    blossoming('comment-deleted-under-post-by', $post_owner_id, $connect);
+}
 
-    if ($user_id != $other_id) {
-        blossoming('delete-self-comment', $user_id,  $connect);
-        blossoming('comment-deleted-under-post-by', $other_id, $connect);
+$replies_query = $connect->query("SELECT c.id AS reply_id, c.user_id AS reply_author_id, p.user_id AS post_owner_id 
+                                  FROM posts p 
+                                  JOIN comments c ON p.id = c.post_id 
+                                  WHERE c.reply_comment_id = $comment_id");
+
+if ($replies_query->num_rows > 0) {
+    while ($reply_row = $replies_query->fetch_assoc()) {
+        $reply_id = $reply_row['reply_id'];
+        $reply_author_id = $reply_row['reply_author_id'];
+
+        $is_self_comment = ($reply_author_id == $post_owner_id);
+
+        if ($for_friends_status == 0 && !$is_self_comment) {
+            blossoming('delete-self-comment', $reply_author_id, $connect);
+            blossoming('comment-deleted-under-post-by', $post_owner_id, $connect);
+        }
+
+        $likes_query = $connect->query("SELECT user_id FROM likes_on_comments WHERE comment_id = $reply_id");
+
+        if ($likes_query->num_rows > 0) {
+            while ($like_row = $likes_query->fetch_assoc()) {
+                $liker_id = $like_row['user_id'];
+
+                $is_self_like = ($reply_author_id == $liker_id);
+
+                if ($for_friends_status == 0 && !$is_self_like) {
+                    blossoming('dislike-comment', $liker_id, $connect);
+                    blossoming('comment-is-disliked-by', $reply_author_id, $connect);
+                }
+
+                $connect->query("DELETE FROM likes_on_comments WHERE comment_id = $reply_id AND user_id = $liker_id LIMIT 1");
+            }
+        }
+
+        $connect->query("DELETE FROM comments WHERE id = $reply_id AND user_id = $reply_author_id LIMIT 1");
+    }
+}
+
+$main_likes_query = $connect->query("SELECT user_id FROM likes_on_comments WHERE comment_id = $comment_id");
+
+if ($main_likes_query->num_rows > 0) {
+    while ($like_row = $main_likes_query->fetch_assoc()) {
+        $liker_id = $like_row['user_id'];
+
+        if ($for_friends_status == 0 && $user_id != $liker_id) {
+            blossoming('dislike-comment', $liker_id, $connect);
+            blossoming('comment-is-disliked-by', $user_id, $connect);
+        }
+
+        $connect->query("DELETE FROM likes_on_comments WHERE comment_id = $comment_id AND user_id = $liker_id LIMIT 1");
     }
 }
 

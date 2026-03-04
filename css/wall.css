@@ -994,7 +994,9 @@ div.for-friends svg {
     opacity: 80%;
 }
 
-.wall__comments .other-users .user-comment.hide {
+.wall__comments .other-users .user-comment.hide,
+.wall__comments .other-users .user-comment.reply-hide,
+.wall__comments .other-users .see-all-comments.reply-hide {
     display: none;
 }
 

@@ -248,13 +248,6 @@ $(document).ready(function () {
         $('#notification__unread-posts').text(Number($('#notification__unread-posts').text()) - $unreadAllPost > 0 ? Number($('#notification__unread-posts').text()) - $unreadAllPost : '')
         $('#notification-in-filter__unread-all-posts').addClass('hide')
     })
-    $('#wall-filter-timetable').click(() => {
-        filter = 'timetable';
-        renderPosts(filter, search, true);
-        $unreadThirtySeventhPost = Number($('#notification-in-filter__unread-thirty-seventh-posts').text())
-        $('#notification__unread-posts').text(Number($('#notification__unread-posts').text()) - $unreadThirtySeventhPost > 0 ? Number($('#notification__unread-posts').text()) - $unreadThirtySeventhPost : '')
-        $('#notification-in-filter__unread-thirty-seventh-posts').addClass('hide')
-    })
     $('#wall-filter-main__mobile').click(() => {
         filter = 'main';
         renderPosts(filter, search, true);
@@ -279,18 +272,6 @@ $(document).ready(function () {
         }
         $('#notification-in-filter__unread-all-posts-mobile').addClass('hide')
     })
-    $('#wall-filter-timetable__mobile').click(() => {
-        filter = 'timetable';
-        renderPosts(filter, search, true);
-        $unreadThirtySeventhPost = Number($('#notification-in-filter__unread-thirty-seventh-mobile').text())
-        if (Number($('#notification__unread-posts-mobile').text()) - $unreadThirtySeventhPost > 0) {
-            $('#notification__unread-posts-mobile').text(Number($('#notification__unread-posts-mobile').text()) - $unreadThirtySeventhPost)
-        } else {
-            $('#notification__unread-posts-mobile').text('')
-            $('#notification__unread-posts-mobile').removeClass('active')
-        }
-        $('#notification-in-filter__unread-thirty-seventh-posts-mobile').addClass('hide')
-    })
 })
 
 function commentButtonClick(i) {
@@ -299,6 +280,8 @@ function commentButtonClick(i) {
 
 function seeAllComments(i) {
     $('.comment_user-comment_' + i).toggleClass('hide');
+    $('.comment_user-visiable-reply_' + i).toggleClass('reply-hide');
+    $('.comment_user-show_more_replies_' + i).toggleClass('reply-hide');
     $('#have-else-comments_dot_' + i).toggleClass('hide');
     $('#have-else-comments_a_' + i).toggleClass('hide');
     if ($('#see-all-comments_' + i).text() == 'Показать комментарии') {

@@ -30,9 +30,6 @@ $start = ($page != 1) ? $page * $limit - $limit : 0;
 
 if ($_POST['filter'] === 'main') {
     $filter = " AND posts.user_id IN ($user_friends_id) AND NOT users.username = 'Thirty_seventh'";
-} else if ($_POST['filter'] === 'timetable') {
-    $filter = " AND users.username = 'Thirty_seventh'";
-    $_SESSION['user']['unread_thirty_seventh_posts'] = 0;
 } else {
     $filter = " AND NOT users.username = 'Thirty_seventh' AND posts.repost_user_id IS NULL";
     $_SESSION['user']['unread_all_posts'] = 0;
@@ -445,6 +442,7 @@ if ($result_post->num_rows > 0) {
                             $reply_comment_likes = $row_reply_comment['reply_comment_likes'];
 
                             $reply_hidden_class = ($reply_index > 0) ? 'hide comment_user-reply_' . $comment_id : '';
+                            $reply_visiable_class = $is_hidden_comment ? 'reply-hide comment_user-visiable-reply_' . $content_id : '';
 
                             $reply_comment_text = preg_replace('/\xc2\xa0/', ' ', $row_reply_comment['reply_comment_text']);
                             preg_match_all('/@(\w+)/u', $reply_comment_text, $matches);
@@ -502,7 +500,7 @@ if ($result_post->num_rows > 0) {
                             $reply_btn_unliked = $is_reply_liked ? 'unliked-comment hide' : 'unliked-comment';
                             $reply_like_counter_span = $reply_comment_likes > 0 ? "<span class='like-counter'>$reply_comment_likes</span>" : "";
 
-                            echo "<div class='user-comment reply $reply_hidden_class' id='comment-$reply_comment_id'>";
+                            echo "<div class='user-comment reply $reply_hidden_class $reply_visiable_class' id='comment-$reply_comment_id'>";
                             echo "<a href='./user/$reply_comment_username'><img class='comment-avatar' src='uploads/avatar/thin_" . $reply_comment_avatar . "'></a>";
                             echo "<div class='comment-div'>";
 
@@ -524,8 +522,9 @@ if ($result_post->num_rows > 0) {
 
                         if ($rows_num_reply_comment > 1) {
                             $hidden_replies_count = $rows_num_reply_comment - 1;
-                            echo "<div class='reply-show-more''>";
-                            echo "<p class='see-all-comments reply' id='see-more-replies_$comment_id' onclick='showMoreReplies($comment_id, $hidden_replies_count)'>Показать ещё $hidden_replies_count</p>";
+                            $show_more_replies_extra_class = $is_hidden_comment ? "reply-hide comment_user-show_more_replies_$content_id" : "";
+                            echo "<div class='reply-show-more'>";
+                            echo "<p class='see-all-comments reply $show_more_replies_extra_class' id='see-more-replies_$comment_id' onclick='showMoreReplies($comment_id, $hidden_replies_count)'>Показать ещё $hidden_replies_count</p>";
                             echo "</div>";
                         }
                     }
@@ -534,7 +533,7 @@ if ($result_post->num_rows > 0) {
             }
             echo "</div>";
 
-            if ($result_comment->num_rows > 2) {
+            if ($result_comment->num_rows > 1) {
                 $else_comments = $comment_count - 5;
 
                 echo "<div class='comments-buttons'>";

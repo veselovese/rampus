@@ -19,7 +19,7 @@ if ($hashtag_id > 0) {
 
 if ($repost_user_id) {
     if ($connect->query("SELECT id FROM reposts WHERE post_id = $repost_post_id AND user_id = $user_id")->num_rows == 1) {
-        $connect->query("DELETE FROM reposts WHERE user_id = $user_id AND post_id = $repost_post_id");
+        $connect->query("DELETE FROM reposts WHERE user_id = $user_id AND post_id = $repost_post_id LIMIT 1");
 
         $sql_check_another_repost = "SELECT id, user_id FROM posts WHERE repost_post_id = $repost_post_id";
         $result_check_another_repost = $connect->query($sql_check_another_repost);
@@ -32,7 +32,7 @@ if ($repost_user_id) {
                         blossoming('unrepost-post', $user_id,  $connect);
                         blossoming('is-unreposted-by', $repost_other_user_id, $connect);
                     }
-                    $connect->query("DELETE FROM reposts WHERE user_id = $user_id AND post_id = $repost_id");
+                    $connect->query("DELETE FROM reposts WHERE user_id = $user_id AND post_id = $repost_id LIMIT 1");
                     if ($connect->query("SELECT id FROM reposts WHERE user_id = $user_id AND post_id = $repost_id")->num_rows == 0) {
                         $connect->query("UPDATE posts SET reposts = reposts - 1 WHERE id = $repost_id");
                     }
@@ -66,7 +66,7 @@ if ($other_users_id_comments->num_rows > 0) {
             }
         }
 
-        $connect->query("DELETE FROM comments WHERE post_id = $post_id AND user_id = $other_id");
+        $connect->query("DELETE FROM comments WHERE post_id = $post_id AND user_id = $other_id LIMIT 1");
     }
 }
 
@@ -83,7 +83,7 @@ if ($other_users_id_likes->num_rows > 0) {
             }
         }
 
-        $connect->query("DELETE FROM likes_on_posts WHERE post_id = $post_id AND user_id = $other_id");
+        $connect->query("DELETE FROM likes_on_posts WHERE post_id = $post_id AND user_id = $other_id LIMIT 1");
     }
 }
 
@@ -100,7 +100,7 @@ if ($other_users_id_reposts->num_rows > 0) {
             }
         }
 
-        $connect->query("DELETE FROM reposts WHERE post_id = $post_id AND user_id = $other_id");
+        $connect->query("DELETE FROM reposts WHERE post_id = $post_id AND user_id = $other_id LIMIT 1");
         $connect->query("UPDATE posts SET status = 1 WHERE repost_post_id = $post_id AND user_id = $other_id");
     }
 }

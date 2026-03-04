@@ -30,11 +30,6 @@ if (isset($_SESSION['user'])) {
     $total_main = $row_main["posts_counter"];
     $amt_main = ceil($total_main / $limit);
 
-    $sth_ts = $connect->query("SELECT COUNT(posts.id) AS posts_counter FROM posts JOIN users ON posts.user_id = users.id WHERE users.username = 'Thirty_seventh'");
-    $row_ts = $sth_ts->fetch_assoc();
-    $total_ts = $row_ts["posts_counter"];
-    $amt_ts = ceil($total_ts / $limit);
-
     $sth_all = $connect->query("SELECT COUNT(posts.id) AS posts_counter FROM posts JOIN users ON posts.user_id = users.id WHERE users.username != 'Thirty_seventh' AND posts.repost_user_id IS NULL");
     $row_all = $sth_all->fetch_assoc();
     $total_all = $row_all["posts_counter"];
@@ -72,9 +67,6 @@ if (isset($_SESSION['user'])) {
                             <div class="wall-filter__choice">
                                 <label class="wall-filter-popup-li">
                                     <div>Основная<span>Вы и ваши друзья</span></div><?= $unread_main_posts > 0 ? '<span class="notification-in-filter" id="notification-in-filter__unread-main-posts-mobile">' . $unread_main_posts . '</span>' : '' ?><input checked name="wall-filter__mobile" id="wall-filter-main__mobile" type="radio" value="">
-                                </label>
-                                <label class="wall-filter-popup-li">
-                                    <div>Расписание<span>Для Тридцать седьмой</span></div><?= $unread_thirty_seventh_posts > 0 ? '<span class="notification-in-filter" id="notification-in-filter__unread-thirty-seventh-posts-mobile">' . $unread_thirty_seventh_posts . '</span>' : '' ?><input name="wall-filter__mobile" id="wall-filter-timetable__mobile" type="radio" value="">
                                 </label>
                                 <label class="wall-filter-popup-li">
                                     <div>Глобал<span>Посты всех пользователей</span></div><?= $unread_all_posts > 0 ? '<span class="notification-in-filter" id="notification-in-filter__unread-all-posts-mobile">' . $unread_all_posts . '</span>' : '' ?><input name="wall-filter__mobile" id="wall-filter-all__mobile" type="radio" value="">
@@ -151,9 +143,6 @@ if (isset($_SESSION['user'])) {
                                 <div class="wall-filter__choice">
                                     <label class="wall-filter-popup-li">
                                         <div>Основная<span>Вы и ваши друзья</span></div><?= $unread_main_posts > 0 ? '<span class="notification-in-filter" id="notification-in-filter__unread-main-posts">' . $unread_main_posts . '</span>' : '' ?><input checked name="wall-filter" id="wall-filter-main" type="radio" value="">
-                                    </label>
-                                    <label class="wall-filter-popup-li">
-                                        <div>Расписание<span>Для Тридцать седьмой</span></div><?= $unread_thirty_seventh_posts > 0 ? '<span class="notification-in-filter" id="notification-in-filter__unread-thirty-seventh-posts">' . $unread_thirty_seventh_posts . '</span>' : '' ?><input name="wall-filter" id="wall-filter-timetable" type="radio" value="">
                                     </label>
                                     <label class="wall-filter-popup-li">
                                         <div>Глобал<span>Посты всех пользователей</span></div><?= $unread_all_posts > 0 ? '<span class="notification-in-filter" id="notification-in-filter__unread-all-posts">' . $unread_all_posts . '</span>' : '' ?><input name="wall-filter" id="wall-filter-all" type="radio" value="">
