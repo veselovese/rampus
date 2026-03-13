@@ -22,6 +22,8 @@ if (isset($_SESSION['user'])) {
         $row_current_user_blossom = $result_current_user_blossom->fetch_assoc();
         $current_user_blossom_level = $row_current_user_blossom["blossom_level"];
         $current_user_blossom_progress = $row_current_user_blossom["blossom_progress"];
+
+        $current_user_blossom_progress_need = max(20, intval(($current_user_blossom_level - 1) * 1.6 * 20));
     }
 
     $sql_current_user_posts_and_likes_counter = "SELECT 
@@ -161,12 +163,11 @@ if (isset($_SESSION['user'])) {
                                     </svg>
                                 </div>
                                 <div class="progress-div">
-                                    <progress value="<?= $current_user_blossom_progress ?>" max="100"></progress>
-                                    <span class="progress" style="--r:<?= $current_user_blossom_progress ?>%"><?= $current_user_blossom_progress ?>%</span>
+                                    <progress value="<?= $current_user_blossom_progress ?>" max="<?= $current_user_blossom_progress_need ?>"></progress>
                                 </div>
                                 <div class="level">
                                     <span><?= $current_user_blossom_level ?> уровень</span>
-                                    <span><?= $current_user_blossom_level + 1 ?></span>
+                                    <span class="progress"><?= $current_user_blossom_progress ?> / <?= $current_user_blossom_progress_need ?></span>
                                 </div>
                             </a>
                             <a href="./trophies" class="case mobile">
@@ -329,12 +330,11 @@ if (isset($_SESSION['user'])) {
                                             </svg>
                                         </div>
                                         <div class="progress-div">
-                                            <progress value="<?= $current_user_blossom_progress ?>" max="100"></progress>
-                                            <span class="progress" style="--r:<?= $current_user_blossom_progress ?>%"><?= $current_user_blossom_progress ?>%</span>
+                                            <progress value="<?= $current_user_blossom_progress ?>" max="<?= $current_user_blossom_progress_need ?>"></progress>
                                         </div>
                                         <div class="level">
                                             <span><?= $current_user_blossom_level ?> уровень</span>
-                                            <span><?= $current_user_blossom_level + 1 ?></span>
+                                            <span class="progress"><?= $current_user_blossom_progress ?> / <?= $current_user_blossom_progress_need ?></span>
                                         </div>
                                     </a>
                                     <a href="./trophies" class="case">

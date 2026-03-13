@@ -29,9 +29,9 @@ $page = (empty($page)) ? 1 : $page;
 $start = ($page != 1) ? $page * $limit - $limit : 0;
 
 if ($_POST['filter'] === 'main') {
-    $filter = " AND posts.user_id IN ($user_friends_id) AND NOT users.username = 'Thirty_seventh'";
+    $filter = " AND posts.user_id IN ($user_friends_id)";
 } else {
-    $filter = " AND NOT users.username = 'Thirty_seventh' AND posts.repost_user_id IS NULL";
+    $filter = " AND posts.repost_user_id IS NULL";
     $_SESSION['user']['unread_all_posts'] = 0;
 }
 

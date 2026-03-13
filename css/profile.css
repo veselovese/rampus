@@ -851,6 +851,7 @@ span.for-friends {
     border-radius: 2rem;
     margin: 0;
     cursor: pointer;
+    color: var(--else-text-color-50);
 }
 
 .second-part .blossom-level {
@@ -905,12 +906,9 @@ span.for-friends {
 }
 
 .blossom-level .progress {
-    position: absolute;
-    left: calc(100% - (100% - var(--r)) + 0.5rem);
-    font-size: var(--font-size-1);
+    /* font-weight: 600; */
     color: var(--else-text-color-50);
     transition: 0.2s;
-    opacity: 0;
 }
 
 .blossom-level .level {

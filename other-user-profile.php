@@ -36,6 +36,8 @@ if ($result_other_user->num_rows > 0) {
     $other_user_unrated_status = $row_other_user["unrated_status"];
     $other_user_blossom_level = $row_other_user["blossom_level"];
     $other_user_blossom_progress = $row_other_user["blossom_progress"];
+
+    $other_user_blossom_progress_need = max(20, intval(($other_user_blossom_level - 1) * 1.6 * 20));
 } else {
     header("Location: ../profile");
     exit();
@@ -77,13 +79,13 @@ $sql_other_user_posts_and_likes_counter = "SELECT
     JOIN users u ON p.user_id = u.id
     WHERE p.user_id = $other_user_id
         AND p.for_friends = 0";
-    $result_other_user_posts_and_likes_counter = $connect->query($sql_other_user_posts_and_likes_counter);
-    if ($result_other_user_posts_and_likes_counter->num_rows > 0) {
-        $row_other_user_posts_and_likes_counter = $result_other_user_posts_and_likes_counter->fetch_assoc();
-        $other_user_posts_counter = $row_other_user_posts_and_likes_counter["other_user_posts_counter"];
-        $other_user_likes_counter = $row_other_user_posts_and_likes_counter["other_user_likes_counter"];
-        $other_user_reposts_counter = $row_other_user_posts_and_likes_counter["other_user_reposts_counter"];
-    }
+$result_other_user_posts_and_likes_counter = $connect->query($sql_other_user_posts_and_likes_counter);
+if ($result_other_user_posts_and_likes_counter->num_rows > 0) {
+    $row_other_user_posts_and_likes_counter = $result_other_user_posts_and_likes_counter->fetch_assoc();
+    $other_user_posts_counter = $row_other_user_posts_and_likes_counter["other_user_posts_counter"];
+    $other_user_likes_counter = $row_other_user_posts_and_likes_counter["other_user_likes_counter"];
+    $other_user_reposts_counter = $row_other_user_posts_and_likes_counter["other_user_reposts_counter"];
+}
 
 $sql_other_user_comments_counter = "SELECT COUNT(*) AS comments_count
     FROM comments c
@@ -92,8 +94,8 @@ $sql_other_user_comments_counter = "SELECT COUNT(*) AS comments_count
     WHERE p.user_id = $other_user_id
         AND c.user_id != $other_user_id
         AND p.for_friends = 0";
-    $result = $connect->query($sql_other_user_comments_counter);
-    $other_user_comments_counter = $result->fetch_assoc()['comments_count'];
+$result = $connect->query($sql_other_user_comments_counter);
+$other_user_comments_counter = $result->fetch_assoc()['comments_count'];
 
 $sql_other_user_trophies_list = "SELECT name, description, image FROM trophies WHERE user_id_to = $other_user_id";
 $result_other_user_trophies_list = $connect->query($sql_other_user_trophies_list);
@@ -227,12 +229,11 @@ $result_other_user_personal_trophies_list_mobile = $connect->query($sql_other_ot
                                     Цветение
                                 </div>
                                 <div class="progress-div">
-                                    <progress value="<?= $other_user_blossom_progress ?>" max="100"></progress>
-                                    <span class="progress" style="--r:<?= $other_user_blossom_progress ?>%"><?= $other_user_blossom_progress ?>%</span>
+                                    <progress value="<?= $other_user_blossom_progress ?>" max="<?= $other_user_blossom_progress_need ?>"></progress>
                                 </div>
                                 <div class="level">
                                     <span><?= $other_user_blossom_level ?> уровень</span>
-                                    <span><?= $other_user_blossom_level + 1 ?></span>
+                                    <span><?= $other_user_blossom_progress ?> / <?= $other_user_blossom_progress_need ?></span>
                                 </div>
                             </div>
                             <div href="./trophies" class="case mobile">
@@ -393,12 +394,11 @@ $result_other_user_personal_trophies_list_mobile = $connect->query($sql_other_ot
                                                 Цветение
                                             </div>
                                             <div class="progress-div">
-                                                <progress value="<?= $other_user_blossom_progress ?>" max="100"></progress>
-                                                <span class="progress" style="--r:<?= $other_user_blossom_progress ?>%"><?= $other_user_blossom_progress ?>%</span>
+                                                <progress value="<?= $other_user_blossom_progress ?>" max="<?= $other_user_blossom_progress_need ?>"></progress>
                                             </div>
                                             <div class="level">
                                                 <span><?= $other_user_blossom_level ?> уровень</span>
-                                                <span><?= $other_user_blossom_level + 1 ?></span>
+                                                <span><?= $other_user_blossom_progress ?> / <?= $other_user_blossom_progress_need ?></span>
                                             </div>
                                         </div>
                                         <div class="case">
