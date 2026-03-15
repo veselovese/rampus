@@ -21,7 +21,19 @@ if (isset($_SESSION['user'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
     <link rel="stylesheet" href="css/main.css?v=320">
     <link rel="stylesheet" href="css/people.css?v=320">
-    <title>Друзья в Рампус</title>
+
+    <title>Друзья в Рампусе</title>
+
+    <meta property="og:title" content="Друзья в Рампусе" />
+
+    <meta property="og:site_name" content="Рампус">
+    <meta property="og:url" content="https://rampus.ru/friends">
+
+    <meta name="description" content="Перейдите, чтобы увидеть список друзей и ответить на входящие заявки" />
+    <meta property="og:description" content="Перейдите, чтобы увидеть список друзей и ответить на входящие заявки" />
+
+    <meta property="og:image" content="https://rampus.ru/pics/plugs/RampusMainPlug.png?v=320" />
+
     <link rel="apple-touch-icon" sizes="180x180" href="favicons/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="favicons/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="favicons/favicon-16x16.png">

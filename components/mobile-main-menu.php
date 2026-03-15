@@ -1,6 +1,7 @@
 <?php
 require_once('back-files/global.php');
 require_once('back-files/get-user-friends.php');
+require_once('back-files/find-user-position-in-top.php');
 
 $current_user_id = $_SESSION['user']['id'];
 $current_user_avatar = $_SESSION['user']['avatar'];

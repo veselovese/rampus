@@ -5,9 +5,37 @@ if (isset($_SESSION['user'])) {
     require('back-files/like-or-dislike.php');
     require('back-files/find-user-position-in-top.php');
     require('back-files/get-user-friends.php');
+    require('back-files/posts/get-short-post-info.php');
     require_once('back-files/connect.php');
 
     $current_user_id = $_SESSION['user']['id'];
+
+    $current_post_id = mysqli_real_escape_string($connect, $_GET['postid']);
+
+    $ogTitle = "Пост на стене Рампуса";
+    $ogDesc = "Перейдите и посомтрите, что опубликовал пользователь";
+    $ogImage = "http://localhost/rampus/pics/plugs/RampusSmallPlug.png";
+    // $ogImage = "https://rampus.ru/pics/plugs/RampusMainPlug.png";
+    $ogUrl = "https://rampus.ru";
+
+
+    if ($current_post_id) {
+        $postData = getShortPostInfo($connect, $current_post_id);
+
+        if ($postData) {
+            if (!$postData['content_for_friends']) {
+                $ogTitle = htmlspecialchars('Пост @' . $postData['content_author_username'] . ' на стене Рампуса');
+                $ogDesc = $postData['content_text'] ? htmlspecialchars(mb_substr($postData['content_text'], 0, 150)) : $ogDesc;
+                if ($postData['content_images']) {
+                    $ogImage = "http://localhost/rampus/uploads/post-image/small_" . $postData['content_images'];
+                } else if ($postData['content_author_avatar'] && $postData['content_author_avatar'] != 'noavatar.jpg') {
+                    $ogImage = "http://localhost/rampus/uploads/avatar/small_" . $postData['content_author_avatar'];
+                }
+                // $ogImage = $postData['content_images'] ? "https://rampus.ru/uploads/post-image/small_" . $postData['content_images'] : $ogImage;
+            }
+            $ogUrl = "https://rampus.ru/post/" . $current_post_id;
+        }
+    }
 }
 ?>
 
@@ -19,7 +47,19 @@ if (isset($_SESSION['user'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
     <link rel="stylesheet" href="../css/main.css?v=320">
     <link rel="stylesheet" href="../css/wall.css?v=320">
-    <title>Пост на стене в Рампус</title>
+
+    <title>Пост на стене Рампуса</title>
+
+    <meta property="og:title" content="<?= $ogTitle ?>" />
+
+    <meta property="og:site_name" content="Рампус">
+    <meta property="og:url" content="<?= $ogUrl ?>">
+
+    <meta name="description" content="<?= $ogDesc ?>" />
+    <meta property="og:description" content="<?= $ogDesc ?>" />
+
+    <meta property="og:image" content="<?= $ogImage ?>?v=320" />
+
     <link rel="apple-touch-icon" sizes="180x180" href="../favicons/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="../favicons/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="../favicons/favicon-16x16.png">

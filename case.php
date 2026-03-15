@@ -19,7 +19,19 @@ if (isset($_SESSION['user'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
     <link rel="stylesheet" href="css/main.css?v=320">
     <link rel="stylesheet" href="css/trophy.css?v=320">
-    <title>Полка с трофеяими и ачивками в Рампус</title>
+
+    <title>Полка с трофеяими в Рампусе</title>
+
+    <meta property="og:title" content="Полка с трофеяими в Рампусе" />
+
+    <meta property="og:site_name" content="Рампус">
+    <meta property="og:url" content="https://rampus.ru/case">
+
+    <meta name="description" content="Узнайте, кто владеет трофеями и что он для этого сделал" />
+    <meta property="og:description" content="Узнайте, кто владеет трофеями и что он для этого сделал" />
+
+    <meta property="og:image" content="https://rampus.ru/pics/plugs/RampusMainPlug.png?v=320" />
+
     <link rel="apple-touch-icon" sizes="180x180" href="favicons/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="favicons/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="favicons/favicon-16x16.png">

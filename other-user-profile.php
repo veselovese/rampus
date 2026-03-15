@@ -38,6 +38,16 @@ if ($result_other_user->num_rows > 0) {
     $other_user_blossom_progress = $row_other_user["blossom_progress"];
 
     $other_user_blossom_progress_need = max(20, intval(($other_user_blossom_level - 1) * 1.6 * 20));
+
+    $ogDesc = "Перейдите, чтобы добавить в друзья, написать или посмотреть все посты и репосты";
+    $ogImage = "http://localhost/rampus/pics/plugs/RampusSmallPlug.png";
+    // $ogImage = "https://rampus.ru/pics/plugs/RampusMainPlug.png";
+
+    $ogTitle = htmlspecialchars($other_user_first_name . ' ' . $other_user_second_name . ' @' . $other_user_username . ' в Рампусе');
+    $ogDesc = $other_user_description ? htmlspecialchars(mb_substr($other_user_description, 0, 60)) . '. ' .  $ogDesc : $ogDesc;
+    $ogImage = $other_user_avatar != 'noavatar.jpg' ? "http://localhost/rampus/uploads/avatar/small_" . $other_user_avatar : $ogImage;
+    // $ogImage = $other_user_avatar != 'noavatar.jpg' ? "https://rampus.ru/uploads/avatar/small_" . $other_user_avatar : $ogImage;
+    $ogUrl = "https://rampus.ru/user/" . $other_user_username;
 } else {
     header("Location: ../profile");
     exit();
@@ -115,7 +125,19 @@ $result_other_user_personal_trophies_list_mobile = $connect->query($sql_other_ot
     <link rel="stylesheet" href="../css/main.css?v=320">
     <link rel="stylesheet" href="../css/profile.css?v=320">
     <link rel="stylesheet" href="../css/people.css?v=320">
-    <title>Профиль пользователя в Рампус</title>
+
+    <title>Профиль @<?= $other_user_username ?> в Рампусе</title>
+
+    <meta property="og:title" content="<?= $ogTitle ?>" />
+
+    <meta property="og:site_name" content="Рампус">
+    <meta property="og:url" content="<?= $ogUrl ?>">
+
+    <meta name="description" content="<?= $ogDesc ?>" />
+    <meta property="og:description" content="<?= $ogDesc ?>" />
+
+    <meta property="og:image" content="<?= $ogImage ?>?v=320" />
+
     <link rel="apple-touch-icon" sizes="180x180" href="../favicons/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="../favicons/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="../favicons/favicon-16x16.png">

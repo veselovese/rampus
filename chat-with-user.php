@@ -32,6 +32,15 @@ if (isset($_SESSION['user'])) {
         $other_user_second_name = $row_other_user["second_name"];
         $other_user_avatar = $row_other_user["avatar"];
         $other_user_verify_status = $row_other_user["verify_status"];
+
+        $ogImage = "http://localhost/rampus/pics/plugs/RampusSmallPlug.png";
+        // $ogImage = "https://rampus.ru/pics/plugs/RampusMainPlug.png";
+
+        $ogTitle = htmlspecialchars('Чат с ' . $other_user_first_name . ' ' . $other_user_second_name . ' @' . $other_user_username . ' в Рампусе');
+        $ogDesc = "Перейдите, чтобы написать @" . $other_user_username;
+        $ogImage = $other_user_avatar != 'noavatar.jpg' ? "http://localhost/rampus/uploads/avatar/small_" . $other_user_avatar : $ogImage;
+        // $ogImage = $other_user_avatar != 'noavatar.jpg' ? "https://rampus.ru/uploads/avatar/small_" . $other_user_avatar : $ogImage;
+        $ogUrl = "https://rampus.ru/chat/" . $other_user_username;
     } else {
         header("Location: ../profile");
         exit();
@@ -53,7 +62,19 @@ if (isset($_SESSION['user'])) {
     <link rel="stylesheet" href="../css/main.css?v=320">
     <link rel="stylesheet" href="../css/people.css?v=320">
     <link rel="stylesheet" href="../css/chats.css?v=320">
-    <title>Чат с пользователем в Рампус</title>
+
+    <title>Чат с @<?= $other_user_username ?> в Рампусе</title>
+
+    <meta property="og:title" content="<?= $ogTitle ?>" />
+
+    <meta property="og:site_name" content="Рампус">
+    <meta property="og:url" content="<?= $ogUrl ?>">
+
+    <meta name="description" content="<?= $ogDesc ?>" />
+    <meta property="og:description" content="<?= $ogDesc ?>" />
+
+    <meta property="og:image" content="<?= $ogImage ?>?v=320" />
+
     <link rel="apple-touch-icon" sizes="180x180" href="../favicons/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="../favicons/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="../favicons/favicon-16x16.png">

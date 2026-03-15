@@ -45,7 +45,19 @@ if (isset($_SESSION['user'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
     <link rel="stylesheet" href="css/main.css?v=320">
     <link rel="stylesheet" href="css/wall.css?v=320">
-    <title>Посты и репосты на стене в Рампус</title>
+
+    <title>Посты и репосты на стене Рампуса</title>
+
+    <meta property="og:title" content="Стена Рампуса с постами и репостами" />
+
+    <meta property="og:site_name" content="Рампус">
+    <meta property="og:url" content="https://rampus.ru/wall">
+
+    <meta name="description" content="Публикуйте посты, прикрепляйте фотографии и комментируйте чужие. Полуйчайте за это очки Цветения и выходите в топ рейтинга, забирая все трофеи себе" />
+    <meta property="og:description" content="Публикуйте посты, прикрепляйте фотографии и комментируйте чужие. Полуйчайте за это очки Цветения и выходите в топ рейтинга, забирая все трофеи себе" />
+
+    <meta property="og:image" content="https://rampus.ru/pics/plugs/RampusMainPlug.png?v=320" /> 
+
     <link rel="apple-touch-icon" sizes="180x180" href="favicons/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="favicons/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="favicons/favicon-16x16.png">

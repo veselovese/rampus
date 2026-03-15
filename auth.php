@@ -9,7 +9,19 @@ session_start();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
     <link rel="stylesheet" href="css/main.css?v=320">
+
     <title>Вход в Рампус</title>
+
+    <meta property="og:title" content="Вход в геймифицированную соцсеть Рампус" />
+
+    <meta property="og:site_name" content="Рампус">
+    <meta property="og:url" content="https://rampus.ru/auth">
+
+    <meta name="description" content="Введите логин или почту и пароль, чтобы войти в свой профиль" />
+    <meta property="og:description" content="Введите логин или почту и пароль, чтобы войти в свой профиль" />
+
+    <meta property="og:image" content="https://rampus.ru/pics/plugs/RampusMainPlug.png?v=320" />
+
     <link rel="apple-touch-icon" sizes="180x180" href="favicons/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="favicons/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="favicons/favicon-16x16.png">
@@ -42,7 +54,9 @@ session_start();
                     <form method="" class="auth__form" action="">
                         <legend class="title">Вход Rampus</legend>
                         <div>
-                            <label>Логин или почта<input type="text" required placeholder="rampus" name="email_or_username" id="email_or_username" class="auth-and-reg" value="<?php if (isset($_GET['reg'])) { echo $_GET['reg']; } ?>"></label>
+                            <label>Логин или почта<input type="text" required placeholder="rampus" name="email_or_username" id="email_or_username" class="auth-and-reg" value="<?php if (isset($_GET['reg'])) {
+                                                                                                                                                                                    echo $_GET['reg'];
+                                                                                                                                                                                } ?>"></label>
                             <label>Пароль<input type="password" required placeholder="********" minlength="8" name="password" id="password" class="auth-and-reg"></label>
                         </div>
                         <div class="auth__buttons">

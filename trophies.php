@@ -20,7 +20,19 @@ if (isset($_SESSION['user'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
     <link rel="stylesheet" href="css/main.css?v=320">
     <link rel="stylesheet" href="css/profile.css?v=320">
-    <title>Трофеи в Рампус</title>
+
+    <title>Трофеи в Рампусе</title>
+
+    <meta property="og:title" content="Трофеи в Рампусе" />
+
+    <meta property="og:site_name" content="Рампус">
+    <meta property="og:url" content="https://rampus.ru/trophies">
+
+    <meta name="description" content="Перейдите, чтобы посмотреть свою Полку с трофеями. Будьте внимательны, их могут легко украсть" />
+    <meta property="og:description" content="Перейдите, чтобы посмотреть свою Полку с трофеями. Будьте внимательны, их могут легко украсть" />
+
+    <meta property="og:image" content="https://rampus.ru/pics/plugs/RampusMainPlug.png?v=320" />
+
     <link rel="apple-touch-icon" sizes="180x180" href="favicons/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="favicons/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="favicons/favicon-16x16.png">
@@ -72,7 +84,7 @@ if (isset($_SESSION['user'])) {
                                             } else {
                                                 echo "<p>Вы нравитесь людям — " . $trophy_stat . " комментариев под одним постом</p>";
                                             }
-                                        } else if ($trophy_id == 13) {
+                                        } else if ($trophy_id == 16) {
                                             if (($trophy_stat[-1] == '1') && (!isset($trophy_stat[-2]) || $trophy_stat[-2] != '1')) {
                                                 echo "<p>Сколько же ушло времени, чтобы насписать " . $trophy_stat . " пост</p>";
                                             } else if (($trophy_stat[-1] == '2' || $trophy_stat[-1] == '3' || $trophy_stat[-1] == '4') && (!isset($trophy_stat[-2]) || $trophy_stat[-2] != '1')) {
@@ -80,7 +92,7 @@ if (isset($_SESSION['user'])) {
                                             } else {
                                                 echo "<p>Сколько же ушло времени, чтобы насписать " . $trophy_stat . " постов</p>";
                                             }
-                                        } else if ($trophy_id == 14) {
+                                        } else if ($trophy_id == 17) {
                                             if (($trophy_stat[-1] == '1') && (!isset($trophy_stat[-2]) || $trophy_stat[-2] != '1')) {
                                                 echo "<p>Кот Леопольд найден — у него " . $trophy_stat . " друг</p>";
                                             } else if (($trophy_stat[-1] == '2' || $trophy_stat[-1] == '3' || $trophy_stat[-1] == '4') && (!isset($trophy_stat[-2]) || $trophy_stat[-2] != '1')) {

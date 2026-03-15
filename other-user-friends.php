@@ -9,9 +9,12 @@ if (isset($_SESSION['user'])) {
     $current_user_id = $_SESSION['user']['id'];
 
     $other_user_username = mysqli_real_escape_string($connect, $_GET['username']);
-    $result_other_user_id = $connect->query("SELECT id FROM users WHERE username = '$other_user_username' LIMIT 1");
+    $result_other_user_id = $connect->query("SELECT id, first_name, second_name FROM users WHERE username = '$other_user_username' LIMIT 1");
     if ($result_other_user_id->num_rows > 0) {
-        $other_user_id = $result_other_user_id->fetch_assoc()["id"];
+        $row_other_user_id = $result_other_user_id->fetch_assoc();
+        $other_user_id = $row_other_user_id["id"];
+        $other_user_first_name = $row_other_user_id["first_name"];
+        $other_user_second_name = $row_other_user_id["second_name"];
     }
     $result_other_user_friends_list = $connect->query("SELECT u.id AS user_id, u.username AS user_username, u.first_name AS user_first_name, u.second_name AS user_second_name, u.avatar AS user_avatar, u.verify_status AS user_verify_status
 FROM
@@ -36,7 +39,18 @@ FROM
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
     <link rel="stylesheet" href="../../css/main.css?v=320">
     <link rel="stylesheet" href="../../css/people.css?v=320">
-    <title>Друзья пользователя в Рампус</title>
+    <title>Друзья @<?= $other_user_username ?> в Рампусе</title>
+
+
+    <meta property="og:title" content="Друзья <?= $other_user_first_name . ' ' . $other_user_second_name . ' @' . $other_user_username ?> в Рампусе" />
+
+    <meta property="og:site_name" content="Рампус">
+    <meta property="og:url" content="https://rampus.ru/user/<?= $other_user_username ?>/friends">
+
+    <meta name="description" content="Перейдите, чтобы увидеть список друзей @<?= $other_user_username ?>" />
+    <meta property="og:description" content="Перейдите, чтобы увидеть список друзей @<?= $other_user_username ?>" />
+
+    <meta property="og:image" content="https://rampus.ru/pics/plugs/RampusMainPlug.png?v=320" />
     <link rel="apple-touch-icon" sizes="180x180" href="../../favicons/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="../../favicons/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="../../favicons/favicon-16x16.png">
