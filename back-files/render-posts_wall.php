@@ -61,6 +61,7 @@ $sql_post = "SELECT
     posts.content_date AS content_date,
     posts.likes AS content_likes,
     posts.reposts AS content_reposts,
+    posts.views AS content_views,
     posts.user_id AS author_id,
     users.first_name AS author_first_name,
     users.second_name AS author_second_name,
@@ -126,6 +127,7 @@ if ($result_post->num_rows > 0) {
             }
             $content_likes = $row_post["content_likes"];
             $content_reposts = $row_post["content_reposts"];
+            $content_views = $row_post["content_views"];
             $content_username = $row_post["author_username"];
             $other_user_plat_status = $row_post["author_plat_status"];
             $other_user_verify_status = $row_post["author_verify_status"];
@@ -309,6 +311,12 @@ if ($result_post->num_rows > 0) {
                     echo "<span class='repost-counter'>" . $content_reposts . "</span></button>";
                 }
             }
+            echo "<div class='post-views'>";
+            echo "<svg width='19' height='11' viewBox='0 0 19 11' fill='none' xmlns='http://www.w3.org/2000/svg'>
+            <path d='M9.5 3.92077C10.4091 3.92077 11.1499 4.63585 11.1499 5.51181C11.1499 6.38776 10.4084 7.07997 9.5 7.07997C8.59163 7.07997 7.87381 6.38776 7.87381 5.51181C7.87381 4.63585 8.59163 3.92077 9.5 3.92077ZM9.5 0C14.9051 0 18.8026 4.88897 18.8026 4.88897C19.0658 5.2122 19.0658 5.78854 18.8026 6.11103C18.8026 6.11103 14.9043 11 9.5 11C4.0957 11 0.197438 6.11103 0.197438 6.11103C-0.0658128 5.7878 -0.0658128 5.21146 0.197438 4.88897C0.197438 4.88897 4.0957 0 9.5 0ZM9.5 9.45545C11.7483 9.45545 13.5896 7.67993 13.5896 5.51181C13.5896 3.34369 11.7483 1.56816 9.5 1.56816C7.25165 1.56816 5.41042 3.34369 5.41042 5.51181C5.41042 7.67993 7.25165 9.45545 9.5 9.45545Z'/>
+            </svg>";
+            echo "<span class='post-views-counter'>$content_views</span>";
+            echo "</div>";
             echo "</div>";
             echo "<div class='div-line'></div>";
             echo "<div class='wall__comments'>";

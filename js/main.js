@@ -1,4 +1,7 @@
-const ws = new WebSocket('ws://localhost:2346');
+if (!window.ws) {
+    window.ws = new WebSocket('ws://localhost:2346');
+    // window.ws = new WebSocket('wss://rampus.ru/ws');
+}
 
 $(document).ready(function () {
     searchHashtag();

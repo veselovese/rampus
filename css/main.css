@@ -914,6 +914,19 @@ input.auth-and-reg::placeholder {
     stroke: var(--main-accent-color);
 }
 
+.post-views {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 0.39rem;
+    color: var(--else-text-color-50);
+    font-size: var(--font-size-1);
+}
+
+.post-views svg {
+    fill: var(--else-text-color-50);
+}
+
 .hide {
     display: none;
 }
