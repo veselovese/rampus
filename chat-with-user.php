@@ -86,22 +86,22 @@ if (isset($_SESSION['user'])) {
                                 } else {
                                     echo "<a href='../user/$other_user_username' class='chat__user-names$trust_mark'>@<span>$other_user_username</span></a>";
                                 }
+                                echo "</div>";
                                 if ($other_user_verify_status) { ?>
-                                    <img class='menu-status' src="../pics/SuperUserIcon.svg">
+                                    <img class='status' src="../pics/SuperUserIcon.svg">
                                 <?php } else {
                                     switch ($other_user_in_top) {
                                         case 1:
-                                            echo "<img class='menu-status' src='../pics/BlossomFirstIcon.svg'>";
+                                            echo "<img class='status' src='../pics/BlossomFirstIcon.svg'>";
                                             break;
                                         case 2:
-                                            echo "<img class='menu-status' src='../pics/BlossomSecondIcon.svg'>";
+                                            echo "<img class='status' src='../pics/BlossomSecondIcon.svg'>";
                                             break;
                                         case 3:
-                                            echo "<img class='menu-status' src='../pics/BlossomThirdIcon.svg'>";
+                                            echo "<img class='status' src='../pics/BlossomThirdIcon.svg'>";
                                             break;
                                     }
                                 }
-                                echo "</div>";
                                 echo "<a href='../user/$other_user_username'><img class='chat__user-avatar' src='../uploads/avatar/thin_$other_user_avatar'></a>"; ?>
                             </div>
                             <div id="success-load-chat" class="loading">

@@ -101,16 +101,7 @@ if ($result_chats->num_rows > 0) {
         $current = $user_id_to == $user_id ? ' current' : '';
         echo "<li>";
         echo "<a class='recent-chat$current' href='$username'>";
-        echo "<img src='../uploads/avatar/thin_$avatar'>";
-        echo "<div class='current-chat-info'>";
-        echo "<div class='recent-chat__user-info'>";
-        echo "<div class='recent-chat__user-name-and-status'>";
-        $trust_mark = $verify_status ? 'trust' : '';
-        if ($first_name || $second_name) {
-            echo "<p class='recent-main-name $trust_mark'>$first_name $second_name</p>";
-        } else {
-            echo "<p class='recent-main-name $trust_mark'>@<span>$username</span></p>";
-        }
+        echo "<img class='avatar' src='../uploads/avatar/thin_$avatar'>";
         if ($verify_status) { ?>
             <img class='status' src="../pics/SuperUserIcon.svg">
 <?php } else {
@@ -125,6 +116,15 @@ if ($result_chats->num_rows > 0) {
                     echo "<img class='status' src='../pics/BlossomThirdIcon.svg'>";
                     break;
             }
+        }
+        echo "<div class='current-chat-info'>";
+        echo "<div class='recent-chat__user-info'>";
+        echo "<div class='recent-chat__user-name-and-status'>";
+        $trust_mark = $verify_status ? 'trust' : '';
+        if ($first_name || $second_name) {
+            echo "<p class='recent-main-name $trust_mark'>$first_name $second_name</p>";
+        } else {
+            echo "<p class='recent-main-name $trust_mark'>@<span>$username</span></p>";
         }
         echo "</div>";
         if ($last_message) {
@@ -143,7 +143,7 @@ if ($result_chats->num_rows > 0) {
                     $last_message_date = date_format(date_create($last_message_date), 'j.') . $month_list[date_format(date_create($last_message_date), 'n')];
                     break;
             }
-            echo "<span>$last_message</span>";
+            echo "<span class='recent-chat__last-message'>$last_message</span>";
             echo "</div>";
             echo "<div class='date-and-message-counter'>";
             echo "<span class='last-message-date'>$last_message_date</span>";

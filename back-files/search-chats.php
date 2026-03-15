@@ -180,7 +180,7 @@ if ($chats_counter > 0) {
                     $last_message_date = date_format(date_create($last_message_date), 'j ') . $month_list[date_format(date_create($last_message_date), 'n')];
                     break;
             }
-            echo "<span>$last_message</span>";
+            echo "<span class='current-chat__last-message'>$last_message</span>";
             echo "</div>";
             echo "<div class='date-and-message-counter'>";
             echo "<span class='last-message-date'>$last_message_date</span>";

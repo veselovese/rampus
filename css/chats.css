@@ -129,6 +129,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    position: relative;
 }
 
 .chat__user-back {
@@ -167,11 +168,15 @@
     gap: 0.5rem;
 }
 
-.chat__other-user-info img {
+.user-info .status {
     max-width: 19px;
     max-height: 19px;
     min-height: 19px;
     min-width: 19px;
+    position: absolute;
+    top: calc(3.3rem + 1.6rem);
+    right: calc(3.4rem + 2.1rem);
+    transform: rotate(4deg);
 }
 
 .chat__user-names {
@@ -200,10 +205,6 @@
     object-fit: cover;
     border-radius: 50%;
     transition: 0.2s;
-}
-
-.chat__user-avatar:hover {
-    opacity: 80%;
 }
 
 .message {
@@ -546,7 +547,7 @@
 }
 
 .important-chat img,
-.recent-chat img {
+.recent-chat .avatar {
     min-width: 40px;
     min-height: 40px;
     max-width: 40px;
@@ -568,11 +569,14 @@
     gap: 0.39rem;
 }
 
-.recent-chat__user-name-and-status .status {
+.recent-chat .status {
     min-width: 19px;
     min-height: 19px;
     max-width: 19px;
     max-height: 19px;
+    position: absolute;
+    top: calc(2.3rem + 1rem);
+    left: calc(2.4rem + 1.6rem);
 }
 
 .important-chat__user-info .main-name {
@@ -593,6 +597,26 @@
 
 .recent-main-name.trust {
     color: var(--main-accent-color);
+}
+
+.recent-chat__last-message {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    max-width: calc(25rem - 40px - 1.6rem*2 - 1.1rem - 19px - 3.2rem - 0.625rem);
+}
+
+.current-chat__last-message {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    max-width: calc(100vw - 25rem*2 - 10rem - 2.6rem*2 - 2.6rem*2 - 75px - 1.6rem*2 - 15rem);
+}
+
+@media (max-width: 1320px) {
+    .current-chat__last-message {
+        max-width: calc(100vw - 25rem - 5rem - 2.6rem - 2.6rem*2 - 75px - 1.6rem*2 - 15rem);
+    }
 }
 
 @media (max-width: 820px) {
@@ -616,6 +640,10 @@
     .chat-with-user {
         height: calc(var(--vh, 1vh) * 100 - 1rem*2 - 7.2rem);
     }
+
+    .current-chat__last-message {
+        max-width: calc(100vw - 5rem - 2.6rem*2 - 75px - 1.6rem*2 - 15rem);
+    }
 }
 
 @media (max-width: 720px) {
@@ -631,6 +659,10 @@
     .chat__user-names {
         max-width: 20rem;
     }
+
+    .current-chat__last-message {
+        max-width: calc(100vw - 5rem - 2.6rem*2 - 50px - 1.6rem*2 - 10rem);
+    }
 }
 
 @media (max-width: 480px) {
@@ -643,7 +675,11 @@
         left: calc(3.4rem + 1.6rem);
     }
 
-    .all-chats > p:first-child {
+    .all-chats>p:first-child {
         margin-left: 1.6rem;
+    }
+
+    .current-chat__last-message {
+        max-width: calc(100vw - 1.6rem - 2.6rem*2 - 50px - 1.6rem*2 - 8rem);
     }
 }
