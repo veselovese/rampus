@@ -25,3 +25,5 @@ RedirectMatch 404 /\.git
 RedirectMatch 404 /\.env
 RedirectMatch 404 /\.htaccess
 RedirectMatch 404 /\back-files
+
+ErrorDocument 404 /404.php

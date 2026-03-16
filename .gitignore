@@ -7,4 +7,5 @@ composer.json
 composer.lock
 dev/
 php.php
+robots.txt
 330/

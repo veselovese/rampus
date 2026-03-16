@@ -7,8 +7,6 @@ const requestUrl = params.get('r');
 const requestId = params.get('id');
 let fullRequest = '';
 
-console.log(requestUrl, requestId)
-
 if (requestUrl !== null && requestId !== null) {
     fullRequest = '?r=' + requestUrl + '&id=' + requestId;
 } else if (requestUrl !== null) {
@@ -40,7 +38,6 @@ $(document).ready(function () {
             },
             success: function (result) {
                 result = JSON.parse(result)
-                console.log(result)
                 if (result.username == '@@@') {
                     $('#auth__notify').addClass('reject')
                     $('#auth__notify-label').text('Проблемы с сетью, попробуйте позже')
