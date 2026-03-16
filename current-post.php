@@ -2,6 +2,7 @@
 session_start();
 
 if (isset($_SESSION['user'])) {
+    require('back-files/get-base-url.php');
     require('back-files/like-or-dislike.php');
     require('back-files/find-user-position-in-top.php');
     require('back-files/get-user-friends.php');
@@ -14,10 +15,8 @@ if (isset($_SESSION['user'])) {
 
     $ogTitle = "Пост на стене Рампуса";
     $ogDesc = "Перейдите и посмотрите, что опубликовал пользователь";
-    $ogImage = "http://localhost/rampus/pics/plugs/RampusSmallPlug.png";
-    // $ogImage = "https://rampus.ru/pics/plugs/RampusMainPlug.png";
+    $ogImage = "/pics/plugs/RampusSmallPlug.png";
     $ogUrl = "https://rampus.ru";
-
 
     if ($current_post_id) {
         $postData = getShortPostInfo($connect, $current_post_id);
@@ -68,11 +67,9 @@ if (isset($_SESSION['user'])) {
                 $ogDesc = $ogDesc . ' • ' . $content_likes . ' • ' . $content_comments . ' • ' . $content_reposts . ' • ' . $content_views;
 
                 if ($postData['content_images']) {
-                    $ogImage = "http://localhost/rampus/uploads/post-image/small_" . $postData['content_images'];
-                    // $ogImage = "https://rampus.ru/uploads/post-image/small_" . $postData['content_images'];
+                    $ogImage = $baseUrl . "/uploads/post-image/small_" . $postData['content_images'];
                 } else if ($postData['content_author_avatar'] && $postData['content_author_avatar'] != 'noavatar.jpg') {
-                    $ogImage = "http://localhost/rampus/uploads/avatar/small_" . $postData['content_author_avatar'];
-                    // $ogImage = "https://rampus.ru/uploads/avatar/small_" . $postData['content_author_avatar'];
+                    $ogImage = $baseUrl . "/uploads/avatar/small_" . $postData['content_author_avatar'];
                 }
             }
             $ogUrl = "https://rampus.ru/post/" . $current_post_id;

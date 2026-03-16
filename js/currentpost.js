@@ -13,6 +13,8 @@ $(document).ready(function () {
                 setTimeout(() => {
                     $('#wall-loading-main').removeClass('loading');
                     $('#success-render-posts').html(data);
+
+                    window.trackPosts();
                 }, 300)
             }
         });

@@ -98,15 +98,23 @@ function blossoming($action_type, $user_id, $connect)
                 break;
         }
 
-        $user_progress_need = max(20, intval(($blossom_level - 1) * 1.6 * 20));
 
-        if ($blossom_progress >= $user_progress_need) {
-            $user_level = $blossom_level + 1;
-            $user_progress = $blossom_progress - $user_progress_need;
-        } else {
+        if ($blossom_progress < 0) {
+            $blossom_level -= 1;
+            $user_progress_need = max(20, intval(($blossom_level - 1) * 1.6 * 20));
             $user_level = $blossom_level;
-            $user_progress = $blossom_progress;
+            $user_progress = $user_progress_need + $blossom_progress;
+        } else {
+            $user_progress_need = max(20, intval(($blossom_level - 1) * 1.6 * 20));
+            if ($blossom_progress >= $user_progress_need) {
+                $user_level = $blossom_level + 1;
+                $user_progress = $blossom_progress - $user_progress_need;
+            } else {
+                $user_level = $blossom_level;
+                $user_progress = $blossom_progress;
+            }
         }
+
 
         $connect->query("UPDATE users SET blossom_level = $user_level, blossom_progress = $user_progress WHERE id = $user_id");
 
