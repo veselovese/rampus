@@ -1,5 +1,6 @@
 <?php
 session_start();
+require('back-files/get-base-url.php');
 
 if (isset($_SESSION['user'])) {
     require_once('back-files/connect.php');
@@ -34,12 +35,12 @@ if (isset($_SESSION['user'])) {
     <meta property="og:title" content="Редактирование профиля в Рампусе" />
 
     <meta property="og:site_name" content="Рампус">
-    <meta property="og:url" content="https://rampus.ru/edit">
+    <meta property="og:url" content="<?= $baseUrl ?>/edit">
 
     <meta name="description" content="Перейдите, чтобы изменить профиль" />
     <meta property="og:description" content="Перейдите, чтобы изменить профиль" />
 
-    <meta property="og:image" content="https://rampus.ru/pics/plugs/RampusMainPlug.png?v=320" />
+    <meta property="og:image" content="<?= $baseUrl ?>/pics/plugs/RampusMainPlug.png?v=320" />
 
     <link rel="apple-touch-icon" sizes="180x180" href="favicons/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="favicons/favicon-32x32.png">
@@ -47,78 +48,80 @@ if (isset($_SESSION['user'])) {
     <link rel="manifest" href="favicons/site.webmanifest">
 </head>
 
+<?php
+if (!isset($_SESSION['user'])) {
+    header("Location: auth?r=edit");
+    exit();
+}
+?>
+
 <body>
     <?php require_once('components/header.php'); ?>
     <main>
         <h1 class="title">Редактирование профиля пользователя в Рампус</h1>
-        <?php if (!isset($_SESSION['user'])) {
-            header("Location: auth");
-            exit();
-        } else { ?>
-            <section class="wrapper main-section">
-                <?php require_once('components/back-menu.php'); ?>
-                <div class="second-and-third-parts">
-                    <div class="second-part">
-                        <div class="profile__user-info">
-                            <form action="./back-files/edit-profile" method="post" enctype="multipart/form-data" class="edit__form" autocomplete='off'>
-                                <div class="edit__user-avatar">
-                                    <img class="avatar edit" id="current-avatar" src="uploads/avatar/small_<?= $current_user_avatar ?>">
-                                    <div class="edit__upload-avatar">
-                                        <input type="file" name="avatar" id="user-avatar">
-                                    </div>
-                                    <span onclick="uploadAvatar()">Обновить изображение</span>
+        <section class="wrapper main-section">
+            <?php require_once('components/back-menu.php'); ?>
+            <div class="second-and-third-parts">
+                <div class="second-part">
+                    <div class="profile__user-info">
+                        <form action="./back-files/edit-profile" method="post" enctype="multipart/form-data" class="edit__form" autocomplete='off'>
+                            <div class="edit__user-avatar">
+                                <img class="avatar edit" id="current-avatar" src="uploads/avatar/small_<?= $current_user_avatar ?>">
+                                <div class="edit__upload-avatar">
+                                    <input type="file" name="avatar" id="user-avatar">
                                 </div>
-                                <div class="edit__user-info">
-                                    <div class="user-first-and-second-names">
-                                        <label>
-                                            Имя
-                                            <input type="text" class="" name="first-name" value="<?= $current_user_first_name ?>" require>
-                                        </label>
-                                        <label>
-                                            Фамилия
-                                            <input type="text" class="" name="second-name" value="<?= $current_user_second_name ?>" require>
-                                        </label>
-                                    </div>
+                                <span onclick="uploadAvatar()">Обновить изображение</span>
+                            </div>
+                            <div class="edit__user-info">
+                                <div class="user-first-and-second-names">
                                     <label>
-                                        Описание
-                                        <input type="text" class="" name="description" value="<?= $current_user_description ?>" require>
+                                        Имя
+                                        <input type="text" class="" name="first-name" value="<?= $current_user_first_name ?>" require>
                                     </label>
-                                    <?php if ($current_user_blossom_level >= 2) { ?>
-                                        <label id="reg__lable_id">
-                                            ID (имя пользователя)
-                                            <input type="text" class="" name="username" value="<?= $current_user_username ?>" id="reg__id" data-username="<?= $current_user_username ?>" require>
-                                            <span class="at">@</span>
-                                            <div><span id="reg__id_on-or-off">Такой ID свободен</span></div>
-                                        </label>
-                                    <?php } else { ?>
-                                        <label id="reg__lable_id" class="blocked">
-                                            ID (доступно со 2 уровня)
-                                            <input type="text" class="" value="<?= $current_user_username ?>" id="reg__id">
-                                            <span class="at">@</span>
-                                        </label>
-                                    <?php } ?>
+                                    <label>
+                                        Фамилия
+                                        <input type="text" class="" name="second-name" value="<?= $current_user_second_name ?>" require>
+                                    </label>
                                 </div>
-                                <button type="submit" name="set_avatar">Сохранить</button>
-                            </form>
-                        </div>
-                        <?php require_once('components/mobile-main-menu.php') ?>
+                                <label>
+                                    Описание
+                                    <input type="text" class="" name="description" value="<?= $current_user_description ?>" require>
+                                </label>
+                                <?php if ($current_user_blossom_level >= 2) { ?>
+                                    <label id="reg__lable_id">
+                                        ID (имя пользователя)
+                                        <input type="text" class="" name="username" value="<?= $current_user_username ?>" id="reg__id" data-username="<?= $current_user_username ?>" require>
+                                        <span class="at">@</span>
+                                        <div><span id="reg__id_on-or-off">Такой ID свободен</span></div>
+                                    </label>
+                                <?php } else { ?>
+                                    <label id="reg__lable_id" class="blocked">
+                                        ID (доступно со 2 уровня)
+                                        <input type="text" class="" value="<?= $current_user_username ?>" id="reg__id">
+                                        <span class="at">@</span>
+                                    </label>
+                                <?php } ?>
+                            </div>
+                            <button type="submit" name="set_avatar">Сохранить</button>
+                        </form>
+                    </div>
+                    <?php require_once('components/mobile-main-menu.php') ?>
+                </div>
+            </div>
+            <div class="third-part">
+                <div>
+                    <p class="third-part-title">Настройки</p>
+                    <div class='edit-filter__choice'>
+                        <label class="edit-filter-popup-li" id="edit-filter-top">Персональные<span>Информация о вас</span><input checked name="people-filter" type="radio" value=""></label>
                     </div>
                 </div>
-                <div class="third-part">
-                    <div>
-                        <p class="third-part-title">Настройки</p>
-                        <div class='edit-filter__choice'>
-                            <label class="edit-filter-popup-li" id="edit-filter-top">Персональные<span>Информация о вас</span><input checked name="people-filter" type="radio" value=""></label>
-                        </div>
-                    </div>
-                </div>
-            </section>
+            </div>
+        </section>
     </main>
-<?php require_once('components/footer.php');
-        } ?>
-<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-<script src="js/main.js?v=320"></script>
-<script src="js/edit.js?v=320"></script>
+    <?php require_once('components/footer.php'); ?>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="js/main.js?v=320"></script>
+    <script src="js/edit.js?v=320"></script>
 </body>
 
 </html>

@@ -1,5 +1,6 @@
 <?php
 session_start();
+require('back-files/get-base-url.php');
 ?>
 
 <!DOCTYPE html>
@@ -15,12 +16,12 @@ session_start();
     <meta property="og:title" content="Вход в геймифицированную соцсеть Рампус" />
 
     <meta property="og:site_name" content="Рампус">
-    <meta property="og:url" content="https://rampus.ru/auth">
+    <meta property="og:url" content="<?= $baseUrl ?>/auth">
 
     <meta name="description" content="Введите логин или почту и пароль, чтобы войти в свой профиль" />
     <meta property="og:description" content="Введите логин или почту и пароль, чтобы войти в свой профиль" />
 
-    <meta property="og:image" content="https://rampus.ru/pics/plugs/RampusMainPlug.png?v=320" />
+    <meta property="og:image" content="<?= $baseUrl ?>/pics/plugs/RampusMainPlug.png?v=320" />
 
     <link rel="apple-touch-icon" sizes="180x180" href="favicons/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="favicons/favicon-32x32.png">
@@ -28,12 +29,15 @@ session_start();
     <link rel="manifest" href="favicons/site.webmanifest">
 </head>
 
+<?php
+if (isset($_SESSION['user'])) {
+    header("Location: profile");
+    exit();
+}
+?>
+
 <body>
     <h1 class="title">Вход в профиль Рампус по логину или почте</h1>
-    <?php if (isset($_SESSION['user'])) {
-        header("Location: profile");
-        exit();
-    } ?>
     <?php require_once('components/header.php'); ?>
     <main>
         <section class="wrapper">

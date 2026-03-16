@@ -1,3 +1,7 @@
+<?php
+require('back-files/get-base-url.php');
+?>
+
 <!DOCTYPE html>
 <html lang="ru">
 
@@ -9,12 +13,12 @@
     <meta property="og:title" content="Рампус — геймифицированная соцсеть. Трофеи, рейтинг и глобальная стена" />
 
     <meta property="og:site_name" content="Рампус">
-    <meta property="og:url" content="https://rampus.ru">
+    <meta property="og:url" content="<?= $baseUrl ?>">
 
     <meta name="description" content="Публикуйте, лайкайте, комментируйте и репостите посты. Общайтесь в чатах, коллекционируйте трофеи и соревнуйтесь за место в рейтинге Цветения профиля" />
     <meta property="og:description" content="Публикуйте, лайкайте, комментируйте и репостите посты. Общайтесь в чатах, коллекционируйте трофеи и соревнуйтесь за место в рейтинге Цветения профиля" />
 
-    <meta property="og:image" content="https://rampus.ru/pics/plugs/RampusMainPlug.png?v=320" /> 
+    <meta property="og:image" content="<?= $baseUrl ?>/pics/plugs/RampusMainPlug.png?v=320" />
 
     <link rel="apple-touch-icon" sizes="180x180" href="favicons/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="favicons/favicon-32x32.png">
@@ -33,3 +37,4 @@
 <?php
 header("Location: auth");
 exit();
+?>

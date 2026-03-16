@@ -1,5 +1,6 @@
 <?php
 session_start();
+require('back-files/get-base-url.php');
 
 if (isset($_SESSION['user'])) {
     require_once('back-files/connect.php');
@@ -130,12 +131,12 @@ if (isset($_SESSION['user'])) {
     <meta property="og:title" content="Уровень цветения профиля в Рампусе" />
 
     <meta property="og:site_name" content="Рампус">
-    <meta property="og:url" content="https://rampus.ru/blossom">
+    <meta property="og:url" content="<?= $baseUrl ?>/blossom">
 
     <meta name="description" content="Узнайте своё Цветение, место в рейтинге и главные показатели активности" />
     <meta property="og:description" content="Узнайте своё Цветение, место в рейтинге и главные показатели активности" />
 
-    <meta property="og:image" content="https://rampus.ru/pics/plugs/RampusMainPlug.png?v=320" />
+    <meta property="og:image" content="<?= $baseUrl ?>/pics/plugs/RampusMainPlug.png?v=320" />
 
     <link rel="apple-touch-icon" sizes="180x180" href="favicons/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="favicons/favicon-32x32.png">
@@ -143,104 +144,106 @@ if (isset($_SESSION['user'])) {
     <link rel="manifest" href="favicons/site.webmanifest">
 </head>
 
+<?php
+if (!isset($_SESSION['user'])) {
+    header("Location: auth?r=blossom");
+    exit();
+}
+?>
+
 <body>
     <?php require_once('components/header.php'); ?>
     <main>
         <h1 class="title">Уровень цветения профиля пользователя в Рампус</h1>
-        <?php if (!isset($_SESSION['user'])) {
-            header("Location: auth");
-            exit();
-        } else { ?>
-            <section class="wrapper main-section">
-                <?php require_once('components/back-menu.php'); ?>
-                <div class="second-and-third-parts">
-                    <div class="second-part">
-                        <div class="user__blossom">
-                            <h2>Уровень цветения</h2>
-                            <div>
-                                <p class="blossom-description">Уровень цветения профиля — это показатель вашей активности, который складывается из нескольких параметров</p>
-                                <div class="main-statistic-div">
-                                    <div class="main-statistic"><span><?= $current_user_blossom_level ?></span><span>текущий уровень</span></div>
-                                    <div class="main-statistic"><span><?= $current_user_in_top ?></span><span>место в рейтинге</span></div>
-                                    <div class="main-statistic"><span><?= $current_user_blossom_progress_need - $current_user_blossom_progress ?></span><span>до <?= $current_user_blossom_level + 1 ?> уровня</span></div>
-                                </div>
-                                <p class="section-title mobile">Последние изменения</p>
-                                <ul class='chats_recent-chats mobile' id="success-blossom-notifications-widget-mobile">
-                                </ul>
-                                <p class="section-title">Ваши показатели</p>
-                                <div class="blossom-param">
-                                    <div>
-                                        <div class="current-param">
-                                            <img src="pics/PostsIcon.svg">
-                                            <p>Сделанные посты</p>
-                                            <span><?= $current_user_posts_counter ?></span>
-                                        </div>
-                                        <div class="current-param">
-                                            <img src="pics/LikesIcon.svg">
-                                            <p>Полученные лайки</p>
-                                            <span><?= $current_user_likes_counter ?></span>
-                                        </div>
-                                        <div class="current-param">
-                                            <img src="pics/CommentsIcon.svg">
-                                            <p>Полученные комментарии</p>
-                                            <span><?= $current_user_comments_counter ?></span>
-                                        </div>
-                                        <div class="current-param">
-                                            <img src="pics/RepostsIconBlossom.svg">
-                                            <p>Полученные репосты</p>
-                                            <span><?= $current_user_reposts_counter ?></span>
-                                        </div>
-                                        <div class="current-param">
-                                            <!-- <img src="pics/RepostsIconBlossom.svg"> -->
-                                            <p>Полученные лайки на комментарии</p>
-                                            <span><?= $current_user_likes_on_comments_counter ?></span>
-                                        </div>
+        <section class="wrapper main-section">
+            <?php require_once('components/back-menu.php'); ?>
+            <div class="second-and-third-parts">
+                <div class="second-part">
+                    <div class="user__blossom">
+                        <h2>Уровень цветения</h2>
+                        <div>
+                            <p class="blossom-description">Уровень цветения профиля — это показатель вашей активности, который складывается из нескольких параметров</p>
+                            <div class="main-statistic-div">
+                                <div class="main-statistic"><span><?= $current_user_blossom_level ?></span><span>текущий уровень</span></div>
+                                <div class="main-statistic"><span><?= $current_user_in_top ?></span><span>место в рейтинге</span></div>
+                                <div class="main-statistic"><span><?= $current_user_blossom_progress_need - $current_user_blossom_progress ?></span><span>до <?= $current_user_blossom_level + 1 ?> уровня</span></div>
+                            </div>
+                            <p class="section-title mobile">Последние изменения</p>
+                            <ul class='chats_recent-chats mobile' id="success-blossom-notifications-widget-mobile">
+                            </ul>
+                            <p class="section-title">Ваши показатели</p>
+                            <div class="blossom-param">
+                                <div>
+                                    <div class="current-param">
+                                        <img src="pics/PostsIcon.svg">
+                                        <p>Сделанные посты</p>
+                                        <span><?= $current_user_posts_counter ?></span>
                                     </div>
-                                    <div>
-                                        <div class="current-param">
-                                            <img src="pics/FriendsIcon.svg">
-                                            <p>Друзья</p>
-                                            <span><?= $current_user_friends_counter ?></span>
-                                        </div>
-                                        <div class="current-param">
-                                            <img src="pics/LikedIcon.svg">
-                                            <p>Поставленные лайки</p>
-                                            <span><?= $current_user_liked_counter ?></span>
-                                        </div>
-                                        <div class="current-param">
-                                            <img src="pics/CommentedIcon.svg">
-                                            <p>Оставленные комментарии</p>
-                                            <span><?= $current_user_commented_counter ?></span>
-                                        </div>
-                                        <div class="current-param">
-                                            <img src="pics/RepostedIconBlossom.svg">
-                                            <p>Сделанные репосты</p>
-                                            <span><?= $current_user_reposted_counter ?></span>
-                                        </div>
-                                        <div class="current-param">
-                                            <!-- <img src="pics/RepostedIconBlossom.svg"> -->
-                                            <p>Поставленные лайки на комментарии</p>
-                                            <span><?= $current_user_liked_on_comments_counter ?></span>
-                                        </div>
+                                    <div class="current-param">
+                                        <img src="pics/LikesIcon.svg">
+                                        <p>Полученные лайки</p>
+                                        <span><?= $current_user_likes_counter ?></span>
+                                    </div>
+                                    <div class="current-param">
+                                        <img src="pics/CommentsIcon.svg">
+                                        <p>Полученные комментарии</p>
+                                        <span><?= $current_user_comments_counter ?></span>
+                                    </div>
+                                    <div class="current-param">
+                                        <img src="pics/RepostsIconBlossom.svg">
+                                        <p>Полученные репосты</p>
+                                        <span><?= $current_user_reposts_counter ?></span>
+                                    </div>
+                                    <div class="current-param">
+                                        <!-- <img src="pics/RepostsIconBlossom.svg"> -->
+                                        <p>Полученные лайки на комментарии</p>
+                                        <span><?= $current_user_likes_on_comments_counter ?></span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="current-param">
+                                        <img src="pics/FriendsIcon.svg">
+                                        <p>Друзья</p>
+                                        <span><?= $current_user_friends_counter ?></span>
+                                    </div>
+                                    <div class="current-param">
+                                        <img src="pics/LikedIcon.svg">
+                                        <p>Поставленные лайки</p>
+                                        <span><?= $current_user_liked_counter ?></span>
+                                    </div>
+                                    <div class="current-param">
+                                        <img src="pics/CommentedIcon.svg">
+                                        <p>Оставленные комментарии</p>
+                                        <span><?= $current_user_commented_counter ?></span>
+                                    </div>
+                                    <div class="current-param">
+                                        <img src="pics/RepostedIconBlossom.svg">
+                                        <p>Сделанные репосты</p>
+                                        <span><?= $current_user_reposted_counter ?></span>
+                                    </div>
+                                    <div class="current-param">
+                                        <!-- <img src="pics/RepostedIconBlossom.svg"> -->
+                                        <p>Поставленные лайки на комментарии</p>
+                                        <span><?= $current_user_liked_on_comments_counter ?></span>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <?php require_once('components/mobile-main-menu.php') ?>
                     </div>
-                    <div class="third-part">
-                        <div>
-                            <p class="third-part-title">Последние изменения</p>
-                            <ul class='chats_recent-chats' id="success-blossom-notifications-widget">
-                            </ul>
-                        </div>
+                    <?php require_once('components/mobile-main-menu.php') ?>
+                </div>
+                <div class="third-part">
+                    <div>
+                        <p class="third-part-title">Последние изменения</p>
+                        <ul class='chats_recent-chats' id="success-blossom-notifications-widget">
+                        </ul>
                     </div>
-            </section>
+                </div>
+        </section>
     </main>
-<?php require_once('components/footer.php');
-        } ?>
-<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-<script src="js/main.js?v=320"></script>
+    <?php require_once('components/footer.php'); ?>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="js/main.js?v=320"></script>
 </body>
 
 </html>
