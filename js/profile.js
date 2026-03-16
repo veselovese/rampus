@@ -14,6 +14,8 @@ $(document).ready(function () {
                 setTimeout(() => {
                     $('#profile-loading-main').removeClass('loading');
                     $('#success-render-posts').html(data);
+
+                    window.trackPosts();
                 }, 300)
             }
         });
@@ -32,6 +34,8 @@ $(document).ready(function () {
                 setTimeout(() => {
                     $('#profile-loading-main').removeClass('loading');
                     $('#success-render-other-posts').html(data);
+
+                    window.trackPosts();
                 }, 300)
             }
         });

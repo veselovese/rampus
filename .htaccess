@@ -5,15 +5,13 @@ RewriteCond %{HTTP:CF-Visitor} '"scheme":"https"' [OR]
 RewriteCond %{HTTPS} on
 RewriteRule ^ - [E=HTTPS:on]
 
-RewriteCond %{THE_REQUEST} /([^.]+)\.html [NC]
-RewriteRule ^ /%1 [NC,L,R]
-RewriteCond %{REQUEST_FILENAME}.html -f
-RewriteRule ^ %{REQUEST_URI}.html [NC,L]
-
-RewriteCond %{THE_REQUEST} /([^.]+)\.php [NC]
-RewriteRule ^ /%1 [NC,L,R]
+RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME}.php -f
-RewriteRule ^ %{REQUEST_URI}.php [NC,L]
+RewriteRule ^(.*?)/?$ /$1.php [L]
+
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME}.html -f
+RewriteRule ^(.*?)/?$ /$1.html [L]
 
 RewriteRule ^post/([0-9]+)/?$ current-post.php?postid=$1 [L,QSA]
 RewriteRule ^user/([\w-]+)/?$ other-user-profile.php?username=$1 [L,QSA]

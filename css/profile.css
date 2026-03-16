@@ -457,7 +457,7 @@
     gap: 1.6rem;
     font-size: var(--font-size-4);
     font-weight: 600;
-    margin-bottom: 2.6rem;
+    margin-bottom: 1.6rem;
     transition: 0.2s 0.2s;
 }
 
@@ -541,8 +541,12 @@
     border-radius: 2rem;
     padding: 1.6rem 2.6rem;
     display: flex;
-    flex-direction: column;
+    flex-direction: row-reverse;
     position: relative;
+}
+
+.main-post-div {
+    flex-grow: 1;
 }
 
 .no-posts-yet {
@@ -555,12 +559,13 @@ div.for-friends {
     flex-direction: row;
     background: var(--block-accent-color-210);
     border-radius: 1rem;
-    padding: 0.625em 1rem;
-    align-self: flex-start;
+    max-width: 28px;
+    max-height: 28px;
+    min-width: 28px;
+    min-height: 28px;
     margin-left: auto;
     align-items: center;
-    margin-right: 1.6rem;
-    gap: 0.625rem;
+    justify-content: center;
 }
 
 div.for-friends svg {
@@ -571,15 +576,37 @@ div.for-friends svg {
     max-height: 16px;
 }
 
-span.for-friends {
-    font-size: var(--font-size-1);
-    color: var(--main-accent-color);
-    display: flex;
-    gap: 0.39rem;
-}
-
 .extra-post-info {
     display: flex;
+    flex-direction: row-reverse;
+    gap: 0.39rem;
+    padding-left: 0.39rem;
+    padding-bottom: 0.39rem;
+    position: absolute;
+    background-color: var(--block-color);
+    border-bottom-left-radius: calc((2rem - 0.39rem*2) / 2);
+    z-index: 9;
+}
+
+.extra-post-info::after,
+.extra-post-info::before {
+    background-color: transparent;
+    border-top-right-radius: calc((2rem - 0.39rem*2) / 2);
+    box-shadow: 2px -2px 0 2px var(--block-color);
+    content: "";
+    height: calc((2rem - 0.39rem*2) / 2);
+    position: absolute;
+    width: calc((2rem - 0.39rem*2) / 2);
+}
+
+.extra-post-info::before {
+    left: calc((-2rem + 0.39rem*2) / 2);
+    top: 0;
+}
+
+.extra-post-info::after {
+    bottom: calc((-2rem + 0.39rem*2) / 2);
+    right: 0;
 }
 
 .user-post.hide {
@@ -659,11 +686,17 @@ span.for-friends {
     background-color: var(--like-button-accent-color);
 }
 
-.user-post p {
-    margin: 1.6rem 0 0;
-    line-height: 125%;
+.user-post p.main-text {
+    margin: 0;
     word-wrap: break-word;
     word-break: break-word;
+    margin-bottom: 1.3rem;
+    max-width: calc(100% - 7rem - 0.625rem);
+}
+
+.user-post .images-in-post-div {
+    margin-top: 0;
+    margin-bottom: 1.3rem;
 }
 
 .user-post p a {
@@ -673,18 +706,17 @@ span.for-friends {
 }
 
 .buttons-and-date {
-    margin: 1.6rem 0 0;
     display: flex;
     align-items: end;
     justify-content: space-between;
+    gap: 1.1rem;
 }
 
 .user-post .post-date {
-    color: var(--else-text-color-33);
+    color: var(--else-text-color-50);
     font-size: var(--font-size-1);
     text-transform: lowercase;
     transition: 0.2s;
-    opacity: 0;
 }
 
 .user-post:hover .post-date {
@@ -692,7 +724,8 @@ span.for-friends {
 }
 
 .user-post div.post-buttons {
-    margin: 0;
+    margin-bottom: 0;
+    margin-top: calc(2.1rem - 1.3rem);
 }
 
 .profile__user-info .three-dots {
@@ -1227,14 +1260,13 @@ span.for-friends {
 
 .show-user-posts-mode-fieldset {
     margin: 0;
-    padding: 0.625rem;
-    border-radius: calc(2rem - 0.39rem*2);
+    padding: 0;
     display: flex;
+    flex-grow: 1;
     gap: 0.39rem;
     align-items: flex-start;
     border: transparent;
     outline: none;
-    background-color: var(--block-color);
     font-size: var(--font-size-1);
     transition: 0.2s;
     width: 100%;
@@ -1306,10 +1338,10 @@ span.for-friends {
 }
 
 .extra-post-info .repost_avatar {
-    min-width: 24px;
-    min-height: 24px;
-    max-width: 24px;
-    max-height: 24px;
+    min-width: 28px;
+    min-height: 28px;
+    max-width: 28px;
+    max-height: 28px;
     border-radius: 50%;
     margin: 0;
     object-fit: cover;
@@ -1705,5 +1737,9 @@ span.for-friends {
     .user__blossom h2,
     .user__case h2 {
         margin-left: 1.6rem;
+    }
+
+    .profile__user-posts .user-post {
+        padding: 1rem 1.6rem;
     }
 }

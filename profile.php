@@ -28,7 +28,7 @@ if (isset($_SESSION['user'])) {
 
     $sql_current_user_posts_and_likes_counter = "SELECT 
         (
-            SELECT IFNULL(COUNT(*), 0)
+            SELECT IF(COUNT(*), COUNT(*), 0)
             FROM likes_on_posts l
             JOIN posts p2 ON l.post_id = p2.id
             WHERE p2.user_id = p.user_id
@@ -36,14 +36,15 @@ if (isset($_SESSION['user'])) {
                 AND p2.for_friends = 0
         ) AS current_user_likes_counter,
         (
-            SELECT IFNULL(COUNT(*), 0)
+            SELECT IF(COUNT(*), COUNT(*), 0)
             FROM reposts r
             JOIN posts p2 ON r.post_id = p2.id
             WHERE p2.user_id = p.user_id
                 AND r.user_id != p.user_id
                 AND p2.for_friends = 0
         ) AS current_user_reposts_counter,
-        COUNT(DISTINCT p.id) AS current_user_posts_counter
+        COUNT(DISTINCT p.id) AS current_user_posts_counter,
+        SUM(p.views) AS current_user_views_counter
     FROM posts p
     JOIN users u ON p.user_id = u.id
     WHERE p.user_id = $current_user_id
@@ -54,6 +55,7 @@ if (isset($_SESSION['user'])) {
         $current_user_posts_counter = $row_current_user_posts_and_likes_counter["current_user_posts_counter"];
         $current_user_likes_counter = $row_current_user_posts_and_likes_counter["current_user_likes_counter"];
         $current_user_reposts_counter = $row_current_user_posts_and_likes_counter["current_user_reposts_counter"];
+        $current_user_views_counter = $row_current_user_posts_and_likes_counter["current_user_views_counter"];
     }
 
     $sql_current_user_comments_counter = "SELECT COUNT(*) AS comments_count
@@ -285,6 +287,11 @@ if (isset($_SESSION['user'])) {
                                             <span> <?= $current_user_posts_counter ?></span>
                                         </div>
                                         <div class="div-line"></div>
+                                        <div class="profile__posts">
+                                            Просмотры
+                                            <span> <?= $current_user_views_counter ?></span>
+                                        </div>
+                                        <div class="div-line"></div>
                                         <div class="profile__likes">
                                             Лайки
                                             <span><?= $current_user_likes_counter ?></span>
@@ -308,16 +315,12 @@ if (isset($_SESSION['user'])) {
                                         <legend>Режим отображения постов</legend>
                                         <div>
                                             <input type="radio" id="show-posts" name="watch-user-posts-mode-fieldset" value="show-posts" checked="">
-                                            <label for="show-posts" id="mode__show-posts"><svg width="23" height="19" viewBox="0 0 23 19" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                    <path d="M4 1.25L19 1.25C20.5188 1.25 21.75 2.48122 21.75 4L21.75 17.75L4 17.75C2.48122 17.75 1.25 16.5188 1.25 15L1.25 4C1.25 2.48122 2.48122 1.25 4 1.25Z" stroke-width="2.5"></path>
-                                                </svg>
+                                            <label for="show-posts" id="mode__show-posts">
                                                 Посты</label>
                                         </div>
                                         <div>
                                             <input type="radio" id="show-reposts" name="watch-user-posts-mode-fieldset" value="show-reposts">
-                                            <label for="show-reposts" id="mode__show-reposts"><svg width="27" height="22" viewBox="0 0 27 22" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                    <path d="M22.2501 4.41667V2.30556C22.2501 2.0256 22.0921 1.75712 21.8108 1.55917C21.5295 1.36121 21.1479 1.25 20.7501 1.25H5.75013C5.3523 1.25 4.97077 1.36121 4.68947 1.55917C4.40816 1.75712 4.25013 2.0256 4.25013 2.30556V12.8611M4.25013 12.8611L7.25012 10.75M4.25013 12.8611L1.25012 10.75M4.25012 17.0833V19.1944C4.25012 19.4744 4.40816 19.7429 4.68946 19.9408C4.97077 20.1388 5.3523 20.25 5.75012 20.25H20.7501C21.1479 20.25 21.5295 20.1388 21.8108 19.9408C22.0921 19.7429 22.2501 19.4744 22.2501 19.1944V8.63889M22.2501 8.63889L19.2501 10.75M22.2501 8.63889L25.2501 10.75" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
-                                                </svg>
+                                            <label for="show-reposts" id="mode__show-reposts">
                                                 Репосты</label>
                                         </div>
                                     </fieldset>
@@ -395,6 +398,11 @@ if (isset($_SESSION['user'])) {
                                         <div class="profile__posts">
                                             Посты
                                             <span> <?= $current_user_posts_counter ?></span>
+                                        </div>
+                                        <div class="div-line"></div>
+                                        <div class="profile__posts">
+                                            Просмотры
+                                            <span> <?= $current_user_views_counter ?></span>
                                         </div>
                                         <div class="div-line"></div>
                                         <div class="profile__likes">

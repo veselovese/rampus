@@ -13,7 +13,7 @@ if (isset($_SESSION['user'])) {
     $current_post_id = mysqli_real_escape_string($connect, $_GET['postid']);
 
     $ogTitle = "Пост на стене Рампуса";
-    $ogDesc = "Перейдите и посомтрите, что опубликовал пользователь";
+    $ogDesc = "Перейдите и посмотрите, что опубликовал пользователь";
     $ogImage = "http://localhost/rampus/pics/plugs/RampusSmallPlug.png";
     // $ogImage = "https://rampus.ru/pics/plugs/RampusMainPlug.png";
     $ogUrl = "https://rampus.ru";
@@ -25,13 +25,55 @@ if (isset($_SESSION['user'])) {
         if ($postData) {
             if (!$postData['content_for_friends']) {
                 $ogTitle = htmlspecialchars('Пост @' . $postData['content_author_username'] . ' на стене Рампуса');
+
                 $ogDesc = $postData['content_text'] ? htmlspecialchars(mb_substr($postData['content_text'], 0, 150)) : $ogDesc;
+
+                $content_likes = $postData['content_likes'];
+                $content_comments = $postData['content_comments'];
+                $content_reposts = $postData['content_reposts'];
+                $content_views = $postData['content_views'];
+
+                if (($content_likes[-1] == '1') && (!isset($content_likes[-2]) || $content_likes[-2] != '1')) {
+                    $content_likes = $content_likes . " лайк";
+                } else if (($content_likes[-1] == '2' || $content_likes[-1] == '3' || $content_likes[-1] == '4') && (!isset($content_likes[-2]) || $content_likes[-2] != '1')) {
+                    $content_likes = $content_likes . " лайка";
+                } else {
+                    $content_likes = $content_likes . " лайков";
+                }
+
+                if (($content_comments[-1] == '1') && (!isset($content_comments[-2]) || $content_comments[-2] != '1')) {
+                    $content_comments = $content_comments . " комментарий";
+                } else if (($content_comments[-1] == '2' || $content_comments[-1] == '3' || $content_comments[-1] == '4') && (!isset($content_comments[-2]) || $content_comments[-2] != '1')) {
+                    $content_comments = $content_comments . " комментария";
+                } else {
+                    $content_comments = $content_comments . " комментариев";
+                }
+
+                if (($content_reposts[-1] == '1') && (!isset($content_reposts[-2]) || $content_reposts[-2] != '1')) {
+                    $content_reposts = $content_reposts . " репост";
+                } else if (($content_reposts[-1] == '2' || $content_reposts[-1] == '3' || $content_reposts[-1] == '4') && (!isset($content_reposts[-2]) || $content_reposts[-2] != '1')) {
+                    $content_reposts = $content_reposts . " репоста";
+                } else {
+                    $content_reposts = $content_reposts . " репостов";
+                }
+
+                if (($content_views[-1] == '1') && (!isset($content_views[-2]) || $content_views[-2] != '1')) {
+                    $content_views = $content_views . " просмотр";
+                } else if (($content_views[-1] == '2' || $content_views[-1] == '3' || $content_views[-1] == '4') && (!isset($content_views[-2]) || $content_views[-2] != '1')) {
+                    $content_views = $content_views . " просмотра";
+                } else {
+                    $content_views = $content_views . " просмотров";
+                }
+
+                $ogDesc = $ogDesc . ' • ' . $content_likes . ' • ' . $content_comments . ' • ' . $content_reposts . ' • ' . $content_views;
+
                 if ($postData['content_images']) {
                     $ogImage = "http://localhost/rampus/uploads/post-image/small_" . $postData['content_images'];
+                    // $ogImage = "https://rampus.ru/uploads/post-image/small_" . $postData['content_images'];
                 } else if ($postData['content_author_avatar'] && $postData['content_author_avatar'] != 'noavatar.jpg') {
                     $ogImage = "http://localhost/rampus/uploads/avatar/small_" . $postData['content_author_avatar'];
+                    // $ogImage = "https://rampus.ru/uploads/avatar/small_" . $postData['content_author_avatar'];
                 }
-                // $ogImage = $postData['content_images'] ? "https://rampus.ru/uploads/post-image/small_" . $postData['content_images'] : $ogImage;
             }
             $ogUrl = "https://rampus.ru/post/" . $current_post_id;
         }

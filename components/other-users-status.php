@@ -1,18 +1,16 @@
 <?php
-require('back-files/global.php');
-
 if ($other_user_verify_status) {
-    echo "<img class='status' src='$global_url/pics/SuperUserIcon.svg'>";
+    echo "<img class='status' src='/pics/SuperUserIcon.svg'>";
 } else {
     switch ($other_user_in_top) {
         case 1:
-            echo "<img class='status' src='$global_url/pics/BlossomFirstIcon.svg'>";
+            echo "<img class='status' src='/pics/BlossomFirstIcon.svg'>";
             break;
         case 2:
-            echo "<img class='status' src='$global_url/pics/BlossomSecondIcon.svg'>";
+            echo "<img class='status' src='/pics/BlossomSecondIcon.svg'>";
             break;
         case 3:
-            echo "<img class='status' src='$global_url/pics/BlossomThirdIcon.svg'>";
+            echo "<img class='status' src='/pics/BlossomThirdIcon.svg'>";
             break;
     }
 }

@@ -13,6 +13,8 @@ if (isset($_SESSION['user'])) {
         $row_current_user_blossom = $result_current_user_blossom->fetch_assoc();
         $current_user_blossom_level = $row_current_user_blossom["blossom_level"];
         $current_user_blossom_progress = $row_current_user_blossom["blossom_progress"];
+
+        $current_user_blossom_progress_need = max(20, intval(($current_user_blossom_level - 1) * 1.6 * 20));
     }
 
     $sql_current_user_posts_and_likes_counter = "SELECT 
@@ -160,7 +162,7 @@ if (isset($_SESSION['user'])) {
                                 <div class="main-statistic-div">
                                     <div class="main-statistic"><span><?= $current_user_blossom_level ?></span><span>текущий уровень</span></div>
                                     <div class="main-statistic"><span><?= $current_user_in_top ?></span><span>место в рейтинге</span></div>
-                                    <div class="main-statistic"><span><?= 100 - $current_user_blossom_progress ?>%</span><span>до <?= $current_user_blossom_level + 1 ?> уровня</span></div>
+                                    <div class="main-statistic"><span><?= $current_user_blossom_progress_need - $current_user_blossom_progress ?></span><span>до <?= $current_user_blossom_level + 1 ?> уровня</span></div>
                                 </div>
                                 <p class="section-title mobile">Последние изменения</p>
                                 <ul class='chats_recent-chats mobile' id="success-blossom-notifications-widget-mobile">

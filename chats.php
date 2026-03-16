@@ -3,7 +3,6 @@ session_start();
 
 if (isset($_SESSION['user'])) {
     require_once('back-files/connect.php');
-    require_once('back-files/global.php');
     require('back-files/find-user-position-in-top.php');
     require('back-files/get-user-friends.php');
 
@@ -71,8 +70,8 @@ if (isset($_SESSION['user'])) {
                                 <p class="third-part-title">Нужные чаты</p>
                                 <ul class='chats_important-chats'>
                                     <li>
-                                        <a class="important-chat" href="<?= $global_url ?>/chat/rampus">
-                                            <img src="<?= $global_url ?>/pics/RabbitRampusAvatar.png" alt="">
+                                        <a class="important-chat" href="/chat/rampus">
+                                            <img src="/pics/RabbitRampusAvatar.png" alt="">
                                             <div class="important-chat__user-info">
                                                 <p class="main-name">Кролик Рампус</p>
                                                 <span class="other-desc">Официальный аккаунт</span>
@@ -81,8 +80,8 @@ if (isset($_SESSION['user'])) {
                                     </li>
                                     <div class="div-line"></div>
                                     <li>
-                                        <a href="<?= $global_url ?>/chat/help" class="important-chat">
-                                            <img src="<?= $global_url ?>/pics/HelpAvatar.jpg" alt="">
+                                        <a href="/chat/help" class="important-chat">
+                                            <img src="/pics/HelpAvatar.jpg" alt="">
                                             <div class="important-chat__user-info">
                                                 <p class="main-name">Поддержка</p>
                                                 <span class="other-desc">По всем вопросам</span>

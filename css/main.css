@@ -1479,7 +1479,7 @@ input.auth-and-reg::placeholder {
     bottom: 2.6rem;
     width: calc(100% - 25rem - 25rem - 2.6rem - 2.6rem - 10rem - 2.6rem*2);
     max-width: 100%;
-    z-index: 1;
+    z-index: 99;
     margin: 1.6rem 2.6rem 0;
     display: flex;
     flex-direction: column;

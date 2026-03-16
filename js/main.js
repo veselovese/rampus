@@ -77,6 +77,48 @@ $(document).ready(function () {
             }
         });
     }
+
+    const observerOptions = {
+        root: null,
+        rootMargin: '0px',
+        threshold: 0.5
+    };
+
+    const observer = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const post = $(entry.target);
+                const postId = post[0].id.split('-')[1];
+
+                setTimeout(() => {
+                    incrementPostView(postId, post);
+                }, 1400);
+
+                observer.unobserve(entry.target);
+            }
+        });
+    }, observerOptions);
+
+    function incrementPostView(postId, $postElement) {
+        const url = '/back-files/wall/increment_view';
+
+        $.post(url, { post_id: postId }, function (response) {
+            const $counter = $postElement.find('.post-views-counter');
+            let currentViews = parseInt($counter.text());
+            if (!isNaN(currentViews)) {
+                $counter.text(currentViews + 1);
+            }
+        });
+    }
+
+    window.trackPosts = function () {
+        $('.user-post:not(.view-tracked)').each(function () {
+            observer.observe(this);
+            $(this).addClass('view-tracked');
+        });
+    };
+
+    window.trackPosts();
 })
 
 function showPopup(i) {
