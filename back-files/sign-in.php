@@ -4,14 +4,19 @@ require_once('connect.php');
 
 $email_or_username = mysqli_real_escape_string($connect, $_POST['email_or_username']);
 $password = md5(mysqli_real_escape_string($connect, $_POST['password']));
-$request = mysqli_real_escape_string($connect, $_GET['request']);
+$request_url = isset($_GET['r']) ? mysqli_real_escape_string($connect, $_GET['r']) : 'profile';
+$request_id = isset($_GET['id']) ? mysqli_real_escape_string($connect, $_GET['id']) : '';
 
-if (mysqli_query($connect, "SELECT id FROM `users` LIMIT 1")) {
+$response = [
+    'username' => '',
+    'request' => $request_url . '/' . $request_id,
+];
+
+if (mysqli_query($connect, "SELECT 1 FROM `users` LIMIT 1")) {
     $check_user_by_email = mysqli_query($connect, "SELECT id, username, first_name, second_name, description, avatar, plat_status, verify_status, unrated_status, unread_posts, last_activity_date, last_auth_date FROM `users` WHERE `email` = '$email_or_username' AND `password` = '$password' LIMIT 1");
     $check_user_by_username = mysqli_query($connect, "SELECT id, username, first_name, second_name, description, avatar, plat_status, verify_status, unrated_status, unread_posts, last_activity_date, last_auth_date FROM `users` WHERE `username` = '$email_or_username' AND `password` = '$password' LIMIT 1");
 } else {
-    echo '@@@';
-    exit();
+    $response['username'] = '@@@';
 }
 
 if (mysqli_num_rows($check_user_by_email) > 0 || mysqli_num_rows($check_user_by_username) > 0) {
@@ -58,7 +63,9 @@ if (mysqli_num_rows($check_user_by_email) > 0 || mysqli_num_rows($check_user_by_
     $connect->query("UPDATE users SET last_auth_date = NOW() WHERE id = $id");
     $connect->query("UPDATE users SET unread_posts = $unread_posts WHERE id = $id");
 
-    echo $username;
+    $response['username'] = $username;
 } else {
-    echo '';
+    $response['username'] = '';
 }
+
+echo json_encode($response, JSON_UNESCAPED_UNICODE);

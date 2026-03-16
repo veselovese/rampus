@@ -2,6 +2,19 @@ const emailOrUsernameInput = document.getElementById('email_or_username');
 const passwordInput = document.getElementById('password');
 const authButton = document.getElementById('auth-button');
 
+const params = new URLSearchParams(window.location.search);
+const requestUrl = params.get('r');
+const requestId = params.get('id');
+let fullRequest = '';
+
+console.log(requestUrl, requestId)
+
+if (requestUrl !== null && requestId !== null) {
+    fullRequest = '?r=' + requestUrl + '&id=' + requestId;
+} else if (requestUrl !== null) {
+    fullRequest = '?r=' + requestUrl;
+}
+
 function removeInfoNotify() {
     setTimeout(() => {
         $('#auth__notify-info').removeClass('info')
@@ -19,28 +32,30 @@ simpleStart();
 $(document).ready(function () {
     function signIn(eOrP, password, request) {
         $.ajax({
-            url: "back-files/sign-in?request=profile",
+            url: "back-files/sign-in" + request,
             method: "POST",
             data: {
                 'email_or_username': eOrP,
                 'password': password,
             },
-            success: function (username) {
-                if (username == '@@@') {
+            success: function (result) {
+                result = JSON.parse(result)
+                console.log(result)
+                if (result.username == '@@@') {
                     $('#auth__notify').addClass('reject')
                     $('#auth__notify-label').text('Проблемы с сетью, попробуйте позже')
                     $('#auth__notify-username').text('')
                     setTimeout(() => {
                         $('#auth__notify').removeClass('reject')
                     }, 2000)
-                } else if (username !== '') {
+                } else if (result['username'] !== '') {
                     $('#auth__notify').addClass('success')
                     $('#auth__notify-label').text('Опа, это же ')
-                    $('#auth__notify-username').text('@' + username)
+                    $('#auth__notify-username').text('@' + result.username)
                     setTimeout(() => {
-                        window.location.href = 'profile'
+                        window.location.href = result.request
                     }, 1500)
-                } else if (username === '') {
+                } else if (result.username === '') {
                     $('#auth__notify').addClass('reject')
                     $('#auth__notify-label').text('Неверный логин, почта или пароль')
                     $('#auth__notify-username').text('')
@@ -98,7 +113,7 @@ $(document).ready(function () {
                 password.removeClass('off')
             }
         } else {
-            signIn(emailOrUsername.val(), password.val());
+            signIn(emailOrUsername.val(), password.val(), fullRequest);
         }
     }
 

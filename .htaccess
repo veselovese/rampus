@@ -5,6 +5,9 @@ RewriteCond %{HTTP:CF-Visitor} '"scheme":"https"' [OR]
 RewriteCond %{HTTPS} on
 RewriteRule ^ - [E=HTTPS:on]
 
+RewriteCond %{REQUEST_FILENAME} !‑d
+RewriteRule ^(.*)/$ /$1 [L,R=301]
+
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME}.php -f
 RewriteRule ^(.*?)/?$ /$1.php [L]
