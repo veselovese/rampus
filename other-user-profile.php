@@ -171,16 +171,13 @@ if (!isset($_SESSION['user'])) {
                                         <p class='first-and-second-names'><?= $other_user_first_name . " " . $other_user_second_name ?></p>
                                         <?php require('components/plat-status.php'); ?>
                                     </div>
-                                    <div>
+                                    <div class="username-copy">
                                         <p class="username" onclick='copyLinkToUserAddReturnMessage("<?= $other_user_username ?>")'>@<?= $other_user_username ?></p>
                                         <span id="copy-link-status">Копировать ссылку</span>
                                     </div>
                                 <?php } else { ?>
-                                    <div>
-                                        <div class="f-and-s-names-and-plat">
-                                            <p class="username without-first-and-second-names" onclick='copyLinkToUserAddReturnMessage("<?= $other_user_username ?>")'>@<span><?= $other_user_username ?></span></p>
-                                            <?php require('components/plat-status.php'); ?>
-                                        </div>
+                                    <div class="username-copy">
+                                        <p class="username without-first-and-second-names" onclick='copyLinkToUserAddReturnMessage("<?= $other_user_username ?>")'>@<span><?= $other_user_username ?></span></p>
                                         <span id="copy-link-status">Копировать ссылку</span>
                                     </div>
                                 <?php } ?>

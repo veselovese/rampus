@@ -35,7 +35,10 @@ $current_user_unread_chats = require('back-files/chats/get-user-unread-chats.php
                             echo "<img class='menu-status' src='/pics/BlossomThirdIcon.svg'>";
                             break;
                     }
-                } ?>
+                }
+                if ($current_user_requests > 0) { ?>
+                    <span id="notification__unread-posts-mobile" class="notification-in-menu-mobile active main-profile"><?= $current_user_requests  ?></span>
+                <?php } ?>
                 <img class="menu-avatar" src="/uploads/avatar/thin_<?= $current_user_avatar ?>">
                 <?php if ($current_user_first_name) { ?>
                     <div>

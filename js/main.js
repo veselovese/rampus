@@ -80,7 +80,7 @@ $(document).ready(function () {
 
     const observerOptions = {
         root: null,
-        rootMargin: '0px',
+        rootMargin: '-72px 0px -122px 0px',
         threshold: 0.5
     };
 

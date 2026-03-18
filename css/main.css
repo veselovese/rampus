@@ -1034,6 +1034,7 @@ input.auth-and-reg::placeholder {
     align-items: center;
     justify-content: center;
     min-height: 1.9rem;
+    max-height: 1.9rem;
     min-width: 1.9rem;
     position: absolute;
     left: calc(50% + 0.425rem);
@@ -1048,6 +1049,11 @@ input.auth-and-reg::placeholder {
 .notification-in-menu-mobile.profile {
     bottom: 3.3rem;
     left: 3.4rem;
+}
+
+.notification-in-menu-mobile.main-profile {
+    top: calc(1.6rem + 50px - 1.9rem + 0.5rem);
+    left: calc(2.1rem + 50px - 1.9rem + 0.5rem);
 }
 
 .show-three-dots-popup {
