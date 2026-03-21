@@ -1,11 +1,11 @@
 <?php
 session_start();
-require('back-files/get-base-url.php');
+require('backfiles/get-base-url.php');
 
 if (isset($_SESSION['user'])) {
-    require_once('back-files/connect.php');
-    require('back-files/find-user-position-in-top.php');
-    require('back-files/get-user-friends.php');
+    require_once('backfiles/connect.php');
+    require('backfiles/find-user-position-in-top.php');
+    require('backfiles/get-user-friends.php');
 
     $current_user_id = $_SESSION['user']['id'];
     $current_user_in_top = findUserPositionInTop($current_user_id, $connect);

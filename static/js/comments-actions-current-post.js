@@ -1,3 +1,138 @@
+$(document).ready(function () {
+    $('.wall__user-posts.current-post').on('click', '.unliked', function () {
+        const postId = $(this).attr('id');
+        $post = $(this);
+        $.ajax({
+            url: '../wall',
+            type: 'post',
+            data: {
+                'liked': 1,
+                'postId': postId
+            },
+            success: function (response) {
+                $post.find('.like-counter').text(response);
+                $post.siblings().find('.like-counter').text(response);
+                $post.addClass('hide');
+                $post.siblings('.like-button').removeClass('hide');
+            }
+        })
+    })
+
+    $('.wall__user-posts.current-post').on('click', '.liked', function () {
+        const postId = $(this).attr('id');
+        $post = $(this);
+        $.ajax({
+            url: '../wall',
+            type: 'post',
+            data: {
+                'unliked': 1,
+                'postId': postId
+            },
+            success: function (response) {
+                $post.find('.like-counter').text(response);
+                $post.siblings().find('.like-counter').text(response);
+                $post.addClass('hide');
+                $post.siblings('.like-button').removeClass('hide');
+            }
+        })
+    })
+
+    $('.wall__user-posts.current-post').on('click', '.unreposted', function () {
+        const postId = $(this).attr('id').split('-')[1];
+        $post = $(this);
+        $.ajax({
+            url: '../wall',
+            type: 'post',
+            data: {
+                'reposted': 1,
+                'postId': postId
+            },
+            success: function (response) {
+                $post.find('.repost-counter').text(response);
+                $post.siblings().find('.repost-counter').text(response);
+                $post.addClass('hide');
+                $post.siblings('.repost-button').removeClass('hide');
+            }
+        })
+    })
+
+    $('.wall__user-posts.current-post').on('click', '.reposted', function () {
+        const postId = $(this).attr('id').split('-')[1];
+        $post = $(this);
+        $.ajax({
+            url: '../wall',
+            type: 'post',
+            data: {
+                'unreposted': 1,
+                'postId': postId
+            },
+            success: function (response) {
+                $post.find('.repost-counter').text(response);
+                $post.siblings().find('.repost-counter').text(response);
+                $post.addClass('hide');
+                $post.siblings('.repost-button').removeClass('hide');
+            }
+        })
+    })
+
+    $('.wall__user-posts.current-post').on('click', '.delete-post', function () {
+        const postId = $(this).attr('id');
+        $deletePost = $(this);
+        $.ajax({
+            url: '../backfiles/delete-post',
+            type: 'post',
+            data: {
+                'post_id': postId,
+            },
+            success: function (response) {
+                window.location = '../wall'
+            }
+        })
+    })
+
+    $('.wall__user-posts.current-post').on('click', '.unliked-comment', function () {
+        const commentId = $(this).attr('id');
+        const postId = $(this).attr('data-post-id')
+        $post = $(this);
+        $.ajax({
+            url: '../wall',
+            type: 'post',
+            data: {
+                'liked-comment': 1,
+                'comment-id': commentId,
+                'post-id': postId,
+            },
+            success: function (response) {
+                $post.find('.like-counter').text(response);
+                $post.siblings().find('.like-counter').text(response);
+                $post.addClass('hide');
+                $post.siblings('.comment_like-button').removeClass('hide');
+            }
+        })
+    })
+
+    $('.wall__user-posts.current-post').on('click', '.liked-comment', function () {
+        const commentId = $(this).attr('id');
+        const postId = $(this).attr('data-post-id')
+        $post = $(this);
+        $.ajax({
+            url: '../wall',
+            type: 'post',
+            data: {
+                'unliked-comment': 1,
+                'comment-id': commentId,
+                'post-id': postId,
+            },
+            success: function (response) {
+                $post.find('.like-counter').text(response);
+                $post.siblings().find('.like-counter').text(response);
+                $post.addClass('hide');
+                $post.siblings('.comment_like-button').removeClass('hide');
+            }
+        })
+    })
+})
+
 async function addComment(e) {
     e.preventDefault();
 
@@ -28,7 +163,7 @@ async function addComment(e) {
         const formData = new FormData(form);
 
         const response = await $.ajax({
-            url: "back-files/comment",
+            url: "../backfiles/comment",
             method: "POST",
             data: formData,
             processData: false,
@@ -84,7 +219,7 @@ function addCommentToPost(postId, commentData) {
     }
 }
 
-function createCommentElement(commentData, postId, currentUserId) {
+function createCommentElement(commentData, postId) {
     const commentDiv = document.createElement('div');
     commentDiv.className = 'user-comment new-comment';
     commentDiv.id = `comment-${commentData.id}`;
@@ -112,10 +247,10 @@ function createCommentElement(commentData, postId, currentUserId) {
     const likedCounterHtml = `<span class='like-counter'>${likesCount}</span>`;
 
     commentDiv.innerHTML = `
-        <a href='./user/${commentData.username}'><img class='comment-avatar' src='uploads/avatar/thin_${commentData.avatar}'></a>
+        <a href='../user/${commentData.username}'><img class='comment-avatar' src='../uploads/avatar/thin_${commentData.avatar}'></a>
         <div class='comment-div'>
             <div>
-                <a href='./user/${commentData.username}' class='${nameClass}'>${displayName}</a>
+                <a href='../user/${commentData.username}' class='${nameClass}'>${displayName}</a>
                 <span class='date'>${commentData.date}</span>
             </div>
             <p class='comment-text main-text'>${commentData.text}</p>
@@ -167,13 +302,14 @@ function updateCommentCounter(postId, action = 'increment') {
 async function deleteComment(commentId, postId) {
     try {
         const response = await $.ajax({
-            url: "back-files/delete-comment",
+            url: "../backfiles/delete-comment",
             method: "POST",
             data: { comment_id: commentId },
             dataType: 'json'
         });
 
         if (response.success) {
+            console.log(response)
             const commentElement = document.querySelector(`#comment-${commentId}`);
             commentElement.classList.remove('new-comment')
             commentElement.classList.add('deleted')

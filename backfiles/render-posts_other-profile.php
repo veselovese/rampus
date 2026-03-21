@@ -374,7 +374,7 @@ if (isset($_POST["username"])) {
                     echo "<div class='three-dots-popup' id='three-dots-popup_$content_id'>";
                     echo "<a class='three-dots-popup-li open-post' href='../wall#post-$content_id'>Открыть на стене</a>";
                     echo "<span class='three-dots-popup-li copy-link' onclick='copyLinkToPost($content_id)'>Копировать ссылку</span>";
-                    echo "<a class='three-dots-popup-li delete-post' href='back-files/delete-post?post=$content_id&source=profile'>Удалить</a>";
+                    echo "<a class='three-dots-popup-li delete-post' href='backfiles/delete-post?post=$content_id&source=profile'>Удалить</a>";
                     echo "</div>";
                     echo "</div>";
                 }

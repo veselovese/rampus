@@ -5,7 +5,7 @@ $(document).ready(function () {
     renderPosts('all');
     function renderPosts(query) {
         $.ajax({
-            url: "back-files/render-posts_profile",
+            url: "backfiles/render-posts_profile",
             method: "POST",
             data: {
                 'filter': query
@@ -24,7 +24,7 @@ $(document).ready(function () {
     renderOtherPosts('all');
     function renderOtherPosts(query) {
         $.ajax({
-            url: "../back-files/render-posts_other-profile",
+            url: "../backfiles/render-posts_other-profile",
             method: "POST",
             data: {
                 'filter': query,

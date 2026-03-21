@@ -1,6 +1,6 @@
 <?php
 session_start();
-require('back-files/get-base-url.php');
+require('backfiles/get-base-url.php');
 ?>
 
 <!DOCTYPE html>

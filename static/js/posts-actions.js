@@ -37,7 +37,7 @@ async function addPost(e) {
 
     try {
         const response = await $.ajax({
-            url: "back-files/add",
+            url: "backfiles/add",
             method: "POST",
             data: formData,
             processData: false,
@@ -533,7 +533,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const postId = $(this).attr('id');
         $deletePost = $(this);
         $.ajax({
-            url: 'back-files/delete-post',
+            url: 'backfiles/delete-post',
             type: 'post',
             data: {
                 'post_id': postId,

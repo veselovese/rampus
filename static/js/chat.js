@@ -13,7 +13,7 @@ loadChat(usrnm);
 
 function loadChat(query) {
     $.ajax({
-        url: "../back-files/render-messages",
+        url: "../backfiles/render-messages",
         method: "POST",
         data: {
             'username': query
@@ -29,7 +29,7 @@ function loadChat(query) {
 
 function reloadChat(query) {
     $.ajax({
-        url: "../back-files/render-messages",
+        url: "../backfiles/render-messages",
         method: "POST",
         data: {
             'username': query
@@ -44,7 +44,7 @@ function reloadChat(query) {
 
 function readMessages(userIdTo) {
     $.ajax({
-        url: "../back-files/chats/read-all-messages",
+        url: "../backfiles/chats/read-all-messages",
         method: "POST",
         data: {
             'chat_id': chatId,
@@ -65,7 +65,7 @@ function readMessages(userIdTo) {
 
 function loadChatList(query) {
     $.ajax({
-        url: "back-files/search-chats",
+        url: "backfiles/search-chats",
         method: "POST",
         data: {
             'people': query
@@ -85,7 +85,7 @@ function sendMessage(chatId, message, userIdTo) {
     }
     ws.send(JSON.stringify(sendedData))
     $.ajax({
-        url: "../back-files/send-message",
+        url: "../backfiles/send-message",
         method: "POST",
         data: {
             'message': message,
@@ -107,7 +107,7 @@ function sendMessage(chatId, message, userIdTo) {
 loadRecentChats();
 function loadRecentChats() {
     $.ajax({
-        url: "../back-files/chats/render-recent-chats-widget",
+        url: "../backfiles/chats/render-recent-chats-widget",
         method: "POST",
         data: {
             'user_id_to': userIdTo

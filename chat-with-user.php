@@ -1,7 +1,7 @@
 <?php
 session_start();
-require_once('back-files/connect.php');
-require('back-files/get-base-url.php');
+require_once('backfiles/connect.php');
+require('backfiles/get-base-url.php');
 
 $other_user_username = mysqli_real_escape_string($connect, $_GET['username']);
 
@@ -30,10 +30,10 @@ if ($result_other_user->num_rows > 0) {
 }
 
 if (isset($_SESSION['user'])) {
-    require('back-files/find-user-position-in-top.php');
-    require('back-files/get-user-friends.php');
-    require('back-files/get-chat_id.php');
-    require('back-files/friends/get-friend-status.php');
+    require('backfiles/find-user-position-in-top.php');
+    require('backfiles/get-user-friends.php');
+    require('backfiles/get-chat_id.php');
+    require('backfiles/friends/get-friend-status.php');
 
     $current_user_id = $_SESSION['user']['id'];
 

@@ -1,9 +1,9 @@
 <?php
 session_start();
-require('back-files/get-base-url.php');
+require('backfiles/get-base-url.php');
 
 if (isset($_SESSION['user'])) {
-    require_once('back-files/connect.php');
+    require_once('backfiles/connect.php');
 
     $current_user_id = $_SESSION['user']['id'];
     $current_user_username = $_SESSION['user']['username'];
@@ -64,7 +64,7 @@ if (!isset($_SESSION['user'])) {
             <div class="second-and-third-parts">
                 <div class="second-part">
                     <div class="profile__user-info">
-                        <form action="./back-files/edit-profile" method="post" enctype="multipart/form-data" class="edit__form" autocomplete='off'>
+                        <form action="./backfiles/edit-profile" method="post" enctype="multipart/form-data" class="edit__form" autocomplete='off'>
                             <div class="edit__user-avatar">
                                 <img class="avatar edit" id="current-avatar" src="uploads/avatar/small_<?= $current_user_avatar ?>">
                                 <div class="edit__upload-avatar">

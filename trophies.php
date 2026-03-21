@@ -1,9 +1,9 @@
 <?php
 session_start();
-require('back-files/get-base-url.php');
+require('backfiles/get-base-url.php');
 
 if (isset($_SESSION['user'])) {
-    require_once('back-files/connect.php');
+    require_once('backfiles/connect.php');
 
     $current_user_id = $_SESSION['user']['id'];
 

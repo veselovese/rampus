@@ -209,7 +209,7 @@ if ($result_post->num_rows > 0) {
             } else {
                 echo "<p class='main-text'>" . $content_text . "</p>";
             }
-            // echo "<form action='./back-files/edit-post' method='POST' autocomplete='off'>
+            // echo "<form action='./backfiles/edit-post' method='POST' autocomplete='off'>
             //                     <input type='text' required name='edit-post' id='edit-post_$content_id' value='$content_text'>
             //                     <input type='hidden' required name='post-source' value='source-wall'>
             //                     <input type='file' name='edit-post-image' id='post-image_$content_id' value='$content_image'>

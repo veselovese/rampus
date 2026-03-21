@@ -4,7 +4,7 @@ $(document).ready(function () {
 
     function renderCurrentPost(postId) {
         $.ajax({
-            url: "../back-files/render-current-post",
+            url: "../backfiles/render-current-post",
             method: "POST",
             data: {
                 'post-id': postId,
