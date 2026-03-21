@@ -18,8 +18,8 @@ if (isset($_SESSION['user'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-    <link rel="stylesheet" href="css/main.css?v=320">
-    <link rel="stylesheet" href="css/trophy.css?v=320">
+    <link rel="stylesheet" href="css/main.css?v=330">
+    <link rel="stylesheet" href="css/trophy.css?v=330">
 
     <title>Полка с трофеяими в Рампусе</title>
 
@@ -31,7 +31,7 @@ if (isset($_SESSION['user'])) {
     <meta name="description" content="Узнайте, кто владеет трофеями и что он для этого сделал" />
     <meta property="og:description" content="Узнайте, кто владеет трофеями и что он для этого сделал" />
 
-    <meta property="og:image" content="<?= $baseUrl ?>/pics/plugs/RampusMainPlug.png?v=320" />
+    <meta property="og:image" content="<?= $baseUrl ?>/pics/plugs/RampusMainPlug.png?v=330" />
 
     <link rel="apple-touch-icon" sizes="180x180" href="favicons/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="favicons/favicon-32x32.png">
@@ -353,8 +353,8 @@ if (!isset($_SESSION['user'])) {
     </main>
     <?php require_once('components/footer.php'); ?>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <script src="js/main.js?v=320"></script>
-    <script src="js/people.js?v=320"></script>
+    <script src="js/main.js?v=330"></script>
+    <script src="js/people.js?v=330"></script>
 </body>
 
 </html>
