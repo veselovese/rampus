@@ -56,7 +56,7 @@ async function renderPosts(filter, search, cleanPage = false) {
     isLoading = true
 
     $.ajax({
-        url: "back-files/render-posts_wall?page=" + page,
+        url: "backfiles/render-posts_wall?page=" + page,
         method: "POST",
         data: {
             'filter': filter,

@@ -9,7 +9,7 @@ $(document).ready(function () {
     function searchHashtag(query) {
         const get = $('#get-status').val();
         $.ajax({
-            url: "back-files/search-hashtag",
+            url: "backfiles/search-hashtag",
             method: "POST",
             data: {
                 'hashtag': query,
@@ -68,7 +68,7 @@ $(document).ready(function () {
     loadBlossomNotify();
     function loadBlossomNotify() {
         $.ajax({
-            url: "back-files/blossom/render-blossom-notifications-widget",
+            url: "backfiles/blossom/render-blossom-notifications-widget",
             method: "POST",
             data: {},
             success: function (data) {
@@ -100,7 +100,7 @@ $(document).ready(function () {
     }, observerOptions);
 
     function incrementPostView(postId, $postElement) {
-        const url = '/back-files/wall/increment_view';
+        const url = '/backfiles/wall/increment-view';
 
         $.post(url, { post_id: postId }, function (response) {
             const $counter = $postElement.find('.post-views-counter');

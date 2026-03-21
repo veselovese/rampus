@@ -1,7 +1,7 @@
 <?php
 session_start();
-require_once('back-files/connect.php');
-require('back-files/get-base-url.php');
+require_once('backfiles/connect.php');
+require('backfiles/get-base-url.php');
 
 $other_user_username = mysqli_real_escape_string($connect, $_GET['username']);
 
@@ -36,10 +36,10 @@ if ($result_other_user->num_rows > 0) {
 }
 
 if (isset($_SESSION['user'])) {
-    require_once('back-files/like-or-dislike.php');
-    require_once('back-files/get-user-friends.php');
-    require_once('back-files/friends/get-friend-status.php');
-    require_once('back-files/find-user-position-in-top.php');
+    require_once('backfiles/like-or-dislike.php');
+    require_once('backfiles/get-user-friends.php');
+    require_once('backfiles/friends/get-friend-status.php');
+    require_once('backfiles/find-user-position-in-top.php');
 
     $current_user_id = $_SESSION['user']['id'];
     $current_user_username = $_SESSION['user']['username'];
@@ -122,9 +122,9 @@ FROM
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-    <link rel="stylesheet" href="../css/main.css?v=320">
-    <link rel="stylesheet" href="../css/profile.css?v=320">
-    <link rel="stylesheet" href="../css/people.css?v=320">
+    <link rel="stylesheet" href="../css/main.css?v=330">
+    <link rel="stylesheet" href="../css/profile.css?v=330">
+    <link rel="stylesheet" href="../css/people.css?v=330">
 
     <title>Профиль @<?= $other_user_username ?> в Рампусе</title>
 
@@ -136,7 +136,7 @@ FROM
     <meta name="description" content="<?= $ogDesc ?>" />
     <meta property="og:description" content="<?= $ogDesc ?>" />
 
-    <meta property="og:image" content="<?= $ogImage ?>?v=320" />
+    <meta property="og:image" content="<?= $ogImage ?>?v=330" />
 
     <link rel="apple-touch-icon" sizes="180x180" href="../favicons/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="../favicons/favicon-32x32.png">
@@ -498,11 +498,11 @@ if (!isset($_SESSION['user'])) {
     </main>
     <?php require_once('components/footer.php'); ?>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <script src="../js/main.js?v=320"></script>
-    <script src="../js/copy-links.js?v=320"></script>
-    <script src="../js/profile.js?v=320"></script>
-    <script src="../js/otheruserprofile.js?v=320"></script>
-    <script src="../js/friends.js?v=320"></script>
+    <script src="../js/main.js?v=330"></script>
+    <script src="../js/copy-links.js?v=330"></script>
+    <script src="../js/profile.js?v=330"></script>
+    <script src="../js/otheruserprofile.js?v=330"></script>
+    <script src="../js/friends.js?v=330"></script>
 </body>
 
 </html>

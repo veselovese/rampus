@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const postId = $(this).attr('id');
         $deletePost = $(this);
         $.ajax({
-            url: 'back-files/delete-post',
+            url: 'backfiles/delete-post',
             type: 'post',
             data: {
                 'post_id': postId,

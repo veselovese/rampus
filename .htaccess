@@ -16,14 +16,16 @@ RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME}.html -f
 RewriteRule ^(.*?)/?$ /$1.html [L]
 
+<IfModule mod_rewrite.c>
+    RewriteCond %{REQUEST_URI} \.(css|js|jpe?g|png|gif|svg|ico|webp|woff|woff2)$ [NC]
+    RewriteCond %{REQUEST_URI} !^/static/
+    RewriteCond %{DOCUMENT_ROOT}/static%{REQUEST_URI} -f
+    RewriteRule ^(.*)$ static/$1 [L]
+</IfModule>
+
 RewriteRule ^post/([0-9]+)/?$ current-post.php?postid=$1 [L,QSA]
 RewriteRule ^user/([\w-]+)/?$ other-user-profile.php?username=$1 [L,QSA]
 RewriteRule ^user/([\w-]+)/friends/?$ other-user-friends.php?username=$1 [L,QSA]
 RewriteRule ^chat/([\w-]+)/?$ chat-with-user.php?username=$1 [L,QSA]
-
-RedirectMatch 404 /\.git
-RedirectMatch 404 /\.env
-RedirectMatch 404 /\.htaccess
-RedirectMatch 404 /\back-files
 
 ErrorDocument 404 /404.php

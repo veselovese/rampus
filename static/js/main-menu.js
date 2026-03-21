@@ -3,7 +3,7 @@ const currentUserIdMenu = document.getElementById("menu-script").getAttribute("d
 function updateUnreadChats(path = '', userIdTo = currentUserIdMenu) {
     if (userIdTo == currentUserIdMenu) {
         $.ajax({
-            url: path + "back-files/chats/update-user-unread-chats",
+            url: path + "backfiles/chats/update-user-unread-chats",
             method: "POST",
             data: {},
             success: function (data) {

@@ -27,7 +27,7 @@ $(document).ready(function () {
 
     function onOrOffId(query) {
         $.ajax({
-            url: "back-files/on-or-off_id",
+            url: "backfiles/on-or-off_id",
             method: "POST",
             data: {
                 'id': query,

@@ -3,7 +3,7 @@ $(document).ready(function () {
 
     function searchChats(query) {
         $.ajax({
-            url: "back-files/search-chats",
+            url: "backfiles/search-chats",
             method: "POST",
             data: {
                 'people': query

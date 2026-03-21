@@ -1,6 +1,6 @@
 <?php
-require_once('back-files/get-user-friends.php');
-require_once('back-files/find-user-position-in-top.php');
+require_once('backfiles/get-user-friends.php');
+require_once('backfiles/find-user-position-in-top.php');
 
 $current_user_id = $_SESSION['user']['id'];
 $current_user_avatar = $_SESSION['user']['avatar'];
@@ -13,7 +13,7 @@ $unread_thirty_seventh_posts = $_SESSION['user']['unread_thirty_seventh_posts'];
 $unread_all_posts = $_SESSION['user']['unread_all_posts'];
 $current_user_unread_posts = $unread_all_posts + $unread_main_posts + $unread_thirty_seventh_posts;
 $current_user_requests = $result_request_to->num_rows;
-$current_user_unread_chats = require('back-files/chats/get-user-unread-chats.php');
+$current_user_unread_chats = require('backfiles/chats/get-user-unread-chats.php');
 ?>
 
 <?php echo $current_user_placement != 'wall' ? "<div class='fixed-div-for-bottom'>" : ""; ?>

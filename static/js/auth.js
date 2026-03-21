@@ -30,7 +30,7 @@ simpleStart();
 $(document).ready(function () {
     function signIn(eOrP, password, request) {
         $.ajax({
-            url: "back-files/sign-in" + request,
+            url: "backfiles/sign-in" + request,
             method: "POST",
             data: {
                 'email_or_username': eOrP,

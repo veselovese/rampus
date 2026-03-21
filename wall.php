@@ -1,16 +1,16 @@
 <?php
 session_start();
-require('back-files/get-base-url.php');
+require('backfiles/get-base-url.php');
 
 if (isset($_SESSION['user'])) {
-    require_once('back-files/connect.php');
-    require('back-files/like-or-dislike.php');
-    require('back-files/repost-or-unrepost.php');
-    require('back-files/like-or-dislike_comments.php');
+    require_once('backfiles/connect.php');
+    require('backfiles/like-or-dislike.php');
+    require('backfiles/repost-or-unrepost.php');
+    require('backfiles/like-or-dislike_comments.php');
 
-    require('back-files/find-user-position-in-top.php');
-    require('back-files/get-user-friends.php');
-    require_once('back-files/get-user-friends-id.php');
+    require('backfiles/find-user-position-in-top.php');
+    require('backfiles/get-user-friends.php');
+    require_once('backfiles/get-user-friends-id.php');
 
     $current_user_id = $_SESSION['user']['id'];
     $unread_main_posts = $_SESSION['user']['unread_main_posts'];
@@ -47,8 +47,8 @@ if (isset($_SESSION['user'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-    <link rel="stylesheet" href="css/main.css?v=320">
-    <link rel="stylesheet" href="css/wall.css?v=320">
+    <link rel="stylesheet" href="css/main.css?v=330">
+    <link rel="stylesheet" href="css/wall.css?v=330">
 
     <title>Посты и репосты на стене Рампуса</title>
 
@@ -60,7 +60,7 @@ if (isset($_SESSION['user'])) {
     <meta name="description" content="Публикуйте посты, прикрепляйте фотографии и комментируйте чужие. Полуйчайте за это очки Цветения и выходите в топ рейтинга, забирая все трофеи себе" />
     <meta property="og:description" content="Публикуйте посты, прикрепляйте фотографии и комментируйте чужие. Полуйчайте за это очки Цветения и выходите в топ рейтинга, забирая все трофеи себе" />
 
-    <meta property="og:image" content="<?= $baseUrl ?>/pics/plugs/RampusMainPlug.png?v=320" />
+    <meta property="og:image" content="<?= $baseUrl ?>/pics/plugs/RampusMainPlug.png?v=330" />
 
     <link rel="apple-touch-icon" sizes="180x180" href="favicons/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="favicons/favicon-32x32.png">
@@ -198,11 +198,11 @@ if (!isset($_SESSION['user'])) {
     </main>
     <?php require_once('components/footer.php'); ?>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <script src="js/main.js?v=320"></script>
-    <script src="js/copy-links.js?v=320"></script>
-    <script src="js/wall.js?v=320"></script>
-    <script src="js/posts-actions.js?v=320"></script>
-    <script src="js/comments-actions.js?v=320"></script>
+    <script src="js/main.js?v=330"></script>
+    <script src="js/copy-links.js?v=330"></script>
+    <script src="js/wall.js?v=330"></script>
+    <script src="js/posts-actions.js?v=330"></script>
+    <script src="js/comments-actions.js?v=330"></script>
 </body>
 
 </html>

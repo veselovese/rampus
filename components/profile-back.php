@@ -1,5 +1,5 @@
 <?php
-require_once('back-files/find-user-position-in-top.php');
+require_once('backfiles/find-user-position-in-top.php');
 
 $current_user_id = $_SESSION['user']['id'];
 $current_user_placement = basename(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));

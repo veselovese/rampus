@@ -21,7 +21,7 @@ $(document).ready(function () {
 
     function onOrOffId(query) {
         $.ajax({
-            url: "back-files/on-or-off_id",
+            url: "backfiles/on-or-off_id",
             method: "POST",
             data: {
                 'id': query,
@@ -69,7 +69,7 @@ $(document).ready(function () {
 
     function onOrOffEmail(query) {
         $.ajax({
-            url: "back-files/on-or-off_email",
+            url: "backfiles/on-or-off_email",
             method: "POST",
             data: {
                 'email': query,
@@ -149,7 +149,7 @@ $(document).ready(function () {
 
     function signUp(email, username, password) {
         $.ajax({
-            url: "back-files/sign-up",
+            url: "backfiles/sign-up",
             method: "POST",
             data: {
                 'email': email,

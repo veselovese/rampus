@@ -1,11 +1,11 @@
 <?php
 session_start();
-require('back-files/get-base-url.php');
+require('backfiles/get-base-url.php');
 
 if (isset($_SESSION['user'])) {
-    require_once('back-files/connect.php');
-    require('back-files/find-user-position-in-top.php');
-    require('back-files/get-user-friends.php');
+    require_once('backfiles/connect.php');
+    require('backfiles/find-user-position-in-top.php');
+    require('backfiles/get-user-friends.php');
 
     $current_user_id = $_SESSION['user']['id'];
     $current_user_in_top = findUserPositionInTop($current_user_id, $connect);
@@ -23,8 +23,8 @@ if (isset($_SESSION['user'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-    <link rel="stylesheet" href="css/main.css?v=320">
-    <link rel="stylesheet" href="css/people.css?v=320">
+    <link rel="stylesheet" href="css/main.css?v=330">
+    <link rel="stylesheet" href="css/people.css?v=330">
 
     <title>Рейтинг и поиск пользователей в Рампусе</title>
 
@@ -36,7 +36,7 @@ if (isset($_SESSION['user'])) {
     <meta name="description" content="Рейтинг по уровню Цветения, а также поиск среди всех пользователей. Время икать друзей!" />
     <meta property="og:description" content="Рейтинг по уровню Цветения, а также поиск среди всех пользователей. Время икать друзей!" />
 
-    <meta property="og:image" content="<?= $baseUrl ?>/pics/plugs/RampusMainPlug.png?v=320" />
+    <meta property="og:image" content="<?= $baseUrl ?>/pics/plugs/RampusMainPlug.png?v=330" />
 
 
     <link rel="apple-touch-icon" sizes="180x180" href="favicons/apple-touch-icon.png">
@@ -180,8 +180,8 @@ if (!isset($_SESSION['user'])) {
     </main>
     <?php require_once('components/footer.php'); ?>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <script src="js/main.js?v=320"></script>
-    <script src="js/people.js?v=320"></script>
+    <script src="js/main.js?v=330"></script>
+    <script src="js/people.js?v=330"></script>
 </body>
 
 </html>

@@ -4,7 +4,7 @@ url = url[url.length - 1]
 $(document).ready(function () {
     $('#success-load-chat').on('click', "button[id^='request-to-friends_']", () => {
         $.ajax({
-            url: '../back-files/request-to-friends',
+            url: '../backfiles/request-to-friends',
             type: 'post',
             data: {
                 'user_id_to': userIdTo,
@@ -21,7 +21,7 @@ $(document).ready(function () {
     $('#other-user-friends-buttons').on('click', "button[id^='request-to-friends_']", () => {
         const userIdTo = Number($("button[id^='request-to-friends_']").attr('id').split('_')[1]);
         $.ajax({
-            url: '../back-files/request-to-friends',
+            url: '../backfiles/request-to-friends',
             type: 'post',
             data: {
                 'user_id_to': userIdTo,
@@ -37,7 +37,7 @@ $(document).ready(function () {
 
     $('#success-load-chat').on('click', "button[id^='unrequest-to-friends_']", () => {
         $.ajax({
-            url: '../back-files/unrequest-to-friends',
+            url: '../backfiles/unrequest-to-friends',
             type: 'post',
             data: {
                 'user_id_2': userIdTo,
@@ -55,7 +55,7 @@ $(document).ready(function () {
         const userIdTo = Number($("button[id^='unrequest-to-friends_']").attr('id').split('_')[1]);
         const path = url == 'requests' ? '' : '../';
         $.ajax({
-            url: path + 'back-files/unrequest-to-friends',
+            url: path + 'backfiles/unrequest-to-friends',
             type: 'post',
             data: {
                 'user_id_2': userIdTo,
@@ -71,7 +71,7 @@ $(document).ready(function () {
 
     $('#success-load-chat').on('click', "button[id^='unsend-request-to-friends_']", () => {
         $.ajax({
-            url: '../back-files/unrequest-to-friends',
+            url: '../backfiles/unrequest-to-friends',
             type: 'post',
             data: {
                 'user_id_2': userIdTo,
@@ -88,7 +88,7 @@ $(document).ready(function () {
     $('#other-user-friends-buttons').on('click', "button[id^='unsend-request-to-friends_']", () => {
         const userIdTo = Number($("button[id^='unsend-request-to-friends_']").attr('id').split('_')[1]);
         $.ajax({
-            url: '../back-files/unrequest-to-friends',
+            url: '../backfiles/unrequest-to-friends',
             type: 'post',
             data: {
                 'user_id_2': userIdTo,
@@ -104,7 +104,7 @@ $(document).ready(function () {
 
     $('#success-load-chat').on('click', "button[id^='apply-request-to-friends_']", () => {
         $.ajax({
-            url: '../back-files/add-to-friends',
+            url: '../backfiles/add-to-friends',
             type: 'post',
             data: {
                 'user_id_2': userIdTo,
@@ -122,7 +122,7 @@ $(document).ready(function () {
         const userIdTo = Number($("button[id^='apply-request-to-friends_']").attr('id').split('_')[1]);
         const path = url == 'requests' ? '' : '../';
         $.ajax({
-            url: path + 'back-files/add-to-friends',
+            url: path + 'backfiles/add-to-friends',
             type: 'post',
             data: {
                 'user_id_2': userIdTo,
@@ -174,34 +174,34 @@ $(document).click(function (e) {
 })
 
 function unrequestFromFriends(from, to) {
-    $.post('../back-files/unrequest-to-friends', { id_from: from, id_to: to });
+    $.post('../backfiles/unrequest-to-friends', { id_from: from, id_to: to });
     $('#answer-to-request_' + from).addClass('hide').removeClass('show');
     $('#request-to-friends_' + from).removeClass('hide');
 }
 
 function unrequestToFriendsRequestPage(userId2) {
-    $.post('./back-files/unrequest-to-friends', { user_id_2: userId2 });
+    $.post('./backfiles/unrequest-to-friends', { user_id_2: userId2 });
     $('#popup_answer-to-request_' + from).removeClass('show');
     $('#answer-to-request_' + from).removeClass('show').addClass('unrequested');
     $('#answer-to-request_' + from).text('Отклонена');
 }
 
 function addToFriendsRequestPage(userId2) {
-    $.post('./back-files/add-to-friends', { user_id_2: userId2 });
+    $.post('./backfiles/add-to-friends', { user_id_2: userId2 });
     $('#popup_answer-to-request_' + from).removeClass('show');
     $('#answer-to-request_' + from).removeClass('show').addClass('unrequested');
     $('#answer-to-request_' + from).text('Принята');
 }
 
 function addToFriends(from, to) {
-    $.post('../back-files/add-to-friends', { id_from: from, id_to: to });
+    $.post('../backfiles/add-to-friends', { id_from: from, id_to: to });
     $('#popup_answer-to-request_' + from).removeClass('show');
     $('#answer-to-request_' + from).addClass('hide').removeClass('show');
     $('#delete-from-friends_' + from).removeClass('hide');
 }
 
 function deleteFromFriends(userId2) {
-    $.post('../back-files/delete-from-friends', { user_id_2: userId2 });
+    $.post('../backfiles/delete-from-friends', { user_id_2: userId2 });
     $('#popup_delete-from-friends' + from).removeClass('show');
     $('#delete-from-friends_' + from).removeClass('show').addClass('hide');
     $('#request-to-friends_' + from).removeClass('hide');
