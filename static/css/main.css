@@ -35,28 +35,82 @@
 }
 
 :root {
-    --background-color: #FBFBFB;
+    --background-color: #F6FBF8;
     --block-color: #FFFFFF;
-    --main-text-color: #020202;
-    --else-text-color-50: #ACACAC;
-    --else-text-color-33: #CCCCCC;
     --main-accent-color: #31A05E;
-    --else-accent-color-1: #E3DFFF;
-    --else-accent-color-2: #F7D488;
-    --error-accent-color: #FF220C;
-    --block-accent-color-110: #E6E6E6;
-    --block-accent-color-06: #F0F0F0;
-    --block-accent-color-210: #EBF6EF;
-    --like-button-accent-color: #FFE9E7;
-    --like-button-hover-color: #FFE0DD;
+    --main-text-color: #020202;
+
+    --else-text-color-50: #8F9A95;
+    --else-text-color-33: #C7D1CC;
+
+    --else-accent-color-1: #E8E4FF;
+    --else-accent-color-2: #F4D27A;
+
+    --error-accent-color: #E5483B;
+
+    --block-accent-color-110: #DDE5E1;
+    --block-accent-color-06: #EEF4F1;
+    --block-accent-color-210: #E6F3EC;
+
+    --like-button-accent-color: #FFEAE8;
+    --like-button-hover-color: #FFDCD8;
+
+    --param-color: #5B4693;
+
+    --posts-color: #3F9BB8;
+    --back-posts-color: #E3F2F7;
+
+    --likes-color: #E91E63;
+    --back-likes-color: #FDD6E6;
+
+    --comments-color: #F4B740;
+    --back-comments-color: #FFF4DE;
+
+    --reposts-color: #6A4FB3;
+    --back-reposts-color: #E6E1F2;
+
     --shadow-big: 0 0 15px #02020207;
     --shadow-small: 0 0 12px #02020205;
     --shadow-popup: 0 0 9px #02020211;
+    /* --shadow-big: 0 0 15px rgba(2, 2, 2, 0.06);
+    --shadow-small: 0 0 12px rgba(2, 2, 2, 0.04);
+    --shadow-popup: 0 6px 18px rgba(2, 2, 2, 0.10); */
+
     --font-size-0: 1.1rem;
     --font-size-1: 1.3rem;
     --font-size-2: 1.4rem;
     --font-size-3: 1.8rem;
     --font-size-4: 3.2rem;
+
+    --padding-round-small: 0.39rem;
+    --padding-round-medium: 0.625rem;
+    --padding-round-big: 1rem;
+
+    --padding-box-xsmall: 0.6rem 1.1rem;
+    --padding-box-small: 1.1rem 1.6rem;
+    --padding-box-medium: 1.6rem 2.1rem;
+    --padding-box-big: 2.1rem 2.6rem;
+
+    --padding-button-small: 0 1.6rem;
+    --padding-button-medium: 0 2.1rem;
+    --padding-button-big: 0 2.6rem;
+
+    --line-height-button-small: 3.1rem;
+    --line-height-button-medium: 4.5rem;
+
+    --space-xxsmall: 0.1rem;
+    --space-xsmall: 0.6rem;
+    --space-small: 1.1rem;
+    --space-medium: 1.6rem;
+    --space-big: 2.1rem;
+    --space-xbig: 2.6rem;
+    --space-xxbig: 5.1rem;
+    --space-xxxbig: 10.1rem;
+    --space-xxxxbig: 20.1rem;
+
+    --space-content-small: 0.39rem;
+    --space-content-medium: 0.625rem;
+    --space-content-big: 1rem;
 
     font-size: 62.5%;
     height: 100%
@@ -117,12 +171,11 @@ header {
     position: sticky;
     top: 0;
     z-index: 999;
-    gap: 11.6rem;
 }
 
 header .phone-link {
     display: flex;
-    gap: 1rem;
+    gap: var(--space-small);
     align-items: center;
     font-family: 'Unbounded';
     font-weight: 900;
@@ -149,7 +202,7 @@ header img {
 header div {
     display: flex;
     align-items: center;
-    gap: 1.6rem;
+    gap: var(--space-medium);
 }
 
 header div a {
@@ -252,18 +305,17 @@ span {
 
 .auth__section,
 .reg__section {
-    max-width: calc(35rem + 2.6rem*2);
+    max-width: calc(35rem);
     height: max-content;
     background-color: var(--block-color);
     box-shadow: var(--shadow-small);
     border-radius: 2rem;
-    padding: 1.6rem 2.6rem;
+    padding: var(--padding-box-medium);
     display: flex;
     margin: 0 auto;
     margin-top: 1.6rem;
     margin-bottom: 2.6rem;
     align-items: flex-start;
-    gap: 4.1rem;
     position: relative;
 }
 
@@ -277,7 +329,7 @@ span {
 
 .auth__notify {
     font-size: var(--font-size-2);
-    padding: 1.6rem 2.1rem;
+    padding: var(--padding-box-medium);
     box-shadow: var(--shadow-small);
     border-radius: 1rem;
     margin: 0 auto;
@@ -332,7 +384,6 @@ span {
 .auth__form,
 .reg__form {
     width: 100%;
-    margin-top: 1.6rem;
 }
 
 input.auth-and-reg,
@@ -354,26 +405,31 @@ input.auth-and-reg::placeholder {
     display: inline-block;
     margin: 0;
     padding: 0;
-    margin-bottom: 2.6rem;
+    margin-bottom: var(--space-xbig);
     width: 100%;
     font-weight: 600;
 }
 
 .auth__form label:last-child,
 .reg__form label:last-child {
-    margin-bottom: 6.6rem;
+    margin-bottom: var(--space-xxbig);
 }
 
 .auth__form input,
 .reg__form input {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: auto;
+    vertical-align: middle;
+    outline: 0px;
     width: 100%;
-    min-height: 4rem;
-    border-radius: 2rem;
-    outline: none;
+    border-radius: 1rem;
     background-color: transparent;
     border: 1px solid var(--else-text-color-33);
-    padding: 0 2.6rem;
-    margin-top: 0.8rem;
+    padding: var(--padding-button-small);
+    line-height: var(--line-height-button-small);
+    margin-top: var(--space-xsmall);
 }
 
 .auth__form input:hover,
@@ -409,9 +465,10 @@ input.auth-and-reg::placeholder {
     border: none;
     font-size: var(--font-size-3);
     width: 100%;
-    min-height: 4rem;
     border-radius: 1rem;
-    font-weight: 600;
+    padding: var(--padding-button-medium);
+    line-height: var(--line-height-button-medium);
+    /* font-weight: 600; */
     display: flex;
     align-items: center;
     justify-content: center;
@@ -430,16 +487,16 @@ input.auth-and-reg::placeholder {
 .auth__buttons,
 .reg__buttons {
     display: flex;
-    gap: 0.8rem;
+    gap: var(--space-xsmall);
     position: relative;
 }
 
 .auth__buttons .create-account,
 .reg__buttons .have-account {
-    min-width: 4rem;
-    max-width: 4rem;
-    min-height: 4rem;
-    max-height: 4rem;
+    min-width: var(--line-height-button-medium);
+    max-width: var(--line-height-button-medium);
+    min-height: var(--line-height-button-medium);
+    max-height: var(--line-height-button-medium);
     border-radius: 1rem;
     background-color: var(--block-accent-color-210);
     display: flex;
@@ -454,11 +511,10 @@ input.auth-and-reg::placeholder {
     top: 0;
     left: calc(100% + 0.4rem + 0.8rem);
     background-color: var(--block-accent-color-210);
-    height: 4rem;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 0 1.6rem;
+    padding: var(--padding-box-medium);
     border-radius: 1rem;
     box-shadow: var(--shadow-small);
     cursor: default;
@@ -484,7 +540,7 @@ input.auth-and-reg::placeholder {
     border-bottom: 8px solid transparent;
     border-right: 8px solid var(--block-accent-color-210);
     left: -8px;
-    top: calc((4rem - 16px) / 2);
+    top: calc((4.5rem - 16px) / 2);
 }
 
 .reg__buttons span::before {
@@ -497,7 +553,7 @@ input.auth-and-reg::placeholder {
     border-bottom: 8px solid transparent;
     border-left: 8px solid var(--block-accent-color-210);
     right: -8px;
-    top: calc((4rem - 16px) / 2);
+    top: calc((4.5rem - 16px) / 2);
 }
 
 .auth__buttons .create-account:hover~span,
@@ -508,8 +564,8 @@ input.auth-and-reg::placeholder {
 .auth__buttons .create-account svg,
 .reg__buttons .have-account svg {
     fill: var(--main-accent-color);
-    height: 13px;
-    width: 13px;
+    height: 14px;
+    width: 14px;
     transition: 0.2s;
 }
 
@@ -591,7 +647,6 @@ input.auth-and-reg::placeholder {
 
 .reg__input-div div {
     width: 100%;
-    padding: 0 2.6rem;
     display: inline-flex;
     justify-content: space-between;
     position: absolute;
@@ -600,7 +655,7 @@ input.auth-and-reg::placeholder {
 }
 
 .reg__input-div div.password {
-    top: 7.2rem;
+    top: calc(5.7rem + var(--space-xsmall));
 }
 
 #reg__label_pass-1,
@@ -634,11 +689,11 @@ input.auth-and-reg::placeholder {
     margin: 0;
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    gap: var(--space-small);
     background-color: var(--block-color);
     box-shadow: var(--shadow-small);
     border-radius: 2rem;
-    padding: 1rem;
+    padding: var(--padding-round-big);
     height: 100%;
     min-height: 50rem;
 }
@@ -654,10 +709,10 @@ input.auth-and-reg::placeholder {
     display: flex;
     -webkit-align-items: center;
     align-items: center;
-    gap: 1.6rem;
+    gap: var(--space-medium);
     color: var(--else-text-color-50);
     min-width: 10rem;
-    padding: 1.6rem 2.1rem;
+    padding: var(--padding-box-medium);
 }
 
 .first-part li {
@@ -757,9 +812,9 @@ input.auth-and-reg::placeholder {
 
 .post-buttons {
     display: flex;
-    gap: 1.6rem;
-    margin-top: 2.1rem;
-    margin-bottom: 1.6rem;
+    gap: var(--space-big);
+    margin-top: var(--space-big);
+    margin-bottom: var(--space-medium);
 }
 
 .like-button,
@@ -774,15 +829,14 @@ input.auth-and-reg::placeholder {
     justify-content: center;
     padding: 0;
     color: var(--else-text-color-50);
-    font-weight: 600;
-    gap: 0.39rem;
+    gap: var(--space-content-small);
     max-width: max-content;
     transition: 0.2s;
 }
 
-.like-button:hover svg,
-.comment-button:hover svg,
-.repost-button:hover svg {
+.like-button:hover,
+.comment-button:hover,
+.repost-button:hover {
     opacity: 80%;
 }
 
@@ -795,8 +849,15 @@ input.auth-and-reg::placeholder {
 .like-button span,
 .comment-button span,
 .repost-button span {
-    font-size: var(--font-size-2);
-    font-weight: 700;
+    font-size: var(--font-size-1);
+    font-weight: 600;
+    line-height: 19px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    vertical-align: middle;
+    -moz-box-align: center;
+    -moz-box-pack: center;
 }
 
 .like-button.liked svg {
@@ -807,13 +868,9 @@ input.auth-and-reg::placeholder {
     position: relative;
 }
 
-/* .first-part li:has(.menu-profile) {
-    margin-bottom: 3.1rem;
-} */
-
 .menu-profile div {
     display: flex;
-    gap: 0.39rem;
+    gap: var(--space-content-small);
     flex-direction: column;
 }
 
@@ -918,9 +975,20 @@ input.auth-and-reg::placeholder {
     margin-left: auto;
     display: flex;
     align-items: center;
-    gap: 0.39rem;
+    gap: var(--space-content-small);
     color: var(--else-text-color-50);
     font-size: var(--font-size-1);
+}
+
+.post-views span {
+    line-height: 19px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    vertical-align: middle;
+    -moz-box-align: center;
+    -moz-box-pack: center;
+
 }
 
 .post-views svg {
@@ -943,7 +1011,7 @@ input.auth-and-reg::placeholder {
     display: flex;
     align-items: center;
     margin-top: 2.6rem;
-    gap: 1.6rem;
+    gap: var(--space-medium);
 }
 
 #add-to-friends,
@@ -961,7 +1029,7 @@ input.auth-and-reg::placeholder {
     margin-top: 2.6rem;
     display: flex;
     align-items: center;
-    padding: 0 1.6rem;
+    padding: var(--padding-box-small);
     border-radius: 2rem;
     color: var(--block-color);
     background-color: var(--main-accent-color);
@@ -1027,7 +1095,7 @@ input.auth-and-reg::placeholder {
 .notification-in-menu-mobile {
     font-size: var(--font-size-0);
     border-radius: 1rem;
-    padding: 0.39rem;
+    padding: var(--padding-round-small);
     color: var(--block-color);
     font-weight: 600;
     display: flex;
@@ -1123,7 +1191,7 @@ input.auth-and-reg::placeholder {
 
 .images-in-post-div.more-images {
     display: grid;
-    gap: 0.125rem;
+    gap: var(--space-xxsmall);
 }
 
 .images-in-post-div.images-2 {
@@ -1249,14 +1317,14 @@ input.auth-and-reg::placeholder {
 .first-part-mobile {
     display: none;
     width: 100%;
-    gap: 0.625rem;
+    gap: var(--space-xsmall);
 }
 
 .first-part-mobile ul {
     flex-grow: 1;
     list-style: none;
-    padding: 0.39rem;
-    gap: 0.39rem;
+    padding: var(--padding-round-small);
+    gap: var(--space-xxsmall);
     margin: 0;
     display: flex;
     align-items: center;
@@ -1289,8 +1357,8 @@ input.auth-and-reg::placeholder {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 0.39rem;
-    padding: 0.39rem 0;
+    gap: var(--space-xsmall);
+    padding: var(--padding-round-small);
     transition: 0.2s;
     position: relative;
 }
@@ -1346,12 +1414,12 @@ input.auth-and-reg::placeholder {
 
 .request-buttons {
     display: flex;
-    gap: 0.39rem;
+    gap: var(--space-xsmall);
 }
 
 .not-friend {
     display: flex;
-    gap: 1rem;
+    gap: var(--space-small);
 }
 
 .not-friend .request {
@@ -1362,7 +1430,7 @@ input.auth-and-reg::placeholder {
     min-height: 4rem;
     max-height: 4rem;
     border-radius: 1rem;
-    padding: 1rem 1.6rem;
+    padding: var(--padding-box-small);
     font-weight: 600;
     display: flex;
     align-items: center;
@@ -1413,7 +1481,7 @@ input.auth-and-reg::placeholder {
     min-height: 4rem;
     max-height: 4rem;
     border-radius: 1rem;
-    padding: 1rem 1.6rem;
+    padding: var(--padding-box-small);
     font-weight: 600;
     display: flex;
     align-items: center;
@@ -1430,7 +1498,7 @@ input.auth-and-reg::placeholder {
 .f-and-s-names-and-plat {
     display: flex;
     align-items: center;
-    gap: 0.625rem;
+    gap: var(--space-xsmall);
     position: relative;
     max-width: fit-content;
 }
@@ -1448,7 +1516,7 @@ input.auth-and-reg::placeholder {
     font-weight: 600;
     color: var(--block-color);
     border-radius: 0.625rem;
-    padding: 0.39rem 0.625rem;
+    /* padding: 0.39rem 0.625rem; */
     text-align: center;
     cursor: pointer;
     transition: 0.2s;
@@ -1460,7 +1528,7 @@ input.auth-and-reg::placeholder {
     top: 0;
     right: calc(-14.4rem - 0.39rem);
     background: linear-gradient(45deg, #050310, #5a1f8c, #083a8c);
-    padding: 1rem 1.6rem;
+    padding: var(--padding-box-small);
     border-radius: calc(1rem);
     box-shadow: var(--shadow-popup);
     cursor: default;
@@ -1489,7 +1557,7 @@ input.auth-and-reg::placeholder {
     margin: 1.6rem 2.6rem 0;
     display: flex;
     flex-direction: column;
-    gap: 0.39rem;
+    gap: var(--space-xsmall);
 }
 
 .image-in-post-modal {
@@ -1660,7 +1728,7 @@ input.auth-and-reg::placeholder {
     justify-content: center;
     padding: 0;
     color: var(--else-text-color-50);
-    gap: 0.125rem;
+    gap: var(--space-xxsmall);
     max-width: max-content;
     transition: 0.2s;
     position: absolute;
@@ -1715,7 +1783,7 @@ input.auth-and-reg::placeholder {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 2.6rem;
+    gap: var(--space-xbig);
 }
 
 .main-page-error {
@@ -1725,7 +1793,7 @@ input.auth-and-reg::placeholder {
 
 .link-page-error {
     background-color: var(--main-accent-color);
-    padding: 1rem 1.6rem;
+    padding: var(--padding-box-small);
     border-radius: 1rem;
     color: var(--block-color);
     margin-top: 1.6rem;
@@ -1829,7 +1897,7 @@ input.auth-and-reg::placeholder {
     .not-friend .request,
     .text-other-user {
         font-size: var(--font-size-1);
-        padding: 0.625rem 1rem;
+        padding: var(--padding-box-small);
         min-height: 3rem;
         max-height: 3rem;
     }
@@ -1861,7 +1929,7 @@ input.auth-and-reg::placeholder {
     .post-buttons {
         margin-top: 1.6rem;
         margin-bottom: 1.1rem;
-        gap: 1.1rem;
+        gap: var(--space-small);
     }
 
     .user-post p a {
@@ -1870,12 +1938,6 @@ input.auth-and-reg::placeholder {
 
     .user-post .comment-div .first-and-second-names {
         font-size: var(--font-size-1);
-    }
-
-    .like-button,
-    .comment-button,
-    .repost-button {
-        gap: 0.39rem;
     }
 
     .like-button span,
@@ -1934,10 +1996,6 @@ input.auth-and-reg::placeholder {
 
     footer {
         padding: 2.275rem 2.4rem;
-    }
-
-    .reg__input-div div {
-        gap: 0.75rem;
     }
 
     #reg__label_pass-2 {
